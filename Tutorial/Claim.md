@@ -1,0 +1,91 @@
+## Claim: Organize Your Proof into Sub-Proofs
+
+Math is hard. It is important to organize your proof well. The best way to do so is to divide a long proof into a series of independent sub-proofs and then combine them together. We call it `divide and conquer`, which is also a common strategy in many other tasks like building a house, writing code, etc. In such case, `claim` keyword can help you.
+
+## Use of `claim`
+
+```
+claim:
+    fact_you_want_to_prove
+    prove:
+        ....
+```
+
+`fact_you_want_to_prove` can be a specific fact or a universal fact.
+
+For example
+
+``` litex
+exist_prop x N st exist_natural_number_larger_than(y N):
+    x > y
+
+claim:
+    $exist_natural_number_larger_than(1)
+    prove:
+        let x N: x = 2
+        2 > 1
+        x > 1
+        exist x st $exist_natural_number_larger_than(1)
+        $exist_natural_number_larger_than(1)
+
+$exist_natural_number_larger_than(1) # true, because $exist_natural_number_larger_than(1) is proved in the claim statement
+# x = 2 is not visible out of the prove block, because x is declared in the prove block locally
+```
+
+When proving a specific fact, you can use `prove` block to prove it. After all statements in `prove` block are executed, Litex will check if `fact_you_want_to_prove` is true.
+
+You can also claim a universal fact. This is exactly how mathematicians keep their proofs clean.
+
+```litex
+prop g(x R)
+prop s(x R)
+prop q(x R)
+
+know:
+    forall x R: $g(x) => $s(x)
+    forall x R: $s(x) => $q(x)
+
+claim:
+    forall x R: $g(x) => $q(x)
+    prove:
+        $s(x)
+        $q(x)
+```
+
+The `claim forall` construct works as follows:
+
+* It creates a **new local proof environment**.
+* In this environment, the domain assumptions are set to `true` by default.
+* All statements inside the block are then executed.
+* Once the `prove` block finishes, Litex checks whether the conclusion of the universal statement has indeed been derived.
+
+  * If yes, the proof is complete.
+  * If not, Litex reports an error.
+* Afterward, the universal fact is added to the **global environment**, while the intermediate steps inside the `prove` block do **not** affect the global state.
+
+*This mirrors the real process of solving a math problem: you are given a set of objects and assumptions, and your task is to prove a conclusion. In Litex, this is formalized exactly as a `claim forall` statement.*
+
+You can use `claim` to make something affect part out of the Prove sub-environment:
+
+```litex
+claim:
+    @p(x N):
+        x > 1
+        =>:
+            x > -1
+    prove:
+        $larger_is_transitive(x, 1, -1)
+        x > -1
+
+let a N:
+    a > 1
+$p(a)
+a > -1
+```
+
+`larger_is_transitive(x, y, z R)` is a built-in Proposition of Litex that means: x, y, z in R, x > y and y > z <=> x > z. You claimed a Proposition `p(x N)` in Claim block and prove it in Prove block. But you can still use it out of the sub-environment.
+
+## Proof by Contradiction
+
+`prove_by_contradiction` should always by used in Claim block. Here is a classical example, prove sqrt(2) is irrational using Proof by Contradiction:
+
