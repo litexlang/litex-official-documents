@@ -39,6 +39,54 @@ For example, the existence of the empty set is itself an axiom:
 let self_defined_empty_set set: forall x obj => not x $in self_defined_empty_set
 ```
 
+### Declare objects when self-defined existential fact is true
+
+`have` keyword can work together with existential facts.
+
+```
+have object1, object2, ... st $existential_fact(param1, ...)
+```
+
+When `$existential_fact(param1, ...)` is true, the `have` statement above works. The new objects `object1, ...` are declared, with corresponding properties based on the definition of `existential_fact`
+
+For example
+
+```litex
+exist_prop x R st exist_number_larger_than(y R):
+    x > y
+
+exist 17 st $exist_number_larger_than(1)
+
+$exist_number_larger_than(1)
+
+have a st $exist_number_larger_than(1)
+
+a $in R
+a > 1
+```
+
+In this case, We use `17` to prove `$exist_number_larger_than(1)` and `have a st $exist_number_larger_than(1)` declares an object a with properties `a $in R` and `a > 1`. Notice `a = 17` is unknown, because `have` statement is choosing from one of the objects which satisfies the properties of `exist_number_larger_than`.
+
+### Have Finite Set by Enumeration
+
+When we were children, the first thing we learn about math is counting from `1` to `5`. Litex thus allows you to define a set by enumeration.
+
+```litex
+have set one_to_ten := {1,2,3,4,5}
+```
+
+If a set is finite, then to prove that forall x in this set some property holds, we can simply check each element one by one. In this way, unlike the general case of infinite sets, the conclusion can be obtained by directly traversing all the elements in the set.
+
+```
+prove_over_finite_set:
+    forall x one_to_ten:
+        or(x = 1, x = 2, x = 3, x = 4, x = 5)
+    prove:
+
+```
+
+As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_ten).
+
 ## Declaring Objects with `let`
 
 In mathematics, anything can be treated as an *object*. To use an object in Litex, you must declare it first.

@@ -114,3 +114,33 @@ forall x R:
 ```
 
 Unlike programming languages, where you can declare anything without checking its existence, Litex as well as math require you to declare the existence of an object before you can use it.
+
+## Work with Have
+
+One big difference between math and programming is that math requires you to prove the existence of an object before using it, and when programming in Python or C you do not have to do that. In Litex, `have` keyword allows you to declare a new object with existential promise.
+
+`have` keyword can work together with existential facts.
+
+```
+have object1, object2, ... st $existential_fact(param1, ...)
+```
+
+When `$existential_fact(param1, ...)` is true, the `have` statement above works. The new objects `object1, ...` are declared, with corresponding properties based on the definition of `existential_fact`
+
+For example
+
+```litex
+exist_prop x R st exist_number_larger_than(y R):
+    x > y
+
+exist 17 st $exist_number_larger_than(1)
+
+$exist_number_larger_than(1)
+
+have a st $exist_number_larger_than(1)
+
+a $in R
+a > 1
+```
+
+In this case, We use `17` to prove `$exist_number_larger_than(1)` and `have a st $exist_number_larger_than(1)` declares an object a with properties `a $in R` and `a > 1`. Notice `a = 17` is unknown, because `have` statement is choosing from one of the objects which satisfies the properties of `exist_number_larger_than`.
