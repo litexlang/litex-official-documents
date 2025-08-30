@@ -69,7 +69,7 @@ In this case, We use `17` to prove `$exist_number_larger_than(1)` and `have a st
 
 ### Have Finite Set by Enumeration
 
-When we were children, the first thing we learn about math is counting from `1` to `5`. Litex thus allows you to define a set by enumeration.
+When we were children, the first thing we learn about math is counting from `1` to `5`. Litex thus allows you to define a set by enumeration. (Do not underestimate enumeration: in fact, the very reason we are able to define a finite set by enumeration is guaranteed by the axioms of set theory — and this is something quite profound.)
 
 ```litex
 have set one_to_ten := {1,2,3,4,5}
@@ -86,6 +86,19 @@ prove_over_finite_set:
 ```
 
 As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_ten).
+
+### Have A Set As Subset Of Another Set
+
+Often, we are given a set, and we want to get a subset of that set whose items have certain properties. i.e. y∈ {x∈A: P(x) is true} <=> (y∈A and P(y) is true).
+
+How to define {x∈A: P(x) is true} ?
+
+```litex
+prop P(x R)
+
+have set s := x R:
+    $P(x)
+```
 
 ## Declaring Objects with `let`
 
