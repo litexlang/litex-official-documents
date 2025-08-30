@@ -42,8 +42,5 @@ know:
 
 prove_by_induction($p(x, n), n, 2)
 
-know:
-    forall n N_pos: n >= 2 => $p(x,n)
-
 forall n N_pos: n >= 2 => $p(x,n)
 ```

@@ -15,7 +15,7 @@ prove_over_finite_set:
 
 The sets in universal fact header must be finite.
 
-For example, we want to prove that forall x in the set {1, 2, 3}, x is less than 4.
+For example, we want to prove that forall x in the set {1, 2, 3}, x is less than 4. Litex iterates over `x = 1`, `x = 2`, `x = 3` to see whether the `prove` section works, and when the `prove` section works (e.g. in this case, `x > 0` after `prove:`), it checks the `then` facts (e.g. In this case, the `x > 0` in `forall x s => x > 0`) is true or not.
 
 ```litex
 let s set:
@@ -31,8 +31,7 @@ prove_over_finite_set:
 Empty set, which is the very special case of finite set, is also supported. As you can see, any factual statement is true on items in empty set, since there is no item in empty set.
 
 ```litex
-let s2 set:
-    s2 := {}
+have set s := {}
 
 # any factual statement is true on empty set
 prove_over_finite_set:
