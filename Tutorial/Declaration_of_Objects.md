@@ -87,7 +87,7 @@ prove_over_finite_set:
 
 As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_ten).
 
-### Have A Set As Subset Of Another Set
+### Have A Set As A Subset Of Another Set Whose Items Have Certain Properties
 
 Often, we are given a set, and we want to get a subset of that set whose items have certain properties. i.e. y∈ {x∈A: P(x) is true} <=> (y∈A and P(y) is true).
 
