@@ -5,13 +5,13 @@ A proposition is something that can be true or false — it’s a general statem
 For example
 
 ```litex
-let human set, Jordan human
+have human nonempty_set, Jordan human
 prop intelligent(x human)
 know forall x human => $intelligent(x)
 $intelligent(Jordan)
 ```
 
-`intelligent` is a proposition. `$intelligent(Jordan)` is a factual statement.
+`intelligent` is a proposition. `$intelligent(Jordan)` is a factual statement. (`$` is for the difference between a specific fact and a function)
 
 Another example is: In `1 > 0`, `1 > 0` is a factual statement, `>` is a proposition. A factual statement can be true or false, but not both. Factual statement `1 > 0` is true. Factual statement `0 > 1` is false.
 

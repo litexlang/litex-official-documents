@@ -17,7 +17,7 @@ There are only two ways to perform match and substitution:
 If we know a fact is true, then whenever we recall it later, it remains true.
 
 ```litex
-have a R
+have a R # It means a is in set R (R: The set of all real numbers)
 know a = 1
 a = 1
 ```
@@ -54,7 +54,7 @@ Relevant facts for `g` are:
 Now we check:
 
 * **Fact 1:** `$g(1)` applies only to `x = 1`. Since `1 ≠ 17.17`, it doesn’t help.
-* **Fact 2:** For all natural numbers greater than 7, `g(x)` holds. But `17.17 ∉ N`, so this fact does not apply.
+* **Fact 2:** For all natural numbers greater than 7, `g(x)` holds. But `17.17 ∉ N`, so this fact does not apply. (Q means the set of all rational numbers, N means the set of all natural numbers)
 * **Fact 3:** For all rationals greater than 17, `g(x)` holds. Since `17.17 ∈ Q` and `17.17 > 17`, this fact applies.
 
 Therefore, `$g(17.17)` is verified. Once obtained, `$g(17.17)` itself becomes a new fact that can be used in future reasoning.

@@ -8,7 +8,7 @@ Mathematics is the art of deriving new facts from established ones. To illustrat
 This example states: **All humans are intelligent. Jordan is a human. Therefore, Jordan is intelligent.**
 
 ```litex
-let human set, Jordan human
+have human nonempty_set, Jordan human
 prop intelligent(x human)
 know forall x human => $intelligent(x)
 $intelligent(Jordan)
