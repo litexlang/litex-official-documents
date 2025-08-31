@@ -39,6 +39,9 @@ In this case, since `g(x)` leads to `s(x)` leads to `q(x)`, when `not q(x)` is t
 Here is a classic example, prove sqrt(2) is irrational using Proof by Contradiction:
 
 ```litex
+# prove sqrt(2) is irrational
+# 证明 sqrt(2) 是无理数
+
 fn logBase(x, y N) N:
     dom:
         x != 0
@@ -50,15 +53,15 @@ know forall x N: x != 0 => logBase(x, x) = 1
 claim:
     not sqrt(2) $in Q
     prove_by_contradiction:
-        have x, y st $rational_number_representation_in_fraction(sqrt(2))
+        sqrt(2) > 0
+        have x, y st $rational_positive_number_representation_in_fraction(sqrt(2))
         
         x = sqrt(2) * y
-
         x ^ 2 = (sqrt(2) ^ 2) * (y ^ 2)
         sqrt(2) ^ 2 = 2
         x ^ 2 = 2 * (y ^ 2)
-        logBase(2, x ^ 2) = logBase(2, 2 * (y ^ 2))
-        
+
+        logBase(2, x ^ 2) = logBase(2, 2 * (y ^ 2))     
         logBase(2, x ^ 2) = 2 * logBase(2, x)
         logBase(2, y ^ 2) = 2 * logBase(2, y)
 

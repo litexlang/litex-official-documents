@@ -41,7 +41,9 @@ fn_template real_sequence():
 have happy_baby_characters nonempty_set
 
 fn_template happy_baby_characters_sequence():
-	fn (n N) happy_baby_characters
+	fn (n N) happy_baby_characters 
+
+let a integer_sequence(), b rational_sequence(), c real_sequence(), d happy_baby_characters_sequence()
 ```
 
 They all looks similar, don't they? Litex allows you to define them in a very short form.
@@ -49,9 +51,11 @@ They all looks similar, don't they? Litex allows you to define them in a very sh
 ```litex
 fn_template sequence(s set):
 	fn (n N) s
+
+let a sequence(Z), b sequence(Q), c sequence(R), d sequence(happy_baby_characters_sequence)
 ```
 
-Now when we want to say `a` is a sequence of integers, a sequence of rational numbers, a sequence of real numbers, a sequence of happy baby characters, we say `a $in sequence(Z)`, `a $in sequence(Q)`, `a $in sequence(R)`, `a $in sequence(happy_baby_characters)`.
+In this case template parameter `s` of `sequence` definition, replaces the `Z` of `integer_sequence` definition, `Q` of `rational_sequence` definition, `R` of `real_sequence()` definition. So `sequence(Z)` is equivalent to `integer_sequence()`.
 
 Generally, a function template definition in Litex looks like this:
 
