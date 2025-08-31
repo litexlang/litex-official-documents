@@ -1,3 +1,4 @@
+# Appendix: Homepage of Litex
 # Litex: Scale Formal Reasoning in AI Age
 
 **version v0.1.10-beta (not yet ready for production use)**  
@@ -10,7 +11,6 @@
 [![Online Playground](https://img.shields.io/badge/Online%20Playground-darkgreen?logo=playground)](https://litexlang.org/playground)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/litexlang/golitex)
 
-</div>
 
 ## Litex: The Simplest Formal Language
 
