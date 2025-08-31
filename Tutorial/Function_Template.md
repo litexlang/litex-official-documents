@@ -26,16 +26,42 @@ fn_template sequence_of_real_numbers():
     fn (n N) R
 ```
 
-Here we have defined a set of functions. All of these functions take a natural parameter and return a real number.
+Here we have defined a set of functions. All of these functions take a natural parameter and return a real number. In mathematics, sequences are very common. For example, sometimes we define a linear sequence a[n] = n, a constant sequence a[n] = c, or the Fibonacci sequence a[n+2] = a[n+1] + a[n]. In fact, these sequences are simply functions whose input is a natural number and whose output is a real number. We say `a $in sequence_of_real_numbers()` to say sequence `a` take a natural parameter and return a real number.
 
-A function template in Litex looks like this:
+How about defining a sequence of integers, a sequence of rational numbers, a sequence of real numbers, a sequence of happy baby characters?
+
+```litex
+fn_template integer_sequence():
+	fn (n N) Z
+fn_template rational_sequence():
+	fn (n N) Q
+fn_template real_sequence():
+	fn (n N) R
+
+have happy_baby_characters nonempty_set
+
+fn_template happy_baby_characters_sequence():
+	fn (n N) happy_baby_characters
+```
+
+They all looks similar, don't they? Litex allows you to define them in a very short form.
+
+```litex
+fn_template sequence(s set):
+	fn (n N) s
+```
+
+Now when we want to say `a` is a sequence of integers, a sequence of rational numbers, a sequence of real numbers, a sequence of happy baby characters, we say `a $in sequence(Z)`, `a $in sequence(Q)`, `a $in sequence(R)`, `a $in sequence(happy_baby_characters)`.
+
+Generally, a function template definition in Litex looks like this:
 
 ```
-fn_template T(template-parameter-parameter-set-pairs):
-    dom:
+fn_template T(template_parameter1 template_parameter1_set, ...):
+    dom: # domain of template parameters
         template_dom_fact_1
         ...
-    fn (function-parameter-parameter-set-pairs) the_set_where_the_return_value_of_this_function_belongs_to:
+    fn (parameter1 set1, parameter2 set2...) fn_return_value_set:
+        # domain of this function
         dom_fact_1
         dom_fact_2
         ...
@@ -45,11 +71,13 @@ fn_template T(template-parameter-parameter-set-pairs):
             ...
 ```
 
-You might be wondering, what does a function in a function template actually means. For example, what does `f $in T(parameters)` mean? It means:
+What does `f $in T(template_parameters)` mean? It means:
 
-1. The domain of f is superset of the domain of the `fn` under declaration of T: the domain of `f` satisfies function-parameter-parameter-set-pairs, and dom_fact_1, dom_fact_2, ...
+0. template_parameters must satisfy domain of template parameters.
 
-2. When restricted on the domain of the `fn` under declaration of T, the function f satisfies all the then facts in `fn`: `f` satisfies `then_fact_1`, `then_fact_2`, ... and the return value is in set `the_set_where_the_return_value_of_this_function_belongs_to`
+1. The domain of f is superset of the domain of the `fn` under declaration of T: the domain of `f` has parameters `parameter1 set1, parameter2 set2...` with domain dom_fact_1, dom_fact_2, ...
+
+2. When restricted on the domain of the `fn` under declaration of T, the function f satisfies all the then facts in `fn`: `f` satisfies `then_fact_1`, `then_fact_2`, ... and the return value is in set `fn_return_value_set`
 
 Function template can be very helpful, especially when we are defining multiple functions with similar structure. For example, we want to define the set of all finite positive sequences (a sequence is a function from natural numbers to some set) with at least 10 items. Obviously, there are infinitely many functions that satisfy those requirements. We can do this by defining a function template.
 
