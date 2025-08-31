@@ -83,6 +83,8 @@ Traditional formal languages are too complex. Litex lowers the barrier by 10x, m
 
 The simplicity of Litex enables both the large-scale adoption of formal languages and their deep integration into AI systems. In Litex, there is no foreign keywords, twisted syntax, or complex semantics, just plain reasoning. Litex benefits both AI research and the math community. 
 
+In conclusion, Litex is a formal language built on elegant first principles of design, while remaining pragmatic enough to serve as a practical tool for solving everyday reasoning problems. As a community-driven open-source language, the most valuable asset of Litex is its users and contributors.
+
 ## Contact & Contribute to Litex
 
 Hi, I’m Jiachen Shen, creator of Litex. You’re warmly invited to join the Litex community and grow with us. Our key directions:

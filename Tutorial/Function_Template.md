@@ -83,8 +83,6 @@ Function template can be very helpful, especially when we are defining multiple 
 
 For example, we define the set of all finite positive sequences with at least 10 items. 
 
-<!-- TODO：有严重的bug，需要修复 -->
-
 ```litex
 fn_template finite_positive_sequence_with_at_least_10_items(length N_pos):
     dom:
@@ -92,10 +90,19 @@ fn_template finite_positive_sequence_with_at_least_10_items(length N_pos):
     fn (n N_pos) R:
         n <= length
         =>:
-            finite_positive_sequence(n) > 0
+            finite_positive_sequence_with_at_least_10_items(n) > 0
 
+# length = 12, 12 >= 10 so everything is fine.
 let f finite_positive_sequence_with_at_least_10_items(12)
+
+f(9) > 0
+
+# f(-1) > 0 #Error: -1 $in N_pos is not true
+
+# f(17) > 0 #Error: 17 <= 12 is not true
 ```
+
+Notice `12 >= 10` must be true so that `finite_positive_sequence_with_at_least_10_items(12)` is valid. `f(9) > 0` is true because `f $in $finite_positive_sequence_with_at_least_10_items(12)` and all functions in finite_positive_sequence_with_at_least_10_items(12) can take parameter `n` with properties `n $in N_pos, n <= 12` and return a function with property `
 
 The `f` here is equivalent to `f` defined here.
 
@@ -103,12 +110,12 @@ The `f` here is equivalent to `f` defined here.
 fn f(n N_pos) R:
     n <= 12
     =>:
-        f(n) > 0
+p        f(n) > 0
 ```
 
-When there is no further template parameter requirements, you can hide the template parameter set pairs. For example:
+<!-- TODO: Return Set Inference -->
 
-## Return Set Inference
+<!-- ## Return Set Inference
 
 A function can return a function. For example, the addition of two functions return a new function. Litex checks the return set of the function to be a set, and checks whether you can indeed pass parameters to the returned function.
 
@@ -145,4 +152,4 @@ prove:
     have b, z, d, g, s, m R
 
     w(b)(z)(d)(g)(s)(m)(m)(17) $in has_very_special_meanings
-```
+``` -->
