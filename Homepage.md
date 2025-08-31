@@ -10,7 +10,6 @@
 [![Online Playground](https://img.shields.io/badge/Online%20Playground-darkgreen?logo=playground)](https://litexlang.org/playground)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/litexlang/golitex)
 
-</div>
 
 ## Litex: The Simplest Formal Language
 
