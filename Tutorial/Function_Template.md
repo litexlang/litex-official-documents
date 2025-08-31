@@ -1,6 +1,8 @@
 # Function Template: The Blueprint of Functions
 
-Before we dive into function template, we need to know what we are doing when we are declaring a new function using `fn`. We begin with an example:
+A definition of a function has the following parts: 1. function name 2. parameters and the sets they belong to 3. domain facts of these parameters 4. the properties that the function satisfy. 5. the return value of this function belongs to what set.
+
+For example
 
 ```litex
 fn f(x R, y N) R:
@@ -10,14 +12,21 @@ fn f(x R, y N) R:
 ```
 
 1. The name of this function is `f`
-2. The parameters `x, y` must be in `R` and `N`, and further ore the fact that `x > y` must be true. In all, the domain of parameters is `x $in R, y $in N, x > y`
-3. The return value of this function is in `R`, and the fact that `f(x, y) = x - y` is by definition be true.
+2. The parameters `x, y` must be in `R` and `N`,
+3. domain fact `x > y` must be true for parameters `x, y`.
+4. The fact that `f(x, y) = x - y` is by definition true.
+5. The return value of this function is in `R`, 
 
-Can we generalize the above assumptions over a function? Yes, we can. We can define a set of functions that has such domain with return value satisfying the above facts. `fn_template` (Function Template) allows you to do so.
+Apparently, there are countless functions with domain `x $in R, y $in R, x > y`, with property `f(x ,y) = x - y`, `f(x ,y) $in R`. `fn_template` allows to declare a set of functions with certain properties.
 
-Function template can be very helpful, especially when we are defining multiple functions with similar structure. For example, we want to define the set of all finite positive sequences (a sequence is a function from natural numbers to some set) with at least 10 items. Obviously, there are infinitely many functions that satisfy those requirements. We can do this by defining a function template.
+For example
 
+```litex
+fn_template sequence_of_real_numbers():
+    fn (n N) R
+```
 
+Here we have defined a set of functions. All of these functions take a natural parameter and return a real number.
 
 A function template in Litex looks like this:
 
@@ -41,6 +50,8 @@ You might be wondering, what does a function in a function template actually mea
 1. The domain of f is superset of the domain of the `fn` under declaration of T: the domain of `f` satisfies function-parameter-parameter-set-pairs, and dom_fact_1, dom_fact_2, ...
 
 2. When restricted on the domain of the `fn` under declaration of T, the function f satisfies all the then facts in `fn`: `f` satisfies `then_fact_1`, `then_fact_2`, ... and the return value is in set `the_set_where_the_return_value_of_this_function_belongs_to`
+
+Function template can be very helpful, especially when we are defining multiple functions with similar structure. For example, we want to define the set of all finite positive sequences (a sequence is a function from natural numbers to some set) with at least 10 items. Obviously, there are infinitely many functions that satisfy those requirements. We can do this by defining a function template.
 
 For example, we define the set of all finite positive sequences with at least 10 items. 
 

@@ -34,10 +34,6 @@ claim:
 
 In this case, since `g(x)` leads to `s(x)` leads to `q(x)`, when `not q(x)` is true, `g(x)` can not be true.
 
-For example:
-
-
-
 ## Example
 
 Here is a classic example, prove sqrt(2) is irrational using Proof by Contradiction:
