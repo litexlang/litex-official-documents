@@ -2,11 +2,9 @@
 
 In the previous sections, we are exploring how to map mathematical expressions to Litex statements. You can see Litex is a very intuitive language because it maps mathematical concepts directly to Litex statements.
 
-Remember the three properties of Litex? Intuitiveness, Simplicity, and Expressiveness. Now we are going to appreciate the simplicity of Litex through inline statements.
-
 People are always more receptive to things they’re familiar with. That’s why Litex adopts Python-style syntax, using line breaks to structure code. This not only keeps the code organized but also lowers the learning curve for users.
 
-However, in daily writing, people are accustomed to writing statements in a single paragraph. Using Python-style syntax can sometimes make code occupy excessively many lines. So Litex provides a way to write statements in a single line.
+However, in daily writing, people are also very familiar with writing statements in a single paragraph. Using Python-style syntax can sometimes make code occupy excessively many lines. So Litex provides a way to write statements in a single line.
 
 When you find yourself writing a sequence of statements in a single line one after another, when you are writing a specific fact, follow it with `,`; when you are writing a `forall` statement, follow it with `;`. When it is the last statement, the `,` or `;` is optional.
 
