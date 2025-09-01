@@ -72,3 +72,7 @@ The goal of Litex is to write reasoning (or math in general) as code. Since no m
 * Clearing all facts
 
   * Keyword: `clear`
+
+---
+
+Litex is a language that stays very close to the essence of mathematics and everyday mathematical reasoning. Each Litex keyword actually corresponds to a common mathematical expression; sometimes, you can even guess the purpose of a keyword without studying the Litex tutorial. This makes Litex more approachable to more people.
