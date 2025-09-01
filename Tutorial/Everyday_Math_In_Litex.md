@@ -10,7 +10,7 @@ The goal of Litex is to write reasoning (or math in general) as code. Since no m
 
 * Numbers (e.g. `0`, `-17.17`)
 * Arithmetic (e.g. `1 + 1 = 2`)
-* Basic facts (e.g. `1 > 0`)
+* Basic facts (e.g. `1 > 0`， `1 $in R`, `1 + 1 = 2`)
 * Sets (keywords: `set`, `nonempty_set`, `R` for real numbers, `N` for natural numbers, etc.)
 
 ---
@@ -45,7 +45,7 @@ The goal of Litex is to write reasoning (or math in general) as code. Since no m
 * Function templates
 
   * Keyword: `fn_template`
-  * Example: `fn_template sequence(s set): fn (n N) s` defines a series of objects in set `s`
+  * Example: `fn_template sequence(s set): fn (n N) s` defines a series of objects which are all in set `s`
 
 ---
 

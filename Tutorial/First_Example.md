@@ -23,16 +23,12 @@ Let’s unpack it step by step:
 
 The kernel looks at the universal fact `forall x human => $intelligent(x)`, substitutes `x` with `Jordan`, and checks whether the result holds. Since `Jordan ∈ human`, the statement `$intelligent(Jordan)` is verified as true.
 
+Factual statements are prefixed with `$` to distinguish them from functions. When the factual statement takes exactly two objects, you may write `object1 $propName object2`. You do not have to write `$` for builtin propositions like `=`, `>`, etc.
+
 ### Outcomes of Statements
 
-In Litex, every statement has one of four possible outcomes: **true, false, unknown, or error**.
-Factual statements are prefixed with `$` to distinguish them from functions.[^1]
+In Litex, every statement has one of four possible outcomes: **true, false, unknown, or error**. When you run the above code, Litex will print a message showing exactly how it verified the statement. 
 
-When you run the above code, Litex will print a message showing exactly how it verified the statement. You’ll see that `$intelligent(Jordan)` is established by applying the universal fact `forall x human => $intelligent(x)` to the specific case of `Jordan`.
+You’ll see that `$intelligent(Jordan)` is established by applying the universal fact `forall x human => $intelligent(x)` to the specific case of `Jordan`. In this case, `forall x human => $intelligent(x)` is matched with `$intelligent(Jordan)`, and we can substitute `x` with `Jordan` in the universal fact to get `$intelligent(Jordan)`.
 
 This is the **classic example of match and substitution**—the most fundamental way people derive new facts. Keep it in mind as you move to the next section.
-
-[^1]: Factual statements are typically written as `$propName(objects)`. They begin with `$` to distinguish them from functions. To make writing closer to everyday math, Litex provides three conveniences:
-
-1. Built-in operators like `=`, `>` can be written directly in mathematical form.
-2. If a proposition takes exactly two objects, you may write `object1 $propName object2`.
