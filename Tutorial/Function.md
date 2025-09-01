@@ -153,6 +153,15 @@ So, `square_root(-1)` is invalid, since `-1` does not satisfy the domain.
 
 ⚠️ **Note:** This style of definition does not guarantee that such a function exists. For safety, Litex will later support `set_defined_by_replacement`, which ensures existence.
 
+Note: You can refer to the function itself in domain fact. For example, you should not do this:
+
+```
+fn f(x R) R:
+    f(x) > 0
+    =>:
+        ...
+```
+
 ---
 
 ## Compact Styles of Function Definition
@@ -213,6 +222,20 @@ square_root(4) $in R
 
 ⚠️ Important: Litex **does not compute**.
 `square_root(4)` does **not** equal `2`. Instead, it denotes "some value in `R` such that `square_root(x)^2 = x` when `x = 4`." The actual value is irrelevant; only the existence matters.
+
+You should not pass parameters which do not satisfy the domain of the function. For example
+
+```litex
+have cartoon_characters nonempty_set, oddie_bird, carmela_bird cartoon_characters
+fn fuse_characters(x, y cartoon_characters) cartoon_characters
+
+# You can not add two cartoon characters, because + takes real numbers as parameters.
+# oddie_bird + carmela_bird = oddie_bird + carmela_bird
+
+fuse_characters(oddie_bird, carmela_bird) $in cartoon_characters
+```
+
+You can not write `oddie_bird + carmela_bird`, because `+` takes real numbers as parameters. You can call `fuse_characters(oddie_bird, carmela_bird)` to get a new cartoon character because it is defined as a function that takes cartoon characters as parameters.
 
 ---
 

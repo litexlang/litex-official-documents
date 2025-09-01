@@ -178,4 +178,3 @@ know:
     $we_are_friends(oddie_bird, hippo_dog)
 $we_are_friends(hippo_dog, oddie_bird)
 ```
-

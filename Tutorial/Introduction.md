@@ -129,6 +129,6 @@ The purpose of this slim tutorial is:
 1. To record the most basic Litex syntax and keywords, ensuring there is no ambiguity for users.
 2. To provide some examples for beginners to reference.
 
-You can learn Litex simply by remembering the examples in the Tutorial, but if you only memorize the explanatory sentences without looking at the examples, you won’t really learn it.
+Don't forget to run the examples yourself! You can learn much much faster if you read and write the examples yourself!
 
 The best way to learn Litex is to try writing the examples from the tutorial yourself, or translate the mathematics (or reasoning) you care about into Litex.
