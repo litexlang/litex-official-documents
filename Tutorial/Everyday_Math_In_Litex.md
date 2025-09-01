@@ -1,10 +1,8 @@
 # Everyday Math in Litex: Whatever everyday mathematics needs to express, Litex provides. No more, no less.
 
-Mathematics is a difficult discipline. But the basic building blocks of forming a reasoning (or of mathematics as a whole) are not actually complicated. For example, modern mathematics is based on the ZFC axioms, which consist of only nine axioms. From these nine, we can derive the entire edifice of mathematics we are familiar with. 
+Math is a difficult discipline. But the basic building blocks of forming a reasoning (or of math as a whole) are not actually complicated. For example, modern math is based on the ZFC axioms, which consist of only nine axioms. From these nine, we can derive the entire edifice of math we are familiar with. It is truly remarkable that such a vast structure can be built from so few tools. And precisely because these basic units of math are easy to understand, everyone—from elementary school students to professional mathematicians—possesses some fundamental reasoning ability.
 
-It is truly remarkable that such a vast structure can be built from so few tools. And precisely because these basic units of mathematics are easy to understand, everyone—from elementary school students to professional mathematicians—possesses some fundamental reasoning ability.
-
-The goal of Litex is to write reasoning (or mathematics in general) as code. Since no matter how complex a piece of reasoning (or mathematics) is, it is always built from a set of basic units, what Litex needs to do is simply provide these fundamental building blocks. Below is how everyday mathematical expressions correspond to their Litex formulations.
+The goal of Litex is to write reasoning (or math in general) as code. Since no matter how complex a piece of reasoning (or math) is, it is always built from a set of basic units, what Litex needs to do is simply provide these fundamental building blocks. Below is how everyday mathematical expressions correspond to their Litex formulations.
 
 ---
 
@@ -51,7 +49,7 @@ The goal of Litex is to write reasoning (or mathematics in general) as code. Sin
 
 ---
 
-### **Special Proof Methods**
+### **Special Proof Strategies**
 
 * `prove_by_contradiction`
 * `prove_in_each_case`
