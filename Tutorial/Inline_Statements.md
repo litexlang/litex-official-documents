@@ -278,6 +278,39 @@ prop p(x R)
 know $p(1), $p(2), $p(3)
 ```
 
+### Inline Factual Statements
+
+You can write factual statements in a single line.
+
+The following two examples are equivalent. The inline version is more concise and saves you a lot of lines.
+
+```litex
+let a, b, c, d, e, f R:
+    a = 1
+    b = 2
+    c = 3
+    d = 4
+    e = 5
+    f = 6
+a = 1
+b = 2
+c = 3
+d = 4
+e = 5
+f = 6
+```
+
+```litex
+let a, b, c, d, e, f R: a = 1, b = 2, c = 3, d = 4, e = 5, f = 6
+a = 1, b = 2, c = 3, d = 4, e = 5, f = 6
+```
+
+Specific facts, existential facts, and universal facts can all be written in inline format. Universal facts should end with `;` and specific facts should end with `,`.
+
+```litex
+1 + 1 = 2, forall x R: x > 0 => x > 0; exist 2 st $exist_in(R), 0 * 18 = 0
+```
+
 ### Conclusion
 
 Simplicity is the number one design principle of Litex. Inline statements are a great example of this principle. Simplicity makes Litex a pleasure to use.
