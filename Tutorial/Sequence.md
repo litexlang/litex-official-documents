@@ -20,6 +20,11 @@ let a seq(R), b seq(R), c seq(R), d seq(R):
     forall n N => b(n) = n * n
     forall n N => c(n) = n * n * n
     forall n N => d(n) = n * n * n * n
+
+a(1) = 1
+=(b(3), 3 * 3, 9)
+=(c(3), 3 * 3 * 3, 27)
+=(d(3), 3 * 3 * 3 * 3, 81)
 ```
 
 Here we have defined four sequences `a`, `b`, `c`, `d` which are all in the set `R`. We have also defined the domain of each sequence.

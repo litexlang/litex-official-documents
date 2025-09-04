@@ -72,20 +72,20 @@ In this case, We use `17` to prove `$exist_number_larger_than(1)` and `have a st
 When we were children, the first thing we learn about math is counting from `1` to `5`. Litex thus allows you to define a set by enumeration. (Do not underestimate enumeration: in fact, the very reason we are able to define a finite set by enumeration is guaranteed by the axioms of set theory — and this is something quite profound.)
 
 ```litex
-have set one_to_ten := {1,2,3,4,5}
+have set one_to_five := {1,2,3,4,5}
 ```
 
 If a set is finite, then to prove that forall x in this set some property holds, we can simply check each element one by one. In this way, unlike the general case of infinite sets, the conclusion can be obtained by directly traversing all the elements in the set.
 
 ```
 prove_over_finite_set:
-    forall x one_to_ten:
+    forall x one_to_five:
         or(x = 1, x = 2, x = 3, x = 4, x = 5)
     prove:
 
 ```
 
-As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_ten).
+As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_five).
 
 ### Have A Set As A Subset Of Another Set Whose Items Have Certain Properties
 
