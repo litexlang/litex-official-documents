@@ -42,6 +42,9 @@ The difficulty of writing mathematics in a formal language is usually about equa
 Here is an example: to prove sqrt(2) is irrational:
 
 ```litex
+# prove sqrt(2) is irrational
+# 证明 sqrt(2) 是无理数
+
 fn logBase(x, y N) N:
     dom:
         x != 0
@@ -72,12 +75,17 @@ claim:
         logBase(2, x ^ 2) = 1 + 2 * logBase(2, y)
         2 * logBase(2, x) = 1 + 2 * logBase(2, y)
 
-        (2 * logBase(2, x)) % 2 = (1 + 2 * logBase(2, y)) % 2
-        (2 * logBase(2, x)) % 2 = 0
-        0 = (1 + 2 * logBase(2, y)) % 2
-
-        (1 + 2 * logBase(2, y)) % 2 = 1 % 2 + (2 * logBase(2, y)) % 2
-        1 % 2 + (2 * logBase(2, y)) % 2 = 1 + 0
+        =:
+            0
+            (2 * logBase(2, x)) % 2            
+            (1 + 2 * logBase(2, y)) % 2
+            
+        =:
+            (1 % 2 + (2 * logBase(2, y)) % 2) % 2
+            (1 + 2 * logBase(2, y)) % 2
+            (1 % 2 + (2 * logBase(2, y)) % 2) % 2
+            (1 + 0) % 2
+            1
         0 = 1
 ```
 
