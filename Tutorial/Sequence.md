@@ -16,10 +16,10 @@ Let's take a look at a simple example:
 
 ```litex
 let a seq(R), b seq(R), c seq(R), d seq(R):
-    forall n N: => a(n) = n
-    forall n N: => b(n) = n * n
-    forall n N: => c(n) = n * n * n
-    forall n N: => d(n) = n * n * n * n
+    forall n N => a(n) = n
+    forall n N => b(n) = n * n
+    forall n N => c(n) = n * n * n
+    forall n N => d(n) = n * n * n * n
 ```
 
 Here we have defined four sequences `a`, `b`, `c`, `d` which are all in the set `R`. We have also defined the domain of each sequence.
@@ -28,6 +28,13 @@ Here we have defined four sequences `a`, `b`, `c`, `d` which are all in the set 
 
 When studying sequences, mathematical induction is often the most natural proof technique. Since sequences are defined step by step along the natural numbers, many of their properties are expressed in terms of the relationship between consecutive terms. This makes induction especially suitable for proving results such as general formulas and summation identities. Below, we use the formula for the sum of an arithmetic progression as an example, showing how sequences and induction work hand in hand in Litex.
 
+The next example wants to prove the formula for the sum of an arithmetic progression:
+
+$$
+S_n = \frac{n}{2} (2a_1 + (n-1)d)
+$$
+
+where $a_1$ is the first term and $d$ is the common difference.
 
 ```litex
 prop is_arithmetic_progression(a seq(R), d R):
@@ -68,6 +75,4 @@ claim:
         prove_by_induction(sum_of_first_n_numbers(a, k) = k * (2 * a(1) + (k-1) * d) / 2, k, 1)
         n >= 1
         sum_of_first_n_numbers(a, n) = n * (2 * a(1) + (n-1) * d) / 2
-
-
 ```
