@@ -86,3 +86,35 @@ $stay_at_home_doctor_always_wear_his_uniform()
 ```
 
 In example, we know any item in `weekdays` is either satisfies `is_monday`, `is_tuesday`, `is_wednesday`, `is_thursday`, `is_friday`, `is_saturday`, or `is_sunday`. And we know the stay at home doctor wears his uniform on each of these days. Therefore, we can conclude that the stay at home doctor wears his uniform on any day.
+
+Here is another example:
+
+```litex
+know forall x R: x > 0 => x^2 > 0
+
+claim:
+    forall a R => a^2 >= 0
+    prove:
+        prove_in_each_case:
+            or:
+                a > 0
+                a = 0
+                a < 0
+            =>:
+                a^2 >= 0
+            prove:
+                a * a = a ^ 2
+                a ^ 2 > 0
+                a ^ 2 >= 0
+            prove:
+                =(0, 0^2, a ^ 2, a * a)
+                0 >= 0
+                a^2 >= 0
+            prove:
+                a ^ 2 = (-a) ^ 2
+                -a > 0
+                (-a) ^ 2 > 0
+                (-a) ^ 2 >= 0
+```
+
+In this example, we use the known fact `forall x R: x > 0 => x^2 > 0` to prove `forall a R => a^2 >= 0`. We split the case into `a > 0`, `a = 0`, and `a < 0`. And we prove `a^2 >= 0` in each case.
