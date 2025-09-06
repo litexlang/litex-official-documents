@@ -218,12 +218,12 @@ This example means: Define a group, and prove `R` is a group. (本例是一个�
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
       <code>prop is_group(s set, mul fn(s, s)s, inv fn(s)s, e s):</code><br>
       <code>&nbsp;&nbsp;forall x s, y s, z s:</code><br>
-      <code>&nbsp;&nbsp;mul(mul(x, y), z) = mul(x, mul(y, z))</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(mul(x, y), z) = mul(x, mul(y, z))</code><br>
       <code>&nbsp;&nbsp;forall x s:</code><br>
-      <code>&nbsp;&nbsp;mul(x, inv(x)) = e</code><br>
-      <code>&nbsp;&nbsp;mul(inv(x), x) = e</code><br><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(x, inv(x)) = e</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(inv(x), x) = e</code><br><br>
       <code>fn inverse(x R)R:</code><br>
-      <code>&nbsp;&nbsp;inverse(x) + x = 0</code><br><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;inverse(x) + x = 0</code><br><br>
       <code>forall x R:</code><br>
       <code>&nbsp;&nbsp;inverse(x) $in R</code><br>
       <code>&nbsp;&nbsp;x + inverse(x) = inverse(x) + x</code><br>
@@ -254,9 +254,4 @@ This example means: Define a group, and prove `R` is a group. (本例是一个�
   </tr>
 </table>
 
-Read appendix for more information.[^1][^2]
-
-[^1]: The Litex kernel is much larger than Lean's kernel. There are two reasons for that. First, there are multiple ways to build the foundations of mathematics. Litex uses set theory, while Lean uses type theory. Although the two are logically equivalent, type theory is more abstract. This abstraction helps keep the Lean kernel small, but also makes it harder for users to understand. Since most people are introduced to set theory in high school, it is not ideal to use type theory as the foundation if the goal is to make a formal language widely accessible. Second, Lean is a programming language. Because it is Turing-complete, Lean shifts the responsibility of implementing low-level logic to the user. This means that users must essentially build parts of the system themselves before they can even begin verifying their own statements — and there's no guarantee that their implementation is correct. In contrast, Litex handles low-level logic within the kernel itself. This allows users to focus entirely on expressing and verifying their ideas, and it makes Litex both easier to use and computationally more efficient than most other formal languages. Every design choice in Litex is made with user-friendliness as the top priority. Litex is focused solely on verification, which dramatically simplifies the user experience. For example, the Litex kernel automatically searches for established facts, so users don’t need to name them or remember which ones they’re using. In Lean or Coq, this kind of support doesn’t exist — the user must essentially reimplement a Litex-like kernel by hand before verification can even begin. This burden should not fall on the user.
-
-[^2]: Litex has a symbolic view of math. The process of  `match and substitution` cares about what a symbol is, not what a symbol means.
-
+In 2025, the number of mathematicians who use formal languages only takes less than 1 percent of the total number of mathematicians. The goal of Litex is not only to raise this proportion, but more importantly to enable non-mathematics practitioners — such as AI researchers, professionals in science and engineering, educators, and even children who are just beginning to explore mathematics — to experience the joy of math and logic through Litex, as well as the boundless potential that comes from combining reasoning with computing.
