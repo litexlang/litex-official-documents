@@ -24,8 +24,6 @@ let s set:
 prove_over_finite_set:
     forall x s:
         x > 0
-    prove:
-        x > 0
 ```
 
 Empty set, which is the very special case of finite set, is also supported. As you can see, any factual statement is true on items in empty set, since there is no item in empty set.
@@ -38,8 +36,6 @@ prove_over_finite_set:
     forall x s:
         x > 0
         x < 0
-    prove:
-        x < 0
 ```
 
 You can pass multiple sets to `prove_over_finite_set` to prove a universal fact over multiple sets. These sets must all be finite.
@@ -51,7 +47,5 @@ let s3, s4 set:
 
 prove_over_finite_set:
     forall x s3, y s4:
-        x * y >= 1
-    prove:
         x * y >= 1
 ```
