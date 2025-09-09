@@ -35,7 +35,7 @@ have set s := {}
 
 # any factual statement is true on empty set
 prove_over_finite_set:
-    forall x s2:
+    forall x s:
         x > 0
         x < 0
     prove:

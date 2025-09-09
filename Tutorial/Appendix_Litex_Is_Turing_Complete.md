@@ -1,6 +1,6 @@
 # Appendix: Litex is Turing Complete
 
-One of the greatest joys of maintaining open-source software is being part of a passionate community. Often, people in the community know the language even better than its creator! Two community experts have proven that Litex is Turing-complete from two different perspectives, and here are their code examples.
+One of the greatest joys of maintaining open-source software is being part of a passionate community. Often, people in the community know the language even better than its creator! Some community experts have proven that Litex is Turing-complete from two different perspectives, and here are their code examples. Really thanks to their dedication. We wish more people can join us to make Litex better. Feel free to submit your interesting ideas on [zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/)!
 
 1. Provided by Chenxuan Huang. He uses SKI combinator to prove the Turing completeness of Litex.
 
