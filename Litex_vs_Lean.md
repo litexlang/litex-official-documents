@@ -146,64 +146,84 @@ The Litex proof requires no extra knowledge except basic math knowledge, but the
 
 This example means: Prove `sqrt(2) is irrational`. (本例是一个典型的无理数证明例子：证明 `sqrt(2) 是无理数`。)
 
+
 <table style="border-collapse: collapse; width: 100%; font-size: 12px">
   <tr>
     <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
     <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean 4</th>
   </tr>
-  <tr>
-    <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
-      <code>claim:</code><br>
-      <code>&nbsp;&nbsp;not sqrt(2) $in Q</code><br>
-      <code>&nbsp;&nbsp;prove_by_contradiction:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;have x, y st $Q_representation_in_fraction(sqrt(2))</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;x = sqrt(2) * y</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;x ^ 2 = (sqrt(2) ^ 2) * (y ^ 2)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;sqrt(2) ^ 2 = 2</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;x ^ 2 = 2 * (y ^ 2)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, x ^ 2) = log(2, 2 * (y ^ 2))</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, x ^ 2) = 2 * log(2, x)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, y ^ 2) = 2 * log(2, y)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, 2 * (y ^ 2)) = log(2, 2) + log(2, y ^ 2)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, 2) = 1</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, 2 * (y ^ 2)) = 1 + log(2, y ^ 2)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;log(2, x ^ 2) = 1 + 2 * log(2, y)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;2 * log(2, x) = 1 + 2 * log(2, y)</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;(2 * log(2, x)) % 2 = (1 + 2 * log(2, y)) % 2</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;(2 * log(2, x)) % 2 = 0</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;0 = (1 + 2 * log(2, y)) % 2</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;(1+2 * log(2, y)) % 2 = 1 % 2 + (2*log(2, y)) % 2</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;1 % 2 + (2 * log(2, y)) % 2 = 1 + 0</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;0 = 1</code>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5;">
+       <code>fn logBase(x, y N) N:</code><br>
+       <code>&nbsp;&nbsp;dom:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;x != 0</code><br>
+       <code>know forall x, y, z N => logBase(z, x^y) = y * logBase(z, x), logBase(z, x*y) = logBase(z, x) + logBase(z, y)</code><br>
+       <code>know forall x N: x != 0 => logBase(x, x) = 1</code><br>
+       <code></code><br>
+       <code>claim:</code><br>
+       <code>&nbsp;&nbsp;not sqrt(2) $in Q</code><br>
+       <code>&nbsp;&nbsp;prove_by_contradiction:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;sqrt(2) > 0</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;have x, y st $rational_positive_number_representation_in_fraction(sqrt(2))</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;x = sqrt(2) * y</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;x ^ 2 = (sqrt(2) ^ 2) * (y ^ 2)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;sqrt(2) ^ 2 = 2</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;x ^ 2 = 2 * (y ^ 2)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, x ^ 2) = logBase(2, 2 * (y ^ 2))     </code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, x ^ 2) = 2 * logBase(2, x)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, y ^ 2) = 2 * logBase(2, y)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, 2 * (y ^ 2)) = logBase(2, 2) + logBase(2, y ^ 2)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, 2) = 1</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, 2 * (y ^ 2)) = 1 + logBase(2, y ^ 2)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;logBase(2, x ^ 2) = 1 + 2 * logBase(2, y)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;2 * logBase(2, x) = 1 + 2 * logBase(2, y)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;0 = 2 * (2 * logBase(2, x)) % 2</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;2 * (2 * logBase(2, x)) % 2 = (1 + 2 * logBase(2, y)) % 2</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;(1 % 2 + (2 * logBase(2, y)) % 2) % 2 = (1 + 2 * logBase(2, y)) % 2</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;(1 + 2 * logBase(2, y)) % 2 = (1 % 2 + (2 * logBase(2, y)) % 2) % 2</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;(1 % 2 + (2 * logBase(2, y)) % 2) % 2 = (1 + 0) % 2</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;(1 + 0) % 2 = 1</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;0 = 1</code><br>
+       <code></code><br>
     </td>
-    <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
-      <code>theorem sqrt2_irrational :</code><br>
-      <code>&nbsp;&nbsp;¬ ∃ a b : ℕ, a.gcd b = 1 ∧ a * a = 2 * b * b := by</code><br>
-      <code>&nbsp;&nbsp;intro h</code><br>
-      <code>&nbsp;&nbsp;obtain ⟨a, b, hcop, h⟩ := h</code><br><br>
-      <code>have ha_even : Even a := by</code><br>
-      <code>&nbsp;&nbsp;rw [Nat.mul_assoc] at h</code><br>
-      <code>&nbsp;&nbsp;have : Even (a * a) := by rw [h]; exact even_mul_right b b</code><br>
-      <code>&nbsp;&nbsp;exact even_of_even_sq this</code><br><br>
-      <code>obtain ⟨k, hk⟩ := ha_even</code><br><br>
-      <code>have h2 : 2 * k * k = b * b := by</code><br>
-      <code>&nbsp;&nbsp;rw [hk, ←mul_assoc, ←mul_assoc, mul_comm 2 2, ←mul_assoc] at h</code><br>
-      <code>&nbsp;&nbsp;apply Nat.mul_right_cancel (Nat.zero_lt_succ _)</code><br>
-      <code>&nbsp;&nbsp;rw [←h, ←mul_assoc, ←mul_assoc]</code><br>
-      <code>&nbsp;&nbsp;rfl</code><br><br>
-      <code>have hb_even : Even b :=</code><br>
-      <code>&nbsp;&nbsp;even_of_even_sq (by rw [←h2]; exact even_mul_left _ _)</code><br><br>
-      <code>obtain ⟨m, hm⟩ := hb_even</code><br><br>
-      <code>have : a.gcd b ≠ 1 := by</code><br>
-      <code>&nbsp;&nbsp;rw [hk, hm]</code><br>
-      <code>&nbsp;&nbsp;have : (2 * k).gcd (2 * m) = 2 * (k.gcd m) := Nat.gcd_mul_left_right</code><br>
-      <code>&nbsp;&nbsp;apply Nat.ne_of_gt</code><br>
-      <code>&nbsp;&nbsp;apply Nat.mul_pos (by decide)</code><br>
-      <code>&nbsp;&nbsp;exact Nat.gcd_pos_left m (by decide)</code><br><br>
-      <code>contradiction</code>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5;">
+       <code>def logBase (b n : Nat) : Nat :=</code><br>
+       <code>&nbsp;if n = 0 then 0 else</code><br>
+       <code>&nbsp;if n = 1 then 0 else</code><br>
+       <code>&nbsp;if n % b = 0 then 1 + logBase b (n / b) else 0</code><br>
+       <code></code><br>
+       <code>theorem logBase_mul {b x y : Nat} (hx : x ≠ 0) (hy : y ≠ 0)</code><br>
+       <code>&nbsp;(hdivx : x % b = 0) (hdivy : y % b = 0) :</code><br>
+       <code>&nbsp;logBase b (x * y) = logBase b x + logBase b y := by</code><br>
+       <code>&nbsp;admit</code><br>
+       <code></code><br>
+       <code>theorem logBase_pow2 {b x : Nat} (hx : x ≠ 0) (hdiv : x % b = 0) :</code><br>
+       <code>&nbsp;logBase b (x ^ 2) = 2 * logBase b x := by</code><br>
+       <code>&nbsp;admit</code><br>
+       <code></code><br>
+       <code>theorem logBase_two : logBase 2 2 = 1 := by</code><br>
+       <code>&nbsp;simp [logBase]</code><br>
+       <code>&nbsp;rfl</code><br>
+       <code></code><br>
+       <code>theorem sqrt2_irrational : ¬ ∃ (x y : Nat), y ≠ 0 ∧ x^2 = 2 * y^2 := by</code><br>
+       <code>&nbsp;intro h</code><br>
+       <code>&nbsp;obtain ⟨x, y, hy, eq⟩ := h</code><br>
+       <code>&nbsp;have h1 : logBase 2 (x^2) = logBase 2 (2 * y^2) := by</code><br>
+       <code>&nbsp;&nbsp;rw [eq]</code><br>
+       <code>&nbsp;have lhs : logBase 2 (x^2) = 2 * logBase 2 x := by</code><br>
+       <code>&nbsp;&nbsp;apply logBase_pow2</code><br>
+       <code>&nbsp;&nbsp;exact Nat.pow_ne_zero 2 (Nat.zero_lt_succ _)</code><br>
+       <code>&nbsp;&nbsp;admit</code><br>
+       <code>&nbsp;have rhs : logBase 2 (2 * y^2) = 1 + 2 * logBase 2 y := by</code><br>
+       <code>&nbsp;&nbsp;admit</code><br>
+       <code>&nbsp;rw [lhs, rhs] at h1</code><br>
+       <code>&nbsp;have : Even (2 * logBase 2 x) := by simp</code><br>
+       <code>&nbsp;have : Odd (1 + 2 * logBase 2 y) := by simp</code><br>
+       <code>&nbsp;contradiction</code><br>
+       <code></code><br>
     </td>
   </tr>
 </table>
+
 
 Next I want to show you how Litex can be used to verify a simple group theory statement. It's clear that the Litex version can be read and understood by a 10-year-old, while the Lean version is much more complex. Look how easy it is to narrow the function type of `inverse` from `R` to `Z`.
 
