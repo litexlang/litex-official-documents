@@ -117,43 +117,81 @@ fn f(n N_pos) R:
 p        f(n) > 0
 ```
 
-<!-- TODO: Return Set Inference -->
+<!-- TODO: Return Set Inference --> 
 
-<!-- ## Return Set Inference
+## Return Set Inference
 
 A function can return a function. For example, the addition of two functions return a new function. Litex checks the return set of the function to be a set, and checks whether you can indeed pass parameters to the returned function.
 
 ```litex
-prove:
-    have has_very_special_meanings nonempty_set
+fn_template T0():
+    fn (x R, y R) R
 
-    fn_template T7(t R):
-        t >= 16
-        fn (z R) has_very_special_meanings:
-        	dom:
-                z >= t
+fn_template T1():
+    fn (x R) T0()
 
-    fn_template T6(t R):
-        fn (z R) T7(t)
+let a T1()
 
-    fn_template T5(t R):
-        fn (z R) T6(t)
+a(1)(2,3) $in R
+```
 
-    fn_template T4(t R):
-        fn (z R) T5(t)
+`a` is a function that satisfies the function template `T1()`, i.e. You can define `a` like `fn a(x R) T0()`. a(1) is a function which satisfies the function template `T0()`, because `a` takes `x = 1` as parameter and returns a function which satisfies the function template `T0()`, so a(1) is a function in form `fn (x R, y R) R`. Since `a(1)` takes 2 real parameters and return a real number, `a(1)(2,3) $in R` is true.
 
-    fn_template T3(t R):
-        fn (z R) T4(t)
+Notice how useful the above functionality is. You can define a function that takes a function as parameter and returns a function. This is very common in mathematics.  
 
-    fn_template T2(t R):
-        fn (z R) T3(t)
+```litex
+have has_very_special_meanings nonempty_set
 
-    fn_template T(t R):
-        fn (z R) T2(t)
+fn_template T3():
+    fn (x R) has_very_special_meanings
 
-    fn w(x R) T(16)
+fn_template T2():
+    fn (x R, y R, z R, m R) T3()
 
-    have b, z, d, g, s, m R
+fn_template T1():
+    fn (x R) T2()
 
-    w(b)(z)(d)(g)(s)(m)(m)(17) $in has_very_special_meanings
-``` -->
+fn_template T0():
+    fn (x R) T1()
+
+fn w(x R) T0()
+
+have b, z, d, g, s, m R
+
+w(b)(z)(d)(g, s, m, m)(17) $in has_very_special_meanings
+```
+
+As you can see, you can make the chain of function calls arbitrarily long and complicated.
+
+```litex
+have has_very_special_meanings nonempty_set
+prop very_special(x has_very_special_meanings)
+
+fn_template T3(n R):
+    dom:
+        n < 10
+    fn (x R) has_very_special_meanings
+
+fn_template T2(n R):
+    dom:
+        n $in N_pos
+    fn (x R, y R, z R, m R) T3(n)
+
+fn_template T1(n R):
+    dom:
+        n $in N
+    fn (x R) T2(n)
+
+fn_template T0(n R):
+    dom:
+        n >= 1
+    fn (x R) T1(n)
+
+fn w(x R) T0(1)
+
+have b, z, d, g, s, m R
+
+w(b)(z)(d)(g, s, m, m)(17) $in has_very_special_meanings
+```
+
+`w` is in template `T0(1)`, so `w(b)` is in template `T1(1)`, so `w(b)(z)` is in template `T2(1)`, so `w(b)(z)(d)` is in template `T3(1)`, so `w(b)(z)(d)(g, s, m, m)` is in template `T4(1)`. 1 satisfies `n >= 1` so that `T0(1)` is valid. 1 satisfies `n $in N`, so that `T1(1)` is valid. 1 satisfies `n $in N_pos`, so that `T2(1)` is valid. 1 satisfies `n < 10`, so that `T3(1)` is valid. 

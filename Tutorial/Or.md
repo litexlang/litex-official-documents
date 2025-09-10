@@ -12,6 +12,18 @@ or:
 or(x = 1, x = 2)
 ```
 
+The syntax is:
+
+```
+or:
+    specific_fact1
+    specific_fact2
+    ...
+    specific_factN
+
+or(specific_fact1, specific_fact2, ..., specific_factN)
+```
+
 You can write specific facts under `or` facts.
 
 `or` facts can be written in `forall` facts:
@@ -51,7 +63,7 @@ Without `prove_in_each_case`, Litex would never be able to express many mathemat
 
 When the Litex kernel reads `or(fact1, fact2, ..., factN)`, it will check if `fact1` is true or not under the assumption that `fact2`, ..., `factN` are not true.
 
-Why the following code does not work?
+That explains why the following code does not work:
 
 ```
 know forall x, y R: x * y = 0 => or(x = 0, y = 0)
@@ -81,4 +93,6 @@ $product_zero_implies_or(a,b)
 
 ## Specific fact, Or Fact, and Forall Fact
 
-You can not write `or` fact and `forall` fact under `or`.
+There are basically three kinds of facts: specific fact (ordinary specific fact, existential fact), `or` fact, and `forall` fact.
+
+You can not write `or` fact and `forall` fact under `or`. Only specific facts are allowed. You can write `or` fact and `forall` fact in `forall` fact.
