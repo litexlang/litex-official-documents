@@ -2,7 +2,7 @@
 
 1. Why the following code does not work?
 
-```litex
+```
 know forall x, y R: x * y = 0 => or(x = 0, y = 0)
 let a,b R
 know a*b=0

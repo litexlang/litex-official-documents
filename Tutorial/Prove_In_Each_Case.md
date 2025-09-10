@@ -32,7 +32,7 @@ prove_in_each_case:
         # assume factN is true, prove then_fact
 ```
 
-If `or(fact1, fact2, ..., factN)` is true, and each `prove` section, where the nth fact in `or` statement, proves `then_fact`, then `then_fact` is always true.
+If `or(fact1, fact2, ..., factN)` is true, and each `prove` section, where the nth fact in `or` statement, proves `then_fact`, then ¸`then_fact` is always true.
 
 For example
 
