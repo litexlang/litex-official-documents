@@ -237,6 +237,28 @@ fuse_characters(oddie_bird, carmela_bird) $in cartoon_characters
 
 You can not write `oddie_bird + carmela_bird`, because `+` takes real numbers as parameters. You can call `fuse_characters(oddie_bird, carmela_bird)` to get a new cartoon character because it is defined as a function that takes cartoon characters as parameters.
 
+## Parameters must satisfy domain fact of function
+
+```litex
+fn f(x R) R:
+    x > 0
+    =>:
+        f(x) > 0
+
+f(-1) > 0
+```
+
+You can not write `f(-1)`, because `-1` does not satisfy the domain fact `x > 0`. If you run the above code, it will output an error like this:
+
+```
+failed to check param(s) (-1 * 1) satisfy domain of
+fn (x R) R:
+    dom
+        x > 0
+    =>
+        f(x) > 0
+```
+
 ---
 
 ## Function Templates and `let`
