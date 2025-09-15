@@ -2,7 +2,7 @@
 
 ## Try Litex Online
 
-To quickly get a taste of Litex, you can try it directly in our [Playground](https://litexlang.org/playground/syllogism). You can even translate your Litex code into LaTeX code there.
+To quickly get a taste of Litex, you can try it directly in our [Playground](https://litexlang.com/playground/syllogism). You can even translate your Litex code into LaTeX code there.
 
 ## Run Litex Locally
 
