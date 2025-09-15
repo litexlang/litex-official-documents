@@ -124,7 +124,7 @@ $is_group(Z, +, inverse, 0)
 
 Hi, I am Jiachen Shen, a hacker and creator of Litex. It is a computer language for formalizing reasoning. Computation is how math is used to solve real-world problems. Reason is how we enriches our understanding of the world. Such knowledge is totally different from ordinary knowledge because it can be mechanically verified by a given set of rules. Math, physics, computer science all rely on such strictness. The software industry has already revolutionized how we compute, and Litex is here to change how we reason.
 
-A good art is what makes its developers happy and makes its users find it useful. I hope Litex can be a good art for both me as the creator and its users. Feel free to join us! Start from visiting our [website](https://litex-lang.org)! Thank you for your support!
+A good art is what makes its developers happy and makes its users find it useful. I hope Litex can be a good art for both me as the creator and its users. Feel free to join us! Start from visiting our [website](https://litexlang.com)! Thank you for your support!
 
 ## How to read this tutorial
 
