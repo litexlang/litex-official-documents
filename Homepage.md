@@ -13,9 +13,11 @@
 
 ## Litex: The First Formal Language Learnable in 1–2 Hours
 
-*Visit [Official Website](https://litexlang.com/) to learn more about Litex. Our community is on [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/). Visit [Tutorial](https://litexlang.com/doc/Tutorial/Introduction) to learn how to use Litex and try some examples. Source code of Litex is on [Github](https://github.com/litexlang/golitex). Source of tutorial is on [Github](https://github.com/litexlang/litex-tutorial). Complete [challenges](https://litexlang.com/collaboration) on the Litex website, or collaborate on a partner project — earn impact rewards! Visit [Start](https://litexlang.com/doc/Start) to start using Litex (online, locally, in Python, in Jupyter Notebook, etc.).*
+_Simplicity is the ultimate sophistication._
 
-Litex is a simple and intuitive formal language for coding reasoning. It ensures every step of your reasoning is correct, and is actually the first reasoning formal language (or formal language for short) that can be learned by anyone in 1–2 hours, even without math or programming background.
+_– Leonardo da Vinci_
+
+[Litex](https://litexlang.com/) is a simple and intuitive formal language for coding reasoning. It ensures every step of your reasoning is correct, and is actually the first reasoning formal language (or formal language for short) that can be learned by anyone in 1–2 hours, even without math or programming background.
 
 Scaling formal reasoning has several meanings: 1. Scaling the number of people who can use formal reasoning; 2. Scaling the complexity of the problems that can be solved by formal reasoning. 3. Scaling AI to perform formal reasoning.
 
@@ -74,6 +76,10 @@ As you can see, traditional formal languages are too complex. Litex lowers the e
 The Litex ecosystem is thriving. `pylitex` is the Python package that allows you to call Litex, and at the same time being able to use all the AI tools and scientific computation packages. The smooth integration of Litex into your existing workflow is also the strength of Litex.
 
 Litex is a language full of potential. Join us to build the future of reasoning together!
+
+---
+
+*Visit [Official Website](https://litexlang.com/) to learn more about Litex. Our community is on [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/). Visit [Tutorial](https://litexlang.com/doc/Tutorial/Introduction) to learn how to use Litex and try some examples. Source code of Litex is on [Github](https://github.com/litexlang/golitex). Source of tutorial is on [Github](https://github.com/litexlang/litex-tutorial). Complete [challenges](https://litexlang.com/collaboration) on the Litex website, or collaborate on a partner project — earn impact rewards! Visit [Start](https://litexlang.com/doc/Start) to start using Litex (online, locally, in Python, in Jupyter Notebook, etc.).*
 
 ## Contact & Contribute to Litex
 

@@ -1,8 +1,8 @@
 # Appendix: Language Tradeoffs
 
-__Simplicity is the ultimate sophistication.__
+_Everything should be made as simple as possible, but not simpler._
 
-__-- Leonardo da Vinci__
+__-- Albert Einstein__
 
 *Simplicity over Generality*: Litex focuses more on simplicity of the language, so that more people can learn to use it. Currently, Litex has built-in support for naive set theory and first-order logic, which is enough for most daily math. If adding certain features (such as higher-order logic) would compromise Litex’s simplicity, we would rather leave them out. Just as Python gave up C’s manual memory management, and Markdown gave up LaTeX’s fine-grained pixel control, Litex gives up generality in exchange for simplicity.
 

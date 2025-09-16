@@ -1,8 +1,8 @@
 # Match and Substitution: The Fundamental Mechanism of Litex
 
-_Simplicity is the ultimate sophistication._
+_万物之始，大道至简，衍化至繁. (All begins in simplicity; the Way is simple, yet gives rise to the complex.)_
 
-_-- Leonardo da Vinci_
+_-- 老子 (Lao Tzu)_
 
 How does Litex verify a statement?
 It all comes down to **match and substitution**—as simple as pressing `Ctrl + F` in your browser.
