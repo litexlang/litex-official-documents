@@ -1,5 +1,9 @@
 # Appendix: Principles Behind Litex
 
+_The most beautiful experience we can have is the mysterious. It is the fundamental emotion which stands at the cradle of true art and true science. Whoever does not know it and can no longer wonder, no longer marvel, is as good as dead and his eyes are dimmed._
+
+_-- Albert Einstein_
+
 This file contains principles behind Litex from the Litex creator. Read it for pleasure instead of for any practical purpose. My descriptions and wording here may be somewhat vague, because the development of the whole project is essentially the process of turning vague ideas into clear ones. In fact, vague ideas often hint at the possibility of many more directions for growth, which is not yet explored.
 
 1. You just learned how Litex builds math from basic pieces, like building blocks. To sum up, `match and substitution` is the basic way of deriving new facts from established ones. We can construct the whole math system by this way in Lite as long as basic arithmetic and counting are built-in. There are exceptions. Facts about symbols with literal information (e.g. numbers like 1, 2, 3, counting etc) are not verified in this way. Facts related to counting are not verified in this way. There are and only these two exceptions. Those facts are verified by Litex's builtin rules, the user does not need to worry about them.

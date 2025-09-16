@@ -1,5 +1,9 @@
 # Appendix: Who Might Benefit From Litex
 
+_The only way to do great work is to love what you do._
+
+_-- Steve Jobs_
+
 Litex is for everyone. Here are some people who might especially benefit from Litex.
 
 1. AI researchers. Researchers from OpenAI, Google, Alibaba, DeepSeek, etc are exploring the loop of model itself writes a question, itself solves, and in this way, the model itself improves itself. This is a very promising direction. They need something to tell whether the reasoning process is correct. Litex can be used to ensure the correctness of the reasoning process as long as the reasoning process is formalized in Litex. This makes Litex a very fundamental infrastructure for AI. At the same time, AI safety researchers need to ensure the safety of the output of the model, and now they are turning to formal languages for help. As models are becoming more and more powerful and dangerous, the need for formal languages is becoming more and more urgent. 

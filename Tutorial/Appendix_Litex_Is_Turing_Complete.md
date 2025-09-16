@@ -1,5 +1,9 @@
 # Appendix: Litex is Turing Complete Or Not?
 
+_...an unlimited memory capacity obtained in the form of an infinite tape marked out into squares, on each of which a symbol could be printed. At any moment there is one symbol in the machine; it is called the scanned symbol. The machine can alter the scanned symbol, and its behavior is in part determined by that symbol, but the symbols on the tape elsewhere do not affect the behavior of the machine. However, the tape can be moved back and forth through the machine, this being one of the elementary operations of the machine. Any symbol on the tape may therefore eventually have an innings._
+
+_-- Alan Turing_
+
 One of the greatest joys of maintaining open-source software is being part of a passionate community. Often, people in the community know the language even better than its creator! Some community experts have tried to prove that Litex is Turing-complete from two different perspectives, and here are their code examples. Really thanks to their dedication. We wish more people can join us to make Litex better. Feel free to submit your interesting ideas on [zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/)!
 
 Their proof is not fully verified. Feel free to point out anything about their proof!

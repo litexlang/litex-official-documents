@@ -4,7 +4,7 @@ _Design and programming are human activities; forget that and all is lost._
 
 _-- Bjarne Stroustrup_
 
-Litex is a simple language. I hope many of the keywords are already familiar to you.
+The keywords in Litex are almost identical in meaning and usage to the commonly used ones in mathematics. This makes writing in Litex a very pleasant experience.
 
 | Keyword | Meaning |
 |---------|---------|

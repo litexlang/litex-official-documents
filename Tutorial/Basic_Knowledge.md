@@ -1,5 +1,9 @@
 # Basic Knowledge: Everyday Math, the Litex Way
 
+_Never forget where you came from._
+
+_— Street Proverb_
+
 ## Numbers
 
 Numbers like `0`, `3.14159`, `-1` are recognized directly in Litex.
