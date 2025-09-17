@@ -1,5 +1,9 @@
 # FAQ: Frequently Asked Questions
 
+_三人行，必有我师焉。(There must be someone I can learn from among the three people I walk with.)_
+
+_— 孔子 (Confucius)_
+
 1. Why the following code does not work?
 
 ```

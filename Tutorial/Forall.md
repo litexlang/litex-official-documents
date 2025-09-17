@@ -178,3 +178,24 @@ know:
     $we_are_friends(oddie_bird, hippo_dog)
 $we_are_friends(hippo_dog, oddie_bird)
 ```
+
+## What will happen if your requirements in a universal fact are wrong?
+
+Suppose we have the following code
+
+```litex
+forall x, y R:
+    2 * x + 3 * y = 4
+    4 * x + 6 * y = 7
+    =>:
+        =:
+            2 * (2 * x + 3 * y)
+            2 * 4
+            4 * x + 6 * y
+            7
+        7 = 8
+```
+
+Wait, why `7 = 8` is true without any contradiction?
+
+The answer is that the requirements in the universal fact are wrong. There is no such `x` and `y` that satisfies the requirements. The reason why validation won't cause any trouble is, no such `x` and `y` exists that can match the requirements of the universal fact. So the newly verified fact will never be used to verify other facts.
