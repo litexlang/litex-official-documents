@@ -1,4 +1,4 @@
-# First Example: Common Sense Is Not So Common
+# First Example
 
 _“If you define the problem correctly, you almost have the solution.”_
 _— Steve Jobs_

@@ -1,8 +1,8 @@
 # Basic Knowledge: Everyday Math, the Litex Way
 
-_Never forget where you came from._
+_Common Sense Is Not So Common_
 
-_— Street Proverb_
+_— Voltaire_
 
 ## Numbers
 
@@ -86,6 +86,26 @@ Step by step, we find:
 $$
 y = 6, \quad x = -4
 $$
+
+## Comment
+
+Litex support to add one-line Comment by symbol `# ` and multi-line Comment by symbol `"""`:
+
+```litex
+# claim an Object x in R and make x > 1
+let x R:
+    x > 1
+```
+
+```litex
+"""
+some comment
+some comment
+some comment
+"""
+```
+
+Comments are very helpful for you to understand the code and for the system to check your code.
 
 ## Wrap-Up
 

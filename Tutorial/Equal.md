@@ -1,5 +1,9 @@
 # Equal: Why `=` Rules Mathematics
 
+_Equal: regarding or affecting all objects in the same way._
+
+_— Merriam-Webster Dictionary_
+
 `=` is the most important proposition in math. It is used to build equal relation between two objects. In other words, when `x = y`, there is no difference between `x` and `y` any more. For example:
 
 ```litex

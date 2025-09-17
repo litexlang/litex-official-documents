@@ -1,5 +1,9 @@
 # Declaration of Objects: The Nouns of Logic
 
+_Mathematics is nothing more than a game played according to certain simple rules with meaningless marks on a paper._
+
+_— David Hilbert_
+
 Modern mathematics is built on set theory. In Litex, to stay consistent with this foundation, whenever you declare a new object, you must also specify the set it belongs to.
 
 ```litex

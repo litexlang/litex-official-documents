@@ -1,8 +1,5 @@
 # Factual Statement: Math is About Deriving New Facts from Established Ones
 
-> *“Mathematics is nothing more than a game played according to certain simple rules with meaningless marks on a paper.”*
-> — David Hilbert
-
 ## What Is a Factual Statement?
 
 The most fundamental concept in both mathematics and **Litex** is the **Factual Statement**.

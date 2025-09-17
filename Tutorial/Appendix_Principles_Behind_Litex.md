@@ -1,8 +1,8 @@
 # Appendix: Principles Behind Litex
 
-_The most beautiful experience we can have is the mysterious. It is the fundamental emotion which stands at the cradle of true art and true science. Whoever does not know it and can no longer wonder, no longer marvel, is as good as dead and his eyes are dimmed._
+_Everyday spent on Litex is a day for new adventure._
 
-_-- Albert Einstein_
+_- Litex creator Jiachen Shen_
 
 This file contains principles behind Litex from the Litex creator. Read it for pleasure instead of for any practical purpose. My descriptions and wording here may be somewhat vague, because the development of the whole project is essentially the process of turning vague ideas into clear ones. In fact, vague ideas often hint at the possibility of many more directions for growth, which is not yet explored.
 

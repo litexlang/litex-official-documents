@@ -1,5 +1,11 @@
 # Everyday Math in Litex: Whatever everyday mathematics needs to express, Litex provides. No more, no less.
 
+_Programs must be written for people to read, and only incidentally for machines to execute._
+
+_— Abelson and Sussman, SICP, preface to the first edition_
+
+My favorite computer science book is Structure and Interpretation of Computer Programs (SICP). It is a classic book that introduces the fundamental concepts of computer science. The single most important idea it taught me is: Since human logic is written in the form of code, with programming languages as its medium, a good programming language should help you express logic, rather than letting the language itself overshadow it.
+
 Math is a difficult discipline. But the basic building blocks of forming a reasoning (or of math as a whole) are not actually complicated. For example, modern math is based on the ZFC axioms, which consist of only nine axioms. From these nine, we can derive the entire edifice of math we are familiar with. It is truly remarkable that such a vast structure can be built from so few tools. And precisely because these basic units of math are easy to understand, everyone—from elementary school students to professional mathematicians—possesses some fundamental reasoning ability.
 
 The goal of Litex is to write reasoning (or math in general) as code. Since no matter how complex a piece of reasoning (or math) is, it is always built from a set of basic units, what Litex needs to do is simply provide these fundamental building blocks. Below is how everyday mathematical expressions correspond to their Litex formulations.
