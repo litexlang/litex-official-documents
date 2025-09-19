@@ -1,4 +1,4 @@
-# Litex Syntax Cheatsheet
+# Litex Syntax Cheat Sheet
 
 ## Table of Contents
 1. [Basic Concepts](#basic-concepts)
@@ -31,6 +31,8 @@ Litex verifies statements through two methods:
 ## Object Declaration
 
 ### `have` - Safe Declaration
+Use `have` to declare an object with checking its existence.
+
 Basic usage:
 ```litex
 have a N, b Q, c R
@@ -40,6 +42,8 @@ From existential propositions:
 ```litex
 exist_prop x R st larger_than(y R): 
     x > y
+exist 2 st $larger_than(1)  # a $in R, a > 1
+    
 have a st $larger_than(1)  # a $in R, a > 1
 ```
 
@@ -50,11 +54,15 @@ have set one_to_five := {1,2,3,4,5}
 
 Subset definition:
 ```litex
+prop P(x R)
+
 have set s := x R:
     $P(x)
 ```
 
 ### `let` - Free Declaration
+Use `let` to declare an object without checking its existence.
+
 Basic usage:
 ```litex
 let n N, m N
@@ -138,15 +146,28 @@ exist_prop x R st larger_than_positive(y R):
 
 Proving existence:
 ```litex
+exist_prop x R st larger_than(y R):
+    x > y
+
 exist 3 st $larger_than(2)
 ```
 
 ### Fact Invocation
+
+Builtin proposition:
+```litex
+1 + 1 = 2
+1 != 2
+3 > 0
+```
+
 Prefix form:
 ```litex
 prop p(x R)
 
-$p(x)
+know $p(1)
+
+$p(1)
 ```
 
 Infix form (binary propositions only):
@@ -185,7 +206,8 @@ forall x R: x = 1 => not x = 2 <=> x != 2
 Multi-line form with equivalence:
 ```litex
 forall x R:
-    x = 1
+    dom:
+        x = 1
     =>:
         x != 2
     <=>:
@@ -254,7 +276,8 @@ With domain restrictions:
 ```litex
 fn f(x R) R:
     dom: x > 0
-    =>: f(x) > 0
+    =>:
+        f(x) > 0
 ```
 
 Inline definition:
@@ -270,13 +293,15 @@ have fn g(x R) R = x
 ### Function Templates
 Basic template:
 ```litex
-fn_template sequence(s set): fn (n N) s
+fn_template sequence(s set):
+    fn (n N) s
 ```
 
 With parameters:
 ```litex
 fn_template finite_sequence(s set, max N):
-    dom: max > 0
+    dom:
+        max > 0
     fn (n N) s:
         dom: n < max
 ```
