@@ -172,7 +172,7 @@ $p(1)
 
 Infix form (binary propositions only):
 ```litex
-x $in N
+1 $in N
 ```
 
 ```litex
@@ -275,7 +275,8 @@ fn f(x R) R: x > 0 => f(x) > 0
 With domain restrictions:
 ```litex
 fn f(x R) R:
-    dom: x > 0
+    dom:
+        x > 0
     =>:
         f(x) > 0
 ```
@@ -303,7 +304,8 @@ fn_template finite_sequence(s set, max N):
     dom:
         max > 0
     fn (n N) s:
-        dom: n < max
+        dom:
+            n < max
 ```
 
 Using templates:
@@ -336,52 +338,59 @@ not x <= 5
 Multi-line form:
 ```litex
 or:
-    x = 1
-    x = 2
+    1 = 1
+    1 = 2
 ```
 
 Inline form:
 ```litex
-or(x = 1, x = 2)
+or(1 = 1, 1 = 2)
 ```
 
 ### Equality
 Basic equality:
 ```litex
+let x, y R:
+    x = y
+
 x = y
+x + 1 = y + 1
 ```
 
 Multi-line equality:
 ```litex
 =:
-    x
-    y
-    z
+    1
+    2 - 1
+    1 * 1
 ```
 
 Inline equality:
 ```litex
-=(x, y, z)
+=(1, 2 - 1, 1 * 1)
 ```
 
 Numeric equality:
 ```litex
 1 + 1 = 2
-```
-
-```litex
 4 / 2 = 2
 ```
 
 ### Set Membership
 Explicit:
 ```litex
-x $in N
+2 $in N
 ```
 
 Implicit (in declarations):
 ```litex
 let x N  # equivalent to let x; know x $in N
+```
+
+Implicit (in forall facts):
+```litex
+forall x N:
+    x $in R
 ```
 
 ---
@@ -439,6 +448,11 @@ claim:
 
 ### Proof by Cases
 ```litex
+let a R:
+    or:
+        a = 1
+        a = 0
+
 prove_in_each_case:
     or(a = 0, a = 1)
     =>:
@@ -452,6 +466,7 @@ prove_in_each_case:
 ### Mathematical Induction
 ```litex
 prop p(x R, n N_pos)
+let x R
 know forall n N_pos: n >= 1, $p(x, n) => $p(x, n+1)
 know $p(x, 1)
 
@@ -491,16 +506,23 @@ Multiple statements:
 
 Inline forall:
 ```litex
-forall x R: x > 0 => x + 1 > 1
+forall x R: x > 0 => x > 0
 ```
 
 Inline or:
 ```litex
-or(x = 1, x = 2)
+know forall x R => or(x > 1, x = 1, x < 1)
+
+let x R
+or(x > 1, x = 1, x < 1)
 ```
 
 Inline equality:
 ```litex
+let x, y, z :
+    x = y
+    y = z
+
 =(x, y, z)
 ```
 
@@ -520,7 +542,7 @@ prop p(x R) <=> x > 0
 
 ### 1. Statement vs Expression
 ❌ Error: 1 is not a statement:
-```litex
+```
 1
 ```
 
@@ -531,7 +553,7 @@ prop p(x R) <=> x > 0
 
 ### 2. Undeclared Objects
 ❌ Error: x is not declared:
-```litex
+```
 x > 0
 ```
 
@@ -542,7 +564,7 @@ let x R: x > 0
 
 ### 3. Function Domain Violation
 ❌ Error: -1 doesn't satisfy domain condition:
-```litex
+```
 fn f(x R) R: x > 0 => f(x) > 0
 f(-1) > 0
 ```
@@ -555,23 +577,24 @@ f(x) > 0
 
 ### 4. Or Statement Execution Problem
 ❌ Error: cannot directly use universal facts:
-```litex
+```
 know forall x, y R: x * y = 0 => or(x = 0, y = 0)
 let a, b R: a * b = 0
 or(a = 0, b = 0)  # won't work
 ```
 
 ✅ Correct: use named universal facts:
-```litex
-know @product_zero_implies_or(x, y R):
+```
+know @product_zero_implies_or_zero(x, y R):
     x * y = 0
-    =>: or(x = 0, y = 0)
-$product_zero_implies_or(a, b)
+    =>:
+        or(x = 0, y = 0)
+$product_zero_implies_or_zero(a, b)
 ```
 
 ### 5. Duplicate Declaration
 ❌ Error: duplicate declaration of same object:
-```litex
+```
 let a N
 let a N  # error
 ```
@@ -583,7 +606,7 @@ let a, b N
 
 ### 6. Set Type Error
 ❌ Error: 1 is not a set:
-```litex
+```
 1 $in 1
 ```
 
@@ -594,7 +617,7 @@ let a, b N
 
 ### 7. Function Computation Misunderstanding
 ❌ Error: expecting function to compute specific values:
-```litex
+```
 fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) = 2  # error
 ```
@@ -613,7 +636,7 @@ square_root(4) $in R  # correct
 ## Built-in Sets and Operations
 
 ### Built-in Sets
-```litex
+```
 N        # natural numbers
 N_pos    # positive natural numbers
 Z        # integers
@@ -623,12 +646,12 @@ C        # complex numbers
 ```
 
 ### Built-in Functions
-```litex
+```
 + - * / % ^  # arithmetic operations
 ```
 
 ### Built-in Propositions
-```litex
+```
 = != > < >= <=  # comparison operations
 $in             # set membership
 ```
@@ -646,13 +669,10 @@ forall x Q => x $in R
 ### Sequence Templates
 ```litex
 # built-in sequence templates
-fn_template seq(s set): fn (n N) s
-fn_template finite_seq(s set, n N_pos):
-    fn (x N) s:
-        dom: x < n
-
-# usage
 let a seq(R), b finite_seq(Z, 10)
+
+a(1) $in R
+b(1) $in Z
 ```
 
 ---
