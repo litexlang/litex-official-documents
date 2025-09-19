@@ -1,0 +1,693 @@
+# Litex Syntax Cheatsheet
+
+## Table of Contents
+1. [Basic Concepts](#basic-concepts)
+2. [Object Declaration](#object-declaration)
+3. [Propositions and Facts](#propositions-and-facts)
+4. [Functions](#functions)
+5. [Logical Operators](#logical-operators)
+6. [Proof Strategies](#proof-strategies)
+7. [Inline Syntax](#inline-syntax)
+8. [Common Errors and Prevention](#common-errors-and-prevention)
+9. [Built-in Sets and Operations](#built-in-sets-and-operations)
+
+---
+
+## Basic Concepts
+
+### Statement Outcomes
+Every statement has three possible outcomes:
+- **true**: Statement is proven to be true
+- **unknown**: Insufficient information to determine truth value
+- **error**: Syntax error or invalid operation
+
+### Core Mechanism: Match and Substitution
+Litex verifies statements through two methods:
+1. **Special to Special**: Direct matching of known facts
+2. **General to Special**: Deriving specific instances from general rules
+
+---
+
+## Object Declaration
+
+### `have` - Safe Declaration
+Basic usage:
+```litex
+have a N, b Q, c R
+```
+
+From existential propositions:
+```litex
+exist_prop x R st larger_than(y R): 
+    x > y
+have a st $larger_than(1)  # a $in R, a > 1
+```
+
+Finite set enumeration:
+```litex
+have set one_to_five := {1,2,3,4,5}
+```
+
+Subset definition:
+```litex
+have set s := x R:
+    $P(x)
+```
+
+### `let` - Free Declaration
+Basic usage:
+```litex
+let n N, m N
+```
+
+With conditions:
+```litex
+let n, m N: n > 0, m > n
+```
+
+Multiple line usage:
+```litex
+let n, m N:
+    n > 0
+    m > n
+```
+
+System of equations:
+```litex
+let x, y R: 2*x + 3*y = 10, 4*x + 5*y = 14
+```
+
+Multiple line usage:
+```litex
+let x, y R:
+    2*x + 3*y = 10
+    4*x + 5*y = 14
+```
+
+Contradictory declarations (allowed but not recommended):
+```litex
+let a N: a = 2, a = 3
+```
+
+### Differences
+- **`have`**: Requires non-empty set, guarantees object existence
+- **`let`**: No existence check, allows arbitrary property binding
+
+---
+
+## Propositions and Facts
+
+### Proposition Definition
+Basic definition:
+```litex
+prop p(x R)
+```
+
+With equivalence condition:
+```litex
+prop p(x R): x > 0 <=> x + 1 > 1
+```
+
+With domain restrictions:
+```litex
+prop p(x R):
+    x > 0
+    <=>:
+        x + 1 > 1
+```
+
+Inline definition:
+```litex
+prop p(x R) <=> x > 0
+```
+
+### Existential Propositions
+Basic definition:
+```litex
+exist_prop x R st larger_than(y R):
+    x > y
+```
+
+definition with domain restrictions:
+```litex
+exist_prop x R st larger_than_positive(y R):
+    y > 0
+    <=>:
+        x > y
+```
+
+Proving existence:
+```litex
+exist 3 st $larger_than(2)
+```
+
+### Fact Invocation
+Prefix form:
+```litex
+prop p(x R)
+
+$p(x)
+```
+
+Infix form (binary propositions only):
+```litex
+x $in N
+```
+
+```litex
+prop divisible_by(x, y N):
+    y > 0
+    <=>:
+        x % y = 0
+
+6 $divisible_by 3
+```
+
+### Universal Facts
+Multi-line form:
+```litex
+forall x R:
+    x = 1
+    =>:
+        x = 1
+```
+
+Inline form:
+```litex
+forall x R: x = 1 => x = 1
+```
+
+With equivalence:
+```litex
+forall x R: x = 1 => not x = 2 <=> x != 2
+```
+
+Multi-line form with equivalence:
+```litex
+forall x R:
+    x = 1
+    =>:
+        x != 2
+    <=>:
+        not x = 2
+```
+
+### Know a Fact
+
+Inline form:
+```litex
+let x R
+know x > 0, x != 2, forall y R: y > 5 => y > x
+```
+
+Multi-line form:
+```litex
+let x R
+know:
+    x > 0
+    x != 2
+    forall y R:
+        y > 5
+        =>:
+            y > x
+```
+
+### Named Universal Facts
+Using @ symbol:
+```litex
+know @transitivity_of_less(a, b, c R):
+    a < b
+    b < c
+    =>:
+        a < c
+```
+
+Equivalent to:
+```litex
+prop transitivity_of_less(a, b, c R):
+    a < b
+    b < c
+
+know:
+    forall a, b, c R:
+        $transitivity_of_less(a, b, c)
+        =>:
+            a < c
+    forall a, b, c R:
+        a < b
+        b < c
+        =>:
+            a < c
+```
+
+---
+
+## Functions
+
+### Function Definition
+Basic definition:
+```litex
+fn f(x R) R: x > 0 => f(x) > 0
+```
+
+With domain restrictions:
+```litex
+fn f(x R) R:
+    dom: x > 0
+    =>: f(x) > 0
+```
+
+Inline definition:
+```litex
+fn f(x R) R: x > 0 => f(x) > 0
+```
+
+With existence guarantee:
+```litex
+have fn g(x R) R = x
+```
+
+### Function Templates
+Basic template:
+```litex
+fn_template sequence(s set): fn (n N) s
+```
+
+With parameters:
+```litex
+fn_template finite_sequence(s set, max N):
+    dom: max > 0
+    fn (n N) s:
+        dom: n < max
+```
+
+Using templates:
+```litex
+let a sequence(R), b finite_sequence(Z, 10)
+```
+
+### Function Calls
+Function definition:
+```litex
+fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
+```
+
+Function call (note: doesn't compute specific values):
+```litex
+square_root(4) $in R
+```
+
+---
+
+## Logical Operators
+
+### Negation
+```litex
+let x R: x > 5
+not x <= 5
+```
+
+### Disjunction
+Multi-line form:
+```litex
+or:
+    x = 1
+    x = 2
+```
+
+Inline form:
+```litex
+or(x = 1, x = 2)
+```
+
+### Equality
+Basic equality:
+```litex
+x = y
+```
+
+Multi-line equality:
+```litex
+=:
+    x
+    y
+    z
+```
+
+Inline equality:
+```litex
+=(x, y, z)
+```
+
+Numeric equality:
+```litex
+1 + 1 = 2
+```
+
+```litex
+4 / 2 = 2
+```
+
+### Set Membership
+Explicit:
+```litex
+x $in N
+```
+
+Implicit (in declarations):
+```litex
+let x N  # equivalent to let x; know x $in N
+```
+
+---
+
+## Proof Strategies
+
+### Claims and Proofs
+Basic claim:
+```
+claim:
+    fact_to_prove
+    prove:
+        # proof steps
+```
+
+Example:
+```litex
+claim:
+    forall x R:
+        x = 1
+        =>:
+            x > 0
+    prove:
+        1 > 0
+        x > 0
+```
+
+```litex
+let a, b, c, d R: 
+    a = c
+    b = d
+    a + 2 * b + 3 * c + 2 = 3 * d + 4 * b + 5 * c + 6
+
+claim:
+    c + 2 * d + 3 * c + 2 = 3 * b + 4 * d + 5 * c + 6
+    prove:
+        a + 2 * b + 3 * c + 2 = 3 * d + 4 * b + 5 * c + 6
+        a + 2 * b + 3 * c + 2 = c + 2 * d + 3 * c + 2
+        c + 2 * d + 3 * c + 2 = 3 * b + 4 * d + 5 * c + 6
+```
+
+### Proof by Contradiction
+```litex
+prop p(x R)
+prop q(x R)
+know not $q(1)
+know forall x R: $p(x) => $q(x)
+
+claim:
+    not $p(1)
+    prove_by_contradiction:
+        $p(1)
+        $q(1)
+```
+
+### Proof by Cases
+```litex
+prove_in_each_case:
+    or(a = 0, a = 1)
+    =>:
+        a >= 0
+    prove:
+        0 >= 0
+    prove:
+        1 >= 0
+```
+
+### Mathematical Induction
+```litex
+prop p(x R, n N_pos)
+know forall n N_pos: n >= 1, $p(x, n) => $p(x, n+1)
+know $p(x, 1)
+
+prove_by_induction($p(x, n), n, 1)
+```
+
+### Proof over Finite Set
+```litex
+prop p(x R)
+have set s := {1, 2, 3}
+
+prove_over_finite_set:
+    forall x s:
+        x > 0
+    prove:
+        1 > 0
+    prove:
+        2 > 0
+    prove:
+        3 > 0
+```
+
+---
+
+## Inline Syntax
+
+### General Rules
+- Specific facts end with `,`
+- Universal facts end with `;`
+- Final statement punctuation is optional
+
+### Inline Examples
+Multiple statements:
+```litex
+1 > 0, forall x R => x $in R; 2 > 1
+```
+
+Inline forall:
+```litex
+forall x R: x > 0 => x + 1 > 1
+```
+
+Inline or:
+```litex
+or(x = 1, x = 2)
+```
+
+Inline equality:
+```litex
+=(x, y, z)
+```
+
+Inline function:
+```litex
+fn f(x R) R: x > 0 => f(x) > 0
+```
+
+Inline proposition:
+```litex
+prop p(x R) <=> x > 0
+```
+
+---
+
+## Common Errors and Prevention
+
+### 1. Statement vs Expression
+❌ Error: 1 is not a statement:
+```litex
+1
+```
+
+✅ Correct: 1 = 1 is a statement:
+```litex
+1 = 1
+```
+
+### 2. Undeclared Objects
+❌ Error: x is not declared:
+```litex
+x > 0
+```
+
+✅ Correct: declare first:
+```litex
+let x R: x > 0
+```
+
+### 3. Function Domain Violation
+❌ Error: -1 doesn't satisfy domain condition:
+```litex
+fn f(x R) R: x > 0 => f(x) > 0
+f(-1) > 0
+```
+
+✅ Correct: ensure parameters satisfy domain:
+```litex
+let x R: x > 0
+f(x) > 0
+```
+
+### 4. Or Statement Execution Problem
+❌ Error: cannot directly use universal facts:
+```litex
+know forall x, y R: x * y = 0 => or(x = 0, y = 0)
+let a, b R: a * b = 0
+or(a = 0, b = 0)  # won't work
+```
+
+✅ Correct: use named universal facts:
+```litex
+know @product_zero_implies_or(x, y R):
+    x * y = 0
+    =>: or(x = 0, y = 0)
+$product_zero_implies_or(a, b)
+```
+
+### 5. Duplicate Declaration
+❌ Error: duplicate declaration of same object:
+```litex
+let a N
+let a N  # error
+```
+
+✅ Correct: use different names or reuse:
+```litex
+let a, b N
+```
+
+### 6. Set Type Error
+❌ Error: 1 is not a set:
+```litex
+1 $in 1
+```
+
+✅ Correct: use a set:
+```litex
+1 $in N
+```
+
+### 7. Function Computation Misunderstanding
+❌ Error: expecting function to compute specific values:
+```litex
+fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
+square_root(4) = 2  # error
+```
+
+✅ Correct: understand functions return symbols:
+```litex
+square_root(4) $in R  # correct
+```
+
+### 8. Never use undefined symbols
+<!-- forall, exist, not equal -->
+❌ Error: undefined symbols: ×, ÷, ≠, ≈, ≤, ≥, ∈, ∉, ⊆, ∪, ∩, ∀, ∃, ⇒, ⇔, ∞, ∑, ∏ do not appear in Litex. Use standard *, /, !=, <=, >=, $in, forall, exist, not equal, ... instead
+
+---
+
+## Built-in Sets and Operations
+
+### Built-in Sets
+```litex
+N        # natural numbers
+N_pos    # positive natural numbers
+Z        # integers
+Q        # rational numbers
+R        # real numbers
+C        # complex numbers
+```
+
+### Built-in Functions
+```litex
++ - * / % ^  # arithmetic operations
+```
+
+### Built-in Propositions
+```litex
+= != > < >= <=  # comparison operations
+$in             # set membership
+```
+
+### Built-in Facts
+```litex
+# numeric facts
+1 + 1 = 2
+17 $in N
+-47 + 17 $in Z
+17.17 $in Q
+forall x Q => x $in R
+```
+
+### Sequence Templates
+```litex
+# built-in sequence templates
+fn_template seq(s set): fn (n N) s
+fn_template finite_seq(s set, n N_pos):
+    fn (x N) s:
+        dom: x < n
+
+# usage
+let a seq(R), b finite_seq(Z, 10)
+```
+
+---
+
+## Package Management
+
+### Import Files
+```litex
+import "file.lix"
+```
+
+```litex
+import "folder/file.lix"
+```
+
+### Import Packages
+```litex
+import "Package"
+```
+
+```litex
+import "Package" as p
+```
+
+### Using Package Contents
+```
+Package::obj_1
+```
+
+---
+
+## Comments
+
+Single-line comment:
+```litex
+# single line comment
+```
+
+Multi-line comment:
+```litex
+"""
+multi-line comment
+multi-line comment
+multi-line comment
+"""
+```
+
+---
+
+## Best Practices
+
+1. **Use `have` instead of `let`** when you need to guarantee object existence
+2. **Name universal facts** using `@` symbol to improve readability
+3. **Inline syntax** for simplifying simple expressions
+4. **Proof by cases** for handling complex logical branches
+5. **Function templates** for defining families of similar functions
+6. **Avoid contradictory declarations** unless defining axioms
+7. **Understand match and substitution** - this is Litex's core mechanism
+8. **Use comments** to improve code readability
+
+---
+
+*This cheatsheet is based on the Litex tutorial and covers the core syntax and common usage patterns of Litex.*
