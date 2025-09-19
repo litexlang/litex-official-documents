@@ -195,3 +195,27 @@ w(b)(z)(d)(g, s, m, m)(17) $in has_very_special_meanings
 ```
 
 `w` is in template `T0(1)`, so `w(b)` is in template `T1(1)`, so `w(b)(z)` is in template `T2(1)`, so `w(b)(z)(d)` is in template `T3(1)`, so `w(b)(z)(d)(g, s, m, m)` is in template `T4(1)`. 1 satisfies `n >= 1` so that `T0(1)` is valid. 1 satisfies `n $in N`, so that `T1(1)` is valid. 1 satisfies `n $in N_pos`, so that `T2(1)` is valid. 1 satisfies `n < 10`, so that `T3(1)` is valid. 
+
+Another example.
+
+```litex
+fn compose(set1, set2, set3 nonempty_set, f fn(set2) set3, g fn(set1) set2) fn(set1) set3:  
+    forall x set1:  
+        compose(set1, set2, set3, f, g)(x) = f(g(x))
+
+claim:  
+    @function_composition_associativity(S_1, S_2, S_3, S_4 nonempty_set, f fn(S_3) S_4, g fn(S_2) S_3, h fn(S_1) S_2, x S_1):    
+        compose(S_1, S_3, S_4, f, compose(S_1, S_2, S_3, g, h))(x) = compose(S_1, S_2, S_4, compose(S_2, S_3, S_4, f, g), h)(x)
+    prove:
+        compose(S_1, S_2, S_3, g, h) $in fn(S_1) S_3
+        =:
+            compose(S_1, S_3, S_4, f, compose(S_1, S_2, S_3, g, h))(x)
+            f(compose(S_1, S_2, S_3, g, h)(x))
+            f(g(h(x)))
+        =:
+            compose(S_1, S_2, S_4, compose(S_2, S_3, S_4, f, g), h)(x)
+            compose(S_2, S_3, S_4, f, g)(h(x))
+            f(g(h(x)))
+```
+
+This example is the definition of function composition. It says that the composition of three functions is associative.

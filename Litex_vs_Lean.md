@@ -96,7 +96,6 @@ I know Lean can use tactics to solve the same problem, and it is shorter. Litex 
 
 There is another way to write the same example in Litex, a bottom-up way.
 
-
 <table style="border-collapse: collapse; width: 100%; font-size: 12px">
   <tr>
     <th style="border: 2px solid black; padding: 4px; text-align: left; width: 40%;">Litex</th>
@@ -275,3 +274,5 @@ This example means: Define a group, and prove `R` is a group. (本例是一个�
 </table>
 
 In 2025, the number of mathematicians who use formal languages only takes less than 1 percent of the total number of mathematicians. The goal of Litex is not only to raise this proportion, but more importantly to enable non-mathematics practitioners — such as AI researchers, professionals in science and engineering, educators, and even children who are just beginning to explore mathematics — to experience the joy of math and logic through Litex, as well as the boundless potential that comes from combining reasoning with computing.
+
+Litex is different from Lean. When defining concepts, Lean starts from the very bottom and gradually builds up to common mathematical notions. In contrast, Litex allows you to begin from any level of abstraction you care about. This means users can start doing mathematics in Litex right away without worrying about things they are not interested in. As a result, Litex is much easier for newcomers to pick up, and developing its standard library is also more straightforward.
