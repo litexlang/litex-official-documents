@@ -142,7 +142,15 @@ x ^ 2 = x * x
 (x ^ 2 * y + y ^ 2) / y = x ^ 2 + y
 ```
 
-## Multiline Equation
+## Multi Equation
+
+It's very common to write multiple equations in a single line. For example:
+
+```litex
+let x, y R: x = -4, y = 6
+2 * x + 3 * y =  2 * -4 + 3 * 6 = 10
+4 * x + 5 * y = 4 * -4 + 5 * 6 = 14
+```
 
 Litex provides `=:` to express a multiline equation:
 
@@ -160,15 +168,7 @@ let x, y R:
     14
 ```
 
-You can also write it in a single line:
-
-```litex
-let x, y R: x = -4, y = 6
-=(2 * x + 3 * y, 2 * -4 + 3 * 6, 10)
-=(4 * x + 5 * y, 4 * -4 + 5 * 6, 14)
-```
-
-`=:` and ` =()` are the syntax sugar for `=`. The following two pieces of code are equivalent:
+`=:` and `.. = .. = .. = ..` are the syntax sugar for `=`. The following two pieces of code are equivalent:
 
 ```litex
 let veryLongSymbol, veryLongSymbol2, veryLongSymbol3, veryLongSymbol4, veryLongSymbol5, veryLongSymbol6 R:
@@ -190,4 +190,4 @@ let veryLongSymbol, veryLongSymbol2, veryLongSymbol3, veryLongSymbol4, veryLongS
         veryLongSymbol6
 ```
 
-As you can see, `=:` and `=()` saves you from writing a lot of `=` statements. This is especially useful when you are writing a long equation and using transitivity of equality to prove equality.
+As you can see, `=:` and `.. = .. = .. = ..` saves you from writing a lot of `=` statements. This is especially useful when you are writing a long equation and using transitivity of equality to prove equality.
