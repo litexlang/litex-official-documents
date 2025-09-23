@@ -190,4 +190,8 @@ let veryLongSymbol, veryLongSymbol2, veryLongSymbol3, veryLongSymbol4, veryLongS
         veryLongSymbol6
 ```
 
+```litex
+let veryLongSymbol, veryLongSymbol2, veryLongSymbol3, veryLongSymbol4, veryLongSymbol5, veryLongSymbol6 R: veryLongSymbol = veryLongSymbol2 = veryLongSymbol3 = veryLongSymbol4 = veryLongSymbol5 = veryLongSymbol6 
+```
+
 As you can see, `=:` and `.. = .. = .. = ..` saves you from writing a lot of `=` statements. This is especially useful when you are writing a long equation and using transitivity of equality to prove equality.
