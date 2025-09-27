@@ -138,6 +138,39 @@ There is another way to write the same example in Litex, a bottom-up way.
   </tr>
 </table>
 
+It's very hard to prove `if x = 2 or x = -2, then x ^ 2 = 4` in Lean, because you have to remember so many strange tactic names like `rcases`, `rw`, `rfl`, `sorry` etc (The proof here is actually not complete, because `sorry` is used to avoid the proof of `-2 * -2 = 4`!!). In Litex, things are much more straightforward: it's a simple proof by cases.
+
+<table style="border-collapse: collapse; width: 100%; font-size: 12px">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean 4</th>
+  </tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5;">
+       <code>claim:</code><br>
+       <code>&nbsp;&nbsp;forall x R: or(x = 2, x = -2) => x ^ 2 = 4</code><br>
+       <code>&nbsp;&nbsp;prove:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;prove_in_each_case:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or(x = 2, x = -2)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x ^ 2 = 4</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prove:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 ^ 2 = 4</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prove:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-2 ^ 2 = 4</code><br>
+       <code></code><br>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5;">
+       <code>&nbsp;theorem my_theorem (x : ℤ) (h : x = 2 ∨ x = -2) : x * x = 4 := by</code><br>
+       <code>&nbsp;&nbsp;rcases h with ha | hb</code><br>
+       <code>&nbsp;&nbsp;. rw [ha]</code><br>
+       <code>&nbsp;&nbsp;&nbsp;rfl</code><br>
+       <code>&nbsp;&nbsp;. have my_lemma : -2 * -2 = 4 := by sorry</code><br>
+       <code>&nbsp;&nbsp;&nbsp;rw [hb] ; exact my_lemma</code><br>
+       <code></code><br>
+    </td>
+  </tr>
+</table>
+
 
 Next we prove `sqrt(2) is irrational`. Since the standard library is not yet implemented, we have to define the log function ourselves for now. Note that how easy it is to define a new concept in Litex. You do not have to start from a very low level concept and build up to a higher level concept. You can define a new concept directly.
 
