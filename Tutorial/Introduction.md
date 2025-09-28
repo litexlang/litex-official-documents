@@ -1,5 +1,9 @@
 # Introduction: Begin the journey with Litex
 
+_千里之行，始于足下。(The journey of a thousand miles begins with one step.)_
+
+_老子(Lao Tzu)_
+
 ## What is Litex
 
 Litex(/lɪ'tɛks/) is an intuitive and scalable formal language for coding your reasoning. Litex takes its name from the combination of two languages that deeply influenced its design: Lisp and TeX. Since 2024, Litex has been developed in parallel with its design by its creator Jiachen Shen, and through continuous evolution it has now grown into a community-driven project open to everyone.
@@ -140,3 +144,9 @@ The purpose of this slim tutorial is:
 Don't forget to run the examples yourself! You can learn much much faster if you read and write the examples yourself!
 
 The best way to learn Litex is to try writing the examples from the tutorial yourself, or translate the mathematics (or reasoning) you care about into Litex.
+
+## Special Thanks
+
+Hi, I’m Jiachen Shen, creator of Litex. It is so fortunate to receive tremendous help from friends and colleagues throughout this journey of designing, implementing, and growing Litex into a community. Without their support, Litex would not have had the chance to succeed.
+
+I owe special thanks to my friend Zhaoxuan Hong, who built Litex’s powerful toolchains and has supported the project from the very beginning. I am also deeply grateful to Siqi Sun, Wei Lin, Peng Sun, Jie Fu, Zeyu Zheng, Huajian Xin, Zijie Qiu, Siqi Guo, Haoyang Shi, Chengyang Zhu, Chenxuan Huang for their invaluable contributions. I am certain this list of special thanks will only grow longer in the future.
