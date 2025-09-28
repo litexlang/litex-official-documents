@@ -677,5 +677,4 @@ know @exist n R, c point st exist_finite_line_of_direction_and_length(a point, b
 # All the axioms are formalized except the axiom of line completeness, which will be implemented as part of the standard library in the future.
 
 # End of the Formalization.
-
 ```

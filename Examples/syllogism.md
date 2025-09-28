@@ -6,5 +6,4 @@ have human nonempty_set, Jordan human
 prop intelligent(x human)
 know forall x human => $intelligent(x)
 $intelligent(Jordan)
-
 ```

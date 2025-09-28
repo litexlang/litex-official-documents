@@ -15,6 +15,7 @@ integer for which x_k is in S, and in this case it is said to produce the output
 
 """
 
+
 # Definition of computational sequence
 fn comp_seq(D set, f fn(D)D) fn(D, N)D:
     forall x D, n N:
@@ -109,5 +110,4 @@ by
 Comments:
 It only takes only 10 lines to formalize the definition of algorithm, which is marvelous.
 """
-
 ```

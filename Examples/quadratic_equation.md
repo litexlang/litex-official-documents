@@ -36,5 +36,4 @@ claim:
                 x + a - sqrt(a^2 - b) + (-a + sqrt(a^2 - b)) = 0 + (-a + sqrt(a^2 - b))
                 x = 0 + (-a + sqrt(a^2 - b))
                 x = -a + sqrt(a^2 - b)
-
 ```
