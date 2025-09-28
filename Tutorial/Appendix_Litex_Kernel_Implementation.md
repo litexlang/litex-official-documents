@@ -60,4 +60,17 @@ forall x R, y R:
         z $in R
 ```
 
-2. 
+2. There is no infinite verification loop in Litex
+
+For example, consider the following code:
+
+```litex
+prop p(x R)
+prop q(x R)
+know forall x R => $p(x) <=> $q(x)
+$p(1)
+```
+
+Since Litex searches related facts using `match and substitution`, it finds that if we can prove $q(1) is true then $p(1) is true. So we prove $q(1). Then we find that if we can prove $p(1) is true then $q(1) is true. So we prove $p(1). This is a loop. It happens when two facts are equivalent.
+
+This won't happen in Litex. Litex just searches 2 rounds of related `forall` facts. So even if we have a loop, it will end after 2 rounds. (Number 2 is equal to the depth of maximum `forall` depth, this is not a coincidence, it's by design.)
