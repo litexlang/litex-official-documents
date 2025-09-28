@@ -367,7 +367,7 @@ Multi-line equality:
 
 Inline equality:
 ```litex
-=(1, 2 - 1, 1 * 1)
+1 = 2 -1 = 1 * 1
 ```
 
 Numeric equality:
