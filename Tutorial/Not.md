@@ -32,3 +32,12 @@ exist_prop x N_pos st exist_positive_natural_number_smaller_than_given_real_numb
 
 know not $exist_positive_natural_number_smaller_than_given_real_number(0)
 ```
+
+`!=` means `not =`. For example:
+
+```litex
+let little_little_o, little_o R:
+    little_little_o != little_o
+
+not little_little_o = little_o # true
+```

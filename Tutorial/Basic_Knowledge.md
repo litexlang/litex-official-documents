@@ -12,7 +12,7 @@ You can use them without any special declaration. Litex has built-in support for
 ```litex
 1 + 1 = 2
 0 * 4 + (9 - 3) * (2 - 1) = 6
-2 != 3
+2 != 3 # inequality, equivalent to `not 2 = 3`
 3 > 0
 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = 55
 ```
@@ -30,6 +30,23 @@ For example:
 ```litex
 have x R, y R, z R
 (x + z * z) * (x + 7 * y) = x * x + 7 * y * x + z * x * z + y * (3 + 4) * z * z
+```
+
+Litex has these common facts built in, since it can verify them automatically through simple polynomial expansion and combination.
+
+```litex
+forall a, b, c R => (a + b) * c = a * c + b * c
+forall a, b, c R => (a - b) * c = a * c - b * c
+forall a, b, c R => a * (b - c) = a * b - a * c
+forall a, b, c R => a * (b + c) = a * b + a * c
+forall a, b, c, d R => (a + b) * (c + d) = a * c + a * d + b * c + b * d
+forall a, b, c, d R => (a - b) * (c - d) = a * c - a * d - b * c + b * d
+forall a, b, c, d R => (a - b) * (c + d) = a * c + a * d - b * c - b * d
+forall a, b, c, d R => (a + b) * (c - d) = a * c + b * c - a * d - b * d
+forall a, b, c R => (a + b) + c = a + (b + c)
+forall a, b, c R => (a - b) - c = a - (b + c)
+forall a, b, c R => (a * b) * c = a * (b * c)
+forall a, b R => a * b = b * a, a + b = b + a
 ```
 
 ## Basic Set
