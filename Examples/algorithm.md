@@ -1,6 +1,6 @@
 ```litex
 """
-algorithm.lix
+algorithm.lit
 
 Goal:
 Formalize mathematical definition of algorithm from the book "The Art of Computer Programming" chapter 1.
