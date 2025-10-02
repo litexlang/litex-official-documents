@@ -1,5 +1,9 @@
 # Inline Statements
 
+_Design and programming are human activities; forget that and all is lost._
+
+_-- Bjarne Stroustrup_
+
 In the previous sections, we are exploring how to map mathematical expressions to Litex statements. You can see Litex is a very intuitive language because it maps mathematical concepts directly to Litex statements.
 
 People are always more receptive to things they’re familiar with. That’s why Litex adopts Python-style syntax, using line breaks to structure code. This not only keeps the code organized but also lowers the learning curve for users.

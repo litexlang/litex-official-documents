@@ -28,10 +28,6 @@ __-- Donald Knuth__
 
 ## Keywords: Everything Happens Around Them
 
-_Design and programming are human activities; forget that and all is lost._
-
-_-- Bjarne Stroustrup_
-
 The keywords in Litex are almost identical in meaning and usage to the commonly used ones in mathematics. This makes writing in Litex a very pleasant experience.
 
 | Keyword | Meaning |

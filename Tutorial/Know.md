@@ -1,8 +1,14 @@
 # Know: Use It Wisely
 
-## Use `know` to Assume Facts
+_Faith is taking the first step without seeing the whole staircase._
 
-Often we need to assume certain facts instead of proving them. For example, when introducing a new object with specific properties, or when using a theorem as a premise without going through its full proof. In such cases, we use the `know` keyword.
+_— Martin Luther King, Jr._
+
+Math, is about deriving new facts from a very small set of facts. The facts we are agree with are called axioms. In Litex, we use `know` to assume facts that are agreed with. Just like faith and belief is priceless is our life, the census of facts we agree with is the most precious thing in math. In fact, the search of a truly solid foundation of math, the ultimate set of axioms we all agree with and still powerful enough to build all of math, took thousands of years before Cantor finally established the set theory.
+
+In other words, those `known` facts are the fist step of math without seeing the whole staircase.
+
+Besides assuming axioms, we often need to assume certain facts instead of proving them. For example, when introducing a new object with specific properties, or when using a theorem as a premise without going through its full proof. In such cases, we use the `know` keyword. Afterall, any math problem is just giving you a bunch of known facts and asking you to derive new facts from them! You must be very familiar with this process.
 
 There are two ways to use `know`: **multi-line** and **inline**.
 

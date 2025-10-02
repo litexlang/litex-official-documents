@@ -1,4 +1,4 @@
-# Import and folderA Management
+# Import and Package Management
 
 _The value of an idea lies in the using of it._
 

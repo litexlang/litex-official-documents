@@ -1,5 +1,9 @@
 # Function: The Glue of Symbols
 
+_Function: a mathematical correspondence that assigns exactly one element of one set to each element of the same or another set_
+
+_— Merriam-Webster Dictionary_
+
 Functions are among the most fundamental concepts in mathematics.
 Litex, as a **non-Turing-complete domain language** designed purely for reasoning, treats functions in a way that is quite different from programming languages like Python or C.
 

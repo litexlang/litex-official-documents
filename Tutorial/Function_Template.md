@@ -4,7 +4,7 @@ _Generic programming centers around the idea of abstracting from concrete, effic
 
 _— Musser, David R.; Stepanov, Alexander A., Generic Programming_
 
-Function templates are one the most powerful features in Litex, inspired by template (generic programming) in C++ and TypeScript. They are the blueprint of functions. Introduction of function template makes sequence, matrix, product of sets, and some of the most widely used concepts in math easy to define in Litex.
+Function templates are one the most powerful features in Litex, inspired by template (generic programming) in C++. They are the blueprint of functions. Introduction of function template makes sequence, matrix, product of sets, and some of the most widely used concepts in math easy to define in Litex.
 
 ## What is a Function Template?
 
