@@ -1,6 +1,7 @@
 # First Example
 
 _“If you define the problem correctly, you almost have the solution.”_
+
 _— Steve Jobs_
 
 Mathematics is the art of deriving new facts from established ones. To illustrate, let’s start with a classical syllogism proposed by Aristotle, which formalizes deductive reasoning.

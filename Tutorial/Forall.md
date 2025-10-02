@@ -1,5 +1,9 @@
 # Forall Statements: Force enabling reasoning to expand infinitely
 
+_Deduction: inference in which the conclusion about particulars follows necessarily from general or universal premises._
+
+_— Merriam-Webster Dictionary_
+
 Mathematics is fundamentally about deducing new facts from previously established ones. Among these, **universal facts** (statements beginning with `forall`, also called `forall` statements) play a central role: they allow us to derive infinitely many specific instances.
 
 For example, the universal statement

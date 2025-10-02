@@ -1,8 +1,8 @@
 # Factual Statement: Math is About Deriving New Facts from Established Ones
 
-_Deduction: inference in which the conclusion about particulars follows necessarily from general or universal premises._
+_There is nothing without a reason._
 
-_— Merriam-Webster Dictionary_
+_— Leibniz_
 
 Math is about deriving new facts from established ones. Such process is called deduction (also called inference, reasoning) and can be verified by a very small set of mechanical rules. Thus, we can write a computer program like Litex to verify the correctness of a piece of reasoning. Easy, right?
 
