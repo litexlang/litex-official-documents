@@ -1,5 +1,30 @@
 # Exist
 
+_The beginning is the most important part of the work._
+
+_-— Plato_
+
+## Key Difference between Math and Programming: You must prove the existence of an object before using it.
+
+When programming, say in Python, we are so familiar with declaring an object directly and using it directly. For example:
+
+```python
+x = 1
+print(x)
+```
+
+However, in math, we are not allowed to use an object directly without proving its existence. For example, many new-comers of Litex may try to write the following code:
+
+```litex
+let x R:
+    x = 2
+    x + 1 = 5
+```
+
+The code runs, but you might be confused by `x = 2` and `x = 4` are both true. This is because Litex does not check the existence of `x` when you are using keyword `let` to declare an object.
+
+To overcome this unsafe declaration, Litex introduces the keyword `exist` and `have`.
+
 ## What is an existential proposition
 
 In logic and mathematics, an **existential proposition** is a statement asserting that *there exists at least one object for which a certain property holds*. It is usually written as:

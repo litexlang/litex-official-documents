@@ -1,6 +1,6 @@
 # Appendix: Principles Behind Litex
 
-_Everyday spent on Litex is a day for new adventure._
+_Everyday spent on Litex is another good day to explore new adventures._
 
 _- Litex creator Jiachen Shen_
 
