@@ -1,5 +1,11 @@
 # Proposition: The Verbs of Logic
 
+_Objects are typically noun phrases. Objects normally follow the verb in a clause._
+
+_— Cambridge Dictionary_
+
+Math is the language of reasoning. Since it is a language, any sentence of it is composed of some objects (nouns) and a verb (proposition). For example, `1 + 1 = 2` is composed of object `1 + 1`, object `2`, and verb `=`. A verb, in a mathematical sentence, is called proposition, at least in Litex. The result of any sentence is either true, unknown, or error. Notice `+` is not considered a proposition, because it is a function, and there is no such thing as `1 + 1` is true or unknown.
+
 A proposition is something that can be true or false — it’s a general statement form, often involving variables or placeholders. A factual statement is a proposition with all variables replaced by concrete values (or otherwise fully specified) so that its truth value is determined in a given context.
 
 For example
