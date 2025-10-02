@@ -1,4 +1,4 @@
-# Ideas behind Litex
+# Ideas Behind Litex
 
 _三人行，必有我师焉。(There must be someone I can learn from among the three people I walk with.)_
 
@@ -26,7 +26,7 @@ Litex, as a domain language, takes advantage of the difference between programmi
 
 **Litex’s syntax is simplified to such an extreme that it is nearly impossible for any language to be closer to mathematics.** Traditional formal languages (Lean, Coq, etc.), are programming languages, no different from Python. They may be easier than Python for expressing mathematics, but they are still too complex. Being a programming language sort of robbed you of the joy of exploring mathematics by forcing you to spend most of your time wrestling with the formal language itself. Litex brings that joy back!
 
-# Everyday Math in Litex: Whatever everyday mathematics needs to express, Litex provides. No more, no less.
+## Everyday Math in Litex: Whatever everyday mathematics needs to express, Litex provides. No more, no less.
 
 _Programs must be written for people to read, and only incidentally for machines to execute._
 
