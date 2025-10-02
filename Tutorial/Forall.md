@@ -203,3 +203,29 @@ forall x, y R:
 Wait, why `7 = 8` is true without any contradiction?
 
 The answer is that the requirements in the universal fact are wrong. There is no such `x` and `y` that satisfies the requirements. The reason why validation won't cause any trouble is, no such `x` and `y` exists that can match the requirements of the universal fact. So the newly verified fact will never be used to verify other facts.
+
+## Conditional Universal Facts
+
+Sometimes, you want to express a universal fact without universal parameters. For example:
+
+```litex
+have x R
+
+forall:
+    x = 1
+    =>:
+        x = 1 * 1
+```
+
+Notice that no extra parameters are needed in the universal fact. What we are doing is: assuming a parameter defined else-where (not in the scope of the universal fact) and assuming it satisfies the requirements of the universal fact. This is very similar to `if` statement in programming languages. We actually allow you to use keyword `if` to do so in Litex:
+
+```litex
+have x R
+
+if:
+    x = 1
+    =>:
+        x = 1 * 1
+```
+
+This looks much natural and readable, right?
