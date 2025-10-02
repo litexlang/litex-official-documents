@@ -23,7 +23,7 @@ let x R:
 
 The code runs, but you might be confused by `x = 2` and `x = 4` are both true. This is because Litex does not check the existence of `x` when you are using keyword `let` to declare an object.
 
-To overcome this unsafe declaration, Litex introduces the keyword `exist` and `have`.
+To overcome this unsafe declaration, Litex introduces the keyword `exist` and `have`. `exist` represents an existential fact, and `have` represents a declaration of an object with existential promise.
 
 ## What is an existential proposition
 

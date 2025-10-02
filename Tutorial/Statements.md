@@ -43,6 +43,14 @@ You can not just write `1` and expect it to be true. `1` is  not a statement. Yo
 1 = 1
 ```
 
+Besides factual statements, which outputs true, unknown, or error, Litex also has other types of statements, such as declaration of objects, definition of propositions, know a fact, etc. These statements are neither right nor wrong — they are not something to be proved. As long as they run properly, they output true; otherwise, they produce an error.
+
+```litex
+have a R # declaration of objects
+prop p(x R) # definition of propositions
+know a > 0 # assertion of facts
+```
+
 Notice that these three kinds of outputs are produced by the Litex kernel **to the outside world of Litex**. They are not passed along to other Litex statements. This is different from programming: in programming, a statement’s output can often be used as the input of another statement (for example, in Python the result of `1 != 2` can be stored in a variable, and that variable can then be passed as a parameter to another statement). Just like the song "Hotel California" says: "You can checkout any time you like but you can never leave.", you can see whether a statement is true, unknown, or error by yourself, but that return value of the statement is not passed along to other statements.
 
 This design actually makes sense. When a human is reasoning about mathematics, they see a sentence, and the outcome of that sentence (whether it’s correct, incorrect, or ill-formed) is registered in their mind—rather than being written down as an intermediate value for the next sentence to consume.

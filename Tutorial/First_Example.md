@@ -1,8 +1,8 @@
 # First Example
 
-_“If you define the problem correctly, you almost have the solution.”_
+_万物之始，大道至简，衍化至繁. (All begins in simplicity; the Way is simple, yet gives rise to the complex.)_
 
-_— Steve Jobs_
+_-- 老子 (Lao Tzu)_
 
 Mathematics is the art of deriving new facts from established ones. To illustrate, let’s start with a classical syllogism proposed by Aristotle, which formalizes deductive reasoning.
 
