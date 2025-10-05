@@ -311,3 +311,41 @@ claim:
         n >= 1
         sum_of_first_n_numbers(a, n) = n * (2 * a(1) + (n-1) * d) / 2
 ```
+
+Here is the builtin implementation of sequence related stuffs:
+
+```
+fn_template seq(s set):
+	fn (n N_pos) s
+
+fn_template finite_seq(s set, n N_pos):
+    fn (x N_pos) s:
+    	dom:
+        	x <= n
+
+fn finite_seq_sum(n N_pos, a finite_seq(R, n), k N) R:
+    dom:
+        k <= n
+
+know:
+    forall n N_pos, a finite_seq(R, n), k N: k < n => finite_seq_sum(n, a, k+1) = finite_seq_sum(n, a, k) + a(k+1)
+    forall n N_pos, a finite_seq(R, n) => finite_seq_sum(n, a, 1) = a(1)
+
+fn finite_seq_product(n N_pos, a finite_seq(R, n), k N) R:
+    dom:
+        k < n
+
+know:
+    forall n N_pos, a finite_seq(R, n), k N: k < n => finite_seq_product(n, a, k+1) = finite_seq_product(n, a, k) * a(k+1)
+    forall n N_pos, a finite_seq(R, n) => finite_seq_product(n, a, 1) = a(1)
+```
+
+Now you have a sequence of numbers, which are {1, 2, 3}. You can use `finite_seq_sum` to get the sum of the sequence.
+
+```litex
+let a finite_seq(R, 3):
+    a(1) = 1
+    a(2) = 2
+    a(3) = 3
+finite_seq_sum(3, a, 3) = finite_seq_sum(3, a, 2) + a(3) = finite_seq_sum(3, a, 2) + a(3) = finite_seq_sum(3, a, 1) + a(2) + a(3) = a(1) + a(2) + a(3) = 1 + 2 + 3 = 6
+```

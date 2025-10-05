@@ -14,6 +14,8 @@ The most fundamental way to prove a statement in Litex, or math in general, is `
 
 *Proof over a Finite Set* – Suppose `s` is a finite set, we want to prove `forall x s => $p(x)`. We can simply check each element `x` in `s` one by one whether `$p(x)` holds. This is different from an infinite set: a computer cannot iterate over infinitely many elements in finite time and check whether `$p(x)` holds for each element.
 
+*Proof in Range* - Given two integers `a <= b`, we prove iteratively over each integer `x` in the range `[a, b]` whether some properties hold.
+
 We will explore these methods in detail in the following sections.
 
 ## Prove by Contradiction: A coin cannot be heads and tails at the same time.
@@ -352,3 +354,60 @@ prove_over_finite_set:
     prove:
         2 * 4 >= 1
 ```
+
+## Prove in Range: Iteratively Prove Over a Range of Integers
+
+For some factual statements, especially those involving computation, it’s impossible to have a truly general theorem that directly tells us what every specific case looks like.
+For example, if you want to prove that a given number is prime, the only possible way might be to go through all smaller numbers and test them one by one—there’s simply no alternative to checking each case directly.
+The same applies to facts like proving that the positive divisors of a given number are exactly certain numbers (for instance, given 81, its divisors are exactly 1, 3, 9, 27, and 81).
+
+In this case, we can use `prove_in_range` to prove the statement.
+
+```
+prove_in_range(a, b, x):
+    domFacts_of_x
+    =>:
+        then_facts
+    prove:
+        prove_facts
+```
+
+It iterates over [a, b) (a < b), i.e. x = a, x = a+1, ..., x = b-1 to check
+
+1. whether `domFacts_of_x` are true for `x`. If one domain fact can not be proved, it checks whether that the reverse of that domain fact is true. If both it and reverse of it is unknown, the check fails.
+2. When all domain facts are proved to be true, it checks whether `prove_facts` are true for `x`. If one `prove_fact` can not be proved, the check fails.
+3. If both `domFacts_of_x` and `prove_facts` are true for `x`, it checks whether `then_facts` are true for `x`. If one `then_fact` can not be proved, the check fails.
+4. After that, when x is equal to the current value, everything is true.
+
+```litex
+prove_in_range(1, 10, x):
+    x % 2 = 0
+    =>:
+        x >= 1
+        x < 10
+        x % 2 = 0
+    prove:
+        x >= 1
+        x < 10
+        x % 2 = 0
+
+
+prove_in_range(1, 10, x):
+    x >= 1
+    x < 10
+    prove:
+        x >= 1
+        x < 10
+
+prove_in_range(1, 10, x):
+    x % 2 = 0
+    =>:
+        x >= 1
+        x < 10
+        x % 2 = 0
+
+prove_in_range(1, 10, x):
+    x >= 1
+```
+
+Notice prove section and domain section are optional.

@@ -1,3 +1,4 @@
+# Appendix: Homepage of Litex
 # Litex: Simply Scale Formal Reasoning In AI Era
 
 **version v0.1.10-beta (not yet ready for production use)**  
@@ -16,8 +17,6 @@
 _Simplicity is the ultimate sophistication._
 
 _– Leonardo da Vinci_
-
-[Congratulations! Litex achieves top 10 on Hacker News on 2025-09-27!!](https://news.ycombinator.com/item?id=45369629)
 
 Litex([website](https://litexlang.com)) is a simple, intuitive, and open-source formal language for coding reasoning ([Star the repo!](https://github.com/litexlang/golitex)). It ensures every step of your reasoning is correct, and is actually the first reasoning formal language (or formal language for short) that can be learned by anyone in 1–2 hours, even without math or programming background.
 
@@ -67,11 +66,7 @@ Here is a comparison between Litex and traditional formal language Lean.
   </tr>
 </table>
 
-Even Kids can formalize the multivariate equation in Litex in 2 minutes, while it require an experienced expert months of training and years of experience in Lean 4. The above example best demonstrates how productive using Litex is!
-
-- Reduced writing time: code is 2-10x simpler and more straightforward than Lean 4
-- Improved proof quality: code is extremely readable
-- Less training: language is so similar to natural language that it almost requires no training
+Even Kids can formalize the multivariate equation in Litex in 2 minutes, while it require an experienced expert hours of work in Lean 4. It is a typical example of how Litex lowers the entrance barrier by 10x, lowers the cost of constructing formalized proofs by 10x, making formalization as easy and fast as natural writing. No foreign keywords, no twisted syntax, or complex semantics. Just plain reasoning.
 
 ## Resources And Community
 
