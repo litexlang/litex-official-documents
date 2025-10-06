@@ -379,6 +379,26 @@ It iterates over [a, b) (a < b), i.e. x = a, x = a+1, ..., x = b-1 to check
 3. If both `domFacts_of_x` and `prove_facts` are true for `x`, it checks whether `then_facts` are true for `x`. If one `then_fact` can not be proved, the check fails.
 4. After that, when x is equal to the current value, everything is true.
 
+When a `prove_in_range` statement succeeds, it returns a `forall` statement which says `forall x Z: x >= a, x < b, domFacts_of_x => then_facts`.
+
+```litex
+prove_in_range(1, 10, x):
+    x % 2 = 0
+    =>:
+        x != 7
+    prove:
+        x != 7
+
+forall x Z:
+    x >= 1
+    x < 10
+    x % 2 = 0
+    =>:
+        x != 7
+```
+
+Notice prove section and domain section are optional. Here are some short-form examples:
+
 ```litex
 prove_in_range(1, 10, x):
     x % 2 = 0
@@ -409,5 +429,3 @@ prove_in_range(1, 10, x):
 prove_in_range(1, 10, x):
     x >= 1
 ```
-
-Notice prove section and domain section are optional.
