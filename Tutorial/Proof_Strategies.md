@@ -411,7 +411,6 @@ prove_in_range(1, 10, x):
         x < 10
         x % 2 = 0
 
-
 prove_in_range(1, 10, x):
     x >= 1
     x < 10
@@ -419,12 +418,10 @@ prove_in_range(1, 10, x):
         x >= 1
         x < 10
 
-prove_in_range(1, 10, x):
-    x % 2 = 0
+prove_in_range(1, 82, x):
+    81 % x = 0
     =>:
-        x >= 1
-        x < 10
-        x % 2 = 0
+        or(x = 1, x = 3, x = 9, x = 27, x = 81)
 
 prove_in_range(1, 10, x):
     x >= 1
