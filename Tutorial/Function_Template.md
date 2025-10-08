@@ -234,12 +234,12 @@ Function templates are the blueprint of functions. This is a rather abstract con
 
 ```
 fn_template seq(s set):
-	fn (n N) s
+	fn (n N_pos) s
 
 fn_template finite_seq(s set, n N_pos):
-    fn (x N) s:
+    fn (x N_pos) s:
     	dom:
-        	x < n
+        	x <= n
 ```
 
 Let's take a look at a simple example:
@@ -348,4 +348,19 @@ let a finite_seq(R, 3):
     a(2) = 2
     a(3) = 3
 finite_seq_sum(3, a, 3) = finite_seq_sum(3, a, 2) + a(3) = finite_seq_sum(3, a, 2) + a(3) = finite_seq_sum(3, a, 1) + a(2) + a(3) = a(1) + a(2) + a(3) = 1 + 2 + 3 = 6
+```
+
+## Anonymous Function Template
+
+The following two examples are equivalent:
+
+```litex
+fn_template from_N_to_N():
+    fn (n N) N
+
+let f from_N_to_N()
+```
+
+```litex
+let f fn(N) N
 ```

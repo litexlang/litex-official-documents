@@ -106,7 +106,7 @@ $$
 
 ## Comment
 
-Litex support to add one-line Comment by symbol `# ` and multi-line Comment by symbol `"""`:
+Litex support to add one-line Comment by symbol `# ` and multi-line Comment by symbol `"` (If you write one `"`, it can be translated to markdown style comment in display; If you write two `"`, it can be translated to LaTeX style comment in display, others to LaTeX style comment in display):
 
 ```litex
 # claim an Object x in R and make x > 1
