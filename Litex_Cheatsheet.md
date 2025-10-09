@@ -31,6 +31,29 @@ Litex verifies statements through two methods:
 2. **General to Special**: Deriving specific instances from general rules
 
 ---
+## Comments
+
+Single-line comment:
+```litex
+# single line comment
+```
+
+Multi-line comment:
+```litex
+"
+multi-line comment
+multi-line comment
+"
+```
+
+You can write as many `"` as you want.
+```
+"""
+Three " is allowed.
+"""
+```
+
+`""` can be translated to LaTeX style comment in display; One or any number of `"` except two can be translated to markdown style comment in display.
 
 ## Object Declaration
 
