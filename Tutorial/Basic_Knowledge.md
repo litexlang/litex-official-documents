@@ -120,6 +120,14 @@ some comment
 some comment
 some comment
 """
+
+"
+Multi-line comment start with ", or any number of " except two can be translated to markdown style comment in display.
+"
+
+""
+Multi-line comment start with "" can be translated to LaTeX style comment in display; 
+""
 ```
 
 Comments are very helpful for you to understand the code and for the system to check your code.

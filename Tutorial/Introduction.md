@@ -6,13 +6,9 @@ _老子(Lao Tzu)_
 
 ## What is Litex
 
-Litex(/lɪ'tɛks/) is an intuitive and scalable formal language for coding your reasoning. Litex takes its name from the combination of two languages that deeply influenced its design: Lisp and TeX. Since 2024, Litex has been developed in parallel with its design by its creator Jiachen Shen, and through continuous evolution it has now grown into a community-driven project open to everyone.
+Litex([website](https://litexlang.com)) is a simple, intuitive, and open-source formal language for coding reasoning ([Star the repo!](https://github.com/litexlang/golitex)). It ensures every step of your reasoning is correct, and is actually the first reasoning formal language (or formal language for short) that can be learned by anyone in 1–2 hours, even without math or programming background.
 
-Since a 10-year-old can reason about basic math, even a 10-year-old should be able to learn and use Litex easily to solve their own problems. We assume a man without any math or programming background can learn Litex in 1-3 hours. Don’t worry. It’s perfectly fine if you don’t remember everything the first time. When you encounter a specific problem, coming back to review the relevant section of this tutorial is just as effective.
-
-Like all successful programming languages, Litex is designed to be enjoyable to use and pragmatic in solving real problems. Its focus is scaling formal reasoning in the AI era. Both the AI and math communities need a simple, accessible formal language to integrate into their workflows. Litex meets this need, cutting the effort of formalization from 10× to parity with natural writing. As a result, building in Litex is about 10× cheaper and easier than with traditional formal systems (Lean, Coq, Isabelle, etc.) -— a true benefit for both AI and mathematics.
-
-The three key features of Litex are: **intuitive, simple, and expressive**.
+Since a 10-year-old can reason about basic math, even a 10-year-old should be able to learn and use Litex easily to solve their own problems. Whether it’s a human or an AI, learning Litex is very easy, because Litex’s syntax is extremely close to natural language. The three key features of Litex are: **intuitive, simple, and expressive**.
 
 ## Intuitive
 
@@ -124,17 +120,13 @@ $is_group(R, +, inverse, 0)
 $is_group(Z, +, inverse, 0)
 ```
 
-## Words from the creator
-
-Hi, I am Jiachen Shen, a hacker and creator of Litex. It is a computer language for formalizing reasoning. Computation is how math is used to solve real-world problems. Reason is how we enriches our understanding of the world. Such knowledge is totally different from ordinary knowledge because it can be mechanically verified by a given set of rules. Math, physics, computer science all rely on such strictness. The software industry has already revolutionized how we compute, and Litex is here to change how we reason.
-
-A good art is what makes its developers happy and makes its users find it useful. I hope Litex can be a good art for both me as the creator and its users. Feel free to join us! Start from visiting our [website](https://litexlang.com)! Thank you for your support!
-
 ## How to read this tutorial
 
 The biggest strength of Litex is its intuitiveness. In the ideal case, we hope users can read and use Litex without having to learn it at all! 
 
 Please don’t feel any pressure when reading this tutorial — Litex is truly very simple. Code in this tutorial can be run in your browser! Run it to have the first taste of Litex!
+
+It’s perfectly fine if you don’t remember everything the first time. When you encounter a specific problem, coming back to review the relevant section of this tutorial is just as effective.
 
 The purpose of this slim tutorial is:
 
@@ -144,6 +136,12 @@ The purpose of this slim tutorial is:
 Don't forget to run the examples yourself! You can learn much much faster if you read and write the examples yourself!
 
 The best way to learn Litex is to try writing the examples from the tutorial yourself, or translate the mathematics (or reasoning) you care about into Litex.
+
+## Words from the creator
+
+Hi, I am Jiachen Shen, a hacker and creator of Litex. It is a computer language for formalizing reasoning. Computation is how math is used to solve real-world problems. Reason is how we enriches our understanding of the world. Such knowledge is totally different from ordinary knowledge because it can be mechanically verified by a given set of rules. Math, physics, computer science all rely on such strictness. The software industry has already revolutionized how we compute, and Litex is here to change how we reason.
+
+A good art is what makes its developers happy and makes its users find it useful. I hope Litex can be a good art for both me as the creator and its users. Feel free to join us! Start from visiting our [website](https://litexlang.com)! Thank you for your support!
 
 ## Special Thanks
 
