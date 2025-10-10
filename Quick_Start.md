@@ -1,4 +1,4 @@
-# Start
+# Quick Start
 
 ## Try Litex Online
 
