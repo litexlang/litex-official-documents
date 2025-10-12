@@ -148,3 +148,14 @@ A good art is what makes its developers happy and makes its users find it useful
 Hi, I’m Jiachen Shen, creator of Litex. It is so fortunate to receive tremendous help from friends and colleagues throughout this journey of designing, implementing, and growing Litex into a community. Without their support, Litex would not have had the chance to succeed.
 
 I owe special thanks to my friend Zhaoxuan Hong, who built Litex’s powerful toolchains and has supported the project from the very beginning. I am also deeply grateful to Siqi Sun, Wei Lin, Peng Sun, Jie Fu, Zeyu Zheng, Huajian Xin, Zijie Qiu, Siqi Guo, Haoyang Shi, Chengyang Zhu, Chenxuan Huang for their invaluable contributions. I am certain this list of special thanks will only grow longer in the future.
+
+
+Intuitive
+Even a 10-year-old can learn and use Litex easily, because its syntax is almost identical to natural language and they can use their common sense to understand it. This is the key to the success of Litex.
+
+Simple
+Litex reduces the difficulty of formal expression to nearly zero, letting users focus purely on the math itself. Python’s improvement in simplicity over C is just like LiTeX’s improvement over Lean — a popular formal language.
+
+
+Expressive
+Litex captures the beauty of abstraction, making it easy to express the most general patterns in mathematics. This opens endless possibilities for "Big Math", AI, and scientific exploration in other fields.

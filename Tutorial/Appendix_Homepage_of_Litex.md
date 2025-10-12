@@ -1,5 +1,5 @@
 # Appendix: Homepage of Litex
-# Litex: Simply Scale Formal Reasoning In AI Era
+# Litex: The First Formal Language Learnable in 1–2 Hours
 
 **version v0.1.10-beta (not yet ready for production use)**  
 *Jiachen Shen and The Litex Team*
@@ -12,7 +12,7 @@
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-black?logo=huggingface)](https://huggingface.co/litexlang)
 
 
-## Litex: The First Formal Language Learnable in 1–2 Hours
+## 
 
 _Simplicity is the ultimate sophistication._
 
