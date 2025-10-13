@@ -1,161 +1,119 @@
-# Introduction: Begin the journey with Litex
+<div align="center">
+<img src="./assets/logo.png" alt="The Litex Logo" width="300">
+</div>
 
-_千里之行，始于足下。(The journey of a thousand miles begins with one step.)_
+<div align="center">
 
-_老子(Lao Tzu)_
+# Litex: The First Formal Language Learnable in 2 Hrs
 
-## What is Litex
+**version v0.1.10-beta (not yet ready for production use)**  
+*Jiachen Shen and The Litex Team*
 
-Litex([website](https://litexlang.com)) is a simple, intuitive, and open-source formal language for coding reasoning ([Star the repo!](https://github.com/litexlang/golitex)). It ensures every step of your reasoning is correct, and is actually the first reasoning formal language (or formal language for short) that can be learned by anyone in 1–2 hours, even without math or programming background.
+[![Official Website](https://img.shields.io/badge/Official%20Website-blue?logo=website)](https://litexlang.com)
+[![Github](https://img.shields.io/badge/Github-grey?logo=github)](https://github.com/litexlang/golitex)
+[![Zulip Community](https://img.shields.io/badge/Zulip%20Community-purple?logo=zulip)](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/)
+[![Email](https://img.shields.io/badge/Email-red?logo=email)](mailto:litexlang@outlook.com)
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/litexlang/golitex)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-black?logo=huggingface)](https://huggingface.co/litexlang)
 
-Since a 10-year-old can reason about basic math, even a 10-year-old should be able to learn and use Litex easily to solve their own problems. Whether it’s a human or an AI, learning Litex is very easy, because Litex’s syntax is extremely close to natural language. The three key features of Litex are: **intuitive, simple, and expressive**.
+</div>
 
-## Intuitive
+## Simple, Intuitive, Expressive — For Humans & AI 
 
-Litex support all common expression in math like numbers, variables, functions, etc. 
+_Simplicity is the ultimate sophistication._
 
-Here is an example: to determine the correctness of solution of multivariate linear equation: 2x + 3y = 10, 4x + 5y = 14:
+_– Leonardo da Vinci_
 
-```litex
-let x R, y R:
-    2 * x + 3 * y = 10
-    4 * x + 5 * y = 14
-2 * (2 * x + 3 * y) = 2 * 10
-4* x + 6 * y = 2 * 10
-(4*x + 6 * y) - (4*x + 5 * y) = 2 * 10 - 14
-(4*x + 6 * y) - (4*x + 5 * y) = y
-y  = 6
-2 * x + 3 * 6 = 10
-2 * x + 18 - 18 = 10 - 18
-2 * x + 18 - 18 = -8
-(2 * x) / 2 = -8 / 2
-(2 * x) / 2 = x
-x = -4
-```
+[Congratulations! Litex achieves top 10 on Hacker News on 2025-09-27!!](https://news.ycombinator.com/item?id=45369629)
 
-Anyone can understand the above code. There is almost zero difference between how we write math and how we write Litex. However, traditional formal languages like Lean requires you to learn a lot of complicated syntax and concepts.
+Litex([website](https://litexlang.com)) is a simple, intuitive, and expressive open-source formal language for coding reasoning ([Star the repo!](https://github.com/litexlang/golitex)). It ensures every step of your reasoning is correct, and is actually the first reasoning formal language (or formal language for short) that can be learned by anyone in 2 hours, even without math or programming background.
 
-## Simple
+Making Litex intuitive to both humans and AI is Litex's core mission. This is how Litex scales formal reasoning: by making it accessible to more people, applicable to more complex problems, and usable by large-scale AI systems. These benefits stem from Litex's close-to-natural-language design to lower the entrance barrier by 10x compared with other formal languages. Here is a comparison between Litex and traditional formal language Lean.
 
-The difficulty of writing mathematics in a formal language is usually about equal to the difficulty of the mathematics itself plus the difficulty of expressing that mathematics in the formal language. Litex’s goal is to reduce the latter to as close to zero as possible, allowing users to focus on the mathematics itself rather than on the language they are using.
+<table style="border-collapse: collapse; width: 100%; font-size: 12px">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean 4</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
+      <code>let x R, y R:</code><br>
+      <code>&nbsp;&nbsp;2 * x + 3 * y = 10</code><br>
+      <code>&nbsp;&nbsp;4 * x + 5 * y = 14</code><br><br>
+      <code>2 * (2 * x + 3 * y) = 2 * 10 = 4 * x + 6 * y</code><br>
+      <code>y = (4 * x + 6 * y) - (4 * x + 5 * y) = 2 * 10 - 14 = 6</code><br>
+      <code>2 * x + 3 * 6 = 10</code><br>
+      <code>2 * x + 18 - 18 = 10 - 18 = -8</code><br>
+      <code>x = (2 * x) / 2 = -8 / 2 = -4</code><br>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>example (x y : ℝ) (h₁ : 2 * x + 3 * y = 10) (h₂ : 4 * x + 5 * y = 14) : x = -4 ∧ y = 6 := by</code><br>
+      <code>&nbsp;&nbsp;have h₃ : 2 * (2 * x + 3 * y) = 2 * 10 := by rw [h₁]</code><br>
+      <code>&nbsp;&nbsp;have h₄ : 4 * x + 6 * y = 20 := by linear_combination 2 * h₁</code><br>
+      <code>&nbsp;&nbsp;have h₅ : (4 * x + 6 * y) - (4 * x + 5 * y) = 20 - 14 := by</code><br>
+      <code>&nbsp;&nbsp;rw [h₄, h₂]</code><br>
+      <code>&nbsp;&nbsp;have h₆ : (4 * x + 6 * y) - (4 * x + 5 * y) = y := by</code><br>
+      <code>&nbsp;&nbsp;ring</code><br>
+      <code>&nbsp;&nbsp;have h₇ : 20 - 14 = 6 := by norm_num</code><br>
+      <code>&nbsp;&nbsp;have h₈ : y = 6 := by</code><br>
+      <code>&nbsp;&nbsp;rw [←h₆, h₅, h₇]</code><br>
+      <code>&nbsp;&nbsp;have h₉ : 2 * x + 3 * 6 = 10 := by rw [h₈, h₁]</code><br>
+      <code>&nbsp;&nbsp;have h₁₀ : 2 * x + 18 = 10 := by</code><br>
+      <code>&nbsp;&nbsp;rw [mul_add] at h₉</code><br>
+      <code>&nbsp;&nbsp;simp at h₉</code><br>
+      <code>&nbsp;&nbsp;exact h₉</code><br>
+      <code>&nbsp;&nbsp;have h₁₁ : 2 * x = -8 := by</code><br>
+      <code>&nbsp;&nbsp;linear_combination h₁₀ - 18</code><br>
+      <code>&nbsp;&nbsp;have h₁₂ : x = -4 := by</code><br>
+      <code>&nbsp;&nbsp;linear_combination h₁₁ / 2</code><br>
+      <code>&nbsp;&nbsp;exact ⟨h₁₂, h₈⟩</code>
+    </td>
+  </tr>
+</table>
 
-Here is an example: to prove sqrt(2) is irrational:
+Even Kids can formalize the multivariate equation in Litex in 2 minutes, while it require an experienced expert months of training and years of experience in Lean 4. The above example best demonstrates how productive using Litex is!
 
-```litex
-# prove sqrt(2) is irrational
-# 证明 sqrt(2) 是无理数
+Our mission is to make Litex the most accessible and usable formal language for coding reasoning. We aim to solve the most challenging problems faced by the AI community, i.e. the challenge of efficient, scalable, and reliable coding reasoning. Let's build the future together!
 
-fn logBase(x, y N) N:
-    dom:
-        x != 0
+## Resources And Community
 
-know forall x, y, z N => logBase(z, x^y) = y * logBase(z, x), logBase(z, x*y) = logBase(z, x) + logBase(z, y)
+_The best way to predict future is to create it._
 
-know forall x N: x != 0 => logBase(x, x) = 1
+_-- Alan Kay_
 
-claim:
-    not sqrt(2) $in Q
-    prove_by_contradiction:
-        sqrt(2) > 0
-        have x, y st $rational_positive_number_representation_in_fraction(sqrt(2))
-        
-        x = sqrt(2) * y
-        x ^ 2 = (sqrt(2) ^ 2) * (y ^ 2)
-        sqrt(2) ^ 2 = 2
-        x ^ 2 = 2 * (y ^ 2)
+Litex is nothing without its community and technical ecosystem.
 
-        logBase(2, x ^ 2) = logBase(2, 2 * (y ^ 2))     
-        logBase(2, x ^ 2) = 2 * logBase(2, x)
-        logBase(2, y ^ 2) = 2 * logBase(2, y)
+Resources for Litex users:
 
-        logBase(2, 2 * (y ^ 2)) = logBase(2, 2) + logBase(2, y ^ 2)
-        logBase(2, 2) = 1
-        logBase(2, 2 * (y ^ 2)) = 1 + logBase(2, y ^ 2)
+1. Our official [website](https://litexlang.com) contains tutorials, cheat sheets, examples, documentation, collaboration opportunities, and more for Litex. All documents on our [website](https://litexlang.com) are open-sourced [here](https://github.com/litexlang/litex-official-documents)
+2. Learn Litex [online](https://litexlang.com/doc/Tutorial/Introduction). A short list of major Litex statements and their usage are shown in the [cheat sheet](https://litexlang.com/doc/Litex_Cheatsheet).
+3. You can run litex on your own computer， start from [here](https://litexlang.com/doc/Quick_Start)
+4. [Litex standard library](https://github.com/litexlang/litex-stdlib) is under active development. **Contribute to it and earn impact rewards!**
+5. Use [pylitex](https://github.com/litexlang/pylitex) to call Litex in Python
+6. Our Community is on [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/)!
+7. Email us [here](mailto:litexlang@outlook.com).
 
-        logBase(2, x ^ 2) = 1 + 2 * logBase(2, y)
-        2 * logBase(2, x) = 1 + 2 * logBase(2, y)
+Resources for AI researchers who want to develop Litex-based AI systems, mostly developed by the Litex open-source community:
 
-        =:
-            0
-            (2 * logBase(2, x)) % 2            
-            (1 + 2 * logBase(2, y)) % 2
-            
-        =:
-            (1 % 2 + (2 * logBase(2, y)) % 2) % 2
-            (1 + 2 * logBase(2, y)) % 2
-            (1 % 2 + (2 * logBase(2, y)) % 2) % 2
-            (1 + 0) % 2
-            1
-        0 = 1
-```
+1. Litex achieves 100% accuracy on gsm8k dataset without any training [Github](https://github.com/litexlang/litex-gsm8k-killer)
+2. [Litex Dataset](https://huggingface.co/litexlang) is on Hugging Face. **Contribute to it and earn impact rewards!**
+3. Here is a really powerful Litex Agent [Github](https://github.com/litexlang/litex-agent). It is so powerful that much code in our standard library is generated by it!
+4. AI researchers interested in Litex might find [Litex LLM Dev](https://github.com/litexlang/litex-llm-dev) useful. Contact us if you are interested in collaborating on this project!
 
-Litex code is pretty straightforward. Try to read the above code yourself. It is not hard. Below is the same example in Lean.
-
-## Expressive
-
-Mathematics studies abstraction. It is about finding the most general and abstract patterns in the world. Litex is very good at expressing such patterns. Here is an example: to define a group, and prove R and Z are groups.
-
-```litex
-prop is_group(s set, mul fn(s, s)s, inv fn(s)s, e s):
-    forall x s, y s, z s:
-        mul(mul(x, y), z) = mul(x, mul(y, z))
-    forall x s:
-        mul(x, inv(x)) = e
-        mul(inv(x), x) = e
-
-fn inverse(x R)R:
-    inverse(x) + x = 0
-
-forall x R:
-    inverse(x) + x = 0
-    x + inverse(x) = 0
-
-forall x Z:
-    x + inverse(x) = 0
-    inverse(x) = -x
-    -x $in Z
-    inverse(x) $in Z
-
-$is_group(R, +, inverse, 0)
-$is_group(Z, +, inverse, 0)
-```
-
-## How to read this tutorial
-
-The biggest strength of Litex is its intuitiveness. In the ideal case, we hope users can read and use Litex without having to learn it at all! 
-
-Please don’t feel any pressure when reading this tutorial — Litex is truly very simple. Code in this tutorial can be run in your browser! Run it to have the first taste of Litex!
-
-It’s perfectly fine if you don’t remember everything the first time. When you encounter a specific problem, coming back to review the relevant section of this tutorial is just as effective.
-
-The purpose of this slim tutorial is:
-
-1. To record the most basic Litex syntax and keywords, ensuring there is no ambiguity for users.
-2. To provide some examples for beginners to reference.
-
-Don't forget to run the examples yourself! You can learn much much faster if you read and write the examples yourself!
-
-The best way to learn Litex is to try writing the examples from the tutorial yourself, or translate the mathematics (or reasoning) you care about into Litex.
-
-## Words from the creator
-
-Hi, I am Jiachen Shen, a hacker and creator of Litex. It is a computer language for formalizing reasoning. Computation is how math is used to solve real-world problems. Reason is how we enriches our understanding of the world. Such knowledge is totally different from ordinary knowledge because it can be mechanically verified by a given set of rules. Math, physics, computer science all rely on such strictness. The software industry has already revolutionized how we compute, and Litex is here to change how we reason.
-
-A good art is what makes its developers happy and makes its users find it useful. I hope Litex can be a good art for both me as the creator and its users. Feel free to join us! Start from visiting our [website](https://litexlang.com)! Thank you for your support!
+All of our [repositories](https://github.com/orgs/litexlang/repositories) are open-sourced. Just issue PRs and tell us any ideas about Litex! Maybe we can build the future together!
 
 ## Special Thanks
+
+_Sometimes it is the very people who no one imagines anything of who do the things that no one can imagine._
+
+_– Alan Turing_
+
+<div align="center">
+  <img src="./assets/Little_Little_O.png" alt="The Litex Logo" width="200">
+  <p><em>Litex Mascot: Little Little O, a curious baby bird full of wonder</em></p>
+</div>
 
 Hi, I’m Jiachen Shen, creator of Litex. It is so fortunate to receive tremendous help from friends and colleagues throughout this journey of designing, implementing, and growing Litex into a community. Without their support, Litex would not have had the chance to succeed.
 
 I owe special thanks to my friend Zhaoxuan Hong, who built Litex’s powerful toolchains and has supported the project from the very beginning. I am also deeply grateful to Siqi Sun, Wei Lin, Peng Sun, Jie Fu, Zeyu Zheng, Huajian Xin, Zijie Qiu, Siqi Guo, Haoyang Shi, Chengyang Zhu, Chenxuan Huang for their invaluable contributions. I am certain this list of special thanks will only grow longer in the future.
-
-
-Intuitive
-Even a 10-year-old can learn and use Litex easily, because its syntax is almost identical to natural language and they can use their common sense to understand it. This is the key to the success of Litex.
-
-Simple
-Litex reduces the difficulty of formal expression to nearly zero, letting users focus purely on the math itself. Python’s improvement in simplicity over C is just like LiTeX’s improvement over Lean — a popular formal language.
-
-
-Expressive
-Litex captures the beauty of abstraction, making it easy to express the most general patterns in mathematics. This opens endless possibilities for "Big Math", AI, and scientific exploration in other fields.
