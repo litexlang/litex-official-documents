@@ -701,11 +701,11 @@ b(1) $in Z
 
 ### Import Files
 ```litex
-import "file.lix"
+import "file.lit"
 ```
 
 ```litex
-import "folder/file.lix"
+import "folder/file.lit"
 ```
 
 ### Import Packages

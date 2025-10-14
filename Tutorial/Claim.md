@@ -89,10 +89,6 @@ a > -1
 
 `larger_is_transitive(x, y, z R)` is a built-in Proposition of Litex that means: x, y, z in R, x > y and y > z <=> x > z. You claimed a Proposition `p(x N)` in Claim block and prove it in Prove block. But you can still use it out of the sub-environment.
 
-## Proof by Contradiction
-
-`prove_by_contradiction` should always by used in Claim block. Here is a classical example, prove sqrt(2) is irrational using Proof by Contradiction:
-
 ## Claim without purpose
 
 When you just want ot write a piece of scratch without affecting the global environment, you can use `claim` without a purpose.
