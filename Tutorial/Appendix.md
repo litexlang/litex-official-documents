@@ -53,7 +53,8 @@ The keywords in Litex are almost identical in meaning and usage to the commonly 
 | `prove_by_contradiction` | prove by contradiction |
 | `prove_in_each_case` | prove by case analysis |
 | `prove_by_induction` | prove by mathematical induction |
-| `prove_over_finite_set` | prove a universal statement by iterating over a finite set |
+| `prove_by_enum` | prove a universal statement by iterating over a finite set |
+| `prove_in_range` | prove a universal statement by iterating over a range of integers |
 | `import` | import a file or directory |
 | `exist_in` | exist a object in a set |
 | `set_defined_by_replacement` | define a set by a axiom of replacement |

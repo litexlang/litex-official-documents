@@ -371,7 +371,7 @@ or:
 
 Inline form:
 ```litex
-or(1 = 1, 1 = 2)
+1 = 1 or 1 = 2
 ```
 
 ### Equality
@@ -505,15 +505,8 @@ prove_by_induction($p(x, n), n, 1)
 prop p(x R)
 have set s := {1, 2, 3}
 
-prove_over_finite_set:
-    forall x s:
-        x > 0
-    prove:
-        1 > 0
-    prove:
-        2 > 0
-    prove:
-        3 > 0
+prove_by_enum(x, s):
+    x > 0
 ```
 
 ---
@@ -776,7 +769,8 @@ The keywords in Litex are almost identical in meaning and usage to the commonly 
 | `prove_by_contradiction` | prove by contradiction |
 | `prove_in_each_case` | prove by case analysis |
 | `prove_by_induction` | prove by mathematical induction |
-| `prove_over_finite_set` | prove a universal statement by iterating over a finite set |
+| `prove_by_enum` | prove a universal statement by iterating over a finite set |
+| `prove_in_range` | prove a universal statement by iterating over a range of integers |
 | `import` | import a file or directory |
 | `exist_in` | exist a object in a set |
 | `set_defined_by_replacement` | define a set by a axiom of replacement |

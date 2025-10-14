@@ -86,7 +86,8 @@ The goal of Litex is to write reasoning (or math in general) as code. Since no m
 * `prove_by_contradiction`
 * `prove_in_each_case`
 * `prove_by_induction`
-* `prove_over_finite_set`
+* `prove_by_enum`
+* `prove_in_range`
 
 ---
 

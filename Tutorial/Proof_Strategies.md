@@ -6,15 +6,15 @@ _— Abraham Maslow_
 
 The most fundamental way to prove a statement in Litex, or math in general, is `match and substitution`. It is a very simple and intuitive method. However, there are other ways to prove a statement in Litex. People use them unconsciously all the time, too. Just like different tools are for different mechanical tasks, different proof strategies are for different proof tasks. One should never force himself to use a hammer when a screwdriver is more suitable.
 
-*Proof by Contradiction* – Assume the opposite of what you want to prove, and show that this leads to a contradiction.
+*Proof In Each Case* – Assume the opposite of what you want to prove, and show that this leads to a contradiction.
 
 *Proof by Cases* – Divide the situation into several possible cases, prove the statement in each case, and conclude that it holds universally. For example, when 1. we know `or($p(x), $q(x))`, 2. we can prove when `$p(x)` is true, `$r(x)` is also true. 3. we can prove when `$q(x)` is true, `$r(x)` is also true. With this, we can prove `$r(x)` is always true.
 
 *Proof by Induction* – Establish a base case, then show that if the statement holds for one step, it also holds for the next, covering all natural numbers. This is called `principle of mathematical induction`. Technically, it is an axiom schema: it is a template for producing an infinite number of axioms.
 
-*Proof over a Finite Set* – Suppose `s` is a finite set, we want to prove `forall x s => $p(x)`. We can simply check each element `x` in `s` one by one whether `$p(x)` holds. This is different from an infinite set: a computer cannot iterate over infinitely many elements in finite time and check whether `$p(x)` holds for each element.
+*Proof by Enumeration* – Suppose `s` is a finite set, e.g. `s = {1,2,3}`, we want to prove `forall x s => x > 0`. We can simply check each element `x` in `s` one by one whether `x > 0` holds. This is different from an infinite set: a computer cannot iterate over infinitely many elements in finite time and check whether `x > 0` holds for each element.
 
-*Proof in Range* - Given two integers `a <= b`, we prove iteratively over each integer `x` in the range `[a, b]` whether some properties hold.
+*Proof in Range* - Given two integers `a <= b` and a set which is subset of `{x Z | a <= x < b}`, we prove iteratively over each integer `x` in that set whether some properties hold.
 
 We will explore these methods in detail in the following sections.
 
@@ -274,28 +274,33 @@ claim:
 
 In this example, we use the known fact `forall x R: x > 0 => x^2 > 0` to prove `forall a R => a^2 >= 0`. We split the case into `a > 0`, `a = 0`, and `a < 0`. And we prove `a^2 >= 0` in each case.
 
-# Prove Over Finite Set: Things are easy when they are finite
+# Prove by Enumeration
 
 If a set is finite, then to prove that forall x in this set some property holds, we can simply check each element one by one. In this way, unlike the general case of infinite sets, the conclusion can be obtained by directly traversing all the elements in the set.
 
-Litex uses keyword `prove_over_finite_set` to support proving over finite set.
+Litex uses keyword `prove_by_enum` to support proving over finite set.
 
 ```
-prove_over_finite_set:
-	universal_fact
+prove_by_enum(x_name, set_name)
+    ... # domain facts
+    =>:
+        ... # then facts
+    prove:
+        ...
 ```
 
 The sets in universal fact header must be finite.
 
 For example, we want to prove that forall x in the set {1, 2, 3}, x is less than 4. Litex iterates over `x = 1`, `x = 2`, `x = 3` to see whether the `then` facts (e.g. In this case, the `x > 0` in `forall x s => x > 0`) is true or not.
 
+There can be no domain facts, no prove sections, or both.
+
 ```litex
 let s set:
     s := {1, 2, 3}
 
-prove_over_finite_set:
-    forall x s:
-        x > 0
+prove_by_enum(x, s):
+    x > 0 # then facts
 ```
 
 Empty set, which is the very special case of finite set, is also supported. As you can see, any factual statement is true on items in empty set, since there is no item in empty set.
@@ -304,36 +309,23 @@ Empty set, which is the very special case of finite set, is also supported. As y
 have set s := {}
 
 # any factual statement is true on empty set
-prove_over_finite_set:
-    forall x s:
-        x > 0
-        x < 0
+prove_by_enum(x, s):
+    x > 0
+    x < 0
 ```
 
-You can pass multiple sets to `prove_over_finite_set` to prove a universal fact over multiple sets. These sets must all be finite.
+You can pass multiple sets to `prove_by_enum` to prove a universal fact over multiple sets. These sets must all be finite.
 
 ```litex
 let s3, s4 set:
     s3 := {1, 2, 3}
     s4 := {1, 2, 3}
 
-prove_over_finite_set:
-    forall x s3, y s4:
-        x * y >= 1
+prove_by_enum(x, s3), prove_by_enum(y, s4):
+    x * y >= 1
 ```
 
-Sometimes, the `then` facts are not immediately true. In this case, you can use `prove` section to prove them.
-
-```
-prove_over_finite_set:
-    universal_fact
-    prove:
-        ...
-    prove:
-        ...
-```
-
-The number of `prove` sections here are the same as the number of sets in the universal fact header. The `prove` sections are executed in the order of the sets in the universal fact header.
+The number of `prove_by_enum` statements here are the same as the number of sets in the universal fact header. The `prove_by_enum` statements are executed in the order of the sets in the universal fact header.
 
 For example
 
@@ -342,87 +334,35 @@ let s1 set, s2 set:
     s1 := {1, 2}
     s2 := {3, 4}
 
-prove_over_finite_set:
-    forall x s1, y s2:
-        x * y >= 1
-    prove:
-        1 * 3 >= 1
-    prove:
-        1 * 4 >= 1
-    prove:
-        2 * 3 >= 1
-    prove:
-        2 * 4 >= 1
+prove_by_enum(x, s1), prove_by_enum(y, s2):
+    x * y >= 1
 ```
 
 ## Prove in Range: Iteratively Prove Over a Range of Integers
 
-For some factual statements, especially those involving computation, it’s impossible to have a truly general theorem that directly tells us what every specific case looks like.
-For example, if you want to prove that a given number is prime, the only possible way might be to go through all smaller numbers and test them one by one—there’s simply no alternative to checking each case directly.
-The same applies to facts like proving that the positive divisors of a given number are exactly certain numbers (for instance, given 81, its divisors are exactly 1, 3, 9, 27, and 81).
-
-In this case, we can use `prove_in_range` to prove the statement.
+Given a set which is the subset of a consecutive integers range, we can prove a universal fact over this set by iteratively proving over each integer in this set.
 
 ```
-prove_in_range(a, b, x):
-    domFacts_of_x
-    =>:
-        then_facts
+prove_in_range(a, b, x_name, set_name):
+    ... # then facts
     prove:
-        prove_facts
+        ...
 ```
 
-It iterates over [a, b) (a < b), i.e. x = a, x = a+1, ..., x = b-1 to check
+prove section can be empty.
 
-1. whether `domFacts_of_x` are true for `x`. If one domain fact can not be proved, it checks whether that the reverse of that domain fact is true. If both it and reverse of it is unknown, the check fails.
-2. When all domain facts are proved to be true, it checks whether `prove_facts` are true for `x`. If one `prove_fact` can not be proved, the check fails.
-3. If both `domFacts_of_x` and `prove_facts` are true for `x`, it checks whether `then_facts` are true for `x`. If one `then_fact` can not be proved, the check fails.
-4. After that, when x is equal to the current value, everything is true.
-
-When a `prove_in_range` statement succeeds, it returns a `forall` statement which says `forall x Z: x >= a, x < b, domFacts_of_x => then_facts`.
+For example
 
 ```litex
-prove_in_range(1, 10, x):
-    x % 2 = 0
-    =>:
-        x != 7
-    prove:
-        x != 7
+let s set:
+    s := {x Z : 1 <= x < 3, x > 1}
 
-forall x Z:
-    x >= 1
-    x < 10
-    x % 2 = 0
-    =>:
-        x != 7
+prove_in_range(1, 3, x, s):
+    x > 0
 ```
 
-Notice prove section and domain section are optional. Here are some short-form examples:
+First, Litex checks whether your given `set_name` is the subset of the consecutive integers range `{x Z : a <= x < b}`. If not, it will report an error.
 
-```litex
-prove_in_range(1, 10, x):
-    x % 2 = 0
-    =>:
-        x >= 1
-        x < 10
-        x % 2 = 0
-    prove:
-        x >= 1
-        x < 10
-        x % 2 = 0
+Then, it iterates over `{x Z : a <= x < b}` and checks whether the the current x satisfies the definition of the intensional set `set_name`. When current x satisfies the definition of the intensional set `set_name`, it will prove the `then` facts. If not, it won't prove.
 
-prove_in_range(1, 10, x):
-    x >= 1
-    x < 10
-    prove:
-        x >= 1
-        x < 10
-
-prove_in_range(1, 82, x):
-    81 % x = 0
-    =>:
-        or(x = 1, x = 3, x = 9, x = 27, x = 81)
-
-prove_in_range(1, 10, x):
-    x >= 1
-```
+In this example, Litex iterates over `{x Z : 1 <= x < 3, x > 1}` and checks whether the the current x satisfies the definition of the intensional set `{x Z : 1 <= x < 3, x > 1}`. `x = 1` does not satisfy `x > 1`, so it won't prove the `then` facts. `x = 2` satisfies `x > 1`, so it will prove the `then` facts.

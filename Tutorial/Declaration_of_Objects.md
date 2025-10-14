@@ -82,11 +82,8 @@ have set one_to_five := {1,2,3,4,5}
 If a set is finite, then to prove that forall x in this set some property holds, we can simply check each element one by one. In this way, unlike the general case of infinite sets, the conclusion can be obtained by directly traversing all the elements in the set.
 
 ```
-prove_over_finite_set:
-    forall x one_to_five:
-        or(x = 1, x = 2, x = 3, x = 4, x = 5)
-    prove:
-
+prove_by_enum(x, one_to_five):
+    or(x = 1, x = 2, x = 3, x = 4, x = 5)
 ```
 
 As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_five).
