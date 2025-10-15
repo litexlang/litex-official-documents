@@ -64,7 +64,7 @@ The goal of Litex is to write reasoning (or math in general) as code. Since no m
   * Example: `prop larger_than(x, y) <=> x > y`
 * Specific facts (e.g. `1 $in R`, `2 > 0`)
 * Universal facts (e.g. `forall x N => x >= 0`)
-* Existential facts (e.g. `exist 1 st $exist_in(R)`)
+* Existential facts (e.g. `exist 1 st $exist_item_in(R)`)
 
 ---
 

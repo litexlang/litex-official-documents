@@ -56,7 +56,7 @@ The keywords in Litex are almost identical in meaning and usage to the commonly 
 | `prove_by_enum` | prove a universal statement by iterating over a finite set |
 | `prove_in_range` | prove a universal statement by iterating over a range of integers |
 | `import` | import a file or directory |
-| `exist_in` | exist a object in a set |
+| `exist_item_in` | exist a object in a set |
 | `set_defined_by_replacement` | define a set by a axiom of replacement |
 | `obj_exist_as_preimage_of_prop` | exist a object as the preimage of a proposition |
 | `obj_exist_as_preimage_of_fn` | exist a object as the preimage of a function |

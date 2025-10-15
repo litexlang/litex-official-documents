@@ -13,7 +13,7 @@ let e N, f Q, g R
 
 There are two main ways to declare an object:
 
-1. **`have`** – the *safe* way. The set must be non-empty (i.e., `$exist_in(setName)` must be true, such as `$exist_in(R)`), or the set must be explicitly declared as a `set` or `nonempty_set`.
+1. **`have`** – the *safe* way. The set must be non-empty (i.e., `$exist_item_in(setName)` must be true, such as `$exist_item_in(R)`), or the set must be explicitly declared as a `set` or `nonempty_set`.
 
    > Note: `set $in set` is **not** true in Litex, as this would violate the rules of set theory.
 
@@ -231,12 +231,12 @@ You can also declare objects in custom sets, provided you prove the set is non-e
 
 ```litex
 let s set
-know $exist_in(s)
+know $exist_item_in(s)
 
 have n s
 ```
 
-`exist_in` is a built-in existential proposition. In fact:
+`exist_item_in` is a built-in existential proposition. In fact:
 
 ```
 have n s
@@ -245,7 +245,7 @@ have n s
 is equivalent to:
 
 ```
-have n st $exist_in(s)
+have n st $exist_item_in(s)
 ```
 
 ## The Difference Between `let` and `have`

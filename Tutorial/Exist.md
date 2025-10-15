@@ -169,3 +169,9 @@ a > 1
 ```
 
 In this case, We use `17` to prove `$exist_number_larger_than(1)` and `have a st $exist_number_larger_than(1)` declares an object a with properties `a $in R` and `a > 1`. Notice `a = 17` is unknown, because `have` statement is choosing from one of the objects which satisfies the properties of `exist_number_larger_than`.
+
+## Not Forall and Exist
+
+Consider the following statement: `not forall x R: x > 0`. This statement is equivalent to `exist x R: not x > 0`. In Litex, you can not write `not forall`, because verifying it and using it to prove other statements is against the basic mechanism of `match and substitution` of Litex (i.e. It is almost impossible to think of a way to verify or use `not forall` to prove other statements without breaking the design of Litex).
+
+However, you can write `exist x R: not x > 0` to represent `not forall x R: x > 0`. Logically, they are equivalent.
