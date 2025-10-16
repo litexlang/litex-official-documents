@@ -83,9 +83,10 @@ Subset definition:
 ```litex
 prop P(x R)
 
-have set s := x R:
-    $P(x)
+have set s := {x R: $P(x)}
 ```
+
+Here `s := {x R: $P(x)}` is a definition of an intensional set. An intensional set looks like `{x ParentSet: Fact1(x), Fact2(x), ...}`.
 
 ### `let` - Free Declaration
 Use `let` to declare an object without checking its existence.

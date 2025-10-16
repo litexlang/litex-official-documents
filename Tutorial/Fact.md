@@ -560,6 +560,8 @@ know a*b=0
 $product_zero_implies_or(a,b)
 ```
 
+## Set Equals An Enumeration 
+
 ## Conclusion
 
 In this chapter, we have learned the most fundamental concept in Litex: **Factual Statement**. We have also learned how to derive new facts from established ones by **match and substitution**.

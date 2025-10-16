@@ -83,10 +83,10 @@ If a set is finite, then to prove that forall x in this set some property holds,
 
 ```
 prove_by_enum(x, one_to_five):
-    or(x = 1, x = 2, x = 3, x = 4, x = 5)
+    x = 1 or x = 2 or x = 3 or x = 4 or x = 5
 ```
 
-As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`or(x = 1, x = 2, x = 3, x = 4, x = 5)` is immediately true we x is in one_to_five).
+As you can see, when there is nothing to prove, you can write nothing in the `prove` section (`x = 1 or x = 2 or x = 3 or x = 4 or x = 5` is immediately true we x is in one_to_five).
 
 ### Have A Set As A Subset Of Another Set Whose Items Have Certain Properties
 
@@ -97,8 +97,7 @@ How to define {x∈A: P(x) is true} ?
 ```litex
 prop P(x R)
 
-have set s := x R:
-    $P(x)
+have set s := {x R: $P(x)}
 ```
 
 ## Declaring Objects with `let`
@@ -192,9 +191,7 @@ have set s1 := {1, 2, 3}
 Or by restricting an existing domain:
 
 ```litex
-have set s2 := n N:
-    n > 0
-    n < 4
+have set s2 := {n N: n > 0, n < 4}
 ```
 
 Here `s1` is explicitly finite, while `s2` is defined by conditions. They are different, even though both happen to describe `{1, 2, 3}`.
