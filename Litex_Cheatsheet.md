@@ -482,7 +482,7 @@ let a R:
         a = 0
 
 prove_in_each_case:
-    or(a = 0, a = 1)
+    a = 0 or a = 1
     =>:
         a >= 0
     prove:
@@ -532,10 +532,10 @@ forall x R: x > 0 => x > 0
 
 Inline or:
 ```litex
-know forall x R => or(x > 1, x = 1, x < 1)
+know forall x R => x > 1 or x = 1 or x < 1
 
 let x R
-or(x > 1, x = 1, x < 1)
+x > 1 or x = 1 or x < 1
 ```
 
 Inline equality:
@@ -599,9 +599,9 @@ f(x) > 0
 ### 4. Or Statement Execution Problem
 ❌ Error: cannot directly use universal facts:
 ```
-know forall x, y R: x * y = 0 => or(x = 0, y = 0)
+know forall x, y R: x * y = 0 => x = 0 or y = 0
 let a, b R: a * b = 0
-or(a = 0, b = 0)  # won't work
+a = 0 or b = 0  # won't work
 ```
 
 ✅ Correct: use named universal facts:
@@ -609,7 +609,7 @@ or(a = 0, b = 0)  # won't work
 know @product_zero_implies_or_zero(x, y R):
     x * y = 0
     =>:
-        or(x = 0, y = 0)
+        x = 0 or y = 0
 $product_zero_implies_or_zero(a, b)
 ```
 

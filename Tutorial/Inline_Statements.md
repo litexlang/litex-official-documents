@@ -127,18 +127,11 @@ forall x R:
 `or` and `=` can also be written in inline format.
 
 ```litex
-or(1 = 1, 1 = 2)
-or:
-	1 = 1
-    1 = 2
+1 = 1 or 1 = 2
 ```
 
-```litex
-=(1, 2 - 1, 1 * 1)
-=:
-	1
-    2 - 1
-    1 * 1
+```
+1 = 1 * 1 = 2 - 1
 ```
 
 ## Function Declaration
