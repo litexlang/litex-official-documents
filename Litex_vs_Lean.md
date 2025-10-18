@@ -147,10 +147,10 @@ It's very hard to prove `if x = 2 or x = -2, then x ^ 2 = 4` in Lean, because yo
   </tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5;">
        <code>claim:</code><br>
-       <code>&nbsp;&nbsp;forall x R: or(x = 2, x = -2) => x ^ 2 = 4</code><br>
+       <code>&nbsp;&nbsp;forall x R: x = 2 or x = -2 => x ^ 2 = 4</code><br>
        <code>&nbsp;&nbsp;prove:</code><br>
        <code>&nbsp;&nbsp;&nbsp;&nbsp;prove_in_each_case:</code><br>
-       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or(x = 2, x = -2)</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = 2 or x = -2</code><br>
        <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
        <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x ^ 2 = 4</code><br>
        <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prove:</code><br>

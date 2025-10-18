@@ -8,7 +8,7 @@ The most fundamental way to prove a statement in Litex, or math in general, is `
 
 *Proof In Each Case* – Assume the opposite of what you want to prove, and show that this leads to a contradiction.
 
-*Proof by Cases* – Divide the situation into several possible cases, prove the statement in each case, and conclude that it holds universally. For example, when 1. we know `or($p(x), $q(x))`, 2. we can prove when `$p(x)` is true, `$r(x)` is also true. 3. we can prove when `$q(x)` is true, `$r(x)` is also true. With this, we can prove `$r(x)` is always true.
+*Proof by Cases* – Divide the situation into several possible cases, prove the statement in each case, and conclude that it holds universally. For example, when 1. we know `$p(x) or $q(x)`, 2. we can prove when `$p(x)` is true, `$r(x)` is also true. 3. we can prove when `$q(x)` is true, `$r(x)` is also true. With this, we can prove `$r(x)` is always true.
 
 *Proof by Induction* – Establish a base case, then show that if the statement holds for one step, it also holds for the next, covering all natural numbers. This is called `principle of mathematical induction`. Technically, it is an axiom schema: it is a template for producing an infinite number of axioms.
 
@@ -175,7 +175,7 @@ The syntax is:
 
 ```
 prove_in_each_case:
-    or(fact1, fact2, ..., factN)
+    fact1 or fact2 or ... or factN
     =>:
         then_fact
     prove:
@@ -187,7 +187,7 @@ prove_in_each_case:
         # assume factN is true, prove then_fact
 ```
 
-If `or(fact1, fact2, ..., factN)` is true, and each `prove` section, where the nth fact in `or` statement, proves `then_fact`, then ¸`then_fact` is always true.
+If `fact1 or fact2 or ... or factN` is true, and each `prove` section, where the nth fact in `or` statement, proves `then_fact`, then ¸`then_fact` is always true.
 
 For example
 
@@ -200,7 +200,7 @@ prop is_thursday(x weekdays)
 prop is_friday(x weekdays)
 prop is_saturday(x weekdays)
 prop is_sunday(x weekdays)
-know forall x weekdays => or($is_monday(x), $is_tuesday(x), $is_wednesday(x), $is_thursday(x), $is_friday(x), $is_saturday(x), $is_sunday(x))
+know forall x weekdays => $is_monday(x) or $is_tuesday(x) or $is_wednesday(x) or $is_thursday(x) or $is_friday(x) or $is_saturday(x) or $is_sunday(x)
 
 prop stay_at_home_doctor_wear_his_uniform(x weekdays)
 know:
@@ -219,7 +219,7 @@ claim:
     forall x weekdays => $stay_at_home_doctor_wear_his_uniform(x)
     prove:
         prove_in_each_case:
-            or($is_monday(x), $is_tuesday(x), $is_wednesday(x), $is_thursday(x), $is_friday(x), $is_saturday(x), $is_sunday(x))
+            $is_monday(x) or $is_tuesday(x) or $is_wednesday(x) or $is_thursday(x) or $is_friday(x) or $is_saturday(x) or $is_sunday(x)
             =>:
                 $stay_at_home_doctor_wear_his_uniform(x)
             prove:
@@ -251,7 +251,7 @@ claim:
     forall a R => a^2 >= 0
     prove:
         prove_in_each_case:
-            or:
+            a > 0 or a = 0 or a < 0
                 a > 0
                 a = 0
                 a < 0

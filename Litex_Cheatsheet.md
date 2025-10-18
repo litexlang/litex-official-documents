@@ -83,9 +83,10 @@ Subset definition:
 ```litex
 prop P(x R)
 
-have set s := x R:
-    $P(x)
+have set s := {x R: $P(x)}
 ```
+
+Here `s := {x R: $P(x)}` is a definition of an intensional set. An intensional set looks like `{x ParentSet: Fact1(x), Fact2(x), ...}`.
 
 ### `let` - Free Declaration
 Use `let` to declare an object without checking its existence.
@@ -481,7 +482,7 @@ let a R:
         a = 0
 
 prove_in_each_case:
-    or(a = 0, a = 1)
+    a = 0 or a = 1
     =>:
         a >= 0
     prove:
@@ -531,10 +532,10 @@ forall x R: x > 0 => x > 0
 
 Inline or:
 ```litex
-know forall x R => or(x > 1, x = 1, x < 1)
+know forall x R => x > 1 or x = 1 or x < 1
 
 let x R
-or(x > 1, x = 1, x < 1)
+x > 1 or x = 1 or x < 1
 ```
 
 Inline equality:
@@ -598,9 +599,9 @@ f(x) > 0
 ### 4. Or Statement Execution Problem
 ❌ Error: cannot directly use universal facts:
 ```
-know forall x, y R: x * y = 0 => or(x = 0, y = 0)
+know forall x, y R: x * y = 0 => x = 0 or y = 0
 let a, b R: a * b = 0
-or(a = 0, b = 0)  # won't work
+a = 0 or b = 0  # won't work
 ```
 
 ✅ Correct: use named universal facts:
@@ -608,7 +609,7 @@ or(a = 0, b = 0)  # won't work
 know @product_zero_implies_or_zero(x, y R):
     x * y = 0
     =>:
-        or(x = 0, y = 0)
+        x = 0 or y = 0
 $product_zero_implies_or_zero(a, b)
 ```
 
@@ -772,7 +773,7 @@ The keywords in Litex are almost identical in meaning and usage to the commonly 
 | `prove_by_enum` | prove a universal statement by iterating over a finite set |
 | `prove_in_range` | prove a universal statement by iterating over a range of integers |
 | `import` | import a file or directory |
-| `exist_in` | exist a object in a set |
+| `exist_item_in` | exist a object in a set |
 | `set_defined_by_replacement` | define a set by a axiom of replacement |
 | `obj_exist_as_preimage_of_prop` | exist a object as the preimage of a proposition |
 | `obj_exist_as_preimage_of_fn` | exist a object as the preimage of a function |

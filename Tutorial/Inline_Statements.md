@@ -127,18 +127,11 @@ forall x R:
 `or` and `=` can also be written in inline format.
 
 ```litex
-or(1 = 1, 1 = 2)
-or:
-	1 = 1
-    1 = 2
+1 = 1 or 1 = 2
 ```
 
-```litex
-=(1, 2 - 1, 1 * 1)
-=:
-	1
-    2 - 1
-    1 * 1
+```
+1 = 1 * 1 = 2 - 1
 ```
 
 ## Function Declaration
@@ -310,7 +303,7 @@ a = 1, b = 2, c = 3, d = 4, e = 5, f = 6
 Specific facts, existential facts, and universal facts can all be written in inline format. Universal facts should end with `;` and specific facts should end with `,`.
 
 ```litex
-1 + 1 = 2, forall x R: x > 0 => x > 0; exist 2 st $exist_in(R), 0 * 18 = 0
+1 + 1 = 2, forall x R: x > 0 => x > 0; exist 2 st $exist_item_in(R), 0 * 18 = 0
 ```
 
 ### Conclusion

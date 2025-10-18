@@ -1,10 +1,10 @@
 # Quick Start
 
-## Try Litex Online
+## Run Litex Online
 
 To quickly get a taste of Litex, you can try it directly in our [Playground](https://litexlang.com/playground). You can even translate your Litex code into LaTeX code there.
 
-## Run Litex Locally
+## Install and Run Litex Locally
 
 We will introduce how to install Litex on your local machine.
 
@@ -16,10 +16,10 @@ We recommend macOS users to install Litex by Homebrew with following command:
 brew install litexlang/tap/litex
 ```
 
-For upgrading Litex, please use following command:
+For *upgrading* Litex to the latest version, please use following command:
 
 ```bash
-brew upgrade litexlang/tap/litex
+brew reinstall litex
 ```
 
 ### Install Litex on Linux
@@ -67,6 +67,21 @@ Besides typing `litex` in your terminal, Litex provides multiple ways to run, de
 ## Run Litex in Python
 
 We hope Litex can play an important role in the future of AI. Litex is user-friendly for AI developers. You can use Litex in your Python code by installing `pylitex` package. Follow steps in [pylitex](https://github.com/litexlang/pylitex) to get started.
+
+### Warning: Install litex locally before using `pylitex` to run litex in your python environment. Remember to update your local litex from time to time.
+
+```bash
+# remember to install Litex (Visit https://litexlang.com/doc/Quick_Start for more details) to your machine before install pylitex
+# change your Python env to which your are using
+# then run following commands
+pip install pylitex
+```
+
+pylitex is under development, update it to the latest version:
+
+```bash
+pip install -U pylitex
+```
 
 ## Run Litex in Jupyter Notebook
 

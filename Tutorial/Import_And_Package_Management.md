@@ -61,7 +61,7 @@ let a, b R:
 
 In folderA/main.lit, we have the following code:
 
-```litex
+```
 import "folderB" as pkgB
 
 pkgB::b > pkgB::a
@@ -110,7 +110,7 @@ let c R:
 
 In folderA/main.lit, we have the following code:
 
-```litex
+```
 import "folderB" as pkgB
 
 pkgB::pkgC::b > pkgB::pkgC::a
