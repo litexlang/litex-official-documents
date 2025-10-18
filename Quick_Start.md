@@ -2,7 +2,7 @@
 
 ## Run Litex Online
 
-To quickly get a taste of Litex, you can try it directly in our [Playground](https://litexlang.com/playground/). You can even translate your Litex code into LaTeX code there.
+To quickly get a taste of Litex, you can try it directly in our [Playground](https://litexlang.com/playground). You can even translate your Litex code into LaTeX code there.
 
 ## Install and Run Litex Locally
 
@@ -48,21 +48,21 @@ You would see next lines, which means you've installed Litex successfullly!
 ```bash
 Litex-beta - Type your code or 'exit' to quit
 Warning: not yet ready for production use.
->>> 
+>>>
 ```
 
 ### Litex Command Options
 
 Besides typing `litex` in your terminal, Litex provides multiple ways to run, depending on your needs:
 
-| Flag        | Example usage                      | Description |
-|-------------|------------------------------------|-------------|
-| `--help`    | `litex --help`                     | Show the help message with all available command-line options. |
-| `--version` | `litex --version`                  | Display the currently installed Litex version. |
-| `-e`        | `litex -e "1 + 2 = 3"`                 | Execute the given Litex code directly. |
-| `-f`        | `litex -f example.litex`           | Execute a Litex source file. |
-| `-r`        | `litex -r my-repo`                 | Execute Litex code from a given repository. |
-| `--latex`   | `litex --latex example.litex`      | Compile the given file into LaTeX output. |
+| Flag        | Example usage                 | Description                                                    |
+| ----------- | ----------------------------- | -------------------------------------------------------------- |
+| `--help`    | `litex --help`                | Show the help message with all available command-line options. |
+| `--version` | `litex --version`             | Display the currently installed Litex version.                 |
+| `-e`        | `litex -e "1 + 2 = 3"`        | Execute the given Litex code directly.                         |
+| `-f`        | `litex -f example.litex`      | Execute a Litex source file.                                   |
+| `-r`        | `litex -r my-repo`            | Execute Litex code from a given repository.                    |
+| `--latex`   | `litex --latex example.litex` | Compile the given file into LaTeX output.                      |
 
 ## Run Litex in Python
 
