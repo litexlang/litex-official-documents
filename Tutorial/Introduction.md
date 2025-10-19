@@ -1,12 +1,6 @@
-<div align="center">
-<img src="./assets/logo.png" alt="The Litex Logo" width="300">
-</div>
-
-<div align="center">
-
 # Litex: A Simple & Elegant Formal Language Learnable in 2 Hours
 
-**version v0.1.10-beta (not yet ready for production use)**  
+**version v0.1.11-beta (not yet ready for production use)**  
 *Jiachen Shen and The Litex Team*
 
 [![Official Website](https://img.shields.io/badge/Official%20Website-blue?logo=website)](https://litexlang.com)
@@ -108,11 +102,6 @@ All of our [repositories](https://github.com/orgs/litexlang/repositories) are op
 _Sometimes it is the very people who no one imagines anything of who do the things that no one can imagine._
 
 _– Alan Turing_
-
-<div align="center">
-  <img src="./assets/Little_Little_O.png" alt="The Litex Logo" width="200">
-  <p><em>Litex Mascot: Little Little O, a curious baby bird full of wonder</em></p>
-</div>
 
 Hi, I’m Jiachen Shen, creator of Litex. It is so fortunate to receive tremendous help from friends and colleagues throughout this journey of designing, implementing, and growing Litex into a community. Without their support, Litex would not have had the chance to succeed.
 
