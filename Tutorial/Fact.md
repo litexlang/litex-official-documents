@@ -460,6 +460,26 @@ a = 2
 know forall x R: x = 1 or x = 2 => x < 3
 ```
 
+Note: When writing expressions like `(x = 1 and y = 2) or (x = 0 and y = 3)`, since Litex currently does not have an `and` keyword, if you need to combine multiple facts with `and` within an `or` case, you must name these specific facts explicitly, and then Litex will perform the `and` operation for you.
+
+```litex
+let x, y R
+
+prop p():
+    x = 1
+    y = 2
+
+know:
+    x = 1
+    y = 2
+
+prop q():
+    x = 0
+    y = 3
+
+$p() or $q()
+```
+
 ## Or & Prove In Each Case
 
 `or` is often used with `prove_in_each_case` to prove a fact in each case.
