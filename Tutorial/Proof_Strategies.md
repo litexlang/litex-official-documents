@@ -16,6 +16,8 @@ The most fundamental way to prove a statement in Litex, or math in general, is `
 
 *Proof in Range* - Given two integers `a <= b` and a set which is subset of `{x Z | a <= x < b}`, we prove iteratively over each integer `x` in that set whether some properties hold.
 
+*Functionality Enhancement: 
+
 We will explore these methods in detail in the following sections.
 
 ## Prove by Contradiction: A coin cannot be heads and tails at the same time.
