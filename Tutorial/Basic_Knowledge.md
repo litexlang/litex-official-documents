@@ -104,6 +104,26 @@ $$
 y = 6, \quad x = -4
 $$
 
+## Symbol
+
+Everything is a symbol in Litex. A symbol can equal to other symbols. When two symbols are equal, they are interchangeable and they share all properties.
+
+## Value
+
+We left-hand-side or right-hand-side of a equal statement is a numerical symbol, Litex remembers it as the value of the symbol on the other side, for example:
+
+```litex
+let a, b R: a = 1, 2 = b
+```
+
+In this case, `1` is the value of `a` and `2` is value of `b`.
+
+When the Litex kernel is verifying statements about a given symbol, it first replaces the symbol with its value and verify (if its value is known). If the verification works, the verification process is done. If it does not work, we use the symbol as it is to do verification.
+
+This can be extremely useful in the following ways:
+
+1. We know `x = 1` we want to prove `x > 0`. Since `1 > 0` and the verification process replaces `x > 0` with `1 > 0`, everything is done immediately. You do not need to write `1 > 0, x > 0` and use match-and-substitution to do so.
+
 ## Comment
 
 Litex support to add one-line Comment by symbol `# ` and multi-line Comment by symbol `"` (If you write one `"`, it can be translated to markdown style comment in display; If you write two `"`, it can be translated to LaTeX style comment in display, others to LaTeX style comment in display):

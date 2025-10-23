@@ -1,8 +1,8 @@
 # Introduction: Begin the journey with Litex
 
-_千里之行，始于足下。(The journey of a thousand miles begins with one step.)_
+_Design is not just what it looks like and feels like. Design is how it works._
 
-_老子(Lao Tzu)_
+_— Steve Jobs_
 
 The experience of writing Litex feels like magic. Since a 10-year-old can reason about basic math, even a 10-year-old should be able to learn and use Litex easily to solve their own problems. Whether it’s a human or an AI, learning Litex is very easy, because Litex’s syntax is extremely close to natural language. The three key features of Litex are: **intuitive, simple, and expressive**.
 

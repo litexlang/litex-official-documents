@@ -38,6 +38,9 @@ forall a, b, n N:
     n > 0
     a > b
     =>:
+        n != 0
+        b >= 0
+        a >= 0
         a ^ n > b ^ n
 
 ```

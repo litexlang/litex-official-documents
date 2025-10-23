@@ -189,6 +189,19 @@ prove_in_each_case:
         # assume factN is true, prove then_fact
 ```
 
+or inline form:
+
+```
+prove_in_each_case fact1 or fact2 ... or factN => fact1, fact2 ...:
+    prove:
+        ...
+    prove:
+        ...
+    ...
+    prove:
+        ...
+```
+
 If `fact1 or fact2 or ... or factN` is true, and each `prove` section, where the nth fact in `or` statement, proves `then_fact`, then ¸`then_fact` is always true.
 
 For example

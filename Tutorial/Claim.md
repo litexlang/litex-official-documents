@@ -117,3 +117,35 @@ Imagine you are writing a long proof, and you want to write scratches independen
 
 > Note: In this case, if you make claim of `let x N` before all Prove block, Litex would report an Error. Because you claimed `x` in parent-environment first and sub-environment would be affected.
 
+## Inline Claim
+
+Multiline claim takes up much space, here is a short one:
+
+```
+claim fact:
+    prove statement
+    ...
+```
+
+```
+claim fact prove_by_contradiction:
+    prove statement
+    ...
+```
+
+For example:
+
+```litex
+let x R: x = 11
+
+claim x = 11:
+    x = 11
+
+claim forall y: x = y => y = 11:
+    y = 11
+
+claim x = 11 prove_by_contradiction:
+    x = 11
+```
+
+This will make code much shorter and cleaner.

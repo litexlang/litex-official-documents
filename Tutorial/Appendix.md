@@ -1,5 +1,9 @@
 # Appendix
 
+_Everything is a file._
+
+_- Unix Philosophy_
+
 ## Language Tradeoffs
 
 _Everything should be made as simple as possible, but not simpler._
