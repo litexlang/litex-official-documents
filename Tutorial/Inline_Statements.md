@@ -122,6 +122,26 @@ forall x R:
         1 > 0
 ```
 
+The followings are also equivalent.
+
+```litex
+prop p(x R)
+prop q(x R)
+know:
+    forall x R:
+        $p(x)
+        <=>:
+            $q(x)
+
+forall x R: $p(x) <=> $q(x)
+forall x R: 
+    $p(x)
+    <=>:
+        $q(x)
+```
+
+When there is no extra domain facts, `forall params: facts1 <=> facts2` is equivalent as `forall params => facts1 <=> facts2`. The meaning of `forall params : facts1 <=> facts2`, i.e. `when there is no extra domain facts, facts1 is equivalent to facts2`.
+
 ## Or, Equal
 
 `or` and `=` can also be written in inline format.

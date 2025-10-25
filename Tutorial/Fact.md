@@ -265,7 +265,7 @@ Notice that no extra parameters are needed in the universal fact. What we are do
 ```litex
 have x R
 
-if:
+when:
     x = 1
     =>:
         x = 1 * 1
@@ -279,8 +279,8 @@ This looks much natural and readable, right? For example, if we want to define a
 
 ```litex
 fn f(x Z) Z:
-    if: x % 2 = 0 =>f(x+1) = f(x) + 1
-    if: x % 2 = 1 =>f(x+1) = f(x) + 2
+    when: x % 2 = 0 =>f(x+1) = f(x) + 1
+    when: x % 2 = 1 =>f(x+1) = f(x) + 2
 know f(0) = 0
 f(1) = f(0) + 1 = 1
 
