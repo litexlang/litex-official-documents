@@ -1,3 +1,4 @@
+"""litex
 # definition of a group, and prove R and Z are groups
 # 定义一个群，并证明 R 和 Z 是群
 
@@ -27,3 +28,4 @@ forall x Z:
 
 # The reason we don't write the inverse operator directly as -, but use negate instead, is that - would be interpreted as subtraction of two real numbers here.
 $is_group(Z, +, inverse, 0)
+"""
