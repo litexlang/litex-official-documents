@@ -267,22 +267,37 @@ This example means: Define a group, and prove `R` is a group. (本例是一个�
     <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean 4</th>
   </tr>
   <tr>
-    <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
-      <code>prop is_group(s set, mul fn(s, s)s, inv fn(s)s, e s):</code><br>
-      <code>&nbsp;&nbsp;forall x s, y s, z s:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(mul(x, y), z) = mul(x, mul(y, z))</code><br>
-      <code>&nbsp;&nbsp;forall x s:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(x, inv(x)) = e</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(inv(x), x) = e</code><br><br>
-      <code>fn inverse(x R)R:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;inverse(x) + x = 0</code><br><br>
-      <code>forall x R:</code><br>
-      <code>&nbsp;&nbsp;inverse(x) $in R</code><br>
-      <code>&nbsp;&nbsp;x + inverse(x) = inverse(x) + x</code><br>
-      <code>&nbsp;&nbsp;inverse(x) + x = 0</code><br>
-      <code>&nbsp;&nbsp;x + inverse(x) = 0</code><br><br>
-      <code>$is_group(R, +, inverse, 0)</code><br>
-      <code>$is_group(Z, +, inverse, 0)</code>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5;">
+       <code># definition of a group, and prove R and Z are groups</code><br>
+       <code># 定义一个群，并证明 R 和 Z 是群</code><br>
+       <code></code><br>
+       <code>prop is_group(s set, mul fn(s, s)s, inv fn(s)s, e s):</code><br>
+       <code>&nbsp;&nbsp;forall x s, y s, z s:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(mul(x, y), z) = mul(x, mul(y, z))</code><br>
+       <code>&nbsp;&nbsp;forall x s:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(x, inv(x)) = e</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(inv(x), x) = e</code><br>
+       <code>&nbsp;&nbsp;forall x s:</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(x, e) = x</code><br>
+       <code>&nbsp;&nbsp;&nbsp;&nbsp;mul(e, x) = x</code><br>
+       <code></code><br>
+       <code># function negate is defined to be the negation of a real number, i.e. negate(x) = -x is always true. The existence of negation function is by common sense.</code><br>
+       <code># The reason why The inverse (negation) operator, when applied to an integer argument, returns another integer. This follows directly from the definition of integers, so it is built into Litex.</code><br>
+       <code># The proof cannot be carried out in ℕ because the following statement does not remain valid in the following line.</code><br>
+       <code># The following statement is does not work: </code><br>
+       <code># forall x N: negate(x) = -x, -x $in N, negate(x) $in N</code><br>
+       <code>forall x Z: negate(x) = -x, -x $in Z, negate(x) $in Z</code><br>
+       <code></code><br>
+       <code>have fn inverse(x Z) Z = negate(x)</code><br>
+       <code></code><br>
+       <code>forall x Z:</code><br>
+       <code>&nbsp;&nbsp;negate(x) = -x = inverse(x)</code><br>
+       <code>&nbsp;&nbsp;x + inverse(x) = x + (-x) = 0</code><br>
+       <code>&nbsp;&nbsp;inverse(x) $in Z</code><br>
+       <code></code><br>
+       <code># The reason we don't write the inverse operator directly as -, but use negate instead, is that - would be interpreted as subtraction of two real numbers here.</code><br>
+       <code>$is_group(Z, +, inverse, 0)</code><br>
+       <code></code><br>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5">
       <code>structure MyGroup (G : Type) where</code><br>

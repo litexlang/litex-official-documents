@@ -4,7 +4,9 @@
 
 <div align="center">
 
-# Litex: A Simple Formal Language Learnable in 2 Hours, Not 1 Year. Designed for AI era.
+# Litex: Scale Formal Reasoning in AI Era
+
+## A Simple Formal Language Learnable in 2 Hours, Not 1 Year.
 
 **version v0.1.10-beta (not yet ready for production use)**  
 *Jiachen Shen and The Litex Team*
@@ -25,6 +27,8 @@ _Simplicity is the ultimate sophistication._
 _– Leonardo da Vinci_
 
 [Congratulations! Litex achieves top 10 on Hacker News on 2025-09-27!!](https://news.ycombinator.com/item?id=45369629)
+
+**Warning: Litex is still in beta. The syntax and semantics are subject to change. There might be some bugs and inconsistencies. You should not use Litex in any production environments yet.**
 
 Litex([website](https://litexlang.com)) is a simple, intuitive, and expressive open-source formal language for coding reasoning ([Star the repo!](https://github.com/litexlang/golitex)). It ensures every step of your reasoning is correct, and is actually the first formal language that can be learned by anyone in 2 hours. In fact, Litex is so close to natural language that sometimes it makes you forget you are using a formal language!
 

@@ -15,7 +15,9 @@ claim forall x Z: x % 2 = 1 => f(x) = f(x - 1) + 1:
 
 algo f(x):
     if x % 2 = 0:
+        f(x) = f(x - 1) + 2
         return f(x - 1) + 2
     if x % 2 = 1:
+        f(x) = f(x - 1) + 1
         return f(x - 1) + 1
 ```
