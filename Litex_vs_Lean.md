@@ -288,6 +288,7 @@ This example means: Define a group, and prove `R` is a group. (本例是一个�
        <code># forall x N: negate(x) = -x, -x $in N, negate(x) $in N</code><br>
        <code>forall x Z: negate(x) = -x, -x $in Z, negate(x) $in Z</code><br>
        <code></code><br>
+       <code># The difference between `have fn` and `fn` is that `have fn` checks the existence of the function, while `fn` does not. When using `fn`, keep in mind that the function is not guaranteed to exist!</code><br>
        <code>have fn inverse(x Z) Z = negate(x)</code><br>
        <code></code><br>
        <code>forall x Z:</code><br>

@@ -1,4 +1,4 @@
-"""litex
+```litex
 # definition of a group, and prove R and Z are groups
 # 定义一个群，并证明 R 和 Z 是群
 
@@ -19,6 +19,8 @@ prop is_group(s set, mul fn(s, s)s, inv fn(s)s, e s):
 # forall x N: negate(x) = -x, -x $in N, negate(x) $in N
 forall x Z: negate(x) = -x, -x $in Z, negate(x) $in Z
 
+# The difference between `have fn` and `fn` is that `have fn` checks the existence of the function, while `fn` does not.
+# When using `fn`, Keep in mind that the function is not guaranteed to exist!
 have fn inverse(x Z) Z = negate(x)
 
 forall x Z:
@@ -28,4 +30,5 @@ forall x Z:
 
 # The reason we don't write the inverse operator directly as -, but use negate instead, is that - would be interpreted as subtraction of two real numbers here.
 $is_group(Z, +, inverse, 0)
-"""
+
+```
