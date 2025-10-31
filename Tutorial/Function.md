@@ -144,6 +144,8 @@ fn square_root(x R) R:
         square_root(x) * square_root(x) = x
 ```
 
+⚠️ **Note:** This style of definition does not guarantee that such a function exists. For safety, Litex will later support `set_defined_by_replacement`, which ensures existence.
+
 Here:
 
 * `fn` introduces a new function.
@@ -155,7 +157,24 @@ Here:
 
 So, `square_root(-1)` is invalid, since `-1` does not satisfy the domain.
 
-⚠️ **Note:** This style of definition does not guarantee that such a function exists. For safety, Litex will later support `set_defined_by_replacement`, which ensures existence.
+When writing `fn` to declare a function, fact about that function are known without verification:
+
+```
+forall param1 paramSet1, ..., paramN paramSetN:
+    ...
+    =>:
+        ...
+```
+
+for example, the following fact is known after you define function `square_root`
+
+```
+forall x R:
+    x >= 0
+    =>:
+        square_root(x) $in R
+        square_root(x) * square_root(x) = x
+```
 
 Note: You can refer to the function itself in domain fact. For example, you should not do this:
 
