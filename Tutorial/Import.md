@@ -2,7 +2,7 @@
 
 _The most fundamental problem in software development is complexity. There is only one basic way of dealing with complexity: divide and conquer._
 
-_— Bjarne Stroustrup_
+_—- Bjarne Stroustrup_
 
 It is important to break down a complex project into independent parts. For example, when a file becomes too long, we can split it into several independent files for easier reading.
 
@@ -72,3 +72,6 @@ $pkg1::prop1(pkg2::obj2)
 ```
 
 Note: There cannot be packages (folders) with the same name in `~/litexlang/user_pkg` and `~/litexlang/std_pkg`, otherwise it will cause conflicts.
+
+Any package must contain a file with name `main.lit`. 当我 `import "pkg1"`  时的处理其实很简单：运行 `pkg1/main.lit` 文件。没有别的。如果你想运行其他.lit文件，那就在 main.lit 中 import 它们。
+
