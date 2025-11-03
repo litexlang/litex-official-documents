@@ -40,3 +40,31 @@ final_line_of_chap5
 
 这么做相当于，把这些.lit文件里的内容一一复制黏贴到 textbook.lit 文件里，然后从前往后运行。本质上你也可以把所有内容放在一个文件textbook.lit里，但这样分开写的好处是，让整个项目看起来更清晰。如果想读第几个chap，直接进入相关的 .lit 文件就行
 
+## Import A Package(Folder)
+
+When you install litex on your machine, there will be folder `~/litexlang/user_pkg` and `~/litexlang/std_pkg` on your machine. `~/litexlang/std_pkg` is the folder containing many folders ranging from number theories to basic set theory, maintained by the Litex team. `~/litexlang/user_pkg` contains folders (packages) you download using `lip install package_name` command. When you want to import a package without publishing it to the `lip` system, you can copy your folder into the  `~/litexlang/user_pkg` and use it as if you are using a package installed by `lip install`.
+
+(`lip` works very much the same as how `pip` works for python.)
+
+```
+import "PACKAGE_NAME"
+```
+
+Example:
+
+```
+import "nat"  # nat is a standard package in `~/litexlang/std_pkg`
+import "some_package_installed_by_lip" # When you type `lip install some_package_installed_by_lip`, some_package_installed_by_lip is installed to ~/litexlang/user_pkg
+```
+
+Now you use `PKGNAME::NAME` to use anything with name `NAME` in the `PKGNAME` in your current code. (It works like C++ or Rust.). `PKGNAME` is the folder name in `~/litexlang/user_pkg`, i.e. `xxx` in the `lip install xxx` command.
+
+Example
+
+```
+# suppose there is a proposition called prop1 in pkg1, an object called obj2 in pkg2
+import "pkg1"
+import "pkg2"
+
+$pkg1::prop1(pkg2::obj2)
+```
