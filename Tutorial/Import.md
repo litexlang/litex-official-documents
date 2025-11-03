@@ -1,17 +1,19 @@
 # Import
 
-_
+_The most fundamental problem in software development is complexity. There is only one basic way of dealing with complexity: divide and conquer._
 
-把一个复杂的工程分拆成独立的部分是重要的。比如，当我们一个文件太长了，我们就可以把它拆分成几个独立的文件，这样方便阅读。
+_— Bjarne Stroustrup_
 
-这样做的另外一个好处是适合多人协作。编程中，用户通过把一些代码打包，分享出去。这样其他人就能直接拿来这些包，基于这些包里面的工具做自己的项目，而无需自己从头搭建。数学也一样。很多数学知识别人如果已经形式化成litex代码了，那就可以拿来直接用（前提是我们默认对方的代码是准确的）。所以和python一样，包管理系统是litex的重要组成部分。这样我们能分享自己写的代码，使用他人写好的代码。
+It is important to break down a complex project into independent parts. For example, when a file becomes too long, we can split it into several independent files for easier reading.
 
-Litex有两种import方式：import 一个含有main.lit的文件夹（我们称之为包），或import一个lit文件。二者用不同的用法：
+Another benefit of doing this is that it facilitates collaboration among multiple people. In programming, users package their code and share it with others. This allows others to directly use these packages and build their own projects based on the tools within these packages, without having to build everything from scratch. The same applies to mathematics. If someone has already formalized mathematical knowledge into litex code, we can use it directly (provided we assume their code is accurate). Therefore, just like Python, a package management system is an important component of Litex. This allows us to share the code we write and use code written by others.
+
+Litex has two ways to import: import a folder containing `main.lit` (which we call a package), or import a `.lit` file. The two have different usage:
 
 
 ## Import A File
 
-import 文件通常发生在，当我自己在做一个大型litex工程时（比如我在形式化一本数学书），我如果把所有代码写在一个文档里，这会很长。更好的做法是，在一个文件里（比如main.lit）中，按顺序import一个个子文件。就好比一本书有5个章节，我把各个章节的litex代码分别放在 chap1.lit, chap2.lit, chap3.lit, chap4.lit, chap5.lit 里，然后在 textbook.lit 中import它们，具体写法如下:
+Importing a file typically occurs when working on a large Litex project (for example, when formalizing a mathematics textbook). If we write all the code in a single document, it will be very long. A better approach is to import individual sub-files sequentially in one file (for example, `main.lit`). Just like a book with 5 chapters, we can place the Litex code for each chapter in `chap1.lit`, `chap2.lit`, `chap3.lit`, `chap4.lit`, `chap5.lit` respectively, and then import them in `textbook.lit`, as shown below:
 
 ```
 # textbook.lit
@@ -38,7 +40,7 @@ line1_of_chap1
 final_line_of_chap5
 ```
 
-这么做相当于，把这些.lit文件里的内容一一复制黏贴到 textbook.lit 文件里，然后从前往后运行。本质上你也可以把所有内容放在一个文件textbook.lit里，但这样分开写的好处是，让整个项目看起来更清晰。如果想读第几个chap，直接进入相关的 .lit 文件就行
+This is equivalent to copying and pasting the contents of these `.lit` files one by one into the `textbook.lit` file, and then running them from front to back. Essentially, you could also put all the content in a single file `textbook.lit`, but the benefit of separating them is that it makes the entire project clearer. If you want to read a specific chapter, you can directly open the relevant `.lit` file.
 
 ## Import A Package(Folder)
 
@@ -68,3 +70,5 @@ import "pkg2"
 
 $pkg1::prop1(pkg2::obj2)
 ```
+
+Note: There cannot be packages (folders) with the same name in `~/litexlang/user_pkg` and `~/litexlang/std_pkg`, otherwise it will cause conflicts.
