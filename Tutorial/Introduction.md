@@ -30,9 +30,9 @@ _– Leonardo da Vinci_
 
 **Warning: Litex is still in beta. The syntax and semantics are subject to change. There might be some bugs and inconsistencies. You should not use Litex in any production environments yet.**
 
-Litex([website](https://litexlang.com)) is a simple, intuitive, and expressive open-source formal language for coding reasoning ([Star the repo!](https://github.com/litexlang/golitex)). It ensures every step of your reasoning is correct, and is actually the first formal language that can be learned by anyone in 2 hours. In fact, Litex is so close to natural language that sometimes it makes you forget you are using a formal language!
+Litex([website](https://litexlang.com)) is a simple open-source formal language, learnable in 2 hours by anyone. It expresses mathematics in the form of code, ensuring that every step of the reasoning process is rigorously correct. The closeness of Litex to natural language can be really helpful for AI and human alike in mathematical exploration and problem-solving. I hope you will forget that you are using a formal language to write mathematics using Litex!([Star the repo!](https://github.com/litexlang/golitex)). 
 
-Making Litex intuitive to both humans and AI is Litex's core mission. Just like how Python lowers the barrier of programming by 10x compared with C/C++, Litex lowers the barrier of formal reasoning by 10x compared with previous formal languages like Lean. This is how Litex scales formal reasoning: by making it accessible to more people, applicable to more complex problems, and usable by large-scale AI systems. Here is an example:
+Making Litex intuitive to both humans and AI is Litex's core mission. Just like how Python lowers the barrier of programming by 10x compared with C/C++, Litex lowers the barrier of formal reasoning by 10x compared with previous formal languages like Lean. This is how Litex scales formal reasoning: by making it accessible to more people, and usable by large-scale AI systems. Here is an example:
 
 <table style="border-collapse: collapse; width: 100%; font-size: 12px">
   <tr>
@@ -76,9 +76,11 @@ Making Litex intuitive to both humans and AI is Litex's core mission. Just like 
   </tr>
 </table>
 
-While Lean 4 is a powerful and rigorous proof assistant ideal, it requires months of training and years of experience to master. Litex takes a different approach: prioritizing accessibility and ease of use, enabling even beginners to formalize naive tasks like multivariate equations in minutes. For many everyday reasoning tasks, especially when rapid prototyping and intuitive syntax matter most, Litex offers a more approachable path. Each tool has its place — choose the one that best fits your needs and experience level!
+While Lean 4 is a powerful and rigorous proof assistant ideal, it requires months of training and years of experience to master. Litex takes a different approach: prioritizing accessibility and ease of use, enabling even beginners to formalize naive tasks like multivariate equations in minutes. For many everyday reasoning tasks, Litex offers a more approachable path. 
 
-Our mission is to make Litex the most accessible and usable formal language for coding reasoning. We aim to solve the most challenging problems faced by the AI community, i.e. the challenge of efficient, scalable, and reliable coding reasoning. Let's build the future together!
+For mathematical research, a well-designed formal language can clarify the dependency structure among complex theorems and lay the foundation for large-scale collaborative “Big Mathematics.” For AI, such a formal language enables reasoning models to form a self-reinforcing cycle of automatic problem generation → automatic solving → automatic verification. Combined with the reinforcement-learning-based post-training approach demonstrated by DeepSeek-R1, this may lead to a breakthrough moment comparable to AlphaGo.
+
+Our mission is to make Litex the most intuitive and simple formal language for coding reasoning. We aim to solve the most challenging problems faced by the AI community, i.e. the challenge of efficient, scalable, and reliable coding reasoning. Let's build the future together!
 
 ## Resources And Community
 
@@ -109,6 +111,12 @@ All of our [repositories](https://github.com/orgs/litexlang/repositories) are op
 
 ## References
 
+_You must run before you can walk._
+
+_-- Bjarne Stroustrup_
+
+Although Litex is a very pragmatic language which contains and only contains the proof methods, axioms, keywords, etc. that people need in their daily mathematical work—things that are often so taken for granted that people usually don't even notice them —- it is equally important to note that Litex indeed has gained great conceptual inspiration from the masters.
+
 Mathematics references:
 
 1. Avigad Jeremy: Foundations https://arxiv.org/abs/2009.09541
@@ -116,6 +124,12 @@ Mathematics references:
 3. Weyl Hermann: Philosophy of Mathematics and Natural Science https://www.jstor.org/stable/j.ctv1t1kftd
 4. Bertrand Russell: Introduction to Mathematical Philosophy https://people.umass.edu/klement/imp/imp.pdf
 5. David Hilbert: Foundations of Geometry https://math.berkeley.edu/~wodzicki/160/Hilbert.pdf
+
+AI references:
+
+1. DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning
+2. AlphaGeometry: An Olympiad-level AI system for geometry 
+3. Seed-Prover: Deep and Broad Reasoning for Automated Theorem Proving
 
 ## Special Thanks
 

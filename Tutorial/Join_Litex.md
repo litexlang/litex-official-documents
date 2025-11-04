@@ -12,9 +12,7 @@ Litex is a young language evolving at a very fast pace. We are looking for more 
 
 If you agree with the above two points, then it is even better if you also agree with the following development philosophies:
 
-[worse is better](https://www.dreamsongs.com/RiseOfWorseIsBetter.html): It is the development and design principle behind Unix, JavaScript and many other successful projects. It basically says
-
-"The worse-is-better philosophy means that implementation simplicity has highest priority, which means Unix and C are easy to port on such machines. Therefore, one expects that if the 50% functionality Unix and C support is satisfactory, they will start to appear everywhere. And they have, haven't they? Unix and C are the ultimate computer viruses."
+[worse is better](https://www.dreamsongs.com/RiseOfWorseIsBetter.html): It is the development and design principle behind Unix, JavaScript and many other successful projects. The worse-is-better philosophy means that implementation simplicity has highest priority, which means Unix and C are easy to port on such machines. Therefore, one expects that if the 50% functionality Unix and C support is satisfactory, they will start to appear everywhere.
 
 [move fast and break things](https://en.wikipedia.org/wiki/Move_fast_and_break_things): It is the early motto of Facebook. It means that we should move fast, receive feedbacks from users, and break the previous designs and implementations to make things better. This is critical for the survival of a young project like Litex.
 

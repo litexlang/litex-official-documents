@@ -341,3 +341,27 @@ let f from_N_to_N()
 ```litex
 let f fn(N) N
 ```
+
+## Function Template is a set
+
+```litex
+have set a = {x fn(R)R: x(0) = 0}
+let b a
+b $in fn(R)R 
+b(0) = 0
+
+prop is_fib(f fn(N_pos) N):
+    f(1) = 1
+    f(2) = 1
+    forall n N_pos: n >= 3 => f(n) = f(n - 1) + f(n - 2)
+
+have set F = { f fn(N_pos) N: $is_fib(f) }
+let f F
+f $in fn(N_pos) N
+$is_fib(f)
+f(1) = 1
+f(2) = 1
+f(3) = f(1) + f(2) = 2
+```
+
+`fn_template` is a subset of a power set. And `fn(R)R` is actually equal to `R^{R}`.
