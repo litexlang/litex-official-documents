@@ -1,10 +1,12 @@
 # Factual Statement: Math is About Deriving New Facts from Established Ones
 
-_There is nothing without a reason._
+_Geometry, like arithmetic, requires for its logical development only a small number of simple, fundamental principles._
 
-_— Leibniz_
+_— David Hilbert_
 
-Math is about deriving new facts from established ones. Such process is called deduction (also called inference, reasoning) and can be verified by a very small set of mechanical rules. Thus, we can write a computer program like Litex to verify the correctness of a piece of reasoning. Easy, right?
+Euclid showed us over 2000 years ago how 5 axioms could derive such a wonderful geometric world. Simple starting points often lead us into infinitely complex worlds. The same is true for mathematics. The foundation of modern mathematics is naive set theory, which doesn't have many axioms, and we even encountered the concept of sets in middle school. But it is precisely these simple and understandable rules that form the foundation of all mathematics. Before we move on, think about how powerful the idea is: with just very few absolutely accurate inference rules, plus a few axioms, we can derive a rich and diverse mathematical world. That is what math is all about.
+
+By implementing those simple axioms and deduction rules in a software like Litex, we can write math in the form of code. That is what Litex is about. Easy to understand, right?
 
 ## What Is a Factual Statement?
 

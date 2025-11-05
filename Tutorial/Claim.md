@@ -1,8 +1,8 @@
 ## Claim: Organize Your Proof into Sub-Proofs
 
-_The most fundamental problem in software development is complexity. There is only one basic way of dealing with complexity: divide and conquer._
+_There is nothing without a reason._
 
-_— Bjarne Stroustrup_
+_— Leibniz_
 
 Math is hard. It is important to organize your proof well. The best way to do so is to divide a long proof into a series of independent sub-proofs and then combine them together. We call it `divide and conquer`, which is also a common strategy in many other tasks like building a house, writing code, etc. In such case, `claim` keyword can help you.
 
