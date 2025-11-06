@@ -1,8 +1,10 @@
 # First Example
 
-_万物之始，大道至简，衍化至繁. (All begins in simplicity; the Way is simple, yet gives rise to the complex.)_
+_Classes will dull your mind. Destroy the potential for authentic creativity._
 
-_-- 老子 (Lao Tzu)_
+_- John Nash_
+
+Litex is a language full of fun. It's completely new way of bridging the world of math and programming, so let your creativity fly when learning it! Think of some examples on your own when reading this tutorial.
 
 Mathematics is the art of deriving new facts from established ones. To illustrate, let’s start with a classical syllogism proposed by Aristotle, which formalizes deductive reasoning.
 

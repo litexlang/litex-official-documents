@@ -6,6 +6,8 @@ _— Musser, David R.; Stepanov, Alexander A., Generic Programming_
 
 Function templates are one the most powerful features in Litex, inspired by template (generic programming) in C++. They are the blueprint of functions. Introduction of function template makes sequence, matrix, product of sets, and some of the most widely used concepts in math easy to define in Litex.
 
+You can think of a function template as a power set. For example, fn(R)R, which contains all functions from R to R, is equivalent to set R^{R}.
+
 ## What is a Function Template?
 
 A definition of a function has the following parts: 1. function name 2. parameters and the sets they belong to 3. domain facts of these parameters 4. the properties that the function satisfy. 5. the return value of this function belongs to what set.
