@@ -113,3 +113,5 @@ f(3) = 3
 ```
 
 Note: If you try to `eval f(1.5)` here, it will result in an infinite loop. This is because you can keep calling `f` indefinitely, but it will never terminate. The purpose of `algo` is to help you automatically write some evaluation steps, and an infinite loop is equivalent to the user continuously writing intermediate steps that are unrelated to the final result. Although these intermediate steps are correct, they don't actually serve a purpose. litex does not check whether your algorithm halts.
+
+In summary, algo and eval save you from manually writing numerous similar proof processes. For example, without eval, to prove that f(10) = 10 here, we would have to write *f(1) = f(0) + 1 = 0 + 1 = 1, f(2) = f(1) + 1 = 1 + 1 = 2, .... f(10) = f(9) + 1 = 9 + 1 = 10*—a long series of highly repetitive proofs.
