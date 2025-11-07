@@ -175,3 +175,34 @@ In this case, We use `17` to prove `$exist_number_larger_than(1)` and `have a st
 Consider the following statement: `not forall x R: x > 0`. This statement is equivalent to `exist x R: not x > 0`. In Litex, you can not write `not forall`, because verifying it and using it to prove other statements is against the basic mechanism of `match and substitution` of Litex (i.e. It is almost impossible to think of a way to verify or use `not forall` to prove other statements without breaking the design of Litex).
 
 However, you can write `exist x R: not x > 0` to represent `not forall x R: x > 0`. Logically, they are equivalent.
+
+## Example
+
+This example shows how to write 
+
+```
+# ∀ x : R, ∃ f : R -> R, ∀ y : R, ∃ z in R, f(x + z) = y
+# Easy to prove by setting f = id, and z = y - x
+```
+
+```litex
+exist_prop z R st exist_z(f fn(R) R, x R, y R):
+    f(x + z) = y
+exist_prop f fn(R) R st exist_f(x R):
+    forall y R:
+        $exist_z(f, x, y)
+
+have fn f(x R) R = x
+claim:
+    forall x R => $exist_f(x)
+    prove:
+        claim:
+            forall y R => $exist_z(f,x,y)
+            prove:
+                exist y-x st $exist_z(f, x, y)
+        exist f st $exist_f(x)
+```
+
+When encountering a fact such as "exist A st forall B exist C st forall D exist E st F," a simple formalization technique is to define an exist_prop A st exist_A(...): ... every time an "exist A" is encountered. Here, exist_A needs to be defined as equivalent to forall B exist C st forall D exist E st F. Just as mathematics is built upon layers of abstraction, here we peel back the layers of "exist" and "forall" step by step to define exist_prop.
+
+Also, good naming is essential. It makes abstraction process cleaner.
