@@ -188,18 +188,20 @@ This example shows how to write
 ```litex
 exist_prop z R st exist_z(f fn(R) R, x R, y R):
     f(x + z) = y
+
 exist_prop f fn(R) R st exist_f(x R):
     forall y R:
         $exist_z(f, x, y)
 
 have fn f(x R) R = x
+
 claim:
     forall x R => $exist_f(x)
     prove:
         claim:
             forall y R => $exist_z(f,x,y)
             prove:
-                exist y-x st $exist_z(f, x, y)
+                exist y - x st $exist_z(f, x, y)
         exist f st $exist_f(x)
 ```
 
