@@ -9,36 +9,6 @@ _— Foundations of Computer Science, by Alfred V.Aho and Jeffrey D. Ullman_
 Many mathematical proofs follow similar patterns. If two proof segments differ only in the objects involved while the predicates (props) and steps are identical, there is no need to write them repeatedly—you can give that proof process a name and invoke it with the `by` keyword.
 
 ```litex
-prop p(x R):
-    x = 1
-
-prove_algo A(x):
-    if x = 1:
-        $p(x)
-        return
-    if x != 1:
-        claim:
-            not $p(x)
-            prove_by_contradiction:
-                $p(x)
-                x = 1
-        return
-
-have x R = 3
-by A(x): # open a local environment with x = 3, emit only x = 3 to the current environment
-    not $p(x)
-
-have a R = 1
-by A(a) # run everything in current environment, no local environment is opened
-
-by A(2+2): not $p(4) # you can also write it inline like this
-```
-
-In this example, you can use `by A(x)` to prove `not $p(x)`, and you can also use `by A(2+2)` to prove `not $p(4)` because both invoke the proof process `A(x)`.
-
-This proof process effectively substitutes the objects referenced in `by` into the `prove_algo`, instantiates that `prove_algo`, runs the entire proof procedure, and then emits the results established inside back to the location where `by` was called.
-
-```litex
 prove_algo solve_linear_equation(a, b, c, d, e, f, x ,y):
     # check if the equation is solvable, condition of the algorithm
     a * e - b * d != 0
@@ -67,6 +37,43 @@ by solve_linear_equation(2, 3, 10, 4, 5, 14, x, y):
     x = -4
     y = 6
 ```
+
+This proof process effectively substitutes the objects referenced in `by` into the `prove_algo`, instantiates that `prove_algo`, runs the entire proof procedure, and then emits the results established inside back to the location where `by` was called.
+
+Any proof pattern can be abstracted into a `prove_algo`, and then be called by `by` to prove a proposition.
+
+Another example:
+
+```litex
+prop p(x R):
+    x = 1
+
+prove_algo A(x):
+    if x = 1:
+        $p(x)
+        return
+    if x != 1:
+        claim:
+            not $p(x)
+            prove_by_contradiction:
+                $p(x)
+                x = 1
+        return
+
+have x R = 3
+by A(x): # open a local environment with x = 3, emit only x = 3 to the current environment
+    not $p(x)
+
+have a R = 1
+by A(a) # run everything in current environment, no local environment is opened
+
+by A(2+2): not $p(4) # you can also write it inline like this
+```
+
+In this example, you can use `by A(x)` to prove `not $p(x)`, and you can also use `by A(2+2)` to prove `not $p(4)` because both invoke the proof process `A(x)`.
+
+
+## Syntax
 
 The syntax is:
 
