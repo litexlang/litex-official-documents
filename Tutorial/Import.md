@@ -13,6 +13,8 @@ Litex has two ways to import: import a folder containing `main.lit` (which we ca
 
 ## Import A File
 
+Scenario: I think my current proof is too long, I need to split it into several files. Finally, I sum up all the knowledge in the several files into a main file, and get the conclusion.
+
 Importing a file typically occurs when working on a large Litex project (for example, when formalizing a mathematics textbook). If we write all the code in a single document, it will be very long. A better approach is to import individual sub-files sequentially in one file (for example, `main.lit`). Just like a book with 5 chapters, we can place the Litex code for each chapter in `chap1.lit`, `chap2.lit`, `chap3.lit`, `chap4.lit`, `chap5.lit` respectively, and then import them in `textbook.lit`, as shown below:
 
 ```
@@ -44,6 +46,8 @@ This is equivalent to copying and pasting the contents of these `.lit` files one
 
 ## Import A Package(Folder)
 
+Scenario: I completed the formalization of a book, which contains many files and is put together in a folder. Now I want to build on top of last week's work! But how can I use last week's work? For example, if I proved theorem A last week, I want to use theorem A in my new proof file today, how can I do it?
+
 When you install litex on your machine, there will be folder `~/litexlang/user_pkg` and `~/litexlang/std_pkg` on your machine. `~/litexlang/std_pkg` is the folder containing many folders ranging from number theories to basic set theory, maintained by the Litex team. `~/litexlang/user_pkg` contains folders (packages) you download using `lip install package_name` command. When you want to import a package without publishing it to the `lip` system, you can copy your folder into the  `~/litexlang/user_pkg` and use it as if you are using a package installed by `lip install`.
 
 (`lip` works very much the same as how `pip` works for python.)
@@ -73,5 +77,5 @@ $pkg1::prop1(pkg2::obj2)
 
 Note: There cannot be packages (folders) with the same name in `~/litexlang/user_pkg` and `~/litexlang/std_pkg`, otherwise it will cause conflicts.
 
-Any package must contain a file with name `main.lit`. 当我 `import "pkg1"`  时的处理其实很简单：运行 `pkg1/main.lit` 文件。没有别的。如果你想运行其他.lit文件，那就在 main.lit 中 import 它们。
+Any package must contain a file with name `main.lit`. When you `import "pkg1"`, the processing is actually very simple: run the `pkg1/main.lit` file. There is nothing else. If you want to run other `.lit` files, you can import them in `main.lit`.
 

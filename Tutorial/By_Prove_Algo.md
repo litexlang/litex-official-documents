@@ -80,3 +80,5 @@ The syntax is:
 Case 1: When you write the result derived by `by` after the colon, `by` opens a local environment to call the `prove_algo`, copies all of that proof’s steps to the spot where `by` appears, and running the `prove_algo` leaves the outer environment untouched. Once the expression after the colon is proven, it’s released into the current environment
 
 Case 2: When `by` is not followed by a colon, the call works mechanically—substitute the arguments into the `prove_algo`, instantiate it, and copy every instantiated proof step to the location where `by` was invoked.
+
+Note: This allows users to recursively generate code. Because humans can write infinite proof processes that are meaningless to the final result, litex's `by` keyword may also recursively call itself indefinitely, causing an infinite loop.
