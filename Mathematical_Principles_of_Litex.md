@@ -11,7 +11,7 @@ Litex语句分
 
 3. 证明策略（prove strategy），如 `prove_by_contradiction`表示用反证法来证明
 
-4. 辅助型(toolings)，如 `import` 表示引用一个包或文件
+4. 辅助型(auxiliary statements)，如 `import` 表示引用一个包或文件
 
 ## 定义型语句
 
@@ -59,6 +59,24 @@ exist_prop x R st any_real_number_has_another_real_number_than_itself(y R):
 
 #### 定义对象，并检查存在性
 
+1. have object1, object2 ... st $some_exist_prop(param1, param2...)
+
+2. have object1 nonempty_set
+
+3. have set object1 = {item1, item2, ...}
+
+4. have set object1 = {item parent_set: fact1, fact2, ...}
+
+5. have object1 set_name = item_from_that_set
+
+6. have fn:
+    (param1, ...) return_set:
+        domain_fact1
+        ...
+        =>:
+            then_fact1
+            ...
+
 #### 不检查存在性，直接定义
 
 如果我们需要默认一些东西的存在性（有时这是必要的，比如一个东西的存在是被证明了的，但是你又不想花大力气去用litex把这个东西的存在性自己写出来，想要基于这个已知事实直接开始干自己关心的问题），那就可以用
@@ -80,3 +98,51 @@ let x R: x > 0, x < 1
 fn f(x R) R:
     f(x) = f(x) ^ 2
 ```
+
+## 事实型语句
+
+事实型语句，又称逻辑表达式(Logical Expression)，布尔表达式（Boolean Expression）。
+
+1. 特定事实
+
+1.1 普通事实（不涉及存在性）
+
+1.2 存在性事实
+
+2. forall事实
+
+3. or事实
+
+4. intensional set 事实
+
+5. enumeration set 事实
+
+## 证明策略
+
+证明策略的设计，是和一阶逻辑中的关键词、和集合论的公理有对应关系的。比如`not`对应的就是`prove_by_contradiction`，`or`对应`prove_in_each_case`，`prove_by_induction`对应数学归纳法。
+
+1. prove_in_each_case
+
+
+2. prove_by_contradiction
+
+
+3. prove_by_enum 
+
+
+4. prove_in_range
+
+
+## 辅助关键词
+
+1. know
+
+2. import
+
+3. prove_is_commutative_prop, prove_is_transitive_prop
+
+4. fn_template
+
+5. claim
+
+6. prove
