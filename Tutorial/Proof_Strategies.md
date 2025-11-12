@@ -25,6 +25,13 @@ We will explore these methods in detail in the following sections.
 In math, one common way to prove a statement is to prove its negation is false. This method is called `Prove by Contradiction`.
 
 ```
+# short version
+prove_by_contradiction fact_you_want_to_prove:
+    statement1
+    ...
+    final_statement
+
+# multiple lines version
 claim:
     fact_you_want_to_prove
     prove_by_contradiction:
@@ -46,6 +53,11 @@ know:
     forall x R: $g(x) => $s(x)
     forall x R: $s(x) => $q(x)
     not $q(17)
+
+# short version
+prove_by_contradiction not $g(17):
+    $s(17)
+    $q(17)
 
 claim:
     not $g(17)
@@ -72,40 +84,38 @@ know forall x, y, z N => logBase(z, x^y) = y * logBase(z, x), logBase(z, x*y) = 
 
 know forall x N: x != 0 => logBase(x, x) = 1
 
-claim:
-    not sqrt(2) $in Q
-    prove_by_contradiction:
-        sqrt(2) > 0
-        have x, y st $rational_positive_number_representation_in_fraction(sqrt(2))
+prove_by_contradiction not sqrt(2) $in Q:
+    sqrt(2) > 0
+    have x, y st $rational_positive_number_representation_in_fraction(sqrt(2))
+    
+    x = sqrt(2) * y
+    x ^ 2 = (sqrt(2) ^ 2) * (y ^ 2)
+    sqrt(2) ^ 2 = 2
+    x ^ 2 = 2 * (y ^ 2)
+
+    logBase(2, x ^ 2) = logBase(2, 2 * (y ^ 2))     
+    logBase(2, x ^ 2) = 2 * logBase(2, x)
+    logBase(2, y ^ 2) = 2 * logBase(2, y)
+
+    logBase(2, 2 * (y ^ 2)) = logBase(2, 2) + logBase(2, y ^ 2)
+    logBase(2, 2) = 1
+    logBase(2, 2 * (y ^ 2)) = 1 + logBase(2, y ^ 2)
+
+    logBase(2, x ^ 2) = 1 + 2 * logBase(2, y)
+    2 * logBase(2, x) = 1 + 2 * logBase(2, y)
+
+    =:
+        0
+        (2 * logBase(2, x)) % 2            
+        (1 + 2 * logBase(2, y)) % 2
         
-        x = sqrt(2) * y
-        x ^ 2 = (sqrt(2) ^ 2) * (y ^ 2)
-        sqrt(2) ^ 2 = 2
-        x ^ 2 = 2 * (y ^ 2)
-
-        logBase(2, x ^ 2) = logBase(2, 2 * (y ^ 2))     
-        logBase(2, x ^ 2) = 2 * logBase(2, x)
-        logBase(2, y ^ 2) = 2 * logBase(2, y)
-
-        logBase(2, 2 * (y ^ 2)) = logBase(2, 2) + logBase(2, y ^ 2)
-        logBase(2, 2) = 1
-        logBase(2, 2 * (y ^ 2)) = 1 + logBase(2, y ^ 2)
-
-        logBase(2, x ^ 2) = 1 + 2 * logBase(2, y)
-        2 * logBase(2, x) = 1 + 2 * logBase(2, y)
-
-        =:
-            0
-            (2 * logBase(2, x)) % 2            
-            (1 + 2 * logBase(2, y)) % 2
-            
-        =:
-            (1 % 2 + (2 * logBase(2, y)) % 2) % 2
-            (1 + 2 * logBase(2, y)) % 2
-            (1 % 2 + (2 * logBase(2, y)) % 2) % 2
-            (1 + 0) % 2
-            1
-        0 = 1
+    =:
+        (1 % 2 + (2 * logBase(2, y)) % 2) % 2
+        (1 + 2 * logBase(2, y)) % 2
+        (1 % 2 + (2 * logBase(2, y)) % 2) % 2
+        (1 + 0) % 2
+        1
+    0 = 1
 ```
 
 ## Prove by Induction: The Power of Recursion
@@ -288,6 +298,34 @@ claim:
 ```
 
 In this example, we use the known fact `forall x R: x > 0 => x^2 > 0` to prove `forall a R => a^2 >= 0`. We split the case into `a > 0`, `a = 0`, and `a < 0`. And we prove `a^2 >= 0` in each case.
+
+Here is another example: solve the quadratic equation `x^2 + 2 * a * x + b = 0` when `a^2 - b >= 0`. We want to prove that `x = -a + sqrt(a^2 - b) or x = -a - sqrt(a^2 - b)`.
+
+```litex
+claim:
+    forall a, b, x R:
+        x^2 + 2 * a * x + b = 0
+        a^2 - b >= 0
+        =>:
+            x = -a + sqrt(a^2 - b) or x = -a - sqrt(a^2 - b)
+    prove:
+        sqrt(a^2 - b) * sqrt(a^2 - b) = sqrt(a^2 - b) ^ 2 = a^2 - b
+        (x + a - sqrt(a^2 - b)) * (x + a + sqrt(a^2 - b)) = x ^ 2 + 2 * a * x + a^2 - sqrt(a^2 - b) ^ 2 = x ^ 2 + 2 * a * x + a^2 - (a^2 - b) = x ^ 2 + 2 * a * x + b = 0
+        $product_is_0_then_at_least_one_factor_is_0(x + a - sqrt(a^2 - b), x + a + sqrt(a^2 - b))
+        
+        prove_in_each_case:
+            x + a + sqrt(a^2 - b) = 0 or x + a - sqrt(a^2 - b) = 0
+            =>:
+                x = -a + sqrt(a^2 - b) or x = -a - sqrt(a^2 - b)
+            prove:
+                x + a + sqrt(a^2 - b) + (-a - sqrt(a^2 - b)) = 0 + (-a - sqrt(a^2 - b))
+                x = 0 + (-a - sqrt(a^2 - b))
+                x = -a - sqrt(a^2 - b) 
+            prove:
+                x + a - sqrt(a^2 - b) + (-a + sqrt(a^2 - b)) = 0 + (-a + sqrt(a^2 - b))
+                x = 0 + (-a + sqrt(a^2 - b))
+                x = -a + sqrt(a^2 - b)
+```
 
 # Prove by Enumeration
 

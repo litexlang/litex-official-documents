@@ -608,4 +608,6 @@ $product_zero_implies_or(a,b)
 
 In this chapter, we have learned the most fundamental concept in Litex: **Factual Statement**. We have also learned how to derive new facts from established ones by **match and substitution**.
 
+Any time you are confused about what a keyword in Litex means, try to relate to how you use mathematics in your daily life. It is a good way to understand the meaning of the keyword.
+
 <!-- TODO: FACT HIERARCHY -->

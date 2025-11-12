@@ -9,6 +9,11 @@ Math is hard. It is important to organize your proof well. The best way to do so
 ## Use of `claim`
 
 ```
+# short version
+prove fact_you_want_to_prove:
+    ....
+
+# multiple lines version
 claim:
     fact_you_want_to_prove
     prove:
@@ -18,6 +23,23 @@ claim:
 `fact_you_want_to_prove` can be a specific fact or a universal fact.
 
 For example
+
+```litex
+exist_prop x N st exist_natural_number_larger_than(y N):
+    x > y
+
+prove $exist_natural_number_larger_than(1)
+    let x N: x = 2
+    2 > 1
+    x > 1
+    exist x st $exist_natural_number_larger_than(1)
+    $exist_natural_number_larger_than(1)
+
+$exist_natural_number_larger_than(1) # true, because $exist_natural_number_larger_than(1) is proved in the claim statement
+# x = 2 is not visible out of the prove block, because x is declared in the prove block locally
+```
+
+Multiple lines version:
 
 ``` litex
 exist_prop x N st exist_natural_number_larger_than(y N):
@@ -49,6 +71,12 @@ know:
     forall x R: $g(x) => $s(x)
     forall x R: $s(x) => $q(x)
 
+# short version
+prove forall x R: $g(x) => $q(x):
+    $s(x)
+    $q(x)
+
+# multiple lines version
 claim:
     forall x R: $g(x) => $q(x)
     prove:
@@ -117,35 +145,3 @@ Imagine you are writing a long proof, and you want to write scratches independen
 
 > Note: In this case, if you make claim of `let x N` before all Prove block, Litex would report an Error. Because you claimed `x` in parent-environment first and sub-environment would be affected.
 
-## Inline Claim
-
-Multiline claim takes up much space, here is a short one:
-
-```
-claim fact:
-    prove statement
-    ...
-```
-
-```
-claim fact prove_by_contradiction:
-    prove statement
-    ...
-```
-
-For example:
-
-```litex
-let x R: x = 11
-
-claim x = 11:
-    x = 11
-
-claim forall y: x = y => y = 11:
-    y = 11
-
-claim x = 11 prove_by_contradiction:
-    x = 11
-```
-
-This will make code much shorter and cleaner.

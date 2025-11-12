@@ -31,6 +31,34 @@ x = -4
 
 Anyone can understand the above code. There is almost zero difference between how we write math and how we write Litex. However, traditional formal languages like Lean requires you to learn a lot of complicated syntax and concepts.
 
+Another example: solve the quadratic equation `x^2 + 2 * a * x + b = 0` when `a^2 - b >= 0`. We want to prove that `x = -a + sqrt(a^2 - b) or x = -a - sqrt(a^2 - b)`.
+
+```litex
+claim:
+    forall a, b, x R:
+        x^2 + 2 * a * x + b = 0
+        a^2 - b >= 0
+        =>:
+            x = -a + sqrt(a^2 - b) or x = -a - sqrt(a^2 - b)
+    prove:
+        sqrt(a^2 - b) * sqrt(a^2 - b) = sqrt(a^2 - b) ^ 2 = a^2 - b
+        (x + a - sqrt(a^2 - b)) * (x + a + sqrt(a^2 - b)) = x ^ 2 + 2 * a * x + a^2 - sqrt(a^2 - b) ^ 2 = x ^ 2 + 2 * a * x + a^2 - (a^2 - b) = x ^ 2 + 2 * a * x + b = 0
+        $product_is_0_then_at_least_one_factor_is_0(x + a - sqrt(a^2 - b), x + a + sqrt(a^2 - b))
+        
+        prove_in_each_case:
+            x + a + sqrt(a^2 - b) = 0 or x + a - sqrt(a^2 - b) = 0
+            =>:
+                x = -a + sqrt(a^2 - b) or x = -a - sqrt(a^2 - b)
+            prove:
+                x + a + sqrt(a^2 - b) + (-a - sqrt(a^2 - b)) = 0 + (-a - sqrt(a^2 - b))
+                x = 0 + (-a - sqrt(a^2 - b))
+                x = -a - sqrt(a^2 - b) 
+            prove:
+                x + a - sqrt(a^2 - b) + (-a + sqrt(a^2 - b)) = 0 + (-a + sqrt(a^2 - b))
+                x = 0 + (-a + sqrt(a^2 - b))
+                x = -a + sqrt(a^2 - b)
+```
+
 ## Simple
 
 The difficulty of writing mathematics in a formal language is usually about equal to the difficulty of the mathematics itself plus the difficulty of expressing that mathematics in the formal language. Litex’s goal is to reduce the latter to as close to zero as possible, allowing users to focus on the mathematics itself rather than on the language they are using.
