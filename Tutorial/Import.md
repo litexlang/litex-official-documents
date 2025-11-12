@@ -48,7 +48,7 @@ This is equivalent to copying and pasting the contents of these `.lit` files one
 
 Scenario: I completed the formalization of a book, which contains many files and is put together in a folder. Now I want to build on top of last week's work! But how can I use last week's work? For example, if I proved theorem A last week, I want to use theorem A in my new proof file today, how can I do it?
 
-When you install litex on your machine, there will be folder `~/litexlang/user_pkg` and `~/litexlang/std_pkg` on your machine. `~/litexlang/std_pkg` is the folder containing many folders ranging from number theories to basic set theory, maintained by the Litex team. `~/litexlang/user_pkg` contains folders (packages) you download using `litex -install package_name` command. When you want to import a package without publishing it to the litex package management system, you can copy your folder into the  `~/litexlang/user_pkg` and use it as if you are using a package installed by `litex -install package_name`.
+When you install litex on your machine, there will be folder `~/litexlang/user_packages` and `~/litexlang/core_packages` on your machine. `~/litexlang/core_packages` is the folder containing many folders ranging from number theories to basic set theory, maintained by the Litex team. `~/litexlang/user_packages` contains folders (packages) you download using `litex -install package_name` command. When you want to import a package without publishing it to the litex package management system, you can copy your folder into the  `~/litexlang/user_packages` and use it as if you are using a package installed by `litex -install package_name`.
 
 (`litex -install` works very much the same as how `pip install` works for python.)
 
@@ -59,11 +59,11 @@ import "PACKAGE_NAME"
 Example:
 
 ```
-import "nat"  # nat is a standard package in `~/litexlang/std_pkg`
-import "some_package_installed_by_litex" # When you type `litex -install some_package_installed_by_litex`, some_package_installed_by_litex is installed to ~/litexlang/user_pkg
+import "nat"  # nat is a standard package in `~/litexlang/core_packages`
+import "some_package_installed_by_litex" # When you type `litex -install some_package_installed_by_litex`, some_package_installed_by_litex is installed to ~/litexlang/user_packages
 ```
 
-Now you use `PKGNAME::NAME` to use anything with name `NAME` in the `PKGNAME` in your current code. (It works like C++ or Rust.). `PKGNAME` is the folder name in `~/litexlang/user_pkg`, i.e. `xxx` in the `litex -install xxx` command.
+Now you use `PKGNAME::NAME` to use anything with name `NAME` in the `PKGNAME` in your current code. (It works like C++ or Rust.). `PKGNAME` is the folder name in `~/litexlang/user_packages`, i.e. `xxx` in the `litex -install xxx` command.
 
 Example
 
@@ -75,7 +75,7 @@ import "pkg2"
 $pkg1::prop1(pkg2::obj2)
 ```
 
-Note: There cannot be packages (folders) with the same name in `~/litexlang/user_pkg` and `~/litexlang/std_pkg`, otherwise it will cause conflicts. You can use `litex -list` to list all installed packages.
+Note: There cannot be packages (folders) with the same name in `~/litexlang/user_packages` and `~/litexlang/core_packages`, otherwise it will cause conflicts. You can use `litex -list` to list all installed packages.
 
 Any package must contain a file with name `main.lit`. When you `import "pkg1"`, the processing is actually very simple: run the `pkg1/main.lit` file. There is nothing else. If you want to run other `.lit` files, you can import them in `main.lit`.
 
@@ -83,6 +83,6 @@ Any package must contain a file with name `main.lit`. When you `import "pkg1"`, 
 
 Notice though both begin with keyword `import`, the import of a file and the import of a package are different. The import of a file is to *copy* the code in the file into the current file. The import of a package offers you a way to *refer to* the code in the package from the current file.
 
-The design of the package management system is the same as how people usually organize mathematical knowledge. You can imagine that `std_pkg` contains common mathematical knowledge that is shared by everyone; `user_pkg` contains the mathematical knowledge you have organized yourself. Each folder is a book of mathematics. Some books are only read by you, so they are only in your `user_pkg` on your computer; if today your new book, you think it is worth sharing with others, you can publish your book to the `litex` system, so others can use your book. Remember to share your book, and tell others which other books in the `litex` system you have imported, otherwise others will not know some of your "background knowledge".
+The design of the package management system is the same as how people usually organize mathematical knowledge. You can imagine that `core_packages` contains common mathematical knowledge that is shared by everyone; `user_packages` contains the mathematical knowledge you have organized yourself. Each folder is a book of mathematics. Some books are only read by you, so they are only in your `user_packages` on your computer; if today your new book, you think it is worth sharing with others, you can publish your book to the `litex` system, so others can use your book. Remember to share your book, and tell others which other books in the `litex` system you have imported, otherwise others will not know some of your "background knowledge".
 
 Any time you are confused about what a keyword in Litex means, try to relate to how you use mathematics in your daily life. It is a good way to understand the meaning of the keyword.
