@@ -3,3 +3,4 @@ update_tutorial_order.sh
 update.sh
 /tools/
 .cursor
+git_add_commit.sh

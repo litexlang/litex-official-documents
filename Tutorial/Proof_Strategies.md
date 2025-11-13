@@ -199,6 +199,8 @@ prove_in_each_case:
         # assume factN is true, prove then_fact
 ```
 
+Note the number of prove sections is the same as the number of cases in the `or` statement. The indent of the prove sections is the same as the indent of the `or` statement.
+
 or inline form:
 
 ```
@@ -325,6 +327,120 @@ claim:
                 x + a - sqrt(a^2 - b) + (-a + sqrt(a^2 - b)) = 0 + (-a + sqrt(a^2 - b))
                 x = 0 + (-a + sqrt(a^2 - b))
                 x = -a + sqrt(a^2 - b)
+```
+
+We prove triangle inequality by proving in each case.
+
+```litex
+claim:
+    forall x, y R:
+        abs(x + y) <= abs(x) + abs(y)
+    prove:
+        prove_in_each_case:
+            or:
+                x >= 0
+                x < 0
+            =>:
+                abs(x + y) <= abs(x) + abs(y)
+            prove:
+                x >= 0
+                prove_in_each_case:
+                    or:
+                        y >= 0
+                        y < 0
+                    =>:
+                        abs(x + y) <= abs(x) + abs(y)
+                    prove:
+                        y >= 0
+                        abs(x) = x
+                        abs(y) = y
+                        x + y >= 0
+                        abs(x + y) = x + y
+                        abs(x + y) = abs(x) + abs(y)
+                        abs(x + y) <= abs(x) + abs(y)
+                    prove:
+                        y < 0
+                        abs(x) = x
+                        abs(y) = -y
+                        prove_in_each_case:
+                            or:
+                                x + y >= 0
+                                x + y < 0
+                            =>:
+                                abs(x + y) <= abs(x) + abs(y)
+                            prove:
+                                x + y >= 0
+                                abs(x + y) = x + y
+                                y < 0
+                                x + y < x
+                                x + y <= x
+                                -y > 0
+                                y < 0
+                                x + (-y) > x
+                                x < x + (-y)
+                                x + y < x
+                                x + y <= x + (-y)
+                                abs(x + y) <= abs(x) + abs(y)
+                            prove:
+                                x + y < 0
+                                abs(x + y) = -(x + y) = -x - y
+                                x >= 0
+                                -x <= 0
+                                -x - y <= 0 -y
+                                -x - y <= -y
+                                -y <= x + (-y)
+                                -x - y <= x + (-y)
+                                abs(x + y) <= abs(x) + abs(y)
+            prove:
+                x < 0
+                prove_in_each_case:
+                    or:
+                        y >= 0
+                        y < 0
+                    =>:
+                        abs(x + y) <= abs(x) + abs(y)
+                    prove:
+                        y >= 0
+                        abs(x) = -x
+                        abs(y) = y
+                        prove_in_each_case:
+                            or:
+                                x + y >= 0
+                                x + y < 0
+                            =>:
+                                abs(x + y) <= abs(x) + abs(y)
+                            prove:
+                                x + y >= 0
+                                abs(x + y) = x + y
+                                x < 0
+                                x + y < y
+                                x + y <= y
+                                -x > 0
+                                -x >= 0
+                                (-x) + y > y
+                                x + y < y
+                                x + y <= y
+                                x + y <= (-x) + y
+                                abs(x + y) <= abs(x) + abs(y)
+                            prove:
+                                x + y < 0
+                                abs(x + y) = -(x + y) = -x - y
+                                y >= 0
+                                -y <= 0
+                                -x - y <= -x
+                                -x - y <= (-x) + y
+                                abs(x + y) <= abs(x) + abs(y)
+                    prove:
+                        y < 0
+                        abs(x) = -x
+                        abs(y) = -y
+                        x + y < y
+                        y < 0
+                        x + y < 0
+                        abs(x + y) = -(x + y) = -x - y
+                        abs(x + y) = -x + (-y) = abs(x) + abs(y)
+                        abs(x + y) <= abs(x) + abs(y)
+
 ```
 
 # Prove by Enumeration

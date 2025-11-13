@@ -107,7 +107,32 @@ fn f(x R) R:
 
 1.1 普通事实（不涉及存在性）
 
+1.1.1 等号
+
+本质上，=也是一个prop。但等号的证明比其他prop特殊很多。等号有传递性，交换性这样的一般的prop没有的性质。等号在数学里有独特的地位，因为一旦object1 = object2, 他们就立刻有了彼此的所有性质，他们就“等效”了。任何其他prop，都不可能有这样的效果。不管是证明等号，还是用两个object相等这个性质去证明有关这两个object的其他性质，Litex都提供了非常强大的支持。
+
+1.1.2 非等号
+
+```litex
+17 > 2
+prop larger_than(x, y R):
+    x > y
+$larger_than(17, 2)
+```
+
+例如 `17 > 2` 这样的prop是内置的prop。我们也可以自己定义prop，比如 `$larger_than(17, 2)` 表示17大于2。
+
 1.2 存在性事实
+
+```litex
+exist_prop x R st larger_than(y R):
+    x > y
+exist 17 st $larger_than(1)
+```
+
+例如 如 `exist 17 R st $exist_number_larger_than(1)` 表示存在17这个数，它比1大
+
+如果之前证明过了 `exist ... st $some_exist_prop(param1, ...)`，那么`$some_exist_prop(param1, ...)`就被自动证明了。之后可以配合 `have xxx, ... st $some_exist_prop(param1, ...)` 来声明一个对象xxx...，它满足`$some_exist_prop(param1, ...)`。
 
 2. forall事实
 
@@ -116,6 +141,12 @@ fn f(x R) R:
 4. intensional set 事实
 
 5. enumeration set 事实
+
+6. 连续等于
+
+object1 = object2 = object3 = ... = objectN = objectN_plus_1
+
+这其实是 object1 = object2, object2 = object3, ... , objectN-1 = objectN 的简写。在运行的时候，先验证第一个等号：object1 = object2，再验证第二个等号 object3 = object2, 如果没证明出来就 object3 = object1, 如果还是没证明出来就是unknown。同理，证明第N个等号时，我们一次证明 ObjectN_plus_1 等于 Object, Object2, ..., ObjectN。只要某个等号被证明出来了，我们就认为 object1 = objectN_plus_1 被证明出来了。如果全部都没有证明出来，就是unknown。
 
 ## 证明策略
 
