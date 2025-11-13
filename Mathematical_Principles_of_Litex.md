@@ -1,5 +1,21 @@
 # Mathematical Principles of Litex
 
+Jiachen Shen, Founder of Litex
+
+_If you define the problem correctly, you almost have the solution._
+
+_- Steve Jobs_
+
+_If you tell people where to go, but not how to get there, you'll be amazed by the results._
+
+_- General George S.Patton_
+
+_Everything should be made as simple as possible, but not simpler._
+
+_- Albert Einstein_
+
+Litex是一门实用主义的语言。它的作者想要设计一套语言，足够直观让所有人都能使用和理解。litex在一边在实现中被设计出来。最终作者找到了一套非常自洽，简单（但不能更简单了），绝对正确的原则来实现整个语言（希望真的如此！）。本章节主要介绍litex的语句，分别对应了哪些常见的数学命题。这是litex的严格性基石，因为litex它忠实地按照这些数学规则是怎么运行的来运行。
+
 statement 
 Litex 代码中的语句是程序执行的最小单位，每个语句代表Litex的一个操作。每一段Litex代码都是由很多的litex语句构成的，正如一篇文章有很多句子构成那样。比如`a = 1`表示询问a是否等于1，`have a R = 1`表示定义对象a是一个实数，等于1.
 
@@ -177,3 +193,5 @@ object1 = object2 = object3 = ... = objectN = objectN_plus_1
 5. claim
 
 6. prove
+
+## Thanks
