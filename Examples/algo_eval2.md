@@ -22,9 +22,9 @@ algo f(x):
 
 have a, b R = 3, -1
 
-eval f(3)
+eval(f(3))
 f(3) = 1
 
-eval f(-1)
+eval(f(-1))
 f(-1) = 0
 ```
