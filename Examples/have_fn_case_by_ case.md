@@ -1,0 +1,5 @@
+```litex
+have fn f(x R) R =:
+    case x > 0: x
+    case x <= 0: 0
+```
