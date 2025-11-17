@@ -75,23 +75,115 @@ exist_prop x R st any_real_number_has_another_real_number_than_itself(y R):
 
 #### 定义对象，并检查存在性
 
-1. have object1, object2 ... st $some_exist_prop(param1, param2...)
+1. 从存在性命题定义对象
 
-2. have object1 nonempty_set
+`have object1, object2 ... st $some_exist_prop(param1, param2...)`
 
-3. have set object1 = {item1, item2, ...}
+对应选择公理。如果存在对象使得某个命题成立，那么可以提取某个满足该命题的对象。
 
-4. have set object1 = {item parent_set: fact1, fact2, ...}
+```litex
+exist_prop x R st larger_than(y R):
+    x > y
+exist 17 st $larger_than(1)
+have x st $larger_than(1)
+x > 1
+```
 
-5. have object1 set_name = item_from_that_set
+注意：这里定义的`x`不一定是`17`，而是某个满足命题（即比1大）的数。
 
-6. have fn:
-    (param1, ...) return_set:
-        domain_fact1
+2. 从非空集合定义对象
+
+`have object1 some_nonempty_set`
+
+从非空集合中提取一个元素，对应选择公理。
+
+```litex
+have s nonempty_set
+have x s
+x $in s
+```
+
+3. 通过枚举定义集合
+
+`have set object1 = {item1, item2, ...}`
+
+对应集合论公理中的配对公理和并集公理（本质上就是枚举法）。
+
+```litex
+have set s = {1, 2, 3}
+have x s
+x = 1 or x = 2 or x = 3
+```
+
+注意：`{}`内的对象不能重复，例如不能写`s = {1, 1, 2, 3}`，因为`1`重复了。如果`x`在`s`中，那么`x`就有性质`x = 1 or x = 2 or x = 3`。
+
+4. 通过内涵定义集合
+
+`have set object1 = {item parent_set: fact1, fact2, ...}`
+
+对应集合论公理中的分离公理（Axiom Schema of Separation）。
+
+```litex
+have set s = {x R: x > 0, x < 1}
+have x s
+x > 0
+x < 1
+```
+
+注意：不能写`{x set: ...}`，因为`set $in set`不成立（`set`不是集合）。必须写成`{x some_set: ...}`，其中`some_set`是一个集合，比如`R`。
+
+5. 定义等于某个表达式的对象
+
+`have object1 set_name = item_from_that_set`
+
+对象的存在性由等于某个已知对象直接得到。
+
+```litex
+have a R = 1
+```
+
+直接令`a = 1`，那么`a`就有性质`a = 1`。注意不能写`have a N = 1.1`，因为`1.1`不是`N`的元素。
+
+6. 定义等于某个表达式的函数
+
+`have fn function_name(param1 set1, param2 set2, ...) return_set = expression`
+
+函数的存在性由等于某个表达式直接得到。
+
+```litex
+have fn f(x R) R = x
+f(1) = 1
+```
+
+7. 通过分情况定义函数
+
+```
+have fn function_name(param1 set1, param2 set2, ...) return_set =:
+    case condition1 = expression1
+    case condition2 = expression2
+    ...
+```
+
+```litex
+have fn f(x R) R =:
+    case x > 0 = x
+    case x <= 0 = 0
+```
+
+定义函数f，当x大于0时，f(x) = x；当x小于等于0时，f(x) = 0。
+
+8. 通过条件定义函数
+
+`have fn function_name(param1, ...) return_set:`
+```
+    domain_fact1
+    ...
+    =>:
+        then_fact1
         ...
-        =>:
-            then_fact1
-            ...
+```
+
+注意：此功能可能与`exist_prop`搭配`have`的功能重复，是否保留待定。
 
 #### 不检查存在性，直接定义
 
@@ -242,7 +334,7 @@ know 的意义主要有
 - Litex不支持`not forall`的直接使用。要表达"不是对所有x都成立"，需要用使用`exist x: not ...`的形式。
 - `not exist`等价于`forall not`，可以通过全称量词和否定来表达。一旦一个`not exist`被证明，那么相应的`forall not`也会被自动保存。
 
-### 集合论公理一览
+<!-- ### 集合论公理一览
 
 现代数学建立在集合论（ZFC公理系统）之上。以下是标准的集合论公理：
 
@@ -265,6 +357,6 @@ know 的意义主要有
 - 分离公理通过Litex的集合定义语法`{x parent_set: fact1, fact2, ...}`来实现
 - 替换公理涉及二阶逻辑，Litex目前暂不支持，但可以通过`know`关键字假设其成立
 - 自然数集合`N`、整数集合`Z`、有理数集合`Q`、实数集合`R`、复数集合`C`都是Litex的内置集合
-- litex中经常出现x1 set1, x2 set2, ...这样的语句，比如forall x1 set1, x2 set2, ...: ...这样的语句，其中x1, x2, ...是对象，set1, set2, ...是集合。但其实不完全是这样，set1, set2上可能出现set, nonempty_set, obj，这几个不是集合的对象。即虽然litex都是写xxx in yyy，但是yyy不一定是集合。比如xxx in set中，就是在说xxx是（is）集合（所有的set组成的全体，不是一个set），xxx in obj在说xxx是（is）对象，但是obj（包含所有东西）也不是一个集合，来说明x1是集合，而不是像x1 in R这样用in来表示某某元素在集合R里。注意到，如果右侧是set, obj这种东西，那就我们在自然语言表达时的谓词就是is；如果是set这种东西，那我们在自然语言表达时的谓词就是in。特别注意，litex中的 x $in set 其实意思是 x is a set，而不是，而不是在说x在集合构成的集合里。这里的in重载了is的语义。。
+- litex中经常出现x1 set1, x2 set2, ...这样的语句，比如forall x1 set1, x2 set2, ...: ...这样的语句，其中x1, x2, ...是对象，set1, set2, ...是集合。但其实不完全是这样，set1, set2上可能出现set, nonempty_set, obj，这几个不是集合的对象。即虽然litex都是写xxx in yyy，但是yyy不一定是集合。比如xxx in set中，就是在说xxx是（is）集合（所有的set组成的全体，不是一个set），xxx in obj在说xxx是（is）对象，但是obj（包含所有东西）也不是一个集合，来说明x1是集合，而不是像x1 in R这样用in来表示某某元素在集合R里。注意到，如果右侧是set, obj这种东西，那就我们在自然语言表达时的谓词就是is；如果是set这种东西，那我们在自然语言表达时的谓词就是in。特别注意，litex中的 x $in set 其实意思是 x is a set，而不是，而不是在说x在集合构成的集合里。这里的in重载了is的语义。。 -->
 
 ## Thanks
