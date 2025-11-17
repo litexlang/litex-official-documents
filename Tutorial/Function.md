@@ -350,6 +350,17 @@ forall x R:
 
 ```
 
+## Have fn case by case
+
+```litex
+have fn f(x R) R =:
+    case x > 0 = x
+    case x <= 0 = 0
+
+f(2) = 2
+f(-1) = 0
+```
+
 ---
 
 ✨ In short:

@@ -94,7 +94,7 @@ Since each Litex sentence corresponds directly to an expression in everyday math
 
 ## Our Mission
 
-_The value of an idea lies in the using of it._
+_Necessity is the mother of invention._
 
 _- Thomas Edison_
 

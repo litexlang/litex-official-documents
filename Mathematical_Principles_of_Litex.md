@@ -172,6 +172,14 @@ object1 = object2 = object3 = ... = objectN = objectN_plus_1
 
 证明策略的设计，是和一阶逻辑中的关键词、和集合论的公理有对应关系的。比如`not`对应的就是`prove_by_contradiction`，`or`对应`prove_in_each_case`，`prove_by_induction`对应数学归纳法。
 
+| 一阶逻辑&数学公理关键词 | 对应的证明策略 |
+|--------------|--------------|
+| `not` | `prove_by_contradiction` |
+| `or` | `prove_in_each_case` |
+| 数学归纳法 | `prove_by_induction` |
+| 集合论公理（枚举法定义集合） | `prove_by_enum` |
+| 整数的序关系和枚举关系 | `prove_in_range` |
+
 1. prove_in_each_case
 
 对应一阶逻辑的or
@@ -213,5 +221,50 @@ know 的意义主要有
 5. claim
 
 6. prove
+
+## 关键词清单
+
+### 一阶逻辑关键词
+
+| 关键词 | 含义 | 说明 |
+|--------|------|------|
+| `forall` | 全称量词 | 表示"对所有"或"任意"，如 `forall x R: x > 0` |
+| `exist` | 存在量词 | 表示"存在"，如 `exist x R: x > 0`|
+| `or` | 析取 | 表示"或"（包含性析取），如 `x = 1 or x = 2` |
+| `not` | 否定 | 表示"非"，如 `not x = 0` |
+| `=>` | 蕴含 | 表示"如果...那么"，如 `forall x R: x > 0 => x + 1 > 1` |
+| `<=>` | 等价/双条件 | 表示"当且仅当"，如 `forall x R: x > 0 <=> x + 1 > 1` |
+| `=` | 等号 | 表示相等关系，如 `x = 1` |
+| `!=` | 不等号 | 表示不相等，等价于 `not x = y` |
+
+**说明**：
+- Litex目前没有`and`（合取）关键字。因为`,`可以用来表示合取。比如`x = 1, y = 2`表示x等于1且y等于2。
+- Litex不支持`not forall`的直接使用。要表达"不是对所有x都成立"，需要用使用`exist x: not ...`的形式。
+- `not exist`等价于`forall not`，可以通过全称量词和否定来表达。一旦一个`not exist`被证明，那么相应的`forall not`也会被自动保存。
+
+### 集合论公理一览
+
+现代数学建立在集合论（ZFC公理系统）之上。以下是标准的集合论公理：
+
+| 公理名称 | 公理内容 | Litex中的对应 |
+|---------|---------|--------------|
+| **外延公理** (Axiom of Extensionality) | 两个集合相等当且仅当它们有相同的元素 | `forall A, B set: A = B <=> forall x A => x $in B; forall x B => x $in A` |
+| **空集公理** (Axiom of Empty Set) | 存在一个不包含任何元素的集合 | `have self_defined_empty_set = {}` |
+| **配对公理** (Axiom of Pairing) | 对于任意两个对象a和b，存在一个集合只包含a和b | `have a obj, b obj\nknow a != b\nhave set s = {a, b}` |
+| **并集公理** (Axiom of Union) | 对于任意集合X，存在一个集合包含X中所有集合的所有元素 | ` ` |
+| **幂集公理** (Axiom of Power Set) | 对于任意集合X，存在一个集合包含X的所有子集 | ` ` |
+| **分离公理** (Axiom Schema of Separation) | 对于任意集合A和性质P，存在一个集合包含A中所有满足P的元素 | 通过`have set s = {x A: $P(x)}`语法实现 |
+| **替换公理** (Axiom Schema of Replacement) | 对于任意函数F和集合A，存在一个集合包含F在A上的像 | 目前Litex暂不支持，可通过`know`假设 |
+| **无穷公理** (Axiom of Infinity) | 存在一个包含自然数的集合 | `N`是Litex的内置集合 |
+| **正则公理** (Axiom of Regularity) | 每个非空集合都包含一个与它不相交的元素 | `forall A set => (exist x A => exist y A => (not y $in set) or (forall z y => not z $in A))` |
+| **选择公理** (Axiom of Choice) | 对于任意非空集合族，存在一个选择函数 | have ... st $some_exist_prop(...) 对应选择公理|
+
+**说明**：
+- 在Litex中，`set`和`$in`是内置关键字，行为与数学中的集合论一致
+- `obj`是Litex的内置关键字，表示所有对象。他不是一个集合
+- 分离公理通过Litex的集合定义语法`{x parent_set: fact1, fact2, ...}`来实现
+- 替换公理涉及二阶逻辑，Litex目前暂不支持，但可以通过`know`关键字假设其成立
+- 自然数集合`N`、整数集合`Z`、有理数集合`Q`、实数集合`R`、复数集合`C`都是Litex的内置集合
+- litex中经常出现x1 set1, x2 set2, ...这样的语句，比如forall x1 set1, x2 set2, ...: ...这样的语句，其中x1, x2, ...是对象，set1, set2, ...是集合。但其实不完全是这样，set1, set2上可能出现set, nonempty_set, obj，这几个不是集合的对象。即虽然litex都是写xxx in yyy，但是yyy不一定是集合。比如xxx in set中，就是在说xxx是（is）集合（所有的set组成的全体，不是一个set），xxx in obj在说xxx是（is）对象，但是obj（包含所有东西）也不是一个集合，来说明x1是集合，而不是像x1 in R这样用in来表示某某元素在集合R里。注意到，如果右侧是set, obj这种东西，那就我们在自然语言表达时的谓词就是is；如果是set这种东西，那我们在自然语言表达时的谓词就是in。特别注意，litex中的 x $in set 其实意思是 x is a set，而不是，而不是在说x在集合构成的集合里。这里的in重载了is的语义。。
 
 ## Thanks
