@@ -244,11 +244,105 @@ exist 17 st $larger_than(1)
 
 2. forall事实
 
+全称量词事实，表示对所有满足条件的对象，某个性质都成立。
+
+语法：
+```
+forall x1 set1, x2 set2, ...:
+    condition1
+    condition2
+    ...
+    =>:
+        conclusion1
+        conclusion2
+        ...
+```
+
+或者内联形式：
+```
+forall x1 set1, x2 set2, ...: condition1, condition2, ... => conclusion1, conclusion2, ...
+```
+
+```litex
+forall x R:
+    x > 0
+    =>:
+        x + 1 > 1
+
+# 内联形式
+forall x R: x > 0 => x + 1 > 1
+
+# 多个条件
+forall x, y R:
+    x > 0
+    y > 0
+    =>:
+        x + y > 0
+        x * y > 0
+```
+
 3. or事实
+
+析取事实，表示至少有一个条件成立。
+
+语法：
+```
+or:
+    fact1
+    fact2
+    ...
+    factN
+```
+
+或者内联形式：
+```
+fact1 or fact2 or ... or factN
+```
+
+```litex
+let x R: x = 1
+
+or:
+    x = 1
+    x = 2
+
+# 内联形式
+x = 1 or x = 2
+
+# 在forall中使用
+know forall x R: x > 1 or x = 1 or x < 1
+let x R
+x > 1 or x = 1 or x < 1
+```
 
 4. intensional set 事实
 
+内涵集合事实，用于表达集合中元素的性质。
+
+```litex
+have set s = {x R: x > 0, x < 1}
+have y s
+y > 0
+y < 1
+
+# 在forall中使用
+forall x s:
+    x > 0
+```
+
 5. enumeration set 事实
+
+枚举集合事实，用于表达有限集合中元素的性质。
+
+```litex
+have set s = {1, 2, 3}
+have x s
+x = 1 or x = 2 or x = 3
+
+# 在forall中使用
+forall x s:
+    x > 0
+```
 
 6. 连续等于
 
@@ -274,19 +368,121 @@ object1 = object2 = object3 = ... = objectN = objectN_plus_1
 
 1. prove_in_each_case
 
-对应一阶逻辑的or
+对应一阶逻辑的`or`。当需要证明一个在多个情况下都成立的事实时，可以分情况证明。
+
+语法：
+```
+prove_in_each_case:
+    fact1 or fact2 or ... or factN
+    =>:
+        conclusion
+    prove:
+        # 假设fact1成立，证明conclusion
+        ...
+    prove:
+        # 假设fact2成立，证明conclusion
+        ...
+    ...
+```
+
+```litex
+let a R: a = 0 or a = 1
+
+prove_in_each_case:
+    a = 0 or a = 1
+    =>:
+        a >= 0
+    prove:
+        0 >= 0
+    prove:
+        1 >= 0
+```
 
 2. prove_by_contradiction
 
-对应一阶逻辑的not
+对应一阶逻辑的`not`。通过假设结论的否定，推导出矛盾，从而证明原结论。
 
-3. prove_by_enum 
+语法：
+```
+prove_by_contradiction:
+    not conclusion  # 假设结论的否定
+    ...
+    # 推导出矛盾
+    contradiction
+```
 
-对应集合论公理中的用枚举法定义一个集合
+```litex
+prop p(x R)
+prop q(x R)
+know not $q(1)
+know forall x R: $p(x) => $q(x)
+
+claim:
+    not $p(1)
+    prove_by_contradiction:
+        $p(1)  # 假设$p(1)成立
+        $q(1)  # 由$p(1)和已知条件推出$q(1)
+        # 但已知not $q(1)，矛盾
+```
+
+3. prove_by_enum
+
+对应集合论公理中的枚举法。对于有限集合，通过枚举每个元素来证明性质。
+
+语法：
+```
+prove_by_enum(x, set_name):
+    property_to_prove
+```
+
+```litex
+prop p(x R)
+have set s = {1, 2, 3}
+
+prove_by_enum(x, s):
+    x > 0
+```
 
 4. prove_in_range
 
-对应整数的序关系和枚举的关系。比如如果`x > 1, x < 10`，那么x只可能是2,3,4,5,6,7,8,9。它的另一一个意义是让重复性很强的证明过程更简洁。比如你要证明997是素数，那就要一个个地写`997 % 2 = 1, 997 % 2 != 0`，写上几百个后，就能知道forall x N: x >= 2 => 997 % x != 0。这写起来太麻烦了，prove_in_range就是为了解决这个问题。
+对应整数的序关系和枚举关系。用于在整数范围内枚举证明，特别适合处理重复性强的证明过程。
+
+语法：
+```
+prove_in_range(x, lower_bound, upper_bound):
+    property_to_prove
+```
+
+```litex
+# 证明对于1 < x < 10的整数x，都有x > 0
+let x Z: x > 1, x < 10
+
+prove_in_range(x, 2, 9):
+    x > 0
+
+# 证明997是素数（简化示例）
+# 需要证明forall x N: x >= 2, x < 997 => 997 % x != 0
+prove_in_range(x, 2, 996):
+    997 % x != 0
+```
+
+5. prove_by_induction
+
+对应数学归纳法。用于证明对所有自然数都成立的性质。
+
+语法：
+```
+prove_by_induction($prop(x, n), n, base_case)
+```
+
+```litex
+prop p(x R, n N_pos)
+let x R
+know forall n N_pos: n >= 1, $p(x, n) => $p(x, n+1)
+know $p(x, 1)
+
+prove_by_induction($p(x, n), n, 1)
+```
 
 ## 辅助关键词
 
@@ -304,15 +500,148 @@ know 的意义主要有
 
 2. import
 
+从另外一个文件或者文件夹里导入一些东西。
 
+语法：
+```
+import "file_path"
+import "folder_path"
+```
+
+```litex
+# 导入单个文件
+import "examples/algorithm.md"
+
+# 导入文件夹（会导入文件夹中的main.lit）
+import "tutorial"
+```
 
 3. prove_is_commutative_prop, prove_is_transitive_prop
 
+证明一个prop的谓词是有交换性，传递性。之后在证明的时候，会用上相应的性质。
+
+语法：
+```
+prove_is_commutative_prop($prop(x, y))
+prove_is_transitive_prop($prop(x, y))
+```
+
+```litex
+prop p(x R, y R)
+
+# 证明交换性
+prove_is_commutative_prop(not $p(x, y))
+# 之后，如果not $p(x, y)没被证明出来，litex会尝试证明not $p(y, x)
+# 如果not $p(x, y)被证明出来了，litex会自动证明$p(y, x)
+
+# 证明传递性
+prove_is_transitive_prop($p(x, y))
+# 之后，如果$p(x, z)没被证明出来，litex会遍历所有已知的使$p(x, t)成立的t
+# 如果某个t满足$p(t, z)，那么$p(x, z)就被证明了
+```
+
 4. fn_template
+
+根据幂集公理，有集合X^{Y}，即所有从Y映射到X的函数。fn_template本质上就是用来定义这个集合的。
+
+有两种fn_template的写法，一种是 fn(set_name, set_name2, ...) return_set_name，比如fn(R)R表示定义域是R，值域是R的函数。
+
+一种是自己定义
+
+TODO: 本质上 fn(set_name, set_name2, ...) return_set_name 的写法已经能表示所有的幂集了。但是因为litex需要让用户用起来舒服，所以定义函数的时候，只是定义定义域和值域，而是还可以额外加一些定义域和值域的条件，比如
+
+```litex
+fn f(x R) R:
+    x > 0
+    =>:
+        f(x) > 0
+```
+
+这相当于定义了fn(R)R中的函数f，它的定义域是R，值域是R，并且满足x > 0 => f(x) > 0。
+
+另外一种写法其实是
+
+```litex
+have set positive_real_numbers = {x R: x > 0}
+fn f(x positive_real_numbers) positive_real_numbers
+```
+
+这样写也行。但是比较麻烦。 
+
+TODO: 应该还要引入 have fn_template
 
 5. claim
 
+模拟正常的数学书的写法，用于声明一个事实并进行证明。
+
+语法：
+```
+claim:
+    fact_to_prove
+    prove:
+        # 证明步骤
+        ...
+
+claim:
+    fact_to_prove
+    prove_by_contradiction:
+        # 反证法证明步骤
+        ...
+```
+
+```litex
+# 基本用法
+claim:
+    forall x R:
+        x = 1
+        =>:
+            x > 0
+    prove:
+        1 > 0
+        x > 0
+
+# 使用反证法
+prop p(x R)
+prop q(x R)
+know not $q(1)
+know forall x R: $p(x) => $q(x)
+
+claim:
+    not $p(1)
+    prove_by_contradiction:
+        $p(1)
+        $q(1)
+```
+
 6. prove
+
+用于在局部环境中进行证明，证明完成后将结果释放到当前环境。
+
+语法：
+```
+prove some_facts:
+    # 证明步骤
+    ...
+```
+
+```litex
+# prove会先运行下面的所有证明过程，然后验证some_facts
+# 如果成立，some_facts会进入当前环境
+prove forall x R: x > 1, x < 3 => x > 0, x < 5:
+    x > 1
+    x > 0
+    x < 3
+    x < 5
+
+# 本质上等价于
+claim:
+    forall x R: x > 1, x < 3 => x > 0, x < 5
+    prove:
+        x > 1
+        x > 0
+        x < 3
+        x < 5
+```
 
 ## 关键词清单
 
