@@ -612,3 +612,128 @@ have s set
 prop p(x s)
 have set s = {x s: $p(x)}
 ```
+
+## ZFC 公理和皮亚诺公理
+
+### ZFC 公理系统（Zermelo-Fraenkel Set Theory with Choice）
+
+ZFC公理系统是现代数学的基础，包含以下10条公理：
+
+#### 1. 外延公理 (Axiom of Extensionality)
+
+**数学表示**：
+$$\forall A, B \text{ set}: A = B \iff (\forall x, x \in A \iff x \in B)$$
+
+两个集合相等当且仅当它们有相同的元素。
+
+#### 2. 空集公理 (Axiom of Empty Set)
+
+**数学表示**：
+$$\exists \emptyset \text{ set}: \forall x, x \not\in \emptyset$$
+
+存在一个不包含任何元素的集合。
+
+#### 3. 配对公理 (Axiom of Pairing)
+
+**数学表示**：
+$$\forall a, b \text{ obj}: \exists \{a,b\} \text{ set}: \forall y, (y \in \{a,b\} \iff (y = a \lor y = b))$$
+
+对于任意两个对象$a$和$b$，存在一个集合只包含$a$和$b$。
+
+#### 4. 并集公理 (Axiom of Union)
+
+**数学表示**：
+$$\forall A \text{ set}: \exists \bigcup A \text{ set}: \forall x, (x \in \bigcup A \iff (\exists S \in A, x \in S))$$
+
+对于任意集合$A$（其元素都是集合），存在一个集合$\bigcup A$，包含$A$中所有集合的所有元素。
+
+#### 5. 幂集公理 (Axiom of Power Set)
+
+**数学表示**：
+$$\forall X \text{ set}: \exists \mathcal{P}(X) \text{ set}: \forall S, (S \in \mathcal{P}(X) \iff S \subseteq X)$$
+
+对于任意集合$X$，存在一个集合$\mathcal{P}(X)$，包含$X$的所有子集。
+
+#### 6. 分离公理 (Axiom Schema of Separation)
+
+**数学表示**：
+$$\forall A \text{ set}, \forall P: \exists \{x \in A : P(x)\} \text{ set}: \forall y, (y \in \{x \in A : P(x)\} \iff (y \in A \land P(y)))$$
+
+对于任意集合$A$和性质$P$，存在一个集合包含$A$中所有满足$P$的元素。
+
+#### 7. 替换公理 (Axiom Schema of Replacement)
+
+**数学表示**：
+$$\forall F \text{ function}, \forall A \text{ set}: \exists F(A) \text{ set}: \forall y, (y \in F(A) \iff (\exists x \in A, y = F(x)))$$
+
+对于任意函数$F$和集合$A$，存在一个集合包含$F$在$A$上的像。
+
+#### 8. 无穷公理 (Axiom of Infinity)
+
+**数学表示**：
+$$\exists I \text{ set}: (\emptyset \in I \land (\forall x \in I, x \cup \{x\} \in I))$$
+
+存在一个包含自然数的集合。
+
+#### 9. 正则公理 (Axiom of Regularity / Foundation)
+
+**数学表示**：
+$$\forall A \text{ set}: (A \neq \emptyset \implies (\exists x \in A, \forall y \in A, y \not\in x))$$
+
+每个非空集合都包含一个与它不相交的元素。
+
+#### 10. 选择公理 (Axiom of Choice)
+
+**数学表示**：
+$$\forall F \text{ non-empty family of sets}: \exists f \text{ choice function}: (\forall A \in F, f(A) \in A)$$
+
+对于任意非空集合族，存在一个选择函数。
+
+---
+
+### 皮亚诺公理 (Peano Axioms)
+
+皮亚诺公理系统定义了自然数的基本性质：
+
+#### 1. 0是自然数
+
+**数学表示**：
+$$0 \in \mathbf{N}$$
+
+#### 2. 后继公理 (Successor Axiom)
+
+**数学表示**：
+$$\forall n \in \mathbf{N}, n++ \in \mathbf{N}$$
+
+如果$n$是自然数，则$n++$（$n$的后继）也是自然数。
+
+#### 3. 0不是任何数的后继
+
+**数学表示**：
+$$\forall n \in \mathbf{N}, n++ \neq 0$$
+
+#### 4. 后继的唯一性 (Injectivity of Successor)
+
+**数学表示**：
+$$\forall n, m \in \mathbf{N}, (n++ = m++ \implies n = m)$$
+
+不同的自然数有不同的后继。等价地，如果两个自然数的后继相等，则这两个自然数相等。
+
+#### 5. 数学归纳法 (Induction Axiom)
+
+**数学表示**：
+$$\forall P: (P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$$
+
+如果性质$P$满足：
+- $P(0)$成立
+- 对于任意自然数$n$，如果$P(n)$成立，则$P(n++)$也成立
+
+那么$P(n)$对所有自然数$n$都成立。
+
+---
+
+### 说明
+
+- **ZFC公理系统**：ZFC是Zermelo-Fraenkel集合论加上选择公理，是现代数学的基础。所有数学对象都可以在ZFC框架内定义。
+- **皮亚诺公理**：皮亚诺公理定义了自然数的基本性质，是算术的基础。自然数集合$\mathbf{N}$的存在性由ZFC的无穷公理保证。
+- **Litex中的对应**：Litex通过内置关键字（如`set`、`$in`、`N`等）和语法（如`{x A: P(x)}`）直接支持这些公理，使得数学表达更加自然和直观。
