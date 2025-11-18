@@ -569,3 +569,46 @@ know forall n N, x1, ..., xn obj, y1, ..., yn obj:
 know exist set product: forall a obj => (a $in product <=> exist tuple: forall i N_pos: i <= n => tuple(i) $in Xi)
 ```
 - **说明**：n元组和n重笛卡尔积可以通过函数和替换公理定义
+
+## 整理
+
+1. **对集公理 (Axiom of Pairing)**  
+   对任意集合 \(u,v\)，存在集合 \(\{u,v\}\)。
+
+```litex
+have a, b set
+have set s = {a, b}
+```
+
+2. **幂集公理 (Axiom of Power Set)**  
+   对任意集合 \(X\)，存在集合 \(\mathcal{P}(X)\)，包含 \(X\) 的所有子集。
+
+```litex
+fn power_set(X set) set
+
+know forall X set: forall s set: s $is_subset_of X => s $in power_set(X) <=> forall x power_set(X): x $is_subset_of X
+```
+
+3. **并集公理 (Axiom of Union)**  
+   对任意集合族 \(F\)，存在集合 \(\bigcup F\)，包含 \(F\) 中元素的元素。
+
+```litex
+fn union_of_family(F set) set:
+    forall x F:
+        x $in set
+    =>:
+        forall x union_of_family(F):
+            x $in F
+        forall x F:
+            x $is_subset_of union_of_family(F)
+            
+```
+
+4. **子集公理 (Axiom Schema of Separation)**  
+   可用性质从集合中分离出子集。
+
+```litex
+have s set
+prop p(x s)
+have set s = {x s: $p(x)}
+```
