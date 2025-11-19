@@ -1,4 +1,4 @@
-# 自然数 (Natural Numbers)
+<!-- # 自然数 (Natural Numbers)
 
 Definition 2.1.1. (Informal) A natural number is any element of the set $\mathbf{N}:=\{0,1,2,3,4,\ldots\}$, which is the set of all the numbers created by starting with 0 and then counting forward indefinitely. We call $\mathbf{N}$ the set of natural numbers.
 $\mathbf{N} := \{0, 1, 2, 3, 4, \ldots\}$
@@ -736,4 +736,4 @@ $$\forall P: (P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \impl
 
 - **ZFC公理系统**：ZFC是Zermelo-Fraenkel集合论加上选择公理，是现代数学的基础。所有数学对象都可以在ZFC框架内定义。
 - **皮亚诺公理**：皮亚诺公理定义了自然数的基本性质，是算术的基础。自然数集合$\mathbf{N}$的存在性由ZFC的无穷公理保证。
-- **Litex中的对应**：Litex通过内置关键字（如`set`、`$in`、`N`等）和语法（如`{x A: P(x)}`）直接支持这些公理，使得数学表达更加自然和直观。
+- **Litex中的对应**：Litex通过内置关键字（如`set`、`$in`、`N`等）和语法（如`{x A: P(x)}`）直接支持这些公理，使得数学表达更加自然和直观。 -->
