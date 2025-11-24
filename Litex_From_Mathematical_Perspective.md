@@ -408,13 +408,13 @@ A function $f : X \to Y$ from set $X$ to set $Y$ is defined by a property $P(x,y
 
 **Correspondence in Litex**:
 - **Keywords**: `have fn`, `fn`, `prop`, `exist_prop`
-- **Expression**: `have fn f(x X) Y` or defined through `exist_prop`
+- **Expression**: `have f fn(X)Y` or defined through `exist_prop`
 - **Example**:
 ```litex
-have X, Y set
+have X, Y nonempty_set
 
 # Define function through have fn
-have fn f(x X) Y
+have f fn(X)Y
 # Function satisfies uniqueness: forall x X => exist! y Y: y = f(x)
 ```
 - **Note**: Function definition requires proving existence and uniqueness, and `have fn` checks these conditions
@@ -430,8 +430,8 @@ Two functions $f : X \to Y$ and $g : X \to Y$ with the same domain and range are
 ```litex
 have X, Y nonempty_set
 
-have f fn(X) Y
-have g fn(X) Y
+have f fn(X)Y
+have g fn(X)Y
 
 prop the_same_function_on_given_domain(X set, Y set,f fn(X)Y, g fn(X)Y):
     forall x X:
@@ -445,14 +445,14 @@ For functions $f : X \to Y$ and $g : Y \to Z$, the composition $g \circ f : X \t
 
 **Correspondence in Litex**:
 - **Keywords**: `have fn`, function composition
-- **Expression**: `have fn composition(x X) Z = g(f(x))`
+- **Expression**: `have composition fn(X)Z = g(f(x))`
 - **Example**:
 ```litex
 have X, Y, A nonempty_set
 have x X
 
-have f fn(X) Y
-have g fn(Y) A
+have f fn(X)Y
+have g fn(Y)A
 
 g(f(x)) $in A
 ```
@@ -464,15 +464,17 @@ A function $f : X \to Y$ is injective (or one-to-one) if different inputs produc
 
 **Correspondence in Litex**:
 - **Keywords**: `prop`, `forall`, `=>`, `=`, `!=`
-- **Expression**: `prop is_injective(f fn(X, Y)): forall x, x' X: f(x) = f(x') => x = x'`
+- **Expression**: `prop is_injective(f fn(X)Y): forall x, x' X: f(x) = f(x') => x = x'`
 - **Example**:
 ```litex
-have fn f(x X) Y
-prop is_injective(f fn(X, Y)):
-    forall x, x' X:
-        f(x) = f(x')
+have X, Y, A nonempty_set
+
+have f fn(X)Y
+prop is_injective(f fn(X)Y):
+    forall x, x2 X:
+        f(x) = f(x2)
         =>:
-            x = x'
+            x = x2
 ```
 - **Note**: Injectivity can be defined through propositions
 
@@ -482,14 +484,19 @@ A function $f : X \to Y$ is surjective (or onto) if every element of $Y$ is the 
 
 **Correspondence in Litex**:
 - **Keywords**: `prop`, `forall`, `exist`, `=`
-- **Expression**: `prop is_surjective(f fn(X, Y)): forall y Y => exist x X: f(x) = y`
+- **Expression**: `prop is_surjective(f fn(X)Y): forall y Y => exist x X: f(x) = y`
 - **Example**:
 ```litex
-have fn f(x X) Y
-prop is_surjective(f fn(X, Y)):
+have X, Y nonempty_set
+have f fn(X)Y
+
+exist_prop x X st has_preimage(X nonempty_set, Y nonempty_set, f fn(X)Y, y Y):
+    f(x) = y
+
+prop is_surjective(f fn(X)Y):
     forall y Y:
         =>:
-            exist x X: f(x) = y
+            $has_preimage(X, Y, f, y)
 ```
 - **Note**: Surjectivity can be defined through propositions and existential quantifiers
 
@@ -499,11 +506,12 @@ A function $f : X \to Y$ is bijective (or invertible) if it is both injective an
 
 **Correspondence in Litex**:
 - **Keywords**: `prop`, `,` (conjunction)
-- **Expression**: `prop is_bijective(f fn(X, Y)): $is_injective(f), $is_surjective(f)`
+- **Expression**: `prop is_bijective(f fn(X)Y): $is_injective(f), $is_surjective(f)`
 - **Example**:
 ```litex
-have fn f(x X) Y
-prop is_bijective(f fn(X, Y)):
+have X, Y nonempty_set
+have f fn(X)Y
+prop is_bijective(f fn(X)Y):
     $is_injective(f)
     $is_surjective(f)
 ```
@@ -518,7 +526,8 @@ For a function $f : X \to Y$ and a subset $S \subseteq X$, the image of $S$ unde
 - **Expression**: `have set image = {f(x): x S}` (requires replacement axiom support)
 - **Example**:
 ```litex
-have fn f(x X) Y
+have X, Y nonempty_set
+have f fn(X)Y
 have set S = {x X: ...}
 # Define image set through replacement axiom (currently needs to be assumed via know)
 know exist set image: forall y Y => (y $in image <=> exist x S: f(x) = y)
@@ -530,15 +539,14 @@ know exist set image: forall y Y => (y $in image <=> exist x S: f(x) = y)
 For a function $f : X \to Y$ and a subset $U \subseteq Y$, the inverse image of $U$ under $f$ is the set $f^{-1}(U) := \{x \in X : f(x) \in U\}$. In symbols: $f(x) \in U \iff x \in f^{-1}(U)$.
 
 **Correspondence in Litex**:
-- **Keywords**: `have set`, `{x parent_set: fact}`
-- **Expression**: `have set inverse_image = {x X: f(x) $in U}`
+- **Keywords**: `fn`, `{x parent_set: fact}`, `$is_subset_of`
+- **Expression**: `fn self_defined_inverse_image_set(X set, Y set, f fn(X)Y, U set) set: U $is_subset_of Y => self_defined_inverse_image_set(X, Y, f, U) = {x X: f(x) $in U}`
 - **Example**:
 ```litex
-have fn f(x X) Y
-have set U = {y Y: ...}
-have set inverse_image = {x X: f(x) $in U}
-have z inverse_image
-f(z) $in U
+fn self_defined_inverse_image_set(X set, Y set, f fn(X)Y, U set) set:
+    U $is_subset_of Y
+    =>:
+        self_defined_inverse_image_set(X, Y, f, U) = {x X: f(x) $in U}
 ```
 - **Note**: Inverse images are implemented through the separation axiom (intensional set definition)
 
@@ -547,69 +555,41 @@ f(z) $in U
 For sets $X$ and $Y$, there exists a set $Y^X$ consisting of all functions from $X$ to $Y$. A function $f$ belongs to $Y^X$ if and only if $f : X \to Y$. In symbols: $\forall X, Y, \exists Y^X, \forall f, (f \in Y^X \iff (f : X \to Y))$.
 
 **Correspondence in Litex**:
-- **Keywords**: `fn_template`, `$in`
-- **Expression**: `fn_template power_set(X set, Y set): fn (x X) Y`
+- **Keywords**: `fn`, `$in`
+- **Expression**: `fn(X)Y` represents the set of all functions from X to Y, `f $in fn(X)Y` checks if f is a function from X to Y
 - **Example**:
 ```litex
-have set X, set Y
-fn_template power_set(X set, Y set):
-    fn (x X) Y
+have X, Y nonempty_set
 
-have fn f(x X) Y
-f $in power_set(X, Y)
+have f fn(X)Y
+f $in fn(X)Y
 ```
 - **Note**: The power set axiom is implemented through `fn_template`, representing the set of all functions from X to Y
-
-**Axiom: Union**
-
-For any set $A$ whose elements are themselves sets, there exists a set $\bigcup A$ whose elements are all objects that belong to at least one element of $A$. In symbols: $\forall A, \exists \bigcup A, \forall x, (x \in \bigcup A \iff (\exists S \in A, x \in S))$.
-
-**Correspondence in Litex**:
-- **Keywords**: `union`, `exist`, `$in`
-- **Expression**: `union(A)` or defined through a function
-- **Example**:
-```litex
-# Declare union axiom using know
-know forall A set: forall x A => (x $in set => forall y x => y $in union(A))
-
-# Usage
-have set A
-have x union(A)
-exist S A: x $in S
-```
-- **Note**: Generalized union can be declared as an axiom using `know`, or defined through a function
-
-**Definition: Ordered Pair**
-
-An ordered pair $(x,y)$ is an object with $x$ as its first component and $y$ as its second component. Two ordered pairs are equal if and only if their corresponding components are equal: $(x,y) = (x',y') \iff (x = x' \land y = y')$.
-
-**Correspondence in Litex**:
-- **Keywords**: function call syntax `(x, y)` or defined through functions
-- **Expression**: Ordered pairs can be represented through functions or tuple syntax
-- **Example**:
-```litex
-# Ordered pairs can be represented through functions
-have fn pair(x obj, y obj) obj
-know forall x, y, x', y' obj: pair(x, y) = pair(x', y') <=> (x = x'), (y = y')
-
-# or use built-in syntax (if supported)
-have x, y obj
-(x, y) = (x', y') <=> (x = x'), (y = y')
-```
-- **Note**: Ordered pairs can be defined through functions, or use Litex's built-in tuple syntax (if supported)
 
 **Definition: Cartesian Product**
 
 For sets $X$ and $Y$, the Cartesian product $X \times Y$ is the set of all ordered pairs $(x,y)$ where $x \in X$ and $y \in Y$. In symbols: $X \times Y := \{(x,y) : x \in X, y \in Y\}$; $a \in (X \times Y) \iff (\exists x \in X, \exists y \in Y, a = (x,y))$.
 
 **Correspondence in Litex**:
-- **Keywords**: `have set`, `{pair(x, y): x X, y Y}`, `exist`
-- **Expression**: `have set cartesian_product = {pair(x, y): x X, y Y}` (requires replacement axiom)
+- **Keywords**: `cart`, `$is_cart`, `dim`, `proj`, `coord`
+- **Expression**: `cart(X1, X2, ..., Xn)` for n-fold Cartesian product, `$is_cart(x)` to check if x is a Cartesian product, `dim(x)` for dimension, `proj(x, i)` for projection to i-th component, `coord(a, x, i)` for i-th coordinate of element a
 - **Example**:
 ```litex
-have set X, set Y
-# Define Cartesian product through replacement axiom (currently needs to be assumed via know)
-know exist set cartesian_product: forall a obj => (a $in cartesian_product <=> exist x X, exist y Y: a = pair(x, y))
+have set x = cart(R, Q, Z)
+$is_cart(x)
+dim(x) = 3
+proj(x, 1) = R
+proj(x, 2) = Q
+proj(x, 3) = Z
+x $in set
+
+let a x
+coord(a, x, 1) $in R
+
+$is_cart(cart(R, Q))
+let y cart(R, Q)
+dim(cart(R, Q)) = 2
+coord(y, cart(R, Q), 1) $in R
 ```
 - **Note**: The definition of Cartesian products requires the replacement axiom, which Litex currently does not support, but can be assumed through `know`
 
@@ -620,187 +600,29 @@ For a natural number $n$, an ordered $n$-tuple $(x_1, \ldots, x_n)$ is a collect
 For sets $X_1, \ldots, X_n$, their Cartesian product $\prod_{i=1}^n X_i$ (also written $X_1 \times \ldots \times X_n$) is the set of all $n$-tuples $(x_1, \ldots, x_n)$ where $x_i \in X_i$ for all $1 \leq i \leq n$. In symbols: $\prod_{1 \leq i \leq n} X_i := \{(x_i)_{1 \leq i \leq n} : x_i \in X_i \text{ for all } 1 \leq i \leq n\}$.
 
 **Correspondence in Litex**:
-- **Keywords**: functions, `forall`, `=`
-- **Expression**: n-tuples can be represented through functions, n-fold Cartesian products require the replacement axiom
+- **Keywords**: `cart_prod`, `index_set_of_cart_prod`, `cart_prod_proj`, `fn` (for key-value function)
+- **Expression**: `cart_prod(X, kv)` where X is an index set and kv is a function from X to sets, `index_set_of_cart_prod(cart_prod(X, kv)) = X`, `cart_prod_proj(cart_prod(X, kv), i) = kv(i)` for the i-th projection
 - **Example**:
 ```litex
-# n-tuples can be represented through functions
-have fn tuple(n N, i N_pos: i <= n) obj
-know forall n N, x1, ..., xn obj, y1, ..., yn obj: 
-    tuple(n, 1) = x1, ..., tuple(n, n) = xn,
-    tuple(n, 1) = y1, ..., tuple(n, n) = yn
-    =>:
-        (forall i N_pos: i <= n => tuple(n, i) = tuple(n, i)) <=> (x1 = y1, ..., xn = yn)
+have set X = {1, 2, 3}
+have fn kv(x X) set =:
+    case x = 1: N
+    case x = 2: Q
+    case x = 3: Z
 
-# n-fold Cartesian product (requires replacement axiom)
-know exist set product: forall a obj => (a $in product <=> exist tuple: forall i N_pos: i <= n => tuple(i) $in Xi)
+cart_prod(X, kv) $in set
+index_set_of_cart_prod(cart_prod(X, kv)) = X
+cart_prod_proj(cart_prod(X, kv), 1) = kv(1) = N
+
+
+have fn kv2(x N) set =:
+    case x >= 2: N
+    case x < 2: Q
+
+cart_prod(N, kv2) $in set
+index_set_of_cart_prod(cart_prod(N, kv2)) = N
+cart_prod_proj(cart_prod(N, kv2), 1) = kv2(1) = Q
+cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N
 ```
 - **Note**: n-tuples and n-fold Cartesian products can be defined through functions and the replacement axiom
 
-## Summary
-
-1. **Axiom of Pairing**  
-   For any sets \(u,v\), there exists a set \(\{u,v\}\).
-
-```litex
-have a, b set
-have set s = {a, b}
-```
-
-2. **Axiom of Power Set**  
-   For any set \(X\), there exists a set \(\mathcal{P}(X)\) containing all subsets of \(X\).
-
-```litex
-fn power_set(X set) set
-
-know forall X set: forall s set: s $is_subset_of X => s $in power_set(X) <=> forall x power_set(X): x $is_subset_of X
-```
-
-3. **Axiom of Union**  
-   For any family of sets \(F\), there exists a set \(\bigcup F\) containing all elements of elements of \(F\).
-
-```litex
-fn union_of_family(F set) set:
-    forall x F:
-        x $in set
-    =>:
-        forall x union_of_family(F):
-            x $in F
-        forall x F:
-            x $is_subset_of union_of_family(F)
-            
-```
-
-4. **Axiom Schema of Separation**  
-   Properties can be used to separate subsets from sets.
-
-```litex
-have s set
-prop p(x s)
-have set s = {x s: $p(x)}
-```
-
-## ZFC Axioms and Peano Axioms
-
-### ZFC Axiom System (Zermelo-Fraenkel Set Theory with Choice)
-
-The ZFC axiom system is the foundation of modern mathematics and consists of the following 10 axioms:
-
-#### 1. Axiom of Extensionality
-
-**Mathematical notation**:
-$$\forall A, B \text{ set}: A = B \iff (\forall x, x \in A \iff x \in B)$$
-
-Two sets are equal if and only if they have the same elements.
-
-#### 2. Axiom of Empty Set
-
-**Mathematical notation**:
-$$\exists \emptyset \text{ set}: \forall x, x \not\in \emptyset$$
-
-There exists a set that contains no elements.
-
-#### 3. Axiom of Pairing
-
-**Mathematical notation**:
-$$\forall a, b \text{ obj}: \exists \{a,b\} \text{ set}: \forall y, (y \in \{a,b\} \iff (y = a \lor y = b))$$
-
-For any two objects $a$ and $b$, there exists a set containing exactly $a$ and $b$.
-
-#### 4. Axiom of Union
-
-**Mathematical notation**:
-$$\forall A \text{ set}: \exists \bigcup A \text{ set}: \forall x, (x \in \bigcup A \iff (\exists S \in A, x \in S))$$
-
-For any set $A$ (whose elements are themselves sets), there exists a set $\bigcup A$ containing all elements of all sets in $A$.
-
-#### 5. Axiom of Power Set
-
-**Mathematical notation**:
-$$\forall X \text{ set}: \exists \mathcal{P}(X) \text{ set}: \forall S, (S \in \mathcal{P}(X) \iff S \subseteq X)$$
-
-For any set $X$, there exists a set $\mathcal{P}(X)$ containing all subsets of $X$.
-
-#### 6. Axiom Schema of Separation
-
-**Mathematical notation**:
-$$\forall A \text{ set}, \forall P: \exists \{x \in A : P(x)\} \text{ set}: \forall y, (y \in \{x \in A : P(x)\} \iff (y \in A \land P(y)))$$
-
-For any set $A$ and property $P$, there exists a set containing all elements of $A$ that satisfy $P$.
-
-#### 7. Axiom Schema of Replacement
-
-**Mathematical notation**:
-$$\forall F \text{ function}, \forall A \text{ set}: \exists F(A) \text{ set}: \forall y, (y \in F(A) \iff (\exists x \in A, y = F(x)))$$
-
-For any function $F$ and set $A$, there exists a set containing the image of $F$ on $A$.
-
-#### 8. Axiom of Infinity
-
-**Mathematical notation**:
-$$\exists I \text{ set}: (\emptyset \in I \land (\forall x \in I, x \cup \{x\} \in I))$$
-
-There exists a set containing the natural numbers.
-
-#### 9. Axiom of Regularity / Foundation
-
-**Mathematical notation**:
-$$\forall A \text{ set}: (A \neq \emptyset \implies (\exists x \in A, \forall y \in A, y \not\in x))$$
-
-Every non-empty set contains an element that is disjoint from it.
-
-#### 10. Axiom of Choice
-
-**Mathematical notation**:
-$$\forall F \text{ non-empty family of sets}: \exists f \text{ choice function}: (\forall A \in F, f(A) \in A)$$
-
-For any non-empty family of sets, there exists a choice function.
-
----
-
-### Peano Axioms
-
-The Peano axiom system defines the fundamental properties of natural numbers:
-
-#### 1. 0 is a natural number
-
-**Mathematical notation**:
-$$0 \in \mathbf{N}$$
-
-#### 2. Successor Axiom
-
-**Mathematical notation**:
-$$\forall n \in \mathbf{N}, n++ \in \mathbf{N}$$
-
-If $n$ is a natural number, then $n++$ (the successor of $n$) is also a natural number.
-
-#### 3. 0 is not the successor of any number
-
-**Mathematical notation**:
-$$\forall n \in \mathbf{N}, n++ \neq 0$$
-
-#### 4. Injectivity of Successor
-
-**Mathematical notation**:
-$$\forall n, m \in \mathbf{N}, (n++ = m++ \implies n = m)$$
-
-Different natural numbers have different successors. Equivalently, if two natural numbers have the same successor, then they are equal.
-
-#### 5. Induction Axiom
-
-**Mathematical notation**:
-$$\forall P: (P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$$
-
-If a property $P$ satisfies:
-- $P(0)$ holds
-- For any natural number $n$, if $P(n)$ holds, then $P(n++)$ also holds
-
-Then $P(n)$ holds for all natural numbers $n$.
-
----
-
-### Notes
-
-- **ZFC Axiom System**: ZFC is Zermelo-Fraenkel set theory with the axiom of choice, and is the foundation of modern mathematics. All mathematical objects can be defined within the ZFC framework.
-- **Peano Axioms**: The Peano axioms define the fundamental properties of natural numbers and are the foundation of arithmetic. The existence of the set of natural numbers $\mathbf{N}$ is guaranteed by the axiom of infinity in ZFC.
-- **Correspondence in Litex**: Litex directly supports these axioms through built-in keywords (such as `set`, `$in`, `N`, etc.) and syntax (such as `{x A: P(x)}`), making mathematical expression more natural and intuitive.
