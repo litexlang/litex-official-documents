@@ -82,3 +82,42 @@ Case 1: When you write the result derived by `by` after the colon, `by` opens a 
 Case 2: When `by` is not followed by a colon, the call works mechanically—substitute the arguments into the `prove_algo`, instantiate it, and copy every instantiated proof step to the location where `by` was invoked.
 
 Note: This allows users to recursively generate code. Because humans can write infinite proof processes that are meaningless to the final result, litex's `by` keyword may also recursively call itself indefinitely, causing an infinite loop.
+
+## A Very Interesting Example
+
+It's possible to define lisp-like data structure in Litex. Thank Chenxuan Huang for the example.
+
+```litex
+have U nonempty_set
+have nil U
+fn l(p U) U => l(nil) = nil
+fn r(p U) U => r(nil) = nil
+fn cons(x U, y U) U => l(cons(x,y))=x, r(cons(x,y))=y, cons(x, y) != nil
+know @cons_is_unique(x0,y0,x1,y1 obj): cons(x0, y0) = cons(x1, y1) => x0 = x1, y0 = y1
+
+# important properties
+# every element in U is either nil or a cons of something
+
+exist_prop x,y obj st has_lr(p U):
+    cons(x, y) = p
+know forall p U: p != nil => $has_lr(p)
+
+
+fn nth(x N_pos, p U) U
+know:
+    forall p U => nth(1, p) = l(p)
+    forall x N_pos, p U: x > 1 => nth(x, p) = nth(x-1, r(p))
+
+prove_algo table_nth(x, p):
+    if x = 1:
+        nth(1, p) = l(p)
+        return
+    if x > 1:
+        nth(x, p) = nth(x-1, r(p))
+        by table_nth(x-1, r(p))
+        return
+
+have px U
+by table_nth(2, px)
+nth(2, px) = l(r(px)) # this does not work
+```
