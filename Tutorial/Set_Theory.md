@@ -117,3 +117,95 @@ not (-1 * 1) $in N_pos
 not (2 - 3) $in N_pos
 not (1 - 1) $in N_pos
 ```
+
+## Cartesian Products
+
+The Cartesian product is a fundamental operation in set theory that allows us to combine sets to form ordered tuples. Litex provides two ways to work with Cartesian products: `cart` for fixed-arity products and `cart_prod` for products defined by an index set.
+
+### `cart`: Fixed-Arity Cartesian Products
+
+The `cart` function creates a Cartesian product of a fixed number of sets. For sets $X_1, X_2, \ldots, X_n$, the Cartesian product $X_1 \times X_2 \times \ldots \times X_n$ is the set of all ordered $n$-tuples $(x_1, x_2, \ldots, x_n)$ where $x_i \in X_i$ for all $1 \leq i \leq n$.
+
+**Keywords**: `cart`, `$is_cart`, `dim`, `proj`, `coord`
+
+**Example**:
+```litex
+# Create a 3-fold Cartesian product: R × Q × Z
+have set x = cart(R, Q, Z)
+$is_cart(x)
+dim(x) = 3
+proj(x, 1) = R
+proj(x, 2) = Q
+proj(x, 3) = Z
+x $in set
+
+# Access elements and coordinates
+let a x
+coord(a, x, 1) $in R
+coord(a, x, 2) $in Q
+coord(a, x, 3) $in Z
+
+# 2-fold Cartesian product: R × Q
+$is_cart(cart(R, Q))
+let y cart(R, Q)
+dim(cart(R, Q)) = 2
+coord(y, cart(R, Q), 1) $in R
+coord(y, cart(R, Q), 2) $in Q
+```
+
+**Explanation**:
+- `cart(X1, X2, ..., Xn)` creates an $n$-fold Cartesian product
+- `$is_cart(x)` checks if `x` is a Cartesian product
+- `dim(x)` returns the dimension (number of factors) of the Cartesian product
+- `proj(x, i)` returns the $i$-th projection (the $i$-th set in the product)
+- `coord(a, x, i)` returns the $i$-th coordinate of element `a` in Cartesian product `x`
+
+### `cart_prod`: Indexed Cartesian Products
+
+The `cart_prod` function creates a Cartesian product using an index set and a key-value function that maps each index to a set. This is useful when you want to define a product over an arbitrary (possibly infinite) index set.
+
+**Keywords**: `cart_prod`, `index_set_of_cart_prod`, `cart_prod_proj`, `fn` (for key-value function)
+
+**Example 1: Finite index set**:
+```litex
+# Define an index set
+have set X = {1, 2, 3}
+
+# Define a key-value function mapping indices to sets
+have fn kv(x X) set =:
+    case x = 1: N
+    case x = 2: Q
+    case x = 3: Z
+
+# Create the Cartesian product: N × Q × Z
+cart_prod(X, kv) $in set
+index_set_of_cart_prod(cart_prod(X, kv)) = X
+cart_prod_proj(cart_prod(X, kv), 1) = kv(1) = N
+cart_prod_proj(cart_prod(X, kv), 2) = kv(2) = Q
+cart_prod_proj(cart_prod(X, kv), 3) = kv(3) = Z
+```
+
+**Example 2: Infinite index set**:
+```litex
+# Use natural numbers as index set
+have fn kv2(x N) set =:
+    case x >= 2: N
+    case x < 2: Q
+
+# Create Cartesian product indexed by natural numbers
+cart_prod(N, kv2) $in set
+index_set_of_cart_prod(cart_prod(N, kv2)) = N
+cart_prod_proj(cart_prod(N, kv2), 1) = kv2(1) = Q
+cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N
+cart_prod_proj(cart_prod(N, kv2), 3) = kv2(3) = N
+```
+
+**Explanation**:
+- `cart_prod(X, kv)` creates a Cartesian product where `X` is the index set and `kv` is a function from `X` to sets
+- `index_set_of_cart_prod(cart_prod(X, kv))` returns the index set `X`
+- `cart_prod_proj(cart_prod(X, kv), i)` returns the projection to the $i$-th component, which equals `kv(i)`
+
+**When to use which**:
+- Use `cart` when you have a fixed, small number of sets (e.g., `cart(R, Q, Z)`)
+- Use `cart_prod` when you need to define a product over an arbitrary index set, especially when the index set might be large or infinite
+
