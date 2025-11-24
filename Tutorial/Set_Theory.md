@@ -91,3 +91,29 @@ prop p(x N)
 `x N` in `prop p(x N)` means the parameter `x` that is passed to `p` is must satisfy `x $in N`, i.e. The domain of the first parameter `x` is subset of `N`.
 
 As you can see, `in` is everywhere, in explicit and implicit ways.
+
+Examples of not in special sets:
+
+```litex 
+# Examples of not in N (natural numbers)
+not -1 $in N
+not 3.5 $in N
+not (-1 * 1) $in N
+not (2 + 3.5) $in N
+not (-2) $in N
+
+# Examples of not in Z (integers)
+not 3.5 $in Z
+not 2.7 $in Z
+not (1 + 0.5) $in Z
+not (3 / 2) $in Z
+
+# Examples of not in N_pos (positive integers)
+not -1 $in N_pos
+not -2 $in N_pos
+not 0 $in N_pos
+not 3.5 $in N_pos
+not (-1 * 1) $in N_pos
+not (2 - 3) $in N_pos
+not (1 - 1) $in N_pos
+```
