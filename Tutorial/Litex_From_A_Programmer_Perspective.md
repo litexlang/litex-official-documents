@@ -1,4 +1,4 @@
-# Mathematical Principles of Litex
+# Litex: From A Programmer Perspective
 
 Jiachen Shen, Founder of Litex
 

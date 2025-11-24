@@ -1,4 +1,4 @@
-# How Litex Corresponds to Peano Axioms, ZFC Axioms and Other Mathematical Principles
+# Litex: From A Mathematical Perspective
 
 This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
 
