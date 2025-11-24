@@ -1,7 +1,14 @@
-<!-- # 自然数 (Natural Numbers)
+# How Litex Corresponds to Peano Axioms, ZFC Axioms and Other Mathematical Principles
 
-Definition 2.1.1. (Informal) A natural number is any element of the set $\mathbf{N}:=\{0,1,2,3,4,\ldots\}$, which is the set of all the numbers created by starting with 0 and then counting forward indefinitely. We call $\mathbf{N}$ the set of natural numbers.
-$\mathbf{N} := \{0, 1, 2, 3, 4, \ldots\}$
+This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
+
+We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners. [Analysis I](https://tiu-edu.uz/media/books/2024/05/28/1664976801.pdf)
+
+# Natural Numbers
+
+**Definition: Natural Numbers**
+
+The set of natural numbers $\mathbf{N}$ consists of all non-negative integers: $\mathbf{N} := \{0, 1, 2, 3, 4, \ldots\}$. Each element of this set is called a natural number.
 
 **Litex对应**：
 - **关键词**：`N`（内置集合）
@@ -15,8 +22,9 @@ n $in N
 ```
 - **说明**：`N`是Litex的内置关键字，表示自然数集合，包含0, 1, 2, 3, ...
 
-Axiom 2.2. If $n$ is a natural number, then $n++$ is also a natural number.
-$n \in \mathbf{N} \implies n++ \in \mathbf{N}$
+**Axiom: Successor**
+
+For any natural number $n$, its successor $n++$ (or $n+1$) is also a natural number. In symbols: $n \in \mathbf{N} \implies n++ \in \mathbf{N}$.
 
 **Litex对应**：
 - **关键词**：内置算术运算
@@ -28,8 +36,9 @@ n + 1 $in N
 ```
 - **说明**：Litex中自然数的后继运算通过`+ 1`表示，这是内置的算术运算
 
-Definition 2.1.3. We define 1 to be the number 0++, 2 to be the number (0++)++, 3 to be the number ((0++)++)++, etc. (In other words, 1:=0++, 2:=1++, 3:=2++, etc.)
-$1 := 0++$, $2 := 1++$, $3 := 2++$, etc.
+**Definition: Natural Number Notation**
+
+We define natural numbers recursively: $1 := 0++$, $2 := 1++$, $3 := 2++$, and so on. Each natural number is the successor of the previous one.
 
 **Litex对应**：
 - **关键词**：数字字面量，内置算术
@@ -42,8 +51,9 @@ $1 := 0++$, $2 := 1++$, $3 := 2++$, etc.
 ```
 - **说明**：Litex直接支持数字字面量，这些数字的自然数性质是内置的
 
-Axiom 2.3. 0 is not the successor of any natural number; i.e., we have $n++ \neq 0$ for every natural number $n$.
-$\forall n \in \mathbf{N}, n++ \neq 0$
+**Axiom: Zero is Not a Successor**
+
+Zero is not the successor of any natural number. For every natural number $n$, we have $n++ \neq 0$. In symbols: $\forall n \in \mathbf{N}, n++ \neq 0$.
 
 **Litex对应**：
 - **关键词**：`forall`, `!=`
@@ -54,8 +64,9 @@ know forall n N => n + 1 != 0
 ```
 - **说明**：这是自然数的基本性质，可以通过`know`声明为公理
 
-Axiom 2.4. Different natural numbers must have different successors; i.e., if $n$, $m$ are natural numbers and $n \neq m$, then $n++ \neq m++$. Equivalently, if $n++ = m++$, then we must have $n = m$.
-$\forall n, m \in \mathbf{N}, (n \neq m \implies n++ \neq m++) \iff (n++ = m++ \implies n = m)$
+**Axiom: Injectivity of Successor**
+
+Different natural numbers have different successors. If $n \neq m$ for natural numbers $n$ and $m$, then $n++ \neq m++$. Equivalently, if two natural numbers have the same successor, then they must be equal: $n++ = m++ \implies n = m$. In symbols: $\forall n, m \in \mathbf{N}, (n \neq m \implies n++ \neq m++) \iff (n++ = m++ \implies n = m)$.
 
 **Litex对应**：
 - **关键词**：`forall`, `=>`, `<=>`, `=`, `!=`
@@ -66,8 +77,9 @@ know forall n, m N: (n != m => n + 1 != m + 1) <=> (n + 1 = m + 1 => n = m)
 ```
 - **说明**：这是自然数后继的唯一性公理
 
-Axiom 2.5 (Principle of mathematical induction). Let $P(n)$ be any property pertaining to a natural number $n$. Suppose that $P(0)$ is true, and suppose that whenever $P(n)$ is true, $P(n++)$ is also true. Then $P(n)$ is true for every natural number $n$.
-$(P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$
+**Axiom: Mathematical Induction**
+
+If a property $P(n)$ holds for $n=0$, and whenever it holds for some natural number $n$, it also holds for $n++$, then $P(n)$ holds for all natural numbers $n$. In symbols: $(P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$.
 
 **Litex对应**：
 - **关键词**：`prove_by_induction`
@@ -83,8 +95,9 @@ prove_by_induction($p(x, n), n, 0)
 ```
 - **说明**：`prove_by_induction`是Litex内置的数学归纳法证明策略
 
-Assumption 2.6. (Informal) There exists a number system $\mathbf{N}$, whose elements we will call natural numbers, for which Axioms 2.1-2.5 are true.
-$\exists \mathbf{N}$ such that Axioms 2.1-2.5 hold
+**Assumption: Existence of Natural Numbers**
+
+We assume that there exists a set $\mathbf{N}$ satisfying all the axioms above. The elements of this set are called natural numbers.
 
 **Litex对应**：
 - **关键词**：`N`（内置）
@@ -96,8 +109,9 @@ N $in set
 ```
 - **说明**：`N`是Litex的内置集合，其存在性和性质由系统保证
 
-Definition 2.2.1 (Addition of natural numbers). Let $m$ be a natural number. To add zero to $m$, we define $0 + m := m$. Now suppose inductively that we have defined how to add $n$ to $m$. Then we can add $n++$ to $m$ by defining $(n++) + m := (n + m)++$.
-$0 + m := m$; $(n++) + m := (n + m)++$
+**Definition: Addition**
+
+Addition of natural numbers is defined recursively. For any natural number $m$, we define $0 + m := m$. If we have defined $n + m$, then we define $(n++) + m := (n + m)++$. In symbols: $0 + m := m$; $(n++) + m := (n + m)++$.
 
 **Litex对应**：
 - **关键词**：`+`（内置运算符）
@@ -111,8 +125,9 @@ have n N
 ```
 - **说明**：`+`是Litex的内置算术运算符，满足自然数加法的递归定义
 
-Definition 2.2.7 (Positive natural numbers). A natural number $n$ is said to be positive iff it is not equal to 0.
-$n > 0 \iff n \neq 0$
+**Definition: Positive Natural Numbers**
+
+A natural number $n$ is positive if and only if it is not equal to 0. In symbols: $n > 0 \iff n \neq 0$.
 
 **Litex对应**：
 - **关键词**：`>`, `!=`, `N_pos`
@@ -128,8 +143,9 @@ n > 0
 ```
 - **说明**：`N_pos`是Litex的内置集合，表示正自然数
 
-Definition 2.2.11 (Ordering of the natural numbers). Let $n$ and $m$ be natural numbers. We say that $n$ is greater than or equal to $m$, and write $n \geq m$ or $m \leq n$, iff we have $n = m + a$ for some natural number $a$. We say that $n$ is strictly greater than $m$, and write $n > m$ or $m < n$, iff $n \geq m$ and $n \neq m$.
-$n \geq m \iff \exists a \in \mathbf{N}, n = m + a$; $n > m \iff (n \geq m) \land (n \neq m)$
+**Definition: Ordering of Natural Numbers**
+
+For natural numbers $n$ and $m$, we say $n$ is greater than or equal to $m$ (written $n \geq m$ or $m \leq n$) if there exists a natural number $a$ such that $n = m + a$. We say $n$ is strictly greater than $m$ (written $n > m$ or $m < n$) if $n \geq m$ and $n \neq m$. In symbols: $n \geq m \iff \exists a \in \mathbf{N}, n = m + a$; $n > m \iff (n \geq m) \land (n \neq m)$.
 
 **Litex对应**：
 - **关键词**：`>=`, `>`, `exist`, `=`
@@ -142,8 +158,9 @@ n > m <=> (n >= m), (n != m)
 ```
 - **说明**：`>=`和`>`是Litex的内置比较运算符
 
-Definition 2.3.1 (Multiplication of natural numbers). Let $m$ be a natural number. To multiply zero to $m$, we define $0 \times m := 0$. Now suppose inductively that we have defined how to multiply $n$ to $m$. Then we can multiply $n++$ to $m$ by defining $(n++) \times m := (n \times m) + m$.
-$0 \times m := 0$; $(n++) \times m := (n \times m) + m$
+**Definition: Multiplication**
+
+Multiplication of natural numbers is defined recursively. For any natural number $m$, we define $0 \times m := 0$. If we have defined $n \times m$, then we define $(n++) \times m := (n \times m) + m$. In symbols: $0 \times m := 0$; $(n++) \times m := (n \times m) + m$.
 
 **Litex对应**：
 - **关键词**：`*`（内置运算符）
@@ -157,8 +174,9 @@ have n N
 ```
 - **说明**：`*`是Litex的内置算术运算符，满足自然数乘法的递归定义
 
-Definition 2.3.11 (Exponentiation for natural numbers). Let $m$ be a natural number. To raise $m$ to the power 0, we define $m^0 := 1$; in particular, we define $0^0 := 1$. Now suppose recursively that $m^n$ has been defined for some natural number $n$, then we define $m^{n++} := m^n \times m$.
-$m^0 := 1$ (in particular, $0^0 := 1$); $m^{n++} := m^n \times m$
+**Definition: Exponentiation**
+
+Exponentiation for natural numbers is defined recursively. For any natural number $m$, we define $m^0 := 1$ (in particular, $0^0 := 1$). If $m^n$ has been defined, then we define $m^{n++} := m^n \times m$. In symbols: $m^0 := 1$ (in particular, $0^0 := 1$); $m^{n++} := m^n \times m$.
 
 **Litex对应**：
 - **关键词**：`^`（内置运算符）
@@ -173,10 +191,11 @@ m ^ (n + 1) = (m ^ n) * m
 ```
 - **说明**：`^`是Litex的内置幂运算符，满足自然数幂的递归定义
 
-# 集合论 (Set Theory)
+# Set Theory
 
-Definition 3.1.1. (Informal) We define a set $A$ to be any unordered collection of objects, e.g., $\{3,8,5,2\}$ is a set. If $x$ is an object, we say that $x$ is an element of $A$ or $x \in A$ if $x$ lies in the collection; otherwise we say that $x \not\in A$.
-$A$ is a set; $x \in A$ or $x \not\in A$
+**Definition: Sets**
+
+A set is an unordered collection of objects. For example, $\{3,8,5,2\}$ is a set. If $x$ is an object and $A$ is a set, we say $x$ is an element of $A$ (written $x \in A$) if $x$ belongs to the collection; otherwise we say $x \not\in A$.
 
 **Litex对应**：
 - **关键词**：`set`, `$in`, `have set`
@@ -193,8 +212,9 @@ not x $in A
 ```
 - **说明**：`set`是Litex的内置关键字，`$in`是成员关系谓词
 
-Axiom 3.1 (Sets are objects). If $A$ is a set, then $A$ is also an object. In particular, given two sets $A$ and $B$, it is meaningful to ask whether $A$ is also an element of $B$.
-$A$ is a set $\implies A$ is an object
+**Axiom: Sets are Objects**
+
+Every set is also an object. This means that sets can be elements of other sets. For any sets $A$ and $B$, it is meaningful to ask whether $A \in B$. In symbols: $A$ is a set $\implies A$ is an object.
 
 **Litex对应**：
 - **关键词**：`set`, `obj`, `$in`
@@ -210,8 +230,9 @@ A $in B  # 可以询问A是否是B的元素
 ```
 - **说明**：在Litex中，集合也是对象，可以成为其他集合的元素
 
-Definition 3.1.4 (Equality of sets). Two sets $A$ and $B$ are equal, $A = B$ iff every element of $A$ is an element of $B$ and vice versa. To put it another way, $A = B$ if and only if every element $x$ of $A$ belongs also to $B$, and every element $y$ of $B$ belongs also to $A$.
-$A = B \iff (\forall x, x \in A \iff x \in B)$
+**Definition: Equality of Sets**
+
+Two sets $A$ and $B$ are equal (written $A = B$) if and only if they contain exactly the same elements. That is, every element of $A$ is an element of $B$, and every element of $B$ is an element of $A$. In symbols: $A = B \iff (\forall x, x \in A \iff x \in B)$.
 
 **Litex对应**：
 - **关键词**：`=`, `forall`, `$in`, `<=>`
@@ -229,8 +250,9 @@ know:
 ```
 - **说明**：集合相等通过外延公理定义，这是Litex内置的等号语义
 
-Axiom 3.2 (Empty set). There exists a set $\emptyset$, known as the empty set, which contains no elements, i.e., for every object $x$ we have $x \not\in \emptyset$.
-$\exists \emptyset, \forall x, x \not\in \emptyset$
+**Axiom: Empty Set**
+
+There exists a set $\emptyset$ (called the empty set) that contains no elements. For every object $x$, we have $x \not\in \emptyset$. In symbols: $\exists \emptyset, \forall x, x \not\in \emptyset$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{}`, `exist`, `not`, `$in`
@@ -248,8 +270,9 @@ know @exist empty_set set st exist_empty_set():
 ```
 - **说明**：空集可以通过枚举`{}`定义，也可以通过存在性公理声明
 
-Axiom 3.3 (Singleton sets and pair sets). If $a$ is an object, then there exists a set $\{a\}$ whose only element is $a$, i.e., for every object $y$, we have $y \in \{a\}$ if and only if $y = a$; we refer to $\{a\}$ as the singleton set whose element is $a$. Furthermore, if $a$ and $b$ are objects, then there exists a set $\{a,b\}$ whose only elements are $a$ and $b$; i.e., for every object $y$, we have $y \in \{a,b\}$ if and only if $y = a$ or $y = b$; we refer to this set as the pair set formed by $a$ and $b$.
-$\forall a, \exists \{a\}, \forall y, (y \in \{a\} \iff y = a)$; $\forall a, b, \exists \{a,b\}, \forall y, (y \in \{a,b\} \iff (y = a \lor y = b))$
+**Axiom: Singleton and Pair Sets**
+
+For any object $a$, there exists a set $\{a\}$ (called a singleton set) containing only $a$. For any objects $a$ and $b$, there exists a set $\{a,b\}$ (called a pair set) containing exactly $a$ and $b$. In symbols: $\forall a, \exists \{a\}, \forall y, (y \in \{a\} \iff y = a)$; $\forall a, b, \exists \{a,b\}, \forall y, (y \in \{a,b\} \iff (y = a \lor y = b))$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{}`, `or`, `=`
@@ -270,8 +293,9 @@ y = a or y = b
 ```
 - **说明**：通过枚举法定义集合，对应配对公理
 
-Axiom 3.4 (Pairwise union). Given any two sets $A$, $B$, there exists a set $A \cup B$, called the union $A \cup B$ of $A$ and $B$, whose elements consists of all the elements which belong to $A$ or $B$ or both. In other words, for any object $x$: $x \in A \cup B \iff (x \in A \text{ or } x \in B)$.
-$\forall A, B, \exists A \cup B, \forall x, (x \in A \cup B \iff (x \in A \lor x \in B))$
+**Axiom: Pairwise Union**
+
+For any two sets $A$ and $B$, there exists a set $A \cup B$ (called the union of $A$ and $B$) whose elements are all objects that belong to $A$ or $B$ (or both). In symbols: $\forall A, B, \exists A \cup B, \forall x, (x \in A \cup B \iff (x \in A \lor x \in B))$.
 
 **Litex对应**：
 - **关键词**：`union`, `or`, `$in`
@@ -289,8 +313,9 @@ x $in A or x $in B
 ```
 - **说明**：并集可以通过`know`声明为公理，或通过函数定义
 
-Axiom 3.5 (Axiom of specification). Let $A$ be a set, and for each $x \in A$, let $P(x)$ be a property pertaining to $x$ (i.e., $P(x)$ is either a true statement or a false statement). Then there exists a set, called $\{x \in A : P(x) \text{ is true}\}$ (or simply $\{x \in A : P(x)\}$ for short), whose elements are precisely the elements $x$ in $A$ for which $P(x)$ is true. In other words, for any object $y$: $y \in \{x \in A : P(x)\} \iff (y \in A \land P(y) \text{ is true})$.
-$\forall A, \exists \{x \in A : P(x)\}, \forall y, (y \in \{x \in A : P(x)\} \iff (y \in A \land P(y)))$
+**Axiom: Specification (Separation)**
+
+For any set $A$ and any property $P(x)$, there exists a set $\{x \in A : P(x)\}$ whose elements are exactly those elements $x$ of $A$ for which $P(x)$ is true. In symbols: $\forall A, \exists \{x \in A : P(x)\}, \forall y, (y \in \{x \in A : P(x)\} \iff (y \in A \land P(y)))$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{x parent_set: fact1, ...}`, `prop`
@@ -307,8 +332,9 @@ $P(y)
 ```
 - **说明**：分离公理通过Litex的内涵集合定义语法直接实现
 
-Definition 3.1.15 (Subsets). Let $A,B$ be sets. We say that $A$ is a subset of $B$, denoted $A \subseteq B$, iff every element of $A$ is also an element of $B$, i.e. For any object $x$, $x \in A \implies x \in B$. We say that $A$ is a proper subset of $B$, denoted $A \subsetneq B$, if $A \subseteq B$ and $A \neq B$.
-$A \subseteq B \iff (\forall x, x \in A \implies x \in B)$; $A \subsetneq B \iff (A \subseteq B \land A \neq B)$
+**Definition: Subsets**
+
+For sets $A$ and $B$, we say $A$ is a subset of $B$ (written $A \subseteq B$) if every element of $A$ is also an element of $B$. We say $A$ is a proper subset of $B$ (written $A \subsetneq B$) if $A \subseteq B$ and $A \neq B$. In symbols: $A \subseteq B \iff (\forall x, x \in A \implies x \in B)$; $A \subsetneq B \iff (A \subseteq B \land A \neq B)$.
 
 **Litex对应**：
 - **关键词**：`$is_subset_of`, `forall`, `=>`, `!=`
@@ -323,8 +349,9 @@ A $is_proper_subset_of B <=> (A $is_subset_of B), (A != B)
 ```
 - **说明**：子集关系可以通过谓词定义，或使用内置的`$is_subset_of`
 
-Definition 3.1.23 (Intersections). The intersection $S_1 \cap S_2$ of two sets is defined to be the set $S_1 \cap S_2 := \{x \in S_1 : x \in S_2\}$. In other words, $S_1 \cap S_2$ consists of all the elements which belong to both $S_1$ and $S_2$.
-$S_1 \cap S_2 := \{x \in S_1 : x \in S_2\}$; $x \in S_1 \cap S_2 \iff (x \in S_1 \land x \in S_2)$
+**Definition: Intersection**
+
+The intersection of two sets $S_1$ and $S_2$, denoted $S_1 \cap S_2$, is the set of all elements that belong to both $S_1$ and $S_2$. In symbols: $S_1 \cap S_2 := \{x \in S_1 : x \in S_2\}$; $x \in S_1 \cap S_2 \iff (x \in S_1 \land x \in S_2)$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{x parent_set: fact}`, `$in`
@@ -339,8 +366,9 @@ y $in S2
 ```
 - **说明**：交集通过分离公理（内涵集合定义）实现
 
-Definition 3.1.27 (Difference sets). Given two sets $A$ and $B$, we define the set $A - B$ or $A \setminus B$ to be the set $A \setminus B := \{x \in A : x \not\in B\}$. In other words, $A \setminus B$ consists of all the elements of $A$ which do not belong to $B$.
-$A \setminus B := \{x \in A : x \not\in B\}$; $x \in A \setminus B \iff (x \in A \land x \not\in B)$
+**Definition: Set Difference**
+
+For sets $A$ and $B$, the set difference $A \setminus B$ (also written $A - B$) is the set of all elements of $A$ that do not belong to $B$. In symbols: $A \setminus B := \{x \in A : x \not\in B\}$; $x \in A \setminus B \iff (x \in A \land x \not\in B)$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{x parent_set: not fact}`, `not`, `$in`
@@ -355,8 +383,9 @@ not y $in B
 ```
 - **说明**：差集通过分离公理和否定实现
 
-Definition 3.3.1 (Functions). Let $X,Y$ be sets, and let $P(x,y)$ be a property pertaining to an object $x \in X$ and an object $y \in Y$, such that for every $x \in X$, there is exactly one $y \in Y$ for which $P(x,y)$ is true (this is sometimes known as the vertical line test). Then we define the function $f : X \to Y$ defined by $P$ on the domain $X$ and range $Y$ to be the object which, given any input $x \in X$, assigns an output $f(x) \in Y$ defined to be the unique object $f(x)$ for which $P(x,f(x))$ is true. Thus, for any $x \in X$ and $y \in Y$: $y = f(x) \iff P(x,y)$ is true.
-$f : X \to Y$; $\forall x \in X, \exists! y \in Y, P(x,y)$; $y = f(x) \iff P(x,y)$
+**Definition: Functions**
+
+A function $f : X \to Y$ from set $X$ to set $Y$ is defined by a property $P(x,y)$ such that for every $x \in X$, there is exactly one $y \in Y$ for which $P(x,y)$ is true. The function $f$ assigns to each input $x \in X$ the unique output $f(x) \in Y$ satisfying $P(x,f(x))$. In symbols: $f : X \to Y$; $\forall x \in X, \exists! y \in Y, P(x,y)$; $y = f(x) \iff P(x,y)$.
 
 **Litex对应**：
 - **关键词**：`have fn`, `fn`, `prop`, `exist_prop`
@@ -375,8 +404,9 @@ have fn f(x X) Y:
 ```
 - **说明**：函数定义需要证明存在性和唯一性，`have fn`会检查这些条件
 
-Definition 3.3.7 (Equality of functions). Two functions $f : X \to Y$ and $g : X \to Y$ with the same domain and range are said to be equal, $f = g$ if and only if $f(x) = g(x)$ for all $x \in X$.
-$f = g \iff (\forall x \in X, f(x) = g(x))$
+**Definition: Equality of Functions**
+
+Two functions $f : X \to Y$ and $g : X \to Y$ with the same domain and range are equal (written $f = g$) if and only if they agree on all inputs: $f(x) = g(x)$ for all $x \in X$. In symbols: $f = g \iff (\forall x \in X, f(x) = g(x))$.
 
 **Litex对应**：
 - **关键词**：`=`, `forall`
@@ -389,8 +419,9 @@ f = g <=> forall x X => f(x) = g(x)
 ```
 - **说明**：函数相等通过外延性定义，这是Litex内置的等号语义
 
-Definition 3.3.10 (Composition). Let $f : X \to Y$ and $g : Y \to Z$ be two functions, such that the range of $f$ is the same set as the domain of $g$. We then define the composition $g \circ f : X \to Z$ of the two functions $g$ and $f$ to be the function defined explicitly by the formula $(g \circ f)(x) := g(f(x))$.
-$(g \circ f)(x) := g(f(x))$
+**Definition: Function Composition**
+
+For functions $f : X \to Y$ and $g : Y \to Z$, the composition $g \circ f : X \to Z$ is defined by $(g \circ f)(x) := g(f(x))$ for all $x \in X$.
 
 **Litex对应**：
 - **关键词**：`have fn`, 函数复合
@@ -403,8 +434,9 @@ have fn composition(x X) Z = g(f(x))
 ```
 - **说明**：函数复合通过函数定义和函数调用实现
 
-Definition 3.3.14 (One-to-one functions). A function $f$ is one-to-one (or injective) if different elements map to different elements: $x \neq x' \implies f(x) \neq f(x')$. Equivalently, a function is one-to-one if $f(x) = f(x') \implies x = x'$.
-$f$ is injective $\iff (\forall x, x' \in X, x \neq x' \implies f(x) \neq f(x')) \iff (\forall x, x' \in X, f(x) = f(x') \implies x = x')$
+**Definition: Injective Functions**
+
+A function $f : X \to Y$ is injective (or one-to-one) if different inputs produce different outputs: $x \neq x' \implies f(x) \neq f(x')$. Equivalently, $f$ is injective if $f(x) = f(x') \implies x = x'$. In symbols: $f$ is injective $\iff (\forall x, x' \in X, x \neq x' \implies f(x) \neq f(x')) \iff (\forall x, x' \in X, f(x) = f(x') \implies x = x')$.
 
 **Litex对应**：
 - **关键词**：`prop`, `forall`, `=>`, `=`, `!=`
@@ -420,8 +452,9 @@ prop is_injective(f fn(X, Y)):
 ```
 - **说明**：单射性可以通过命题定义
 
-Definition 3.3.17 (Onto functions). A function $f$ is onto (or surjective) if $f(X) = Y$, i.e., every element in $Y$ comes from applying $f$ to some element in $X$. For every $y \in Y$, there exists $x \in X$ such that $f(x) = y$.
-$f$ is surjective $\iff f(X) = Y \iff (\forall y \in Y, \exists x \in X, f(x) = y)$
+**Definition: Surjective Functions**
+
+A function $f : X \to Y$ is surjective (or onto) if every element of $Y$ is the image of some element of $X$. That is, for every $y \in Y$, there exists $x \in X$ such that $f(x) = y$. In symbols: $f$ is surjective $\iff f(X) = Y \iff (\forall y \in Y, \exists x \in X, f(x) = y)$.
 
 **Litex对应**：
 - **关键词**：`prop`, `forall`, `exist`, `=`
@@ -436,8 +469,9 @@ prop is_surjective(f fn(X, Y)):
 ```
 - **说明**：满射性可以通过命题和存在量词定义
 
-Definition 3.3.20 (Bijective functions). Functions $f : X \to Y$ which are both one-to-one and onto are also called bijective or invertible.
-$f$ is bijective $\iff (f$ is injective $\land f$ is surjective$)$
+**Definition: Bijective Functions**
+
+A function $f : X \to Y$ is bijective (or invertible) if it is both injective and surjective. In symbols: $f$ is bijective $\iff (f$ is injective $\land f$ is surjective$)$.
 
 **Litex对应**：
 - **关键词**：`prop`, `,`（合取）
@@ -451,8 +485,9 @@ prop is_bijective(f fn(X, Y)):
 ```
 - **说明**：双射是单射和满射的合取
 
-Definition 3.4.1 (Images of sets). If $f : X \to Y$ is a function from $X$ to $Y$, and $S$ is a set in $X$, we define $f(S)$ to be the set $f(S) := \{f(x) : x \in S\}$; this set is a subset of $Y$, and is sometimes called the image of $S$ under the map $f$.
-$f(S) := \{f(x) : x \in S\}$
+**Definition: Image of a Set**
+
+For a function $f : X \to Y$ and a subset $S \subseteq X$, the image of $S$ under $f$ is the set $f(S) := \{f(x) : x \in S\}$. This set is a subset of $Y$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{f(x): x parent_set}`
@@ -466,8 +501,9 @@ know exist set image: forall y Y => (y $in image <=> exist x S: f(x) = y)
 ```
 - **说明**：像集的定义需要替换公理，Litex目前暂不支持，但可以通过`know`假设
 
-Definition 3.4.4 (Inverse images). If $U$ is a subset of $Y$, we define the set $f^{-1}(U)$ to be the set $f^{-1}(U) := \{x \in X : f(x) \in U\}$. In other words, $f^{-1}(U)$ consists of all the elements of $X$ which map into $U$: $f(x) \in U \iff x \in f^{-1}(U)$.
-$f^{-1}(U) := \{x \in X : f(x) \in U\}$; $f(x) \in U \iff x \in f^{-1}(U)$
+**Definition: Inverse Image**
+
+For a function $f : X \to Y$ and a subset $U \subseteq Y$, the inverse image of $U$ under $f$ is the set $f^{-1}(U) := \{x \in X : f(x) \in U\}$. In symbols: $f(x) \in U \iff x \in f^{-1}(U)$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{x parent_set: fact}`
@@ -482,8 +518,9 @@ f(z) $in U
 ```
 - **说明**：逆像通过分离公理（内涵集合定义）实现
 
-Axiom 3.10 (Power set axiom). Let $X$ and $Y$ be sets. Then there exists a set, denoted $Y^X$, which consists of all the functions from $X$ to $Y$, thus $f \in Y^X \iff$ ($f$ is a function with domain $X$ and range $Y$).
-$\forall X, Y, \exists Y^X, \forall f, (f \in Y^X \iff (f : X \to Y))$
+**Axiom: Power Set (Function Space)**
+
+For sets $X$ and $Y$, there exists a set $Y^X$ consisting of all functions from $X$ to $Y$. A function $f$ belongs to $Y^X$ if and only if $f : X \to Y$. In symbols: $\forall X, Y, \exists Y^X, \forall f, (f \in Y^X \iff (f : X \to Y))$.
 
 **Litex对应**：
 - **关键词**：`fn_template`, `$in`
@@ -499,8 +536,9 @@ f $in power_set(X, Y)
 ```
 - **说明**：幂集公理通过`fn_template`实现，表示所有从X到Y的函数集合
 
-Axiom 3.11 (Union). Let $A$ be a set, all of whose elements are themselves sets. Then there exists a set $\bigcup A$ whose elements are precisely those objects which are elements of the elements of $A$, thus for all objects $x$: $x \in \bigcup A \iff (x \in S$ for some $S \in A$).
-$\forall A, \exists \bigcup A, \forall x, (x \in \bigcup A \iff (\exists S \in A, x \in S))$
+**Axiom: Union**
+
+For any set $A$ whose elements are themselves sets, there exists a set $\bigcup A$ whose elements are all objects that belong to at least one element of $A$. In symbols: $\forall A, \exists \bigcup A, \forall x, (x \in \bigcup A \iff (\exists S \in A, x \in S))$.
 
 **Litex对应**：
 - **关键词**：`union`, `exist`, `$in`
@@ -517,8 +555,9 @@ exist S A: x $in S
 ```
 - **说明**：广义并集可以通过`know`声明为公理，或通过函数定义
 
-Definition 3.5.1 (Ordered pair). If $x$ and $y$ are any objects (possibly equal), we define the ordered pair $(x,y)$ to be a new object, consisting of $x$ as its first component and $y$ as its second component. Two ordered pairs $(x,y)$ and $(x',y')$ are considered equal if and only if both their components match, i.e. $(x,y) = (x',y') \iff (x = x' \text{ and } y = y')$.
-$(x,y) = (x',y') \iff (x = x' \land y = y')$
+**Definition: Ordered Pair**
+
+An ordered pair $(x,y)$ is an object with $x$ as its first component and $y$ as its second component. Two ordered pairs are equal if and only if their corresponding components are equal: $(x,y) = (x',y') \iff (x = x' \land y = y')$.
 
 **Litex对应**：
 - **关键词**：函数调用语法 `(x, y)` 或通过函数定义
@@ -535,8 +574,9 @@ have x, y obj
 ```
 - **说明**：有序对可以通过函数定义，或使用Litex的内置元组语法（如果支持）
 
-Definition 3.5.4 (Cartesian product). If $X$ and $Y$ are sets, then we define the Cartesian product $X \times Y$ to be the collection of ordered pairs, whose first component lies in $X$ and second component lies in $Y$, thus $X \times Y = \{(x,y) : x \in X, y \in Y\}$ or equivalently $a \in (X \times Y) \iff (a = (x,y)$ for some $x \in X$ and $y \in Y$).
-$X \times Y := \{(x,y) : x \in X, y \in Y\}$; $a \in (X \times Y) \iff (\exists x \in X, \exists y \in Y, a = (x,y))$
+**Definition: Cartesian Product**
+
+For sets $X$ and $Y$, the Cartesian product $X \times Y$ is the set of all ordered pairs $(x,y)$ where $x \in X$ and $y \in Y$. In symbols: $X \times Y := \{(x,y) : x \in X, y \in Y\}$; $a \in (X \times Y) \iff (\exists x \in X, \exists y \in Y, a = (x,y))$.
 
 **Litex对应**：
 - **关键词**：`have set`, `{pair(x, y): x X, y Y}`, `exist`
@@ -549,8 +589,11 @@ know exist set cartesian_product: forall a obj => (a $in cartesian_product <=> e
 ```
 - **说明**：笛卡尔积的定义需要替换公理，Litex目前暂不支持，但可以通过`know`假设
 
-Definition 3.5.7 (Ordered $n$-tuple and $n$-fold Cartesian product). Let $n$ be a natural number. An ordered $n$-tuple $(x_i)_{1 \leq i \leq n}$ (also denoted $(x_1, \ldots, x_n)$) is a collection of objects $x_i$, one for every natural number $i$ between 1 and $n$; we refer to $x_i$ as the $i$th component of the ordered $n$-tuple. Two ordered $n$-tuples $(x_i)_{1 \leq i \leq n}$ and $(y_i)_{1 \leq i \leq n}$ are said to be equal iff $x_i = y_i$ for all $1 \leq i \leq n$. If $(X_i)_{1 \leq i \leq n}$ is an ordered $n$-tuple of sets, we define their Cartesian product $\prod_{1 \leq i \leq n} X_i$ (also denoted $\prod_{i=1}^n X_i$ or $X_1 \times \ldots \times X_n$) by $\prod_{1 \leq i \leq i \leq n} X_i := \{(x_i)_{1 \leq i \leq n} : x_i \in X_i \text{ for all } 1 \leq i \leq n\}$.
-$(x_i)_{1 \leq i \leq n} = (y_i)_{1 \leq i \leq n} \iff (\forall 1 \leq i \leq n, x_i = y_i)$; $\prod_{1 \leq i \leq n} X_i := \{(x_i)_{1 \leq i \leq n} : x_i \in X_i \text{ for all } 1 \leq i \leq n\}$
+**Definition: Ordered $n$-tuple and $n$-fold Cartesian Product**
+
+For a natural number $n$, an ordered $n$-tuple $(x_1, \ldots, x_n)$ is a collection of $n$ objects. Two $n$-tuples are equal if and only if all their corresponding components are equal: $(x_i)_{1 \leq i \leq n} = (y_i)_{1 \leq i \leq n} \iff (\forall 1 \leq i \leq n, x_i = y_i)$.
+
+For sets $X_1, \ldots, X_n$, their Cartesian product $\prod_{i=1}^n X_i$ (also written $X_1 \times \ldots \times X_n$) is the set of all $n$-tuples $(x_1, \ldots, x_n)$ where $x_i \in X_i$ for all $1 \leq i \leq n$. In symbols: $\prod_{1 \leq i \leq n} X_i := \{(x_i)_{1 \leq i \leq n} : x_i \in X_i \text{ for all } 1 \leq i \leq n\}$.
 
 **Litex对应**：
 - **关键词**：函数，`forall`, `=`
@@ -736,4 +779,4 @@ $$\forall P: (P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \impl
 
 - **ZFC公理系统**：ZFC是Zermelo-Fraenkel集合论加上选择公理，是现代数学的基础。所有数学对象都可以在ZFC框架内定义。
 - **皮亚诺公理**：皮亚诺公理定义了自然数的基本性质，是算术的基础。自然数集合$\mathbf{N}$的存在性由ZFC的无穷公理保证。
-- **Litex中的对应**：Litex通过内置关键字（如`set`、`$in`、`N`等）和语法（如`{x A: P(x)}`）直接支持这些公理，使得数学表达更加自然和直观。 -->
+- **Litex中的对应**：Litex通过内置关键字（如`set`、`$in`、`N`等）和语法（如`{x A: P(x)}`）直接支持这些公理，使得数学表达更加自然和直观。
