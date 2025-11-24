@@ -166,8 +166,19 @@ For natural numbers $n$ and $m$, we say $n$ is greater than or equal to $m$ (wri
 - **Example**:
 ```litex
 have n, m N
-n >= m <=> exist a N: n = m + a
-n > m <=> (n >= m), (n != m)
+
+# Define n >= m using exist_prop: n >= m is equivalent to there exists a in N such that n = m + a
+exist_prop a N st self_defined_ge_by_sum(n, m N):
+    <=>:
+        n = m + a
+
+# n >= m is equivalent to $self_defined_ge_by_sum(n, m)
+forall n, m N: n >= m => exist n - m st $self_defined_ge_by_sum(n, m), $self_defined_ge_by_sum(n, m)
+
+know forall n, m N: $self_defined_ge_by_sum(n, m) => n >= m
+
+# n > m is equivalent to n >= m and n != m
+forall n, m N: n > m <=> not n = m, not n < m
 ```
 - **Note**: `>=` and `>` are built-in comparison operators in Litex
 
@@ -196,10 +207,11 @@ Exponentiation for natural numbers is defined recursively. For any natural numbe
 - **Expression**: Exponentiation is a built-in operation in Litex
 - **Example**:
 ```litex
-have m N
+have m N_pos
 m ^ 0 = 1
-0 ^ 0 = 1
-have n N
+have n N_pos
+m >= 0
+m != 0
 m ^ (n + 1) = (m ^ n) * m
 ```
 - **Note**: `^` is a built-in exponentiation operator in Litex that satisfies the recursive definition of natural number exponentiation
@@ -220,8 +232,7 @@ have set A = {3, 8, 5, 2}
 have x A
 x $in A
 
-# or use not
-not x $in A
+3 $in A
 ```
 - **Note**: `set` is a built-in keyword in Litex, and `$in` is the membership predicate
 
@@ -234,12 +245,11 @@ Every set is also an object. This means that sets can be elements of other sets.
 - **Expression**: `forall s set => s $in obj`
 - **Example**:
 ```litex
-know forall s set => s $in obj
+forall s set => s $in obj
 
 have set A
 A $in obj
 have set B
-A $in B  # Can ask whether A is an element of B
 ```
 - **Note**: In Litex, sets are also objects and can be elements of other sets
 
@@ -252,14 +262,13 @@ Two sets $A$ and $B$ are equal (written $A = B$) if and only if they contain exa
 - **Expression**: `forall A, B set: A = B <=> (forall x A => x $in B), (forall x B => x $in A)`
 - **Example**:
 ```litex
-know:
-    forall A, B set:
-        A = B
-        <=>:
-            forall x A:
-                x $in B
-            forall x B:
-                x $in A
+forall A, B set:
+    A = B
+    <=>:
+        forall x A:
+            x $in B
+        forall x B:
+            x $in A
 ```
 - **Note**: Set equality is defined through the axiom of extensionality, which is the built-in semantics of equality in Litex
 
@@ -273,13 +282,7 @@ There exists a set $\emptyset$ (called the empty set) that contains no elements.
 - **Example**:
 ```litex
 # Define empty set by enumeration
-have set empty_set = {}
-
-# or by existence axiom
-know @exist empty_set set st exist_empty_set():
-    =>:
-        forall x obj:
-            not x $in empty_set
+have set self_defined_empty_set = {}
 ```
 - **Note**: The empty set can be defined by enumeration `{}` or declared through an existence axiom
 
@@ -315,14 +318,10 @@ For any two sets $A$ and $B$, there exists a set $A \cup B$ (called the union of
 - **Expression**: `union(A, B)` or defined through a function
 - **Example**:
 ```litex
-# Declare union axiom using know
-know forall A, B set: forall x A => x $in union(A, B)
-know forall A, B set: forall x B => x $in union(A, B)
-
-# Usage
-have set A, set B
-have x union(A, B)
-x $in A or x $in B
+have a, b set
+forall x a => x $in union(a, b)
+forall x b => x $in union(a, b)
+forall x union(a, b) => $item_in_union(x, a, b), x $in a or x $in b
 ```
 - **Note**: Union can be declared as an axiom using `know`, or defined through a function
 
@@ -354,11 +353,16 @@ For sets $A$ and $B$, we say $A$ is a subset of $B$ (written $A \subseteq B$) if
 - **Expression**: `A $is_subset_of B <=> forall x A => x $in B`; `A $is_proper_subset_of B <=> (A $is_subset_of B), (A != B)`
 - **Example**:
 ```litex
-have set A, set B
-A $is_subset_of B <=> forall x A => x $in B
+forall A, B set:
+    A $is_subset_of B
+    <=>:
+        forall x A:
+            x $in B
 
 # Proper subset
-A $is_proper_subset_of B <=> (A $is_subset_of B), (A != B)
+prop self_defined_proper_subset(A set, B set):
+    A $is_subset_of B
+    A != B
 ```
 - **Note**: Subset relations can be defined through predicates, or use the built-in `$is_subset_of`
 
@@ -371,11 +375,12 @@ The intersection of two sets $S_1$ and $S_2$, denoted $S_1 \cap S_2$, is the set
 - **Expression**: `have set intersection = {x S1: x $in S2}`
 - **Example**:
 ```litex
-have set S1, set S2
-have set intersection = {x S1: x $in S2}
-have y intersection
-y $in S1
-y $in S2
+have a, b set
+forall x a:
+    x $in b
+    =>:
+        x $in intersect(a, b)
+forall x intersect(a, b) => $item_in_intersect(x, a, b), x $in a, x $in b
 ```
 - **Note**: Intersection is implemented through the separation axiom (intensional set definition)
 
@@ -388,11 +393,12 @@ For sets $A$ and $B$, the set difference $A \setminus B$ (also written $A - B$) 
 - **Expression**: `have set difference = {x A: not x $in B}`
 - **Example**:
 ```litex
-have set A, set B
-have set difference = {x A: not x $in B}
-have y difference
-y $in A
-not y $in B
+have a, b set
+forall x a:
+    not x $in b
+    =>:
+        x $in difference(a, b)
+forall x difference(a, b) => x $in a, not x $in b
 ```
 - **Note**: Set difference is implemented through the separation axiom and negation
 
@@ -405,15 +411,11 @@ A function $f : X \to Y$ from set $X$ to set $Y$ is defined by a property $P(x,y
 - **Expression**: `have fn f(x X) Y` or defined through `exist_prop`
 - **Example**:
 ```litex
+have X, Y set
+
 # Define function through have fn
 have fn f(x X) Y
 # Function satisfies uniqueness: forall x X => exist! y Y: y = f(x)
-
-# or define through exist_prop
-prop P(x X, y Y)
-know forall x X => exist! y Y: $P(x, y)
-have fn f(x X) Y:
-    $P(x, f(x))
 ```
 - **Note**: Function definition requires proving existence and uniqueness, and `have fn` checks these conditions
 
@@ -426,9 +428,14 @@ Two functions $f : X \to Y$ and $g : X \to Y$ with the same domain and range are
 - **Expression**: `f = g <=> forall x X => f(x) = g(x)`
 - **Example**:
 ```litex
-have fn f(x X) Y
-have fn g(x X) Y
-f = g <=> forall x X => f(x) = g(x)
+have X, Y nonempty_set
+
+have f fn(X) Y
+have g fn(X) Y
+
+prop the_same_function_on_given_domain(X set, Y set,f fn(X)Y, g fn(X)Y):
+    forall x X:
+        f(x) = g(x)
 ```
 - **Note**: Function equality is defined through extensionality, which is the built-in semantics of equality in Litex
 
@@ -441,9 +448,13 @@ For functions $f : X \to Y$ and $g : Y \to Z$, the composition $g \circ f : X \t
 - **Expression**: `have fn composition(x X) Z = g(f(x))`
 - **Example**:
 ```litex
-have fn f(x X) Y
-have fn g(y Y) Z
-have fn composition(x X) Z = g(f(x))
+have X, Y, A nonempty_set
+have x X
+
+have f fn(X) Y
+have g fn(Y) A
+
+g(f(x)) $in A
 ```
 - **Note**: Function composition is implemented through function definition and function calls
 
