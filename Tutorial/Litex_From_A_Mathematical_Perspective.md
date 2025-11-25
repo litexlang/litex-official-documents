@@ -1,5 +1,12 @@
 # Litex: From A Mathematical Perspective
 
+<div align="center">
+<img src="https://publisher.litexlang.org/logo.PNG" alt="The Litex Logo" width="300">
+</div>
+
+<div align="center">
+
+
 This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
 
 We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners. [Analysis I](https://tiu-edu.uz/media/books/2024/05/28/1664976801.pdf)
