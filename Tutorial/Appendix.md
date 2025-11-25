@@ -544,8 +544,3 @@ Since each Litex sentence corresponds directly to an expression in everyday math
 
 *In summary, Litex is a piece of software that imitates the way people think when they verify mathematics in everyday reasoning, using a small number of straightforward rules.* For example, if it sees “24 * 25 = 600,” it knows that a calculation needs to be performed. If it sees statements like “Every person will die” and “Socrates is a person,” it uses pattern matching and substitution: it substitutes Socrates into the statement “Every person will die” and checks whether Socrates satisfies the condition “is a person.” If so, it concludes that Socrates will also die. Along with other extremely common rules, Litex can verify complex mathematical statements with ease.
 
-<div align="center">
-<img src="https://publisher.litexlang.org/litex_art_logo1.png" alt="The Litex Logo" width="300">
-</div>
-
-<div align="center">

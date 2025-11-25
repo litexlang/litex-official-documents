@@ -1,11 +1,12 @@
 # Litex: From A Mathematical Perspective
 
 <div align="center">
-<img src="https://publisher.litexlang.org/logo.PNG" alt="The Litex Logo" width="300">
+<img src="https://publisher.litexlang.org/litex_art_logo1.PNG" alt="The Litex Logo" width="300">
 </div>
 
-<div align="center">
+_Mathematics is nothing more than a game played according to certain simple rules with meaningless marks on a paper._
 
+_— David Hilbert_
 
 This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
 
