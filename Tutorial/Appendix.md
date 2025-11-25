@@ -543,3 +543,9 @@ While Lean 4 is a powerful and rigorous proof assistant ideal, it requires month
 Since each Litex sentence corresponds directly to an expression in everyday mathematical language, and since it is supported by set theory (ZFC) and basic logic (not, forall, exist, or), Litex does not sacrifice any rigor. So please do not think about Litex using the mindset of traditional formal languages. Instead, imagine yourself as a college student or even a high school student who has a basic understanding of set theory — regardless of whether you like Litex or are skeptical of it.
 
 *In summary, Litex is a piece of software that imitates the way people think when they verify mathematics in everyday reasoning, using a small number of straightforward rules.* For example, if it sees “24 * 25 = 600,” it knows that a calculation needs to be performed. If it sees statements like “Every person will die” and “Socrates is a person,” it uses pattern matching and substitution: it substitutes Socrates into the statement “Every person will die” and checks whether Socrates satisfies the condition “is a person.” If so, it concludes that Socrates will also die. Along with other extremely common rules, Litex can verify complex mathematical statements with ease.
+
+<div align="center">
+<img src="https://publisher.litexlang.org/litex_art_logo1.png" alt="The Litex Logo" width="300">
+</div>
+
+<div align="center">
