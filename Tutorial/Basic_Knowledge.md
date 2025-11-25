@@ -157,3 +157,11 @@ Comments are very helpful for you to understand the code and for the system to c
 Looks simple, doesn’t it? Litex is designed to be **concise, readable, and close to everyday math**.
 
 At first, you might still make mistakes when writing your own proofs — and that’s perfectly fine. In this short tutorial, we’ll guide you through everything you need to know about Litex, so you can confidently express and verify mathematics the Litex way.
+
+## Appendix: What does `Litex is easy to learn` mean?
+
+When learning a formal language, we need to learn its syntax and semantic rules. Some languages have very few syntax and semantic rules. The advantage is that they are abstract enough to express all of mathematics; the disadvantage is that they are very unintuitive, and it's unclear how to use such abstract rules to write everyday mathematics. That is: learning the rules of the language, and learning how to use the language to express the everyday mathematics we want to express—the sum of these two tasks is the cost of learning a language.
+
+Some languages have simple rules, such as Metamath, but because the rules are too abstract, most people cannot see how to connect these rules with the mathematics in their minds. Some languages have barriers in both rules and usage, such as Lean, which requires learning type theory and then writing mathematics within the framework of type theory. Both of them have found their own good balance in implementation-complexity, language intuitiveness, and logical expressiveness; while Litex chooses a different balance—with a larger kernel, but it is very intuitive and has good expressiveness.
+
+Litex chooses axioms and inference rules that are the most intuitive, few in number, and directly relatable to *everyday mathematical expressions*. With these rules, users don't need to learn anything new—they can simply write Litex the same way they write mathematics in their daily practice. In summary, because Litex is close to everyday mathematical expression, it has unique advantages in both dimensions: learning the language rules and learning how to use these rules to express mathematics.

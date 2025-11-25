@@ -1,14 +1,8 @@
 # Litex: From A Programmer Perspective
 
-Jiachen Shen, Founder of Litex
-
 _If you define the problem correctly, you almost have the solution._
 
 _- Steve Jobs_
-
-_If you tell people where to go, but not how to get there, you'll be amazed by the results._
-
-_- General George S.Patton_
 
 _Everything should be made as simple as possible, but not simpler._
 
