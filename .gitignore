@@ -4,3 +4,4 @@ update.sh
 /tools/
 .cursor
 git_add_commit.sh
+check_tutorial_examples.sh
