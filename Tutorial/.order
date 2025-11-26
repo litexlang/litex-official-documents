@@ -9,6 +9,7 @@ Proposition
 Exist
 Equal
 Set_Theory
+Cartesian_Set
 Know
 Function
 Function_Template
@@ -22,4 +23,5 @@ Import
 Tips
 Litex_From_A_Mathematical_Perspective
 Litex_From_A_Programmer_Perspective
+Learn_By_Examples
 Appendix

@@ -157,3 +157,19 @@ This design actually makes sense. When a human is reasoning about mathematics, t
 This is fundamentally different from programming languages, where statements often produce values that flow into other statements. In mathematics and Litex, statements are about establishing facts, not computing values. The outcome tells you whether the fact was established, but it doesn't become data for the next statement.
 
 This design choice makes Litex closer to how humans actually think about mathematics, which is one of the reasons Litex feels so natural to use.
+
+## Bonus: Difference between Mathematics and Programming
+
+While programming and mathematics share some similarities in their thinking patterns, they are fundamentally different in their approach and purpose. Litex differs from general programming languages like Python because Litex is designed to mirror mathematical thinking—where we establish facts and verify truth, rather than compute values and control execution flow.
+
+Here is a table that summarizes the differences between mathematics and programming:
+
+| Feature | Mathematics | Programming |
+|----------|--------------|-------------|
+| **Variable** | No real “variable” — once an object is defined, its meaning is fixed | Variables can change values during execution |
+| **Existential Quantification** | You have to prove the existence of an object before using it. | You can use and declare a variable directly. |
+| **Function** | A symbol that builds new expressions from input symbols (no execution) | A block of executable code that performs computation or side effects |
+| **Execution** | No execution — everything is symbolic manipulation or `match and substitution` | Involves actual computation steps and runtime behavior |
+| **Control Flow** | Uses logical constructs like ∀ (for all) to reason about all cases | Uses constructs like `for`, `while`, `if` to control the flow of execution |
+| **Iteration** | Infinite or large domains handled abstractly (e.g. by induction or logic) | Requires explicit loops and step-by-step computation |
+| **Purpose** | To prove or verify truth symbolically | To perform tasks, process data, interact with systems |

@@ -1,8 +1,8 @@
 # Declaration of Objects: The Nouns of Logic
 
-_Mathematics is nothing more than a game played according to certain simple rules with meaningless marks on a paper._
+_Objects are typically noun phrases. Objects normally follow the verb in a clause._
 
-_— David Hilbert_
+_— Cambridge Dictionary_
 
 ---
 
