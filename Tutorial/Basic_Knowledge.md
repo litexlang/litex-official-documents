@@ -514,6 +514,18 @@ Well-commented code is easier to debug, maintain, and extend. Think of comments 
 
 ---
 
+## Section 5: The `do_nothing` Statement
+
+Sometimes you need a statement that does nothing—a placeholder that executes successfully but has no effect. Litex provides `do_nothing` for this purpose:
+
+```litex
+do_nothing
+```
+
+This statement returns `true` but has no side effects. It's useful as a placeholder when you need to satisfy syntax requirements or create empty code blocks.
+
+---
+
 ## Wrap-Up
 
 Looks simple, doesn't it? Litex is designed to be **concise, readable, and close to everyday math**. 
@@ -523,6 +535,7 @@ In this tutorial, we've covered:
 - **Sets**: Built-in number systems and set membership
 - **Symbols and Values**: How Litex treats everything as symbols and uses values for verification
 - **Comments**: How to document your code effectively
+- **do_nothing**: How to write a statement that does nothing
 
 At first, you might still make mistakes when writing your own proofs—and that's perfectly fine. Practice makes perfect. In the following tutorials, we'll guide you through more advanced features of Litex, so you can confidently express and verify mathematics the Litex way.
 

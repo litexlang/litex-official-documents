@@ -548,13 +548,16 @@ For a function $f : X \to Y$ and a subset $U \subseteq Y$, the inverse image of 
 
 **Correspondence in Litex**:
 - **Keywords**: `fn`, `{x parent_set: fact}`, `$is_subset_of`
-- **Expression**: `fn self_defined_inverse_image_set(X set, Y set, f fn(X)Y, U set) set: U $is_subset_of Y => self_defined_inverse_image_set(X, Y, f, U) = {x X: f(x) $in U}`
+- **Expression**: `Given f : X -> Y, U subset Y, then f^{-1}(U) = {x X : f(x) $in U}`
 - **Example**:
 ```litex
-fn self_defined_inverse_image_set(X set, Y set, f fn(X)Y, U set) set:
-    U $is_subset_of Y
-    =>:
-        self_defined_inverse_image_set(X, Y, f, U) = {x X: f(x) $in U}
+# f^{-1}(U)
+
+have X, Y, U set
+
+fn f(x X) Y
+
+have set s = {x X : f(x) $in U}
 ```
 - **Note**: Inverse images are implemented through the separation axiom (intensional set definition)
 
