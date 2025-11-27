@@ -123,3 +123,21 @@ a = b
 Litex internally maintains a dedicated storage for known forall facts, called `ForallFactMap`. Each map's key is a proposition name, and the value is a list of related forall facts. For example, when you use `know` or prove a fact yourself, and learn that `forall x, y R: $p(x, y) => x = y` is true, then `ForallFactMap["="]` will add `forall x, y R: $p(x, y) => x = y` to its list.
 
 When we want to prove `a = b`, we iterate through all forall facts in `ForallFactMap["="]`. During iteration, we see `forall x, y R: $p(x, y) => x = y`. We then verify: if we substitute `x` with `a` and `y` with `b`, are `a $in R`, `b $in R`, and `$p(a, b)` true? If yes, we then verify whether the corresponding `x = y` with `x` and `y` replaced by `a` and `b` respectively, i.e., `a = b`, is true. If that's also true, then it's verified.
+
+If this method fails to prove `a = b`, Litex will try the same approach to prove `b = a` (since equality is symmetric).
+
+## Summary
+
+Equality (`=`) is the most fundamental proposition in mathematics and Litex. All other propositions depend on equality for their definition and verification. Equality enables symbols that are literally different to have the same meaning, allowing substitution in any context.
+
+Litex verifies equality through a four-step process:
+
+1. **Numeric Simplification**: If both sides are numeric expressions, simplify and compute them (using string matching, not floating-point arithmetic).
+
+2. **Equivalence Set Lookup**: Litex maintains an `equalityMap` that stores equivalence sets. Two symbols are equal if they belong to the same equivalence set. When new equalities are proven, equivalence sets are merged accordingly.
+
+3. **Recursive Function Checking**: For function expressions, Litex recursively verifies that function names and all corresponding parameters are equal.
+
+4. **Forall Fact Matching**: Litex searches through known forall facts in `ForallFactMap` and attempts to match the equality statement by substituting variables and verifying conditions.
+
+The special storage mechanism for equality (using equivalence sets) reflects its fundamental role: equality is not just another proposition, but the foundation that enables all mathematical reasoning through substitution and equivalence.
