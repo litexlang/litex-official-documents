@@ -57,43 +57,45 @@ When `a = c` is known, `a` can be equivalently replaced with `c` in any proposit
 
 ## How Litex Verifies Equality
 
-证明时，会按顺序从第一步到最后一步试试
+When proving equality, Litex tries each step in order from the first to the last.
 
-1. 第一步：如果左右两边都是数值表达式，那就化简，真的算出来
+1. **Step 1: Simplify numeric expressions**
 
-注意：是string匹配，不是浮点数运算；/除不尽的时候会保留/，比如 2/3 = 4/ 6不是真的算出来了它的值，而是在证明 3 *  4= 2 * 6
+If both sides of the equality are numeric expressions, Litex simplifies and actually computes them.
 
-2. 第二步：搜索已知事实
+**Note**: This is string matching, not floating-point arithmetic. When division doesn't result in an integer, the `/` is preserved. For example, `2/3 = 4/6` is not verified by computing the actual values, but by proving that `3 * 4 = 2 * 6`.
 
-在搜索已知事实之前，我们需要了解 Litex 是如何存储等号型事实的。等号型事实的存储方式与其他事实不同，这是因为等号具有传递性和对称性等特殊性质。
+2. **Step 2: Search known facts**
 
-**存储机制**：Litex 使用一个哈希表（hashmap）来存储等号关系。对于每一组相等的符号，Litex 会创建一个等价集合（equivalence set），并将集合中的每个符号都映射到这个集合。
+Before searching known facts, we need to understand how Litex stores equality facts. The storage method for equality facts differs from other facts because equality has special properties such as transitivity and symmetry.
 
-**示例**：假设我们已知符号 `a`、`1+b`、`f(c)` 是相等的，Litex 会创建一个等价集合 `{a, 1+b, f(c)}`，并将每个符号都映射到这个集合：
+**Storage Mechanism**: Litex uses a hashmap to store equality relations. For each group of equal symbols, Litex creates an equivalence set and maps each symbol in the set to this set.
+
+**Example**: Suppose we know that symbols `a`, `1+b`, and `f(c)` are equal. Litex creates an equivalence set `{a, 1+b, f(c)}` and maps each symbol to this set:
 - `equalityMap["a"] = {a, 1+b, f(c)}`
 - `equalityMap["1+b"] = {a, 1+b, f(c)}`
 - `equalityMap["f(c)"] = {a, 1+b, f(c)}`
 
-同样，如果符号 `h` 和 `8+t` 相等，它们会形成另一个等价集合：
+Similarly, if symbols `h` and `8+t` are equal, they form another equivalence set:
 - `equalityMap["h"] = {h, 8+t}`
 - `equalityMap["8+t"] = {h, 8+t}`
 
-**合并等价集合**：当我们证明新的等号关系时，如果它连接了两个不同的等价集合，Litex 会将这两个集合合并。例如，如果我们证明了 `a = 8 + t`，那么 `a` 所在的集合 `{a, 1+b, f(c)}` 和 `8+t` 所在的集合 `{h, 8+t}` 会被合并成一个新的等价集合 `{a, 1+b, f(c), h, 8+t}`。之后，所有相关的符号都会被更新为指向这个合并后的集合：
+**Merging Equivalence Sets**: When we prove a new equality relation that connects two different equivalence sets, Litex merges them. For example, if we prove `a = 8 + t`, then the set containing `a`, `{a, 1+b, f(c)}`, and the set containing `8+t`, `{h, 8+t}`, are merged into a new equivalence set `{a, 1+b, f(c), h, 8+t}`. All related symbols are then updated to point to this merged set:
 - `equalityMap["a"] = {a, 1+b, f(c), h, 8+t}`
 - `equalityMap["1+b"] = {a, 1+b, f(c), h, 8+t}`
 - `equalityMap["f(c)"] = {a, 1+b, f(c), h, 8+t}`
 - `equalityMap["h"] = {a, 1+b, f(c), h, 8+t}`
 - `equalityMap["8+t"] = {a, 1+b, f(c), h, 8+t}`
 
-这样，通过检查两个符号是否在同一个等价集合中，Litex 就能快速判断它们是否相等。
+In this way, by checking whether two symbols are in the same equivalence set, Litex can quickly determine if they are equal.
 
-这样的存储和证明，和litex的证明符号相等有什么关系呢？
+**How does this storage relate to proving symbol equality?**
 
-比如现在我要证明1 + b = h了。我就看看这个map中，EqualityMap["1+b"]和EqualityMap["h"]是否在同一个等价集合中。如果在，那么1 + b = h就是真的。现在发现他们刚好相等，那就OK了
+For example, if we want to prove `1 + b = h`, we check whether `equalityMap["1+b"]` and `equalityMap["h"]` are in the same equivalence set. If they are, then `1 + b = h` is true. If we find they are indeed equal, then it's verified.
 
-再比如我要证明2 - 1 + b 等于h，那我发现2-1+b因为之前在整个项目里没出现过，所以equalityMap中没有这个key。但equalityMap里有key叫"h"，我就遍历"h"的list里的所有的符号，看看是不是和2-1+b相等。发现相等，那就OK了。比如我们遍历{a, 1+b, f(c), h, 8+t}时，发现2-1+b = 1+b，那就OK了。
+Another example: if we want to prove `2 - 1 + b = h`, we find that `2-1+b` hasn't appeared before in the entire project, so there's no key for it in `equalityMap`. However, `equalityMap` has a key `"h"`, so we iterate through all symbols in `"h"`'s list to see if any equals `2-1+b`. If we find a match, it's verified. For example, when iterating through `{a, 1+b, f(c), h, 8+t}`, we find that `2-1+b = 1+b`, so it's verified.
 
-3. 函数名和函数的每个参数都是相等的
+3. **Function names and all function parameters are equal**
 
 ```litex
 have fn f(a R) R = a
@@ -103,13 +105,13 @@ have b R = a
 f(a) = g(b)
 ```
 
-这里是如何验证 f(a) = g(b)的呢？equalityMap里是没有f(a)和g(b)的key的，因为它们刚刚才被定义。
+How is `f(a) = g(b)` verified? There are no keys for `f(a)` and `g(b)` in `equalityMap` because they were just defined.
 
-如果等式左右两边的符号都是函数，而不是原子的时候，就会一层层拨开，即证明新的等号型事实， 比如这里的`f = g`，再一位位地验证它们的参数是不是相等，比如这里的`a = b`。
+When both sides of the equality are function expressions rather than atoms, Litex recursively unwraps them, proving new equality facts. For example, here it proves `f = g`, then verifies that their parameters are equal, i.e., `a = b`.
 
-这里f(a)和g(b)都是函数式的，不是原子的，所以我们要一层层拨开，先验证函数头f和g是不是相等，再验证它们的参数a和b是不是相等。发现他们刚好相等，所以OK
+Since `f(a)` and `g(b)` are both function expressions, not atoms, we need to recursively unwrap them. First, we verify that the function heads `f` and `g` are equal, then verify that their parameters `a` and `b` are equal. If they all match, it's verified.
 
-4. 用已知的forall事实来验证
+4. **Verify using known forall facts**
 
 ```litex
 prop p(x, y R)
@@ -118,6 +120,6 @@ let a, b R: $p(a, b)
 a = b
 ```
 
-litex内部还有一个专门存放已知forall事实的地方，比如叫ForallFactMap。每个map的key是一个prop名，然后value是很多相关的forall事实。比如你现在通过know，或者自己证明了某个事实，知道了`forall x, y R: $p(x, y) => x = y`是对的，那么ForallFactMap["="]这个列表下面就会多出`forall x, y R: $p(x, y) => x = y`这个forall事实。
+Litex internally maintains a dedicated storage for known forall facts, called `ForallFactMap`. Each map's key is a proposition name, and the value is a list of related forall facts. For example, when you use `know` or prove a fact yourself, and learn that `forall x, y R: $p(x, y) => x = y` is true, then `ForallFactMap["="]` will add `forall x, y R: $p(x, y) => x = y` to its list.
 
-现在我们要证明`a = b`，那就遍历ForallFactMap["="]下面的所有的forall事实。遍历时，我们看到了`forall x, y R: $p(x, y) => x = y`。那就验证一下，如果把x代替成这里的a，把y代替成这里的b，是不是`a $in R`, `b $in R`, `$p(a, b)`是对的。如果是对的，那就再验证一下，那么对应的`x = y`中x和y分别被替换成a和b后，是不是`a = b`。如果也是对的，那就OK了。
+When we want to prove `a = b`, we iterate through all forall facts in `ForallFactMap["="]`. During iteration, we see `forall x, y R: $p(x, y) => x = y`. We then verify: if we substitute `x` with `a` and `y` with `b`, are `a $in R`, `b $in R`, and `$p(a, b)` true? If yes, we then verify whether the corresponding `x = y` with `x` and `y` replaced by `a` and `b` respectively, i.e., `a = b`, is true. If that's also true, then it's verified.
