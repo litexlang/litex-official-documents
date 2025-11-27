@@ -637,3 +637,80 @@ cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N
 ```
 - **Note**: n-tuples and n-fold Cartesian products can be defined through functions and the replacement axiom
 
+## Summary: All Ways to Construct Sets from Sets in ZFC
+
+In ZFC set theory, there are **6 fundamental axioms** for constructing new sets from given sets, plus **Cartesian products** which are constructed from these axioms. All mathematical objects (functions, sequences, trees, graphs, topological spaces, real numbers, etc.) are ultimately constructed through combinations of these operations. The following table shows how each construction method works in Litex:
+
+| ZFC Axiom | What It Constructs | Litex Implementation | Example |
+|-----------|---------------------|---------------------|---------|
+| **Separation (Specification)** | Subsets of A satisfying property P | `have set s = {x A: $P(x)}` | ```litex<br>prop P(x A)<br>have set s = {x A: $P(x)}<br>``` |
+| **Power Set** | Set of all subsets of A | `power_set(A)` or `fn self_defined_power_set(A set) set` | ```litex<br>have y power_set(R)<br>y $is_subset_of R<br>``` |
+| **Pairing** | Set containing exactly two objects | `have set s = {a, b}` | ```litex<br>have a, b obj<br>have set pair = {a, b}<br>``` |
+| **Union** | Set containing all elements from sets in A | `union(A, B)` or `union_of_family(F)` | ```litex<br>have a, b set<br>forall x a => x $in union(a, b)<br>forall x b => x $in union(a, b)<br>``` |
+| **Replacement** | Image of A under function F | Function application + `know` (if needed) | ```litex<br>have X, Y set<br>have fn f(x X) Y<br># f[A] = {f(x): x in A}<br>have set image = {y Y: exist x A => y = f(x)}<br>``` |
+| **Cartesian Product** | Set of ordered n-tuples from sets X₁, X₂, ..., Xₙ | `cart(X1, X2, ..., Xn)` or `cart_prod(index_set, kv)` | ```litex<br>have set x = cart(R, Q, Z)<br>let a x<br>coord(a, x, 1) $in R<br>``` |
+
+### Key Points:
+
+1. **Separation** is implemented directly through Litex's intensional set syntax `{x parent_set: condition}`. This is the most commonly used construction method.
+
+2. **Power Set** can use the built-in `power_set(A)` or be defined as a function:
+   ```litex
+   fn self_defined_power_set(A set) set:
+       forall y self_defined_power_set(A):
+           y $in set
+           y $is_subset_of A
+       forall y set:
+           y $is_subset_of A
+           =>:
+               y $in self_defined_power_set(A)
+   ```
+
+3. **Pairing** creates finite sets through enumeration: `{a}`, `{a, b}`, `{a, b, c}`, etc.
+
+4. **Union** combines sets. For pairwise union: `union(A, B)`. For union of a family: define a function `union_of_family(F)`.
+
+5. **Replacement** constructs the image of a set under a function. In Litex, this is typically done by defining the image set explicitly:
+   ```litex
+   have set image = {y Y: exist x A => y = f(x)}
+   ```
+
+6. **Cartesian Product** constructs ordered tuples from sets. Litex provides two methods:
+   - **Fixed-arity**: `cart(X1, X2, ..., Xn)` for a fixed number of sets
+   - **Indexed**: `cart_prod(index_set, kv)` where `kv` is a function mapping indices to sets
+   
+   ```litex
+   # Fixed-arity Cartesian product
+   have set x = cart(R, Q, Z)
+   let a x
+   coord(a, x, 1) $in R
+   coord(a, x, 2) $in Q
+   coord(a, x, 3) $in Z
+   
+   # Indexed Cartesian product
+   have set X = {1, 2, 3}
+   have fn kv(x X) set =:
+       case x = 1: N
+       case x = 2: Q
+       case x = 3: Z
+   cart_prod(X, kv) $in set
+   ```
+
+### What Can Be Constructed?
+
+Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), you can construct:
+
+- **Arbitrary finite sets** (pairing + union)
+- **Arbitrary subsets** (separation)
+- **Iterated power sets** (power set applied repeatedly)
+- **Function images** (replacement)
+- **Cartesian products** (`cart` or `cart_prod` - constructed via power set + separation)
+- **Ordered pairs and n-tuples** (Cartesian products)
+- **Quotient sets** (separation + replacement)
+- **Recursive and transfinite constructions** (replacement)
+
+**Note**: While Cartesian products are technically constructed from power set and separation axioms, they are such a fundamental construction that Litex provides direct support through `cart` and `cart_prod`.
+
+**Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations.
+
+---
