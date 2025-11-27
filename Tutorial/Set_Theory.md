@@ -209,3 +209,151 @@ cart_prod_proj(cart_prod(N, kv2), 3) = kv2(3) = N
 - Use `cart` when you have a fixed, small number of sets (e.g., `cart(R, Q, Z)`)
 - Use `cart_prod` when you need to define a product over an arbitrary index set, especially when the index set might be large or infinite
 
+## Power Set
+
+### Natural Language Definition
+
+The **power set** of a set $A$, denoted $\mathcal{P}(A)$ or $2^A$, is the set of all subsets of $A$. In other words, every element of the power set is itself a set that is a subset of $A$. For example, if $A = \{1, 2\}$, then $\mathcal{P}(A) = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}$.
+
+In symbols: For any set $A$, the power set $\mathcal{P}(A)$ satisfies: $y \in \mathcal{P}(A) \iff y \subseteq A$.
+
+### Built-in Power Set in Litex
+
+Litex provides a built-in `power_set` function:
+
+```litex
+# Every element of power_set(R) is a subset of R
+forall y power_set(R):
+    y $is_subset_of R
+```
+
+**Keywords**: `power_set`, `$is_subset_of`
+
+**Example**:
+```litex
+# The power set of R contains all subsets of R
+have y power_set(R)
+y $is_subset_of R
+
+# The empty set is in the power set of any set
+empty_set $is_subset_of R # empty_set is a builtin set. it is defined by `have set empty_set = {}`
+empty_set $in power_set(R)
+```
+
+### Self-Defined Power Set
+
+You can also define your own power set function using Litex's set definition capabilities:
+
+```litex
+# Define power set as a function from sets to sets
+fn self_defined_power_set(A set) set:
+    forall y self_defined_power_set(A):
+        y $in set
+        y $is_subset_of A
+    forall y set:
+        y $is_subset_of A
+        =>:
+            y $in self_defined_power_set(A)
+```
+
+**Explanation**:
+- `self_defined_power_set(A)` is a function that takes a set `A` and returns a set
+- The first `forall` states that every element of `self_defined_power_set(A)` is a subset of `A`
+- The second `forall` states that every subset of `A` is an element of `self_defined_power_set(A)`
+- Together, these define the power set: it contains exactly all subsets of `A`
+
+**Keywords**: `fn`, `set`, `$is_subset_of`, `$in`, `forall`, `=>`
+
+### Examples
+
+**Example 1: Power set of a finite set**
+```litex
+# Define a finite set
+have set A = {1, 2, 3}
+
+# Use built-in power_set
+have y power_set(A)
+y $is_subset_of A
+
+# All subsets of A are in power_set(A)
+have set empty = {}
+empty $is_subset_of A
+empty $in power_set(A)
+
+have set singleton1 = {1}
+singleton1 $is_subset_of A
+singleton1 $in power_set(A)
+
+have set pair12 = {1, 2}
+pair12 $is_subset_of A
+pair12 $in power_set(A)
+
+# A itself is in its power set
+A $is_subset_of A
+A $in power_set(A)
+```
+
+**Example 2: Using self-defined power set**
+```litex
+# Define a set
+have set B = {5, 10}
+
+# Use self-defined power set
+fn self_defined_power_set(A set) set:
+    forall y self_defined_power_set(A):
+        y $is_subset_of A
+    forall y set:
+        y $is_subset_of A
+        =>:
+            y $in self_defined_power_set(A)
+
+# Check that subsets are in the power set
+have set subset1 = {5}
+subset1 $is_subset_of B
+subset1 $in self_defined_power_set(B)
+
+# The set itself is in its power set
+B $is_subset_of B
+B $in self_defined_power_set(B)
+```
+
+**Example 3: Power set properties**
+```litex
+# The empty set is always in the power set
+have set empty = {}
+have A set
+
+empty $is_subset_of A
+empty $in power_set(A)
+
+# The set itself is always in its power set
+A $is_subset_of A
+A $in power_set(A)
+
+# If B is a subset of A, then power_set(B) is a subset of power_set(A)
+have B set
+B $is_subset_of A
+=>:
+    forall y power_set(B):
+        y $is_subset_of B
+        y $is_subset_of A
+        y $in power_set(A)
+    forall y power_set(B) => y $in power_set(A)
+    power_set(B) $is_subset_of power_set(A)
+```
+
+**Example 4: Power set of natural numbers**
+```litex
+# Power set of N contains all subsets of natural numbers
+have y power_set(N)
+y $is_subset_of N
+
+# Examples of subsets in power_set(N)
+have set even_numbers = {n N: exist k N => n = 2 * k}
+even_numbers $is_subset_of N
+even_numbers $in power_set(N)
+
+have set positive_numbers = N_pos
+N_pos $is_subset_of N
+N_pos $in power_set(N)
+```
