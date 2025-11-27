@@ -109,4 +109,15 @@ f(a) = g(b)
 
 这里f(a)和g(b)都是函数式的，不是原子的，所以我们要一层层拨开，先验证函数头f和g是不是相等，再验证它们的参数a和b是不是相等。发现他们刚好相等，所以OK
 
-4. 
+4. 用已知的forall事实来验证
+
+```litex
+prop p(x, y R)
+know forall x, y R: $p(x, y) => x = y
+let a, b R: $p(a, b)
+a = b
+```
+
+litex内部还有一个专门存放已知forall事实的地方，比如叫ForallFactMap。每个map的key是一个prop名，然后value是很多相关的forall事实。比如你现在通过know，或者自己证明了某个事实，知道了`forall x, y R: $p(x, y) => x = y`是对的，那么ForallFactMap["="]这个列表下面就会多出`forall x, y R: $p(x, y) => x = y`这个forall事实。
+
+现在我们要证明`a = b`，那就遍历ForallFactMap["="]下面的所有的forall事实。遍历时，我们看到了`forall x, y R: $p(x, y) => x = y`。那就验证一下，如果把x代替成这里的a，把y代替成这里的b，是不是`a $in R`, `b $in R`, `$p(a, b)`是对的。如果是对的，那就再验证一下，那么对应的`x = y`中x和y分别被替换成a和b后，是不是`a = b`。如果也是对的，那就OK了。
