@@ -12,8 +12,9 @@ This document demonstrates how Litex statements correspond to mathematical state
 
 We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners.
 
-**Brief Statement**: If you believe that the ZFC axioms are sound, if you believe that the inference rules provided by Litex are sound, and if you also believe that the Litex kernel faithfully implements the above axioms and inference rules without software bugs (or that bugs will be promptly discovered and fixed because of the growing community), then you can consider Litex to be sound as well. This is because Litex implements, and only implements, these axioms and inference rules.
+**Brief Statement**: If you believe that the ZFC axioms are sound and expressive, if you believe that the inference rules provided by Litex are sound and expressive, and if you also believe that the Litex kernel faithfully implements the above axioms and inference rules without software bugs (or that bugs will be promptly discovered and fixed because of the growing community), then you can consider Litex to be sound and expressive as well. This is because Litex implements, and only implements, these axioms and inference rules.
 
+> According to Gödel's second incompleteness theorem, the consistency of ZFC cannot be proven within ZFC itself. Since extensions of ZFC include most of mathematics in the usual sense, the consistency of ZFC cannot be proven in other branches of mathematics either. Almost no one doubts that ZFC has any contradictions. It is generally believed that if ZFC were inconsistent, corresponding examples would have been discovered long ago. Since Litex is based on ZFC, Litex should also be considered consistent.
 
 # Natural Numbers
 
@@ -715,5 +716,3 @@ Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), y
 **Note**: While Cartesian products are technically constructed from power set and separation axioms, they are such a fundamental construction that Litex provides direct support through `cart` and `cart_prod`.
 
 **Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations.
-
----
