@@ -127,21 +127,62 @@ prop is_group(s set, mul fn(s, s)s, inv fn(s)s, e s):
         mul(x, inv(x)) = e
         mul(inv(x), x) = e
 
-fn inverse(x R)R:
-    inverse(x) + x = 0
-
-forall x R:
-    inverse(x) + x = 0
-    x + inverse(x) = 0
-
+# negate is defined by : negate(x) = -x
 forall x Z:
-    x + inverse(x) = 0
-    inverse(x) = -x
+    negate(x) = -x
     -x $in Z
-    inverse(x) $in Z
+    negate(x) $in Z
 
-$is_group(R, +, inverse, 0)
-$is_group(Z, +, inverse, 0)
+$is_group(R, +, negate, 0)
+$is_group(Z, +, negate, 0)
+```
+
+Definition of inverse function, prove injective function is invertible.
+
+```litex
+prop is_inverse_fn(X, Y set, f fn(X)Y, g fn(Y)X):
+    forall x X:
+        g(f(x)) = x
+    forall y Y:
+        f(g(y)) = y
+
+exist_prop g fn(Y)X st has_inverse_fn(X, Y set, f fn(X)Y):
+    $is_inverse_fn(X, Y, f, g)
+
+prop is_injective(X, Y set, f fn(X)Y):
+    forall x1 X, x2 X:
+        f(x1) = f(x2)
+        =>:
+            x1 = x2
+
+exist_prop x X st item_has_preimage(X, Y set, f fn(X)Y, y Y):
+    f(x) = y
+
+claim:
+    forall X, Y set, f fn(X)Y:
+        $is_injective(X, Y, f)
+        forall y Y:
+            $item_has_preimage(X, Y, f, y)
+        =>:
+            $has_inverse_fn(X, Y, f)
+    prove:
+        have fn:
+            g(y Y) X:
+                f(g(y)) = y
+            prove:
+                have x st $item_has_preimage(X, Y, f, y)
+                f(x) = y
+            = x
+        
+        forall y Y:
+            f(g(y)) = y # by definition of g
+
+        forall x X:
+            f(g(f(x))) = f(x)
+            g(f(x)) = x # $is_inverse_fn(X, Y, f)
+
+        $is_inverse_fn(X, Y, f, g)
+        exist g st $has_inverse_fn(X, Y, f)
 ```
 
 ## How to read this tutorial
