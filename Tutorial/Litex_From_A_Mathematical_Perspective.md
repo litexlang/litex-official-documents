@@ -10,7 +10,10 @@ _— David Hilbert_
 
 This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
 
-We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners. [Analysis I](https://tiu-edu.uz/media/books/2024/05/28/1664976801.pdf)
+We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners.
+
+**Brief Statement**: If you believe that the ZFC axioms are sound, if you believe that the inference rules provided by Litex are sound, and if you also believe that the Litex kernel faithfully implements the above axioms and inference rules without software bugs (or that bugs will be promptly discovered and fixed because of the growing community), then you can consider Litex to be sound as well. This is because Litex implements, and only implements, these axioms and inference rules.
+
 
 # Natural Numbers
 
