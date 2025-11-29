@@ -1,4 +1,4 @@
-# Factual Statement: Math is About Deriving New Facts from Established Ones
+# Factual Statements
 
 _Geometry, like arithmetic, requires for its logical development only a small number of simple, fundamental principles._
 

@@ -1,8 +1,5 @@
 # Statements: The Building Blocks of Litex
 
-_You can checkout any time you like but you can never leave._
-
-_— Hotel California_
 
 ---
 

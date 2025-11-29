@@ -1,33 +1,33 @@
-# Proposition: The Verbs of Logic
+# Predicate: The Verbs of Logic
 
-_Objects are typically noun phrases. Objects normally follow the verb in a clause._
+_Life lies in movement._
 
-_— Cambridge Dictionary_
+_- Voltaire_
 
 ---
 
-## Section 1: Understanding Propositions
+## Section 1: Understanding Predicates
 
 ### Introduction
 
-In this section, we'll explore **propositions**—the "verbs" of mathematical logic. Just as sentences in natural language have subjects and verbs, mathematical statements have objects (nouns) and propositions (verbs). By the end of this section, you'll understand what propositions are, how they differ from functions, and how to define and use them.
+In this section, we'll explore **predicates**—the "verbs" of mathematical logic. Just as sentences in natural language have subjects and verbs, mathematical statements have objects (nouns) and predicates (verbs). By the end of this section, you'll understand what predicates are, how they differ from functions, and how to define and use them. It is verbs that gives meanings to sentences.
 
 ### From Natural Language to Litex
 
-Math is the language of reasoning. Since it is a language, any sentence of it is composed of some objects (nouns) and a verb (proposition). For example, `1 + 1 = 2` is composed of object `1 + 1`, object `2`, and verb `=`.
+Math is the language of reasoning. Since it is a language, any sentence of it is composed of some objects (nouns) and a verb (predicate). For example, `1 + 1 = 2` is composed of object `1 + 1`, object `2`, and verb `=`.
 
 **Natural Language**: "Jordan is intelligent"  
 **Structure**: Subject (Jordan) + Verb (is intelligent)  
 **Litex**: `$intelligent(Jordan)`  
-**Structure**: Proposition (`intelligent`) + Object (`Jordan`)
+**Structure**: Predicate (`intelligent`) + Object (`Jordan`)
 
-A verb, in a mathematical sentence, is called proposition, at least in Litex. The result of any sentence is either true, unknown, or error.
+A verb, in a mathematical sentence, is called predicate, at least in Litex. The result of any sentence is either true, unknown, or error.
 
-**Important distinction**: Notice `+` is not considered a proposition, because it is a function, and there is no such thing as `1 + 1` is true or unknown. Function in math and Litex is just a symbol that is used to construct new symbols, not a verb for execution!
+**Important distinction**: Notice `+` is not considered a predicate, because it is a function, and there is no such thing as `1 + 1` is true or unknown. Function in math and Litex is just a symbol that is used to construct new symbols, not a verb for execution!
 
-### Propositions vs Factual Statements
+### Predicates vs Factual Statements
 
-A proposition is something that can be true or false — it's a general statement form, often involving variables or placeholders. A factual statement is a proposition with all variables replaced by concrete values (or otherwise fully specified) so that its truth value is determined in a given context.
+A predicate is something that can be true or false — it's a general statement form, often involving variables or placeholders. A factual statement is a predicate with all variables replaced by concrete values (or otherwise fully specified) so that its truth value is determined in a given context.
 
 **Example:**
 
@@ -38,52 +38,52 @@ know forall x human => $intelligent(x)
 $intelligent(Jordan)
 ```
 
-- `intelligent` is a **proposition** (a template)
-- `$intelligent(Jordan)` is a **factual statement** (applying the proposition to a specific object)
+- `intelligent` is a **predicate** (a template)
+- `$intelligent(Jordan)` is a **factual statement** (applying the predicate to a specific object)
 
 The `$` symbol distinguishes a factual statement from a function.
 
 ### Another Example
 
-In `1 > 0`, `1 > 0` is a factual statement, `>` is a proposition. A factual statement can be true or false, but not both. Factual statement `1 > 0` is true. Factual statement `0 > 1` is false.
+In `1 > 0`, `1 > 0` is a factual statement, `>` is a predicate. A factual statement can be true or false, but not both. Factual statement `1 > 0` is true. Factual statement `0 > 1` is false.
 
-**Think in this way**: In everyday expressions, there are subjects and predicates; whereas in reasoning language, a *proposition* functions like a verb, its parameters are the subjects. The outcome of this action can only be **true, unknown, error, or false**.
+**Think in this way**: In everyday expressions, there are subjects and predicates; whereas in reasoning language, a *predicate* functions like a verb, its parameters are the subjects. The outcome of this action can only be **true, unknown, error, or false**.
 
 ### Summary
 
-- Propositions are the "verbs" of mathematical logic
+- Predicates are the "verbs" of mathematical logic
 - They are templates that become factual statements when applied to objects
-- Functions (like `+`) are not propositions—they construct symbols, not statements
+- Functions (like `+`) are not predicates—they construct symbols, not statements
 - The `$` prefix distinguishes factual statements from functions
-- Propositions can have parameters (the "subjects")
+- Predicates can have parameters (the "subjects")
 
 ### Litex Syntax Reference
 
-**Proposition declaration**: `prop propName(parameter1 set1, parameter2 set2, ...)`
+**Predicate declaration**: `prop propName(parameter1 set1, parameter2 set2, ...)`
 
-**Factual statement**: `$propName(object1, object2, ...)` - applies proposition to objects
+**Factual statement**: `$propName(object1, object2, ...)` - applies predicate to objects
 
-**Built-in propositions**: `=`, `!=`, `>`, `<`, `>=`, `<=`, `$in`
+**Built-in predicates**: `=`, `!=`, `>`, `<`, `>=`, `<=`, `$in`
 
-**Infix notation**: For two-argument propositions, `obj1 $prop obj2`
+**Infix notation**: For two-argument predicates, `obj1 $prop obj2`
 
 ### Exercises
 
-1. What is the difference between a proposition and a function?
-2. Define a proposition `is_positive(x R)` and write a factual statement using it.
-3. In the statement `5 > 3`, identify the proposition and the objects.
+1. What is the difference between a predicate and a function?
+2. Define a predicate `is_positive(x R)` and write a factual statement using it.
+3. In the statement `5 > 3`, identify the predicate and the objects.
 
 ### Bonus: The Grammar of Mathematics
 
-Just as natural language has grammar (nouns, verbs, etc.), mathematics has its own structure. Propositions are the verbs that connect objects together to form meaningful statements. Understanding this structure helps you write more natural and correct Litex code.
+Just as natural language has grammar (nouns, verbs, etc.), mathematics has its own structure. Predicates are the verbs that connect objects together to form meaningful statements. Understanding this structure helps you write more natural and correct Litex code.
 
 ---
 
-## Section 2: Defining Propositions
+## Section 2: Defining Predicates
 
 ### Introduction
 
-In this section, we'll learn how to define propositions in Litex. You'll learn the complete syntax, how to specify domains, and how to define equivalent facts. By the end of this section, you'll be able to define your own propositions for any mathematical concept.
+In this section, we'll learn how to define predicates in Litex. You'll learn the complete syntax, how to specify domains, and how to define equivalent facts. By the end of this section, you'll be able to define your own predicates for any mathematical concept.
 
 ### From Natural Language to Litex
 
@@ -109,7 +109,7 @@ prop can_form_a_triangle(x, y, z R):
 
 ### Complete Syntax
 
-The complete definition of a proposition is:
+The complete definition of a predicate is:
 
 ```litex
 prop propName(parameter1 set1, parameter2 set2, ...):
@@ -151,13 +151,13 @@ prop propName(parameter1 set1, parameter2 set2, ...):
 
 ### Declaring Without Definition
 
-Sometimes we just want to declare a proposition without specifying what facts it is equivalent to. You can write:
+Sometimes we just want to declare a predicate without specifying what facts it is equivalent to. You can write:
 
 ```litex
 prop propName(parameter1 set1, parameter2 set2, ...)
 ```
 
-For example, we declare a proposition `p`, and after lines of code we set equivalent facts for it. Notice it does not mean that anything can lead to this proposition.
+For example, we declare a predicate `p`, and after lines of code we set equivalent facts for it. Notice it does not mean that anything can lead to this predicate.
 
 ```litex
 prop sum_larger_than_0(x, y R)
@@ -169,7 +169,7 @@ know forall x, y R => $sum_larger_than_0(x, y) <=> x + y > 0
 
 ### Specifying Domain Only
 
-Also, you can specify the domain of a proposition at declaration time without specifying its equivalent definition. Later, you can add the equivalent definition.
+Also, you can specify the domain of a predicate at declaration time without specifying its equivalent definition. Later, you can add the equivalent definition.
 
 ```litex
 prop can_form_a_triangle(x, y, z R):
@@ -183,7 +183,7 @@ prop can_form_a_triangle(x, y, z R):
 know forall x, y, z R: x > 0, y > 0, z > 0 => $can_form_a_triangle(x, y, z) <=> x + y > z, x + z > y, y + z > x
 ```
 
-In Litex, `dom` corresponds to the "domain" in mathematical writing. It specifies the range of the parameters that are allowed to be passed to the proposition.
+In Litex, `dom` corresponds to the "domain" in mathematical writing. It specifies the range of the parameters that are allowed to be passed to the predicate.
 
 ### Inline Definitions
 
@@ -209,10 +209,10 @@ prop p4(x, y R):
 
 ### Summary
 
-- Propositions can be defined with complete syntax including domain and equivalent facts
+- Predicates can be defined with complete syntax including domain and equivalent facts
 - Domain facts (`dom`) specify restrictions on parameters
-- Equivalent facts (`<=>`) define when the proposition is true
-- You can declare propositions without definitions and add them later
+- Equivalent facts (`<=>`) define when the predicate is true
+- You can declare predicates without definitions and add them later
 - Inline syntax saves space for simple definitions
 
 ### Litex Syntax Reference
@@ -229,21 +229,21 @@ prop p4(x, y R):
 
 ### Exercises
 
-1. Define a proposition `is_even(n N)` that is true when n is even.
-2. Define a proposition with domain restrictions: `is_positive_reciprocal(x, y R)` where x and y must be positive.
-3. Write both inline and multiline versions of a proposition definition.
+1. Define a predicate `is_even(n N)` that is true when n is even.
+2. Define a predicate with domain restrictions: `is_positive_reciprocal(x, y R)` where x and y must be positive.
+3. Write both inline and multiline versions of a predicate definition.
 
-### Bonus: The Flexibility of Proposition Definitions
+### Bonus: The Flexibility of Predicate Definitions
 
-Litex gives you flexibility in how you define propositions. You can define everything at once, or build up the definition gradually. This flexibility mirrors how mathematicians work: sometimes we define concepts completely, sometimes we introduce them and fill in details later.
+Litex gives you flexibility in how you define predicates. You can define everything at once, or build up the definition gradually. This flexibility mirrors how mathematicians work: sometimes we define concepts completely, sometimes we introduce them and fill in details later.
 
 ---
 
-## Section 3: Using Propositions
+## Section 3: Using Predicates
 
 ### Introduction
 
-In this section, we'll learn how to use propositions once they're defined. You'll learn how to call propositions, how Litex automatically infers equivalent facts, and how to work with named universal facts. By the end of this section, you'll be able to use propositions effectively in your proofs.
+In this section, we'll learn how to use predicates once they're defined. You'll learn how to call predicates, how Litex automatically infers equivalent facts, and how to work with named universal facts. By the end of this section, you'll be able to use predicates effectively in your proofs.
 
 ### From Natural Language to Litex
 
@@ -256,9 +256,9 @@ In this section, we'll learn how to use propositions once they're defined. You'l
 know forall x, y, z R: $can_form_a_triangle(x, y, z) => x + y > z
 ```
 
-### Calling a Proposition
+### Calling a Predicate
 
-After claiming a Proposition, you could call it anywhere with a prepend `$`:
+After declaring a predicate, you could call it anywhere with a prepend `$`:
 
 ```litex
 prop can_form_a_triangle(x, y, z R):
@@ -273,7 +273,7 @@ prop can_form_a_triangle(x, y, z R):
 $can_form_a_triangle(3, 4, 5)
 ```
 
-If there is only two Objects in parentheses of Proposition claim, you could also call it like:
+If there is only two Objects in parentheses of predicate declaration, you could also call it like:
 
 ```litex
 prop divisible_by(n, m R):
@@ -324,7 +324,7 @@ let a, b, c R: a < b, b < c
 
 We cannot prove `a < c` since we do not know which `b` is used by `forall a, b, c R: a < b, b < c => a < c` to prove `a < c`.
 
-It turns out we can give a name to the forall statement by defining a new proposition.
+It turns out we can give a name to the forall statement by defining a new predicate.
 
 ```litex
 prop transitivity_of_less(a, b, c R):
@@ -408,7 +408,7 @@ claim:
 
 ### Example: Transitive Relations
 
-Sometimes, a proposition has transitive properties. For example, being colleagues is a transitive relation.
+Sometimes, a predicate has transitive properties. For example, being colleagues is a transitive relation.
 
 ```litex
 have people nonempty_set
@@ -428,31 +428,31 @@ $are_colleagues(oddie_bird, thin_penguin)
 
 ### Summary
 
-- Propositions are called with `$propName(objects)`
-- Two-argument propositions can use infix notation: `obj1 $prop obj2`
-- Litex automatically infers equivalent facts from propositions
+- Predicates are called with `$propName(objects)`
+- Two-argument predicates can use infix notation: `obj1 $prop obj2`
+- Litex automatically infers equivalent facts from predicates
 - Named universal facts (`@name`) provide a concise way to define and use universal statements
 - Named universal facts can be used with `know`, `claim`, or directly
 
 ### Litex Syntax Reference
 
-**Calling proposition**: `$propName(obj1, obj2, ...)`
+**Calling predicate**: `$propName(obj1, obj2, ...)`
 
-**Infix notation**: `obj1 $prop obj2` (for two-argument propositions)
+**Infix notation**: `obj1 $prop obj2` (for two-argument predicates)
 
 **Named universal fact**: `know @name(params): conditions => conclusions`
 
-**Automatic inference**: Litex automatically knows equivalent facts when propositions are true
+**Automatic inference**: Litex automatically knows equivalent facts when predicates are true
 
 ### Exercises
 
-1. Define a proposition `is_friend(x, y people)` and call it for two specific people.
+1. Define a predicate `is_friend(x, y people)` and call it for two specific people.
 2. Use a named universal fact to express transitivity of friendship.
 3. Explain how Litex automatically infers `a < c` from `$transitivity_of_less(a, b, c)`.
 
 ### Bonus: The Power of Named Universal Facts
 
-Named universal facts combine the power of propositions with the convenience of universal statements. They let you give names to common proof patterns, making your code more readable and reusable. This is similar to how mathematicians name theorems: once you've proven a general pattern, you can refer to it by name rather than repeating the proof.
+Named universal facts combine the power of predicates with the convenience of universal statements. They let you give names to common proof patterns, making your code more readable and reusable. This is similar to how mathematicians name theorems: once you've proven a general pattern, you can refer to it by name rather than repeating the proof.
 
 ---
 
@@ -460,11 +460,11 @@ Named universal facts combine the power of propositions with the convenience of 
 
 ### Introduction
 
-In this section, we'll work through a complete example showing how to formalize relations and their properties (transitivity, commutativity, reflexivity) in Litex. This will tie together everything we've learned about propositions.
+In this section, we'll work through a complete example showing how to formalize relations and their properties (transitivity, commutativity, reflexivity) in Litex. This will tie together everything we've learned about predicates.
 
 ### From Natural Language to Litex
 
-We have already known how to declare new objects and propositions. Here is a thorough example that takes you to walk through what we have already known. The following example shows how transitivity, commutativity, reflexivity, which are the most basic properties of a relation, is formalized in Litex.
+We have already known how to declare new objects and predicates. Here is a thorough example that takes you to walk through what we have already known. The following example shows how transitivity, commutativity, reflexivity, which are the most basic properties of a relation, is formalized in Litex.
 
 ```litex
 let happy_baby_characters set
@@ -497,11 +497,11 @@ As you can see, this example is not that "math". Reasoning happen everywhere and
 
 ### Summary
 
-- Relations can be defined as propositions
+- Relations can be defined as predicates
 - Transitivity: if x relates to y and y relates to z, then x relates to z
 - Commutativity: x relates to y if and only if y relates to x
 - Reflexivity: every element relates to itself
-- These properties can be formalized using propositions and universal facts
+- These properties can be formalized using predicates and universal facts
 
 ### Exercises
 

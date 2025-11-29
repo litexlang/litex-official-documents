@@ -1,4 +1,4 @@
-# Declaration of Objects: The Nouns of Logic
+# Objects: Nouns of Logic
 
 _Objects are typically noun phrases. Objects normally follow the verb in a clause._
 
