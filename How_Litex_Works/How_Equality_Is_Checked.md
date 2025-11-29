@@ -69,10 +69,6 @@ If both sides of the equality are numeric expressions, or symbols with numeric v
 
 **Note**: This is string matching, not floating-point arithmetic. When division doesn't result in an integer, the `/` is preserved. For example, `2/3 = 4/6` is not verified by computing the actual values, but by proving that `3 * 4 = 2 * 6`.
 
-Numeric values are special. If in a known fact `a = b`, either `a` or `b` is entirely a numeric expression (such as `a = 2`, `b = 1 / 7`, `b = (2 + 3) * 4`), then Litex stores this numeric expression as the symbol's value.
-
-For example, if we previously know `a = 2`, then `a + 3 = 5` can also be automatically verified, because the value of `a` is `2`, so `a + 3 = 2 + 3 = 5`.
-
 If verification passes at this step, then the fact is considered verified.
 
 If verification fails at this step, Litex will continue to try the next step.
@@ -82,6 +78,8 @@ If verification fails at this step, Litex will continue to try the next step.
 Before searching known facts, we need to understand how Litex stores equality facts. The storage method for equality facts differs from other facts because equality has special properties such as transitivity and symmetry.
 
 **Storage Mechanism**: Litex uses a hashmap to store equality relations. For each group of equal symbols, Litex creates an equivalence set and maps each symbol in the set to this set.
+
+**Note**: The working principle of `equalityMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
 
 **Example**: Suppose we know that symbols `a`, `1+b`, and `f(c)` are equal. Litex creates an equivalence set `{a, 1+b, f(c)}` and maps each symbol to this set:
 - `equalityMap["a"] = {a, 1+b, f(c)}`
@@ -153,6 +151,8 @@ a = 2  # Verified by eliminating other possibilities
 
 **Internal Storage**: Litex internally maintains a `knownOrFactsMap` to store known `or` facts. For example, `knownOrFactsMap["="]` contains `{..., a = 1 or a = 2 or a = 3, ...}`. When we want to prove `a = 2`, Litex matches `a = 2` from the list in `knownOrFactsMap["="]`, specifically finding `a = 1 or a = 2 or a = 3` that contains `a = 2`. Then it verifies whether `not a = 1` and `not a = 3` are both true. If both are verified, then `a = 2` is proven.
 
+**Note**: The working principle of `knownOrFactsMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
+
 This elimination method works for any number of alternatives in an `or` statement. Litex systematically checks and eliminates each alternative until only one possibility remains, which must then be true.
 
 
@@ -166,6 +166,8 @@ a = b
 ```
 
 Litex internally maintains a dedicated storage for known forall facts, called `ForallFactMap`. Each map's key is a proposition name, and the value is a list of related forall facts. For example, when you use `know` or prove a fact yourself, and learn that `forall x, y R: $p(x, y) => x = y` is true, then `ForallFactMap["="]` will add `forall x, y R: $p(x, y) => x = y` to its list.
+
+**Note**: The working principle of `ForallFactMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
 
 When we want to prove `a = b`, we iterate through all forall facts in `ForallFactMap["="]`. During iteration, we see `forall x, y R: $p(x, y) => x = y`. We then verify: if we substitute `x` with `a` and `y` with `b`, are `a $in R`, `b $in R`, and `$p(a, b)` true? If yes, we then verify whether the corresponding `x = y` with `x` and `y` replaced by `a` and `b` respectively, i.e., `a = b`, is true. If that's also true, then it's verified.
 
@@ -191,6 +193,14 @@ To prove `x = 2`, Litex follows this process:
 4. Since all alternatives except `x = 2` have been eliminated, `x = 2` must be true
 
 This combines the forall fact matching mechanism with the `or` elimination strategy: Litex first matches the forall pattern to extract the relevant `or` statement for the specific variable, then uses elimination to prove the desired equality.
+
+# Special Properties
+
+Numeric values are special. If in a known fact `a = b`, either `a` or `b` is entirely a numeric expression (such as `a = 2`, `b = 1 / 7`, `b = (2 + 3) * 4`), then Litex stores this numeric expression as the symbol's value. The ValueMap["a"] = 2, ValueMap["b"] = 1 / 7, ValueMap["b"] = (2 + 3) * 4 will be stored.
+
+**Note**: The working principle of `ValueMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent. 
+
+For example, if we previously know `a = 2`, then `a + 3 = 5` can also be automatically verified, because the kernel finds the value of `a` is `2` in the ValueMap, so `a + 3 = 2 + 3 = 5`.
 
 
 

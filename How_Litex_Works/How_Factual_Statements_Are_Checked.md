@@ -36,6 +36,8 @@ Before searching known facts, we need to understand how Litex stores factual sta
 
 **Storage Mechanism**: Litex uses a hashmap called `knownFactsMap` to store factual statements. Each map's key is a proposition name, and the value is a list of known facts for that proposition.
 
+**Note**: The working principle of `knownFactsMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
+
 **Example**: Suppose we know that `$p(a)` and `$p(b)` are true. Litex stores them as:
 - `knownFactsMap["p"] = [$p(a), $p(b)]`
 
@@ -63,6 +65,8 @@ If verification fails at this step, Litex will continue to try the next step.
 When we have a known fact of the form `$p(a) or $p(b) or ... or $p(c)`, we can use it to prove `$p(vi)` for some specific `vi` by eliminating all other possibilities.
 
 **Storage Mechanism**: Litex maintains a `knownOrFactsMap` to store known `or` facts. Each map's key is a proposition name, and the value is a list of related `or` facts.
+
+**Note**: The working principle of `knownOrFactsMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
 
 **Example**: If we know `$p(a) or $p(b) or $p(c)` is true, then `knownOrFactsMap["p"]` contains this fact in its list.
 
@@ -101,6 +105,8 @@ $p(a)
 
 For example, when you use `know` or prove a fact yourself, and learn that `forall x R: $p(x)` is true, then `knownForallFactsMap["p"]` will add `forall x R: $p(x)` to its list.
 
+**Note**: The working principle of `knownForallFactsMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
+
 When we want to prove `$p(a)`, we iterate through all `forall` facts in `knownForallFactsMap["p"]`. During iteration, we see `forall x R: $p(x)`. We then verify: if we substitute `x` with `a`, is `a $in R` true? If yes, we then verify whether the corresponding `$p(x)` with `x` replaced by `a`, i.e., `$p(a)`, is true. If that's also true, then it's verified.
 
 If verification passes at this step, then the fact is considered verified.
@@ -112,6 +118,8 @@ If verification fails at this step, Litex will continue to try the next step.
 **Combining `forall` with `or` facts**: When a `forall` fact contains an `or` statement involving the proposition, Litex can use elimination to prove specific cases.
 
 **Storage Mechanism**: Litex maintains a `knownForallOrFactsMap` to store known `forall` facts containing `or` statements. Each map's key is a proposition name, and the value is a list of related `forall` facts with `or` statements.
+
+**Note**: The working principle of `knownForallOrFactsMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent.
 
 **Example**: Suppose we have:
 ```litex
