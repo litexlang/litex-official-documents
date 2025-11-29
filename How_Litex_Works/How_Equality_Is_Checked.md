@@ -59,11 +59,23 @@ When `a = c` is known, `a` can be equivalently replaced with `c` in any proposit
 
 When proving equality, Litex tries each step in order from the first to the last.
 
+Litex's fundamental working logic is to iterate through a fixed set of verification strategies. As long as verification passes under any strategy, the fact is considered verified. If all strategies fail to verify, then the fact is considered unverified. Failure to verify does not necessarily mean the statement is incorrect; it only means that Litex has not found a method to prove the fact.
+
 1. **Step 1: Simplify numeric expressions**
 
-If both sides of the equality are numeric expressions, Litex simplifies and actually computes them.
+## Symbol Values
+
+If both sides of the equality are numeric expressions, or symbols with numeric values, Litex simplifies and actually computes them.
 
 **Note**: This is string matching, not floating-point arithmetic. When division doesn't result in an integer, the `/` is preserved. For example, `2/3 = 4/6` is not verified by computing the actual values, but by proving that `3 * 4 = 2 * 6`.
+
+Numeric values are special. If in a known fact `a = b`, either `a` or `b` is entirely a numeric expression (such as `a = 2`, `b = 1 / 7`, `b = (2 + 3) * 4`), then Litex stores this numeric expression as the symbol's value.
+
+For example, if we previously know `a = 2`, then `a + 3 = 5` can also be automatically verified, because the value of `a` is `2`, so `a + 3 = 2 + 3 = 5`.
+
+If verification passes at this step, then the fact is considered verified.
+
+If verification fails at this step, Litex will continue to try the next step.
 
 2. **Step 2: Search known facts**
 
@@ -95,6 +107,10 @@ For example, if we want to prove `1 + b = h`, we check whether `equalityMap["1+b
 
 Another example: if we want to prove `2 - 1 + b = h`, we find that `2-1+b` hasn't appeared before in the entire project, so there's no key for it in `equalityMap`. However, `equalityMap` has a key `"h"`, so we iterate through all symbols in `"h"`'s list to see if any equals `2-1+b`. If we find a match, it's verified. For example, when iterating through `{a, 1+b, f(c), h, 8+t}`, we find that `2-1+b = 1+b`, so it's verified.
 
+If verification passes at this step, then the fact is considered verified.
+
+If verification fails at this step, Litex will continue to try the next step.
+
 3. **Function names and all function parameters are equal**
 
 ```litex
@@ -110,6 +126,10 @@ How is `f(a) = g(b)` verified? There are no keys for `f(a)` and `g(b)` in `equal
 When both sides of the equality are function expressions rather than atoms, Litex recursively unwraps them, proving new equality facts. For example, here it proves `f = g`, then verifies that their parameters are equal, i.e., `a = b`.
 
 Since `f(a)` and `g(b)` are both function expressions, not atoms, we need to recursively unwrap them. First, we verify that the function heads `f` and `g` are equal, then verify that their parameters `a` and `b` are equal. If they all match, it's verified.
+
+If verification passes at this step, then the fact is considered verified.
+
+If verification fails at this step, Litex will continue to try the next step.
 
 4. **Verify using known `or` facts**
 
@@ -131,7 +151,10 @@ let a R:
 a = 2  # Verified by eliminating other possibilities
 ```
 
+**Internal Storage**: Litex internally maintains a `knownOrFactsMap` to store known `or` facts. For example, `knownOrFactsMap["="]` contains `{..., a = 1 or a = 2 or a = 3, ...}`. When we want to prove `a = 2`, Litex matches `a = 2` from the list in `knownOrFactsMap["="]`, specifically finding `a = 1 or a = 2 or a = 3` that contains `a = 2`. Then it verifies whether `not a = 1` and `not a = 3` are both true. If both are verified, then `a = 2` is proven.
+
 This elimination method works for any number of alternatives in an `or` statement. Litex systematically checks and eliminates each alternative until only one possibility remains, which must then be true.
+
 
 5. **Verify using known forall facts**
 
@@ -169,11 +192,13 @@ To prove `x = 2`, Litex follows this process:
 
 This combines the forall fact matching mechanism with the `or` elimination strategy: Litex first matches the forall pattern to extract the relevant `or` statement for the specific variable, then uses elimination to prove the desired equality.
 
+
+
 ## Summary
 
 Equality (`=`) is the most fundamental proposition in mathematics and Litex. All other propositions depend on equality for their definition and verification. Equality enables symbols that are literally different to have the same meaning, allowing substitution in any context.
 
-Litex verifies equality through a five-step process:
+Litex verifies equality through a six-step process:
 
 1. **Numeric Simplification**: If both sides are numeric expressions, simplify and compute them (using string matching, not floating-point arithmetic).
 
