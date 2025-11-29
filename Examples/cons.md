@@ -1,4 +1,5 @@
 ```litex
+"""
 have U nonempty_set
 have nil U
 fn l(p U) U => l(nil) = nil
@@ -21,14 +22,14 @@ know:
 
 prove_algo table_nth(x, p):
     if x = 1:
-        nth(1, p) = l(p)
-        return
+        return nth(1, p) = l(p)
     if x > 1:
-        nth(x, p) = nth(x-1, r(p))
-        by table_nth(x-1, r(p))
-        return
+        return:
+            nth(x, p) = nth(x-1, r(p))
+            by table_nth(x-1, r(p))
 
 have px U
 by table_nth(2, px)
 nth(2, px) = l(r(px))
+"""
 ```

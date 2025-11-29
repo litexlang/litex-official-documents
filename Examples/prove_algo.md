@@ -1,19 +1,19 @@
 ```litex
+"""
 prove:
     prop p(x R):
         x = 1
 
     prove_algo A(x):
         if x = 1:
-            $p(x)
-            return
+            return $p(x)
         if x != 1:
             claim:
                 not $p(x)
                 prove_by_contradiction:
                     $p(x)
                     x = 1
-            return
+            return not $p(x)
 
     have x R = 3
     by A(x): # open a local environment with x = 3, emit only x = 3 to the current environment
@@ -43,7 +43,9 @@ prove:
         e * c - b * f = e * a * x + e * b * y - (b * d * x + b * e * y) = (e * a - b * d) * x
         x = (e * c - b * f) / (e * a - b * d)
 
-        return
+        return:
+            y = (d * c - a * f) / (d * b - a * e)
+            x = (e * c - b * f) / (e * a - b * d)
 
     let x, y R:
         2 * x + 3 * y = 10
@@ -52,4 +54,7 @@ prove:
     by solve_linear_equation(2, 3, 10, 4, 5, 14, x, y):
         x = -4
         y = 6
+
+
+        """
 ```

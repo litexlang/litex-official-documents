@@ -111,7 +111,29 @@ When both sides of the equality are function expressions rather than atoms, Lite
 
 Since `f(a)` and `g(b)` are both function expressions, not atoms, we need to recursively unwrap them. First, we verify that the function heads `f` and `g` are equal, then verify that their parameters `a` and `b` are equal. If they all match, it's verified.
 
-4. **Verify using known forall facts**
+4. **Verify using known `or` facts**
+
+When we have a known fact of the form `a = v1 or a = v2 or ... or a = vn`, we can use it to prove `a = vi` for some specific `vi` by eliminating all other possibilities.
+
+**Example**: If we know `a = 1 or a = 2 or a = 3`, and we want to prove `a = 2`, Litex uses the following strategy:
+
+1. First, check if `not a = 1` is true
+2. Then, check if `not a = 3` is true
+3. If both `not a = 1` and `not a = 3` are verified, then `a = 2` must be true
+
+This is because if `a` can only be one of `1`, `2`, or `3`, and we've eliminated both `1` and `3` as possibilities, then `a` must equal `2`.
+
+```litex
+let a R:
+    a = 1 or a = 2 or a = 3
+    not a = 1
+    not a = 3
+a = 2  # Verified by eliminating other possibilities
+```
+
+This elimination method works for any number of alternatives in an `or` statement. Litex systematically checks and eliminates each alternative until only one possibility remains, which must then be true.
+
+5. **Verify using known forall facts**
 
 ```litex
 prop p(x, y R)
@@ -126,11 +148,32 @@ When we want to prove `a = b`, we iterate through all forall facts in `ForallFac
 
 If this method fails to prove `a = b`, Litex will try the same approach to prove `b = a` (since equality is symmetric).
 
+**Combining forall with `or` facts**: When a forall fact contains an `or` statement involving equality, Litex can use elimination to prove specific equality cases.
+
+**Example**: Suppose we have:
+```litex
+have set a = {1, 2, 3}
+forall x a: x = 1 or x = 2 or x = 3
+let x a:
+    not x = 1
+    not x = 3
+x = 2
+```
+
+To prove `x = 2`, Litex follows this process:
+
+1. First, it finds the relevant forall fact: `forall x a: x = 1 or x = 2 or x = 3`
+2. It substitutes the specific variable `x` into this forall statement, obtaining: `x = 1 or x = 2 or x = 3`
+3. It then applies the `or` elimination method: verify that `not x = 1` and `not x = 3` are both true
+4. Since all alternatives except `x = 2` have been eliminated, `x = 2` must be true
+
+This combines the forall fact matching mechanism with the `or` elimination strategy: Litex first matches the forall pattern to extract the relevant `or` statement for the specific variable, then uses elimination to prove the desired equality.
+
 ## Summary
 
 Equality (`=`) is the most fundamental proposition in mathematics and Litex. All other propositions depend on equality for their definition and verification. Equality enables symbols that are literally different to have the same meaning, allowing substitution in any context.
 
-Litex verifies equality through a four-step process:
+Litex verifies equality through a five-step process:
 
 1. **Numeric Simplification**: If both sides are numeric expressions, simplify and compute them (using string matching, not floating-point arithmetic).
 
@@ -138,6 +181,10 @@ Litex verifies equality through a four-step process:
 
 3. **Recursive Function Checking**: For function expressions, Litex recursively verifies that function names and all corresponding parameters are equal.
 
-4. **Forall Fact Matching**: Litex searches through known forall facts in `ForallFactMap` and attempts to match the equality statement by substituting variables and verifying conditions.
+4. **Or Fact Elimination**: When a known fact has the form `a = v1 or a = v2 or ... or a = vn`, Litex can prove `a = vi` by verifying that all other alternatives are false (i.e., `not a = vj` for all `j ≠ i`).
+
+5. **Forall Fact Matching**: Litex searches through known forall facts in `ForallFactMap` and attempts to match the equality statement by substituting variables and verifying conditions.
+
+6. **Combining forall with `or` facts**: When a forall fact contains an `or` statement involving equality, Litex can use elimination to prove specific equality cases.
 
 The special storage mechanism for equality (using equivalence sets) reflects its fundamental role: equality is not just another proposition, but the foundation that enables all mathematical reasoning through substitution and equivalence.
