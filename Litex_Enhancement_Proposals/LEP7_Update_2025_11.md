@@ -1,17 +1,51 @@
-litex 近期更新
+# Update 2025-11
 
-1. **函数定义与计算的一致性保证** (Definition-Computation Consistency Guarantee)关键词 algo
-    1. https://litexlang.com/doc/Tutorial/Algorithm_Evaluation
-2. **prove_algo** 将包含条件检查、计算步骤和推理的证明过程封装成可重用算法，通过 by 调用时执行这些步骤并自动得到结论，实现证明过程的模块化与复用。
-    1. 举例：证明某个数是素数，计算方程的根，在litex中定义类lisp的cons关键词
-    2. https://litexlang.com/doc/Tutorial/Prove_Algo
-3. 卡氏积(有限，无限）cart, cart_product
-    1. https://litexlang.com/doc/Tutorial/Set_Theory
-4. litex现支持中文、希腊文等非英文字母作为名称
-5. 从数学的观点看litex 
-    1. https://litexlang.com/doc/Tutorial/Litex_From_A_Mathematical_Perspective
-    2. 意在尝试说明litex的严谨性和完备性
+## New Keywords
 
-虽然一定存在软件上的bug，但litex的功能在工程上已经接近完备。工程归工程，现在litex缺少理论上的解释其严谨性和完备性。欢迎感兴趣的朋友欢迎交流。如果有想一同构建litex标准库、数据集、甚至搭建ai pipeline的朋友，也欢迎联系！：）
+1. **`algo`**: Used to define and execute functions like in programming, with the key difference that each execution step is verified. See: https://litexlang.com/doc/Tutorial/Algorithm_Evaluation
 
-how litex verify a fact
+2. **`prove_algo`**: Abstracts proof logic into reusable algorithms. When called with `by`, it executes the proof steps with different parameters using the same proof logic to obtain conclusions (i.e., the predicates in each statement of the proof remain unchanged, but the nouns are instantiated with the substituted parameters). See: https://litexlang.com/doc/Tutorial/Prove_Algo
+
+3. **`import`**: Import files or packages. See: https://litexlang.com/doc/Tutorial/Import
+
+## Major Features
+
+1. **Definition-Computation Consistency Guarantee** (keyword: `algo`)
+   - Ensures that function definitions and their computations are consistent
+   - Documentation: https://litexlang.com/doc/Tutorial/Algorithm_Evaluation
+
+2. **`prove_algo`** - Modular and Reusable Proof Process
+   - Encapsulates proof processes containing condition checks, computation steps, and reasoning into reusable algorithms
+   - When called with `by`, executes these steps and automatically obtains conclusions
+   - Examples: proving a number is prime, computing equation roots, defining Lisp-like `cons` keyword in Litex
+   - Documentation: https://litexlang.com/doc/Tutorial/Prove_Algo
+
+3. **Cartesian Product** (finite and infinite) - `cart`, `cart_product`
+   - Documentation: https://litexlang.com/doc/Tutorial/Set_Theory
+
+4. **Multi-language Support**
+   - Litex now supports Chinese, Greek, and other non-English characters as identifiers
+
+5. **Litex from a Mathematical Perspective**
+   - Documentation: https://litexlang.com/doc/Tutorial/Litex_From_A_Mathematical_Perspective
+   - Aims to explain Litex's rigor and completeness from a mathematical standpoint
+
+## Documentation Updates
+
+- Refined Litex theoretical framework
+- Partial formalization of high school mathematics textbooks in Litex
+
+## Current Status
+
+While software bugs may exist, Litex's functionality is approaching completeness from an engineering perspective. However, Litex currently lacks theoretical explanations of its rigor and completeness. We welcome discussions with interested researchers and practitioners.
+
+We also welcome contributions to:
+- Building Litex standard library
+- Creating datasets
+- Setting up AI pipelines
+
+For more information, please contact us at litexlang@outlook.com
+
+## Related Documentation
+
+- How Litex verifies a fact: See `How_Litex_Works/How_Factual_Statements_Are_Checked.md` and `How_Litex_Works/How_Equality_Is_Checked.md`

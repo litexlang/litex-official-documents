@@ -1,6 +1,8 @@
 # How Factual Statements Are Checked
 
-_If you know something is true for one thing, and that thing equals another, then it's true for the other too._
+_Logic will get you from A to B. Imagination will take you everywhere._
+
+_— Albert Einstein_
 
 ---
 
