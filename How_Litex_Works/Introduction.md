@@ -1,5 +1,11 @@
 # Introduction
 
+_Mathematics is the language with which God has written the universe._
+
+_— Galileo Galilei_
+
+---
+
 This folder explains **how Litex works internally**—specifically, how Litex implements its inference rules to derive new facts from known facts. While the Tutorial folder teaches you *how to use* Litex, this folder reveals *how Litex works* under the hood.
 
 ## What Are Inference Rules?

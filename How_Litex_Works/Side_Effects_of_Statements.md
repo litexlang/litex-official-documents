@@ -1,6 +1,8 @@
 # Side Effects of Statements
 
-_Every action has consequences, and every statement in Litex has side effects._
+_Before you speak, you are its master; after you speak, you are its slave._
+
+_— Chinese Proverb_
 
 ---
 

@@ -1,6 +1,6 @@
 # Set Theory: The Solid Foundation of Modern Mathematics
 
-_From the paradise that Cantor created for us, no one shall be be able to expel us._
+_From the paradise (set theory) that Cantor created for us, no one shall be be able to expel us._
 
 _— David Hilbert_
 
@@ -120,7 +120,17 @@ not (1 - 1) $in N_pos
 
 ## Cartesian Products
 
-The Cartesian product is a fundamental operation in set theory that allows us to combine sets to form ordered tuples. Litex provides two ways to work with Cartesian products: `cart` for fixed-arity products and `cart_prod` for products defined by an index set.
+The Cartesian product is a fundamental operation in set theory that allows us to combine sets to form ordered tuples. In mathematics, the Cartesian product of sets $X$ and $Y$, denoted $X \times Y$, is the set of all ordered pairs $(x, y)$ where $x \in X$ and $y \in Y$.
+
+More generally, for $n$ sets $X_1, X_2, \ldots, X_n$, their Cartesian product $X_1 \times X_2 \times \cdots \times X_n$ (also denoted $\prod_{i=1}^n X_i$) is the set of all ordered $n$-tuples $(x_1, x_2, \ldots, x_n)$ where $x_i \in X_i$ for each $i = 1, 2, \ldots, n$.
+
+**Mathematical Definition**: If $X$ and $Y$ are sets, then we define the Cartesian product $X \times Y$ to be the collection of ordered pairs, whose first component lies in $X$ and second component lies in $Y$:
+
+$$X \times Y := \{(x,y) : x \in X, y \in Y\}$$
+
+Equivalently, $a \in (X \times Y) \iff (\exists x \in X, \exists y \in Y, a = (x,y))$.
+
+Litex provides two ways to work with Cartesian products: `cart` for fixed-arity products and `cart_prod` for products defined by an index set.
 
 ### `cart`: Fixed-Arity Cartesian Products
 
@@ -128,7 +138,15 @@ The `cart` function creates a Cartesian product of a fixed number of sets. For s
 
 **Keywords**: `cart`, `$is_cart`, `dim`, `proj`, `coord`
 
-**Example**:
+**Built-in functions and predicates**:
+- `cart(X1, X2, ..., Xn)`: Creates the Cartesian product of sets $X_1, X_2, \ldots, X_n$
+- `$is_cart(x)`: A predicate that checks whether `x` is a Cartesian product
+- `dim(x)`: Returns the dimension (number of components) of a Cartesian product
+- `proj(x, i)`: Returns the $i$-th projection (the $i$-th component set) of a Cartesian product
+- `coord(a, x, i)`: Returns the $i$-th coordinate of element `a` in Cartesian product `x`
+
+**Example 1: Three-Dimensional Cartesian Product**
+
 ```litex
 # Create a 3-fold Cartesian product: R × Q × Z
 have set x = cart(R, Q, Z)
@@ -144,8 +162,21 @@ let a x
 coord(a, x, 1) $in R
 coord(a, x, 2) $in Q
 coord(a, x, 3) $in Z
+```
 
-# 2-fold Cartesian product: R × Q
+**Explanation**:
+1. **`have set x = cart(R, Q, Z)`**: This creates a Cartesian product of three sets: the real numbers $\mathbb{R}$, the rational numbers $\mathbb{Q}$, and the integers $\mathbb{Z}$. The result is stored in `x`, which represents the set $\mathbb{R} \times \mathbb{Q} \times \mathbb{Z}$.
+2. **`$is_cart(x)`**: This verifies that `x` is indeed a Cartesian product. Litex can automatically verify this fact.
+3. **`dim(x) = 3`**: The dimension of `x` is 3, meaning it is a product of three sets. This corresponds to the number of arguments passed to `cart()`.
+4. **`proj(x, i)`**: Returns the $i$-th component set of the Cartesian product. For example, `proj(x, 1) = R`.
+5. **`let a x`**: This declares an element `a` that belongs to the Cartesian product `x`. Since `x = cart(R, Q, Z)`, the element `a` is an ordered triple $(a_1, a_2, a_3)$ where $a_1 \in \mathbb{R}$, $a_2 \in \mathbb{Q}$, and $a_3 \in \mathbb{Z}$.
+6. **`coord(a, x, i)`**: Extracts the $i$-th component of the ordered tuple `a` in the Cartesian product `x`. For example, `coord(a, x, 1) $in R` means the first coordinate of `a` belongs to $\mathbb{R}$.
+
+**Example 2: Two-Dimensional Cartesian Product**
+
+Litex can compute non-numeric values, such as the dimension of a Cartesian product:
+
+```litex
 $is_cart(cart(R, Q))
 let y cart(R, Q)
 dim(cart(R, Q)) = 2
@@ -154,11 +185,25 @@ coord(y, cart(R, Q), 2) $in Q
 ```
 
 **Explanation**:
-- `cart(X1, X2, ..., Xn)` creates an $n$-fold Cartesian product
-- `$is_cart(x)` checks if `x` is a Cartesian product
-- `dim(x)` returns the dimension (number of factors) of the Cartesian product
-- `proj(x, i)` returns the $i$-th projection (the $i$-th set in the product)
-- `coord(a, x, i)` returns the $i$-th coordinate of element `a` in Cartesian product `x`
+1. **`$is_cart(cart(R, Q))`**: This verifies that `cart(R, Q)` is a Cartesian product. Note that we can use `cart(R, Q)` directly without assigning it to a variable first.
+2. **`let y cart(R, Q)`**: This declares an element `y` in the Cartesian product $\mathbb{R} \times \mathbb{Q}$. The element `y` is an ordered pair $(y_1, y_2)$ where $y_1 \in \mathbb{R}$ and $y_2 \in \mathbb{Q}$.
+3. **`dim(cart(R, Q)) = 2`**: The dimension of `cart(R, Q)` is 2, since it is a product of two sets. Litex can compute this value directly.
+
+**Key Concepts**:
+
+- **Dimension**: The dimension of a Cartesian product is the number of sets being multiplied together. For example:
+  - `dim(cart(R, Q)) = 2` (two-dimensional)
+  - `dim(cart(R, Q, Z)) = 3` (three-dimensional)
+  - `dim(cart(X1, X2, ..., Xn)) = n` ($n$-dimensional)
+
+- **Projections**: The projection `proj(x, i)` returns the $i$-th component set of the Cartesian product `x`. For `x = cart(X1, X2, ..., Xn)`:
+  - `proj(x, 1) = X1`
+  - `proj(x, 2) = X2`
+  - ...
+  - `proj(x, n) = Xn`
+
+- **Coordinates**: For an element `a` in a Cartesian product `x = cart(X1, X2, ..., Xn)`, the coordinate `coord(a, x, i)` extracts the $i$-th component of `a`. The coordinate satisfies:
+  - `coord(a, x, i) $in proj(x, i)` for all valid indices $i$
 
 ### `cart_prod`: Indexed Cartesian Products
 
@@ -208,6 +253,16 @@ cart_prod_proj(cart_prod(N, kv2), 3) = kv2(3) = N
 **When to use which**:
 - Use `cart` when you have a fixed, small number of sets (e.g., `cart(R, Q, Z)`)
 - Use `cart_prod` when you need to define a product over an arbitrary index set, especially when the index set might be large or infinite
+
+**Applications**:
+
+Cartesian products are fundamental in mathematics and have many applications:
+
+1. **Coordinate Systems**: The Cartesian plane $\mathbb{R} \times \mathbb{R}$ is the foundation of analytic geometry.
+2. **Relations**: A relation from set $X$ to set $Y$ is a subset of $X \times Y$.
+3. **Functions**: A function $f: X \to Y$ can be viewed as a subset of $X \times Y$ with special properties.
+4. **Product Spaces**: In topology and analysis, Cartesian products form product spaces.
+5. **Multiple Variables**: When working with functions of multiple variables, the domain is often a Cartesian product.
 
 ## Power Set
 
@@ -435,5 +490,3 @@ Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), y
 **Note**: While Cartesian products are technically constructed from power set and separation axioms, they are such a fundamental construction that Litex provides direct support through `cart` and `cart_prod`.
 
 **Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations.
-
----

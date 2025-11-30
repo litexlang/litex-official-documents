@@ -6,10 +6,6 @@ _— 孔子 (Confucius)_
 
 ## Math is not a programming language, so is not Litex
 
-_Mathematics is the language with which God has written the universe._
-
-_— Galileo Galilei_
-
 Before we officially introduce you to Litex, I hope you can keep in mind that reasoning (or generally, math) is not a programming language, so is not Litex. Generally, math is used to explain something, and programming is used to implement something. There are huge gaps between reasoning and programming.
 
 | Feature              | Mathematics                                                                 | Programming                                                                    |

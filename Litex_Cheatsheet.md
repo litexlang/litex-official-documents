@@ -1,5 +1,11 @@
 # Litex Syntax Cheat Sheet
 
+_You can checkout any time you like but you can never leave._
+
+_— The Eagles, Hotel California_
+
+---
+
 ## Table of Contents
 1. [Basic Concepts](#basic-concepts)
 2. [Object Declaration](#object-declaration)

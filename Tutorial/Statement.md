@@ -1,5 +1,8 @@
 # Statements: The Building Blocks of Litex
 
+_不积跬步无以至千里 (Without single small steps, you cannot reach far.)_
+
+_— 老子 (Lao Tzu)_
 
 ---
 
@@ -7,7 +10,7 @@
 
 ### Introduction
 
-In this section, we'll explore what happens when you write a statement in Litex. Every statement produces an outcome, and understanding these outcomes is crucial for writing correct Litex code. By the end of this section, you'll know the three possible outcomes of statements and how to interpret them.
+In this section, we'll explore what happens when you write a statement in Litex. Every statement produces an outcome, and understanding these outcomes is crucial for writing correct Litex code. By the end of this section, you'll know the three possible outcomes of statements and how to interpret them. Proofs in Litex are formed by creatively and accurately combining many, many statements together.
 
 ### From Natural Language to Litex
 
@@ -90,8 +93,6 @@ know a > 0 # assertion of facts → true (if successful)
 ### Understanding Statement Outputs
 
 Notice that these three kinds of outputs are produced by the Litex kernel **to the outside world of Litex**. They are not passed along to other Litex statements. This is different from programming: in programming, a statement's output can often be used as the input of another statement (for example, in Python the result of `1 != 2` can be stored in a variable, and that variable can then be passed as a parameter to another statement).
-
-Just like the song "Hotel California" says: "You can checkout any time you like but you can never leave.", you can see whether a statement is true, unknown, or error by yourself, but that return value of the statement is not passed along to other statements.
 
 **Natural Language Analogy**: When you read a mathematical statement, you register in your mind whether it's correct, incorrect, or ill-formed—rather than writing it down as an intermediate value for the next sentence to consume.
 
