@@ -1,8 +1,8 @@
 # Predicate: The Verbs of Logic
 
-_Life lies in movement._
+_Geometry, like arithmetic, requires for its logical development only a small number of simple, fundamental principles._
 
-_- Voltaire_
+_— David Hilbert_
 
 ---
 
@@ -10,7 +10,7 @@ _- Voltaire_
 
 ### Introduction
 
-In this section, we'll explore **predicates**—the "verbs" of mathematical logic. Just as sentences in natural language have subjects and verbs, mathematical statements have objects (nouns) and predicates (verbs). By the end of this section, you'll understand what predicates are, how they differ from functions, and how to define and use them. It is verbs that gives meanings to sentences.
+In this section, we'll explore **predicates**—the "verbs" of mathematical logic. Just as sentences in natural language have subjects and verbs, mathematical statements have objects (nouns) and predicates (verbs). By the end of this section, you'll understand what predicates are, how they differ from functions, and how to define and use them. It is verbs that gives meanings to sentences. After all, without them, what would we use to judge right and wrong?
 
 ### From Natural Language to Litex
 

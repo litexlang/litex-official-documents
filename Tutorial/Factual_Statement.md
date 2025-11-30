@@ -1,8 +1,10 @@
 # Factual Statements
 
-_Geometry, like arithmetic, requires for its logical development only a small number of simple, fundamental principles._
+_The more I know, the more I realize I know nothing._
 
-_— David Hilbert_
+_— Socrates_
+
+---
 
 Euclid showed us over 2000 years ago how 5 axioms could derive such a wonderful geometric world. Simple starting points often lead us into infinitely complex worlds. The same is true for mathematics. The foundation of modern mathematics is naive set theory, which doesn't have many axioms, and we even encountered the concept of sets in middle school. But it is precisely these simple and understandable rules that form the foundation of all mathematics. Before we move on, think about how powerful the idea is: with just very few absolutely accurate inference rules, plus a few axioms, we can derive a rich and diverse mathematical world. That is what math is all about.
 

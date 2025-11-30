@@ -6,6 +6,8 @@ _-— Plato_
 
 ## Key Difference between Math and Programming: You must prove the existence of an object before using it.
 
+We must have objects to work with before we can process them. However, we cannot introduce nouns arbitrarily like we can introduce predicates. For example, we cannot arbitrarily extract an object from an empty set, nor can we introduce something that is both positive and negative at the same time. Therefore, we need to prove the existence of objects.
+
 When programming, say in Python, we are so familiar with declaring an object directly and using it directly. For example:
 
 ```python
