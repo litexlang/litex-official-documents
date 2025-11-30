@@ -1,7 +1,7 @@
-# Litex: Mathematical Principles Corresponding to ZFC Axioms
+# How Litex Corresponds to ZFC Axioms
 
 <div align="center">
-<img src="https://publisher.litexlang.org/litex_art_logo1.PNG" alt="The Litex Logo" width="300">
+<img src="https://publisher.litexlang.org/litex_art_logo1.png" alt="The Litex Logo" width="300">
 </div>
 
 _Mathematics is nothing more than a game played according to certain simple rules with meaningless marks on a paper._
