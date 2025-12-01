@@ -59,6 +59,8 @@ Some people find it helpful to think of a predicate this way: if it were in a no
 - **Programming (Python)**: `result = is_positive(5)` → `result` can be used in `if result: ...`
 - **Litex**: `$is_positive(5)` → The outcome (true/unknown/error) is observed but not passed along
 
+**Note**: For a deeper understanding of how Litex fundamentally differs from programming languages, see [How Litex Works: Introduction](../How_Litex_Works/Introduction.md).
+
 **Set as Type: Generics in Litex**
 
 Since `set` in Litex serves the role that types play in languages like C++ and TypeScript, when you specify a `set` as a parameter in a `prop`, you're essentially doing generics (template programming).

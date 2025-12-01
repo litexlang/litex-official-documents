@@ -46,6 +46,25 @@ e.g. `0 > 1` is unknown. Actually it is false. In Litex, `unknown` is used in tw
 
 e.g. `let birthday R: birthday = 2003.4.2` is error because `2003.4.2` is not a real number.
 
+## Litex's Fundamental Difference from Programming Languages
+
+**⚠️ Important**: It's crucial to understand that **Litex works fundamentally differently from programming languages**:
+
+1. **Litex is not for execution**: Unlike programming languages that execute code to perform computations, Litex is designed for **reasoning and verification**. It doesn't compute values—it verifies mathematical statements.
+
+2. **Litex is not for calculating**: You don't write Litex code to calculate a number or produce a result. Instead, you write Litex code to **establish and verify facts**.
+
+3. **Every statement has three possible outcomes**:
+   - **`true`**: The statement is verified or successfully executed
+   - **`error`**: The statement is syntactically invalid or uses undeclared objects
+   - **`unknown`**: The statement cannot be verified. This means either:
+     - The statement is false (but Litex doesn't have enough information to prove it false), or
+     - The current knowledge is insufficient to determine the truth value
+
+4. **No value flow**: Unlike programming languages where function return values flow into other computations, Litex statement outcomes are **observed but never passed along** to other statements. Each statement stands alone in establishing facts.
+
+**The core purpose of Litex**: To verify mathematical reasoning, not to compute values. Every statement you write is about establishing whether something is true, not about calculating what something equals.
+
 ### Important Distinctions
 
 Don't confuse a **Factual Statement** with a *true statement*. A Factual Statement might just as well be false, unknown, or even an error.
@@ -730,3 +749,4 @@ $product_zero_implies_or(a,b)
 ### Bonus: The Completeness of Facts
 
 With specific facts, universal facts, existential facts, negation, and disjunction, we can express virtually any mathematical statement. This completeness is what makes Litex so powerful—it can capture the full richness of mathematical reasoning while remaining simple and intuitive.
+
