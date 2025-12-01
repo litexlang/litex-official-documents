@@ -22,6 +22,8 @@ Axioms are the starting points of Litex's verification system. They are the most
 
 With 1. axioms, i.e. facts we assume to be true, and 2. inference rules, i.e. a mechanism to derive new facts from existing ones, we can build a whole mathematical world. Litex implements these axioms and inference rules to verify mathematical statements.
 
+Great news: when a factual statement is verified, litex prints out how the fact is verified. So you can know exactly how the fact is verified. This can be very helpful when you are debugging your proofs. AIs can also use this to improve their proof writing capabilities.
+
 ## What This Folder Covers
 
 This folder documents:
@@ -61,4 +63,6 @@ Understanding how Litex works internally helps you:
 
 **The core purpose of Litex**: To verify mathematical reasoning, not to compute values. Every statement you write is about establishing whether something is true, not about calculating what something equals.
 
-Also, Litex can not write proof for you, it just helps you verify the correctness of your own proofs. Just like how a calculator executes a mathematical formula based on a given set of rules and prints the result, litex executes your statements based on the given axioms and inference rules and prints the result.
+In short, just like how a calculator executes a mathematical formula based on a given set of rules and prints the result, litex executes your statements based on the given axioms and inference rules and prints the result: true, unknown, or error. When a factual statement is verified, it also prints out how the fact is verified.
+
+Litex can not write proof for you, it just helps you verify the correctness of your own proofs. 
