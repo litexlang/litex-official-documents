@@ -12,82 +12,143 @@ Litex has invested tremendous effort—indeed, most of its effort—into improvi
 
 The core philosophy behind Litex's automatic derivation is simple: **mathematics should feel natural, not mechanical**. When you write mathematics on paper, you don't manually track every single equality relation or substitution—your mind automatically connects related facts. Litex does the same: it automatically maintains equivalence sets, performs substitutions, simplifies expressions, and derives new facts from known ones, all behind the scenes, so you can focus on the mathematics itself.
 
-基本的工作原理是：1. 验证factual statement 2. 保存这个 factual statement 3. 自动从这个factual statement 推理出来什么东西（我们称之为知道某个事实后的后处理）。如果是用 know 或者 let 时，验证的过程即第一步跳过了。
+The fundamental working principle is: 1. Verify the factual statement 2. Save this factual statement 3. Automatically derive something from this factual statement (we call this post-processing after knowing a fact). When using `know` or `let`, the verification step (step 1) is skipped.
+
+Although Litex has many, many built-in techniques provided by the kernel to make proofs more convenient, you don't need to remember them all. Essentially, you only need to remember: 1. When Litex encounters statements that are entirely numeric (and polynomial), it processes them the way humans do in everyday situations. 2. Litex's fundamental working principle is match and substitution—when verifying, it replaces all related symbols with equal symbols to verify. Even without relying on these techniques, we can prove all facts.
 
 ---
 
-# 方法1：在保存好特定事实后，如果这个事实符合某种特性，那么或许可以推理出来什么东西
+## Method 1: Post-Processing After Saving Specific Facts
 
-下面是一些语句，和他们对应的自动生成
+If a fact matches certain characteristics after being saved, Litex can automatically derive additional facts from it.
 
-1. a = {1, 2, 3} 的后处理 （比如 have set a = {1, 2, 3}）：
+Below are some statements and their corresponding automatic derivations:
 
-自动成立：
-1. a $in set 
-2. forall x obj: x $in a <=> x = 1 or x = 2 or x = 3 成立
+### 1. Post-processing for `a = {1, 2, 3}` (e.g., `have set a = {1, 2, 3}`)
 
-2. x = cart(R, Q, Z) (比如 have set x = cart(R, Q, Z))
+The following facts are automatically established:
+1. `a $in set`
+2. `forall x obj: x $in a <=> x = 1 or x = 2 or x = 3`
 
-自动成立
-1. $is_cart(x)
-2. dim(x) = 3
-3. proj(x, 1) = R
-4. proj(x, 2) = Q
-5. proj(x, 3) = Z
-6. x $in set
+### 2. Post-processing for `x = cart(R, Q, Z)` (e.g., `have set x = cart(R, Q, Z)`)
 
-# 方法2：如果一个事实符合某些条件，那么就有额外的特殊的验证方式
+The following facts are automatically established:
+1. `$is_cart(x)`
+2. `dim(x) = 3`
+3. `proj(x, 1) = R`
+4. `proj(x, 2) = Q`
+5. `proj(x, 3) = Z`
+6. `x $in set`
 
-1. 如果等号或不等号左右两边全是数字表达式，那么litex会帮你计算
+### 3. Defining `prop` Predicates
 
-例子：
+If you define a `prop` predicate, Litex automatically knows that the predicate is equivalent to its `iffFacts`.
 
+```litex
+prop p(x R):
+    $q(x)
+    <=>:
+        $t(x)
+```
+
+After this definition, Litex automatically saves the following fact:
+
+```litex
+forall x R:
+    $q(x)
+    =>:
+        $p(x)
+    <=>:
+        $t(x)
+```
+
+### 4. a = {x parent_set: fact1, fact2, ...}
+
+即：a = {x parent_set: fact1, fact2, ...} 会自动生成 `a $in set`,`forall x parent_set: fact1, fact2, ... <=> x $in a`
+
+举例：`have set a = {x R: x > 0}`
+```litex
+have set a = {x R: x > 0}
+```
+
+The following facts are automatically established:
+1. `a $in set`
+2. `forall x R: x > 0 <=> x $in a`
+
+## Method 2: Special Verification Methods for Facts Matching Certain Conditions
+
+If a fact matches certain conditions, Litex provides additional special verification methods.
+
+### 1. Numeric Expression Computation
+
+If both sides of an equality or inequality are entirely numeric expressions, Litex will compute them for you.
+
+**Examples:**
+
+```litex
 1 + 1 = 2
 4 * 2 - 10 = -2 + (7 - 7)
 7^2 = 49
 2 / 3 = 4 / 6
+```
 
-加减乘的运算是用字符串去做计算（不是浮点数），所以理论上100位加100位在litex是可行的，甚至可以说是运算很快的
+Addition, subtraction, and multiplication operations use string-based computation (not floating-point arithmetic), so theoretically, adding 100-digit numbers in Litex is feasible and can be quite fast.
 
-如果指数项是正整数，那我也帮你算出来。如果不是整数，那就不变
+If the exponent is a positive integer, Litex will compute it. If it's not an integer, it remains unchanged.
 
-除号的验证并不是计算浮点数，而是会用除号的性质，把等式化成左右两边都是乘号和加号和指数的等号（a / b = c / d 化成 a * d = b * d。这里b和d不能是0），比如 2 / 3 = 4 / 6 先化成 2 * 6 = 3 * 4 这样。然后证明加减乘。
+Division verification does not compute floating-point values. Instead, it uses the properties of division to transform the equation into an equality with only multiplication, addition, and exponentiation on both sides (`a / b = c / d` becomes `a * d = b * c`, where `b` and `d` cannot be 0). For example, `2 / 3 = 4 / 6` is first transformed into `2 * 6 = 3 * 4`, and then addition, subtraction, and multiplication are verified.
 
+```litex
 2 > 1
-- 3 * 8 <= 0
+-3 * 8 <= 0
+```
 
-不等号的验证和等号的验证类似，也是用字符串去做计算（不是浮点数），然后验证。
+Inequality verification is similar to equality verification—it also uses string-based computation (not floating-point arithmetic) and then verifies.
 
-2. 如果左右两边全是多项式的加减乘除指数，那把左右两边约化
+### 2. Polynomial Reduction
 
-2.1 不含除号
+If both sides are entirely polynomial expressions (addition, subtraction, multiplication, division, exponentiation), Litex reduces both sides.
 
+#### 2.1 Without Division
+
+```litex
 (x + 1) * (x + 1) = x * x + 2 * x + 1
+```
 
-因为litex如果看到这种式子，会帮你自动化简成最简形式（按字典序排列的加法式子）（x * x + 2 * x + 1），然后帮你验证这个等式。如果左右两边的最简形态是一样的，那么等式就成立了。
+When Litex sees such expressions, it automatically simplifies them to their canonical form (addition expressions sorted in dictionary order, like `x * x + 2 * x + 1`), and then verifies the equality. If the canonical forms of both sides are the same, the equality is established.
 
-2.2 含除号
+#### 2.2 With Division
 
+```litex
 (x + 1) * (x + 1) / y = x * x + 2 * x + 1 / (y + 1 - 1)
+```
 
-先化成乘法式子，然后约化，上面的式子等价于
+First, it is transformed into a multiplication expression, then reduced. The above expression is equivalent to:
 
+```litex
 (x + 1) * (x + 1) * (y + 1 - 1) = (x * x + 2 * x + 1) * y
+```
 
-3. 如果左边或者右边的符号有数值，那么litex会帮你验证这个等式
+### 3. Symbol Value Substitution
 
-例子：
+If symbols on the left or right side have numeric values, Litex will help verify the equality.
 
+**Examples:**
+
+```litex
 1 + 1 = 2
 4 * 2 - 10 = -2 + (7 - 7)
 7^2 = 49
 2 / 3 = 4 / 6
+```
 
-4. 如果左边或者右边的符号有对应的值，那么litex会帮你验证这个等式
+### 4. Automatic Verification Using Symbol Values
+
+If symbols on the left or right side have corresponding values, Litex will help verify the equality.
 
 ```litex
 have a R = 1
 a > 0
 ```
 
-因为 1 是 a 的值，所以 a > 0 会因为已知 a = 1 而自动成立，a > 0 被替换成 1 > 0，然后验证 1 > 0 成立。
+Since `1` is the value of `a`, `a > 0` is automatically established because `a = 1` is known. `a > 0` is replaced with `1 > 0`, and then `1 > 0` is verified to be true.

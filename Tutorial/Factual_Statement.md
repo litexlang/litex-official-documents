@@ -750,3 +750,4 @@ $product_zero_implies_or(a,b)
 
 With specific facts, universal facts, existential facts, negation, and disjunction, we can express virtually any mathematical statement. This completeness is what makes Litex so powerful—it can capture the full richness of mathematical reasoning while remaining simple and intuitive.
 
+Although Litex has many, many built-in techniques provided by the kernel to make proofs more convenient, you don't need to remember them all. Essentially, you only need to remember: 1. When Litex encounters statements that are entirely numeric (and polynomial), it processes them the way humans do in everyday situations. 2. Litex's fundamental working principle is match and substitution—when verifying, it replaces all related symbols with equal symbols to verify. Even without relying on these techniques, we can prove all facts.

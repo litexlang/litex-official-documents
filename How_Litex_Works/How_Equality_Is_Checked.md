@@ -64,12 +64,12 @@ When proving equality, Litex tries each step in order from the first to the last
 
 Litex's fundamental working logic is to iterate through a fixed set of verification strategies. As long as verification passes under any strategy, the fact is considered verified. If all strategies fail to verify, then the fact is considered unverified. Failure to verify does not necessarily mean the statement is incorrect; it only means that Litex has not found a method to prove the fact.
 
--1. Step -1: 检查整个等式左右两边出现的函数是不是都读入了在domain的
+**Step -1: Check that all functions appearing on both sides of the equality have arguments in their domains**
 
-比如，+, -, *, / 在litex里只能读入R中的元素做参数，如果一个元素不是实数，比如R自己，是不能出现在算式里的
+For example, `+`, `-`, `*`, `/` in Litex can only take elements from `R` as parameters. If an element is not a real number, such as `R` itself, it cannot appear in arithmetic expressions.
 
-```
-R + R # ? 什么意思，什么是两个实数集合相加？报错！
+```litex
+R + R # Error! What does it mean to add two sets of real numbers?
 ```
 
 0. **Step 0: left-hand-side and right-hand-side are the same
@@ -85,7 +85,7 @@ a = a
 
 ## Symbol Values
 
-If both sides of the equality are numeric expressions (形如2, 1.5, 2/3 而不是 a, a + c, f(b) 这样), or symbols with numeric values, Litex simplifies and actually computes them.
+If both sides of the equality are numeric expressions (such as `2`, `1.5`, `2/3`, but not `a`, `a + c`, `f(b)`), or symbols with numeric values, Litex simplifies and actually computes them.
 
 **Note**: This is string matching, not floating-point arithmetic. When division doesn't result in an integer, the `/` is preserved. For example, `2/3 = 4/6` is not verified by computing the actual values, but by proving that `3 * 4 = 2 * 6`.
 
@@ -214,37 +214,49 @@ To prove `x = 2`, Litex follows this process:
 
 This combines the forall fact matching mechanism with the `or` elimination strategy: Litex first matches the forall pattern to extract the relevant `or` statement for the specific variable, then uses elimination to prove the desired equality.
 
-# Special Properties
+## Special Properties
 
-1. 如果symbol有对应的值
+### 1. Symbols with Corresponding Values
 
-Numeric values are special. If in a known fact `a = b`, either `a` or `b` is entirely a numeric expression (such as `a = 2`, `b = 1 / 7`, `f(x, y) = 11 / 8 * 9 + 3`), then Litex stores this numeric expression as the symbol's value. The ValueMap["a"] = 2, ValueMap["b"] = 1 / 7, ValueMap["f(x,y)"] = 11 / 8 * 9 + 3 will be stored.
+Numeric values are special. If in a known fact `a = b`, either `a` or `b` is entirely a numeric expression (such as `a = 2`, `b = 1 / 7`, `f(x, y) = 11 / 8 * 9 + 3`), then Litex stores this numeric expression as the symbol's value. The `ValueMap["a"] = 2`, `ValueMap["b"] = 1 / 7`, `ValueMap["f(x,y)"] = 11 / 8 * 9 + 3` will be stored.
 
 **Note**: The working principle of `ValueMap` described here is the same as in the Litex kernel, but the actual implementation details may differ because the kernel uses various optimization techniques. However, the fundamental working logic remains consistent. 
 
 For example, if we previously know `a = 2`, then `a + 3 = 5` can also be automatically verified, because the kernel finds the value of `a` is `2` in the ValueMap, so `a + 3 = 2 + 3 = 5`.
 
-2. 如果左右两边全是多项式的加减乘除指数，那把左右两边约化
+### 2. Polynomial Reduction
 
-2.1 不含除号
+If both sides are entirely polynomial expressions (addition, subtraction, multiplication, division, exponentiation), Litex reduces both sides.
 
+#### 2.1 Without Division
+
+```litex
 (x + 1) * (x + 1) = x * x + 2 * x + 1
+```
 
-因为litex如果看到这种式子，会帮你自动化简成最简形式（按字典序排列的加法式子）（x * x + 2 * x + 1），然后帮你验证这个等式。如果左右两边的最简形态是一样的，那么等式就成立了。
+When Litex sees such expressions, it automatically simplifies them to their canonical form (addition expressions sorted in dictionary order, like `x * x + 2 * x + 1`), and then verifies the equality. If the canonical forms of both sides are the same, the equality is established.
 
-2.2 含除号
+#### 2.2 With Division
 
+```litex
 (x + 1) * (x + 1) / y = x * x + 2 * x + 1 / (y + 1 - 1)
+```
 
-先化成乘法式子，然后约化，上面的式子等价于
+First, it is transformed into a multiplication expression, then reduced. The above expression is equivalent to:
 
+```litex
 (x + 1) * (x + 1) * (y + 1 - 1) = (x * x + 2 * x + 1) * y
+```
 
 ## Summary
 
 Equality (`=`) is the most fundamental proposition in mathematics and Litex. All other propositions depend on equality for their definition and verification. Equality enables symbols that are literally different to have the same meaning, allowing substitution in any context.
 
-Litex verifies equality through a six-step process:
+Litex verifies equality through a multi-step process:
+
+**Step -1**: Check that all functions appearing on both sides have arguments in their domains.
+
+**Step 0**: If the left-hand side and right-hand side are the same, the equality is verified.
 
 1. **Numeric Simplification**: If both sides are numeric expressions, simplify and compute them (using string matching, not floating-point arithmetic).
 
@@ -257,5 +269,9 @@ Litex verifies equality through a six-step process:
 5. **Forall Fact Matching**: Litex searches through known forall facts in `ForallFactMap` and attempts to match the equality statement by substituting variables and verifying conditions.
 
 6. **Combining forall with `or` facts**: When a forall fact contains an `or` statement involving equality, Litex can use elimination to prove specific equality cases.
+
+Additionally, Litex has special handling for:
+- **Symbols with numeric values**: When a symbol has a stored numeric value, Litex automatically substitutes it during verification.
+- **Polynomial expressions**: Litex automatically reduces polynomial expressions to canonical form for comparison.
 
 The special storage mechanism for equality (using equivalence sets) reflects its fundamental role: equality is not just another proposition, but the foundation that enables all mathematical reasoning through substitution and equivalence.
