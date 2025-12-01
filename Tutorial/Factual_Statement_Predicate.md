@@ -49,6 +49,51 @@ In `1 > 0`, `1 > 0` is a factual statement, `>` is a predicate. A factual statem
 
 **Think in this way**: In everyday expressions, there are subjects and predicates; whereas in reasoning language, a *predicate* functions like a verb, its parameters are the subjects. The outcome of this action can only be **true, unknown, error, or false**.
 
+### Understanding Predicates through Programming Analogies
+
+**Predicate as a Boolean Function**
+
+Some people find it helpful to think of a predicate this way: if it were in a normal programming language, it would be a function with a return type of `bool`, except that its return value is never used by other statements. This analogy is quite good—it captures the essence that predicates evaluate to true or false, but unlike programming functions, their return values don't flow into other computations.
+
+**Example comparison**:
+- **Programming (Python)**: `result = is_positive(5)` → `result` can be used in `if result: ...`
+- **Litex**: `$is_positive(5)` → The outcome (true/unknown/error) is observed but not passed along
+
+**Set as Type: Generics in Litex**
+
+Since `set` in Litex serves the role that types play in languages like C++ and TypeScript, when you specify a `set` as a parameter in a `prop`, you're essentially doing generics (template programming).
+
+**Comparison**:
+- **C++ template**:
+
+```
+template<typename T>
+bool v(T a, B b) {
+    ...
+}
+```
+
+- **Litex**: 
+
+```litex
+prop v(T set, a T, b B)
+```
+
+In both cases, you're defining a generic predicate/function that works for any type/set `T`. The `set` parameter in Litex acts like the type parameter in C++ templates, allowing you to write generic predicates that work across different sets.
+
+**Example**:
+```litex
+# Generic predicate that works for any set T
+prop is_element_of(T set, x T, s set):
+    x $in s
+
+# Can be used with different sets
+$is_element_of(N, 5, N)      # T = N
+$is_element_of(R, 3.14, R)    # T = R
+```
+
+This design makes Litex predicates powerful and reusable, similar to how generics make programming functions more flexible.
+
 ### Summary
 
 - Predicates are the "verbs" of mathematical logic
@@ -512,3 +557,4 @@ As you can see, this example is not that "math". Reasoning happen everywhere and
 ### Bonus: Relations in Everyday Life
 
 Relations aren't just mathematical abstractions—they appear everywhere in our daily lives. Friendships, leadership, preferences—all of these can be modeled as relations with specific properties. Litex lets you formalize and reason about these relationships just as you would mathematical ones.
+
