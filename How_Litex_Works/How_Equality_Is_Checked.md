@@ -64,7 +64,7 @@ When proving equality, Litex tries each step in order from the first to the last
 
 Litex's fundamental working logic is to iterate through a fixed set of verification strategies. As long as verification passes under any strategy, the fact is considered verified. If all strategies fail to verify, then the fact is considered unverified. Failure to verify does not necessarily mean the statement is incorrect; it only means that Litex has not found a method to prove the fact.
 
-**Step -1: Check that all functions appearing on both sides of the equality have arguments in their domains**
+**Step 1: Check that all functions appearing on both sides of the equality have arguments in their domains**
 
 For example, `+`, `-`, `*`, `/` in Litex can only take elements from `R` as parameters. If an element is not a real number, such as `R` itself, it cannot appear in arithmetic expressions.
 
@@ -72,7 +72,7 @@ For example, `+`, `-`, `*`, `/` in Litex can only take elements from `R` as para
 R + R # Error! What does it mean to add two sets of real numbers?
 ```
 
-0. **Step 0: left-hand-side and right-hand-side are the same
+**Step 2: left-hand-side and right-hand-side are the same**
 
 ```litex
 have a R
@@ -81,7 +81,7 @@ a = a
 
 `a = a` is because left hand side and right hand side of equality are the same. This is the most fundamental way of proving equality.
 
-1. **Step 1: Simplify numeric expressions**
+**Step 3: Simplify numeric expressions**
 
 ## Symbol Values
 
@@ -93,7 +93,7 @@ If verification passes at this step, then the fact is considered verified.
 
 If verification fails at this step, Litex will continue to try the next step.
 
-2. **Step 2: Search known facts**
+**Step 4: Search known facts**
 
 Before searching known facts, we need to understand how Litex stores equality facts. The storage method for equality facts differs from other facts because equality has special properties such as transitivity and symmetry.
 
@@ -129,7 +129,7 @@ If verification passes at this step, then the fact is considered verified.
 
 If verification fails at this step, Litex will continue to try the next step.
 
-3. **Function names and all function parameters are equal**
+**Step 5: Function names and all function parameters are equal**
 
 ```litex
 have fn f(a R) R = a
@@ -149,7 +149,7 @@ If verification passes at this step, then the fact is considered verified.
 
 If verification fails at this step, Litex will continue to try the next step.
 
-4. **Verify using known `or` facts**
+**Step 6: Verify using known `or` facts**
 
 When we have a known fact of the form `a = v1 or a = v2 or ... or a = vn`, we can use it to prove `a = vi` for some specific `vi` by eliminating all other possibilities.
 
@@ -175,8 +175,7 @@ a = 2  # Verified by eliminating other possibilities
 
 This elimination method works for any number of alternatives in an `or` statement. Litex systematically checks and eliminates each alternative until only one possibility remains, which must then be true.
 
-
-5. **Verify using known forall facts**
+**Step 7: Verify using known forall facts**
 
 ```litex
 prop p(x, y R)
@@ -267,21 +266,19 @@ Equality (`=`) is the most fundamental proposition in mathematics and Litex. All
 
 Litex verifies equality through a multi-step process:
 
-**Step -1**: Check that all functions appearing on both sides have arguments in their domains.
+**Step 1**: Check that all functions appearing on both sides have arguments in their domains.
 
-**Step 0**: If the left-hand side and right-hand side are the same, the equality is verified.
+**Step 2**: If the left-hand side and right-hand side are the same, the equality is verified.
 
-1. **Numeric Simplification**: If both sides are numeric expressions, simplify and compute them (using string matching, not floating-point arithmetic).
+**Step 3**: **Numeric Simplification**: If both sides are numeric expressions, simplify and compute them (using string matching, not floating-point arithmetic).
 
-2. **Equivalence Set Lookup**: Litex maintains an `equalityMap` that stores equivalence sets. Two symbols are equal if they belong to the same equivalence set. When new equalities are proven, equivalence sets are merged accordingly.
+**Step 4**: **Equivalence Set Lookup**: Litex maintains an `equalityMap` that stores equivalence sets. Two symbols are equal if they belong to the same equivalence set. When new equalities are proven, equivalence sets are merged accordingly.
 
-3. **Recursive Function Checking**: For function expressions, Litex recursively verifies that function names and all corresponding parameters are equal.
+**Step 5**: **Recursive Function Checking**: For function expressions, Litex recursively verifies that function names and all corresponding parameters are equal.
 
-4. **Or Fact Elimination**: When a known fact has the form `a = v1 or a = v2 or ... or a = vn`, Litex can prove `a = vi` by verifying that all other alternatives are false (i.e., `not a = vj` for all `j ≠ i`).
+**Step 6**: **Or Fact Elimination**: When a known fact has the form `a = v1 or a = v2 or ... or a = vn`, Litex can prove `a = vi` by verifying that all other alternatives are false (i.e., `not a = vj` for all `j ≠ i`).
 
-5. **Forall Fact Matching**: Litex searches through known forall facts in `ForallFactMap` and attempts to match the equality statement by substituting variables and verifying conditions.
-
-6. **Combining forall with `or` facts**: When a forall fact contains an `or` statement involving equality, Litex can use elimination to prove specific equality cases.
+**Step 7**: **Forall Fact Matching**: Litex searches through known forall facts in `ForallFactMap` and attempts to match the equality statement by substituting variables and verifying conditions. When a forall fact contains an `or` statement involving equality, Litex can use elimination to prove specific equality cases.
 
 Additionally, Litex has special handling for:
 - **Symbols with numeric values**: When a symbol has a stored numeric value, Litex automatically substitutes it during verification.
