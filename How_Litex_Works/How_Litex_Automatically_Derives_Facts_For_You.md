@@ -62,11 +62,12 @@ forall x R:
         $t(x)
 ```
 
-### 4. a = {x parent_set: fact1, fact2, ...}
+### 4. Post-processing for `a = {x parent_set: fact1, fact2, ...}`
 
-即：a = {x parent_set: fact1, fact2, ...} 会自动生成 `a $in set`,`forall x parent_set: fact1, fact2, ... <=> x $in a`
+That is: `a = {x parent_set: fact1, fact2, ...}` automatically generates `a $in set` and `forall x parent_set: fact1, fact2, ... <=> x $in a`.
 
-举例：`have set a = {x R: x > 0}`
+**Example**: `have set a = {x R: x > 0}`
+
 ```litex
 have set a = {x R: x > 0}
 ```
@@ -74,6 +75,73 @@ have set a = {x R: x > 0}
 The following facts are automatically established:
 1. `a $in set`
 2. `forall x R: x > 0 <=> x $in a`
+
+### 5. `iff` Facts
+
+When saving a fact of the form `forall x set1, x set2, ...: domFact1, domFact2, ... => thenFact1, thenFact2, ... <=> iffFact1, iffFact2, ...`, Litex actually saves the following two facts:
+
+1. `forall x set1, x set2, ...: domFact1, domFact2, ..., thenFact1, thenFact2, ... => iffFact1, iffFact2, ...`
+
+2. `forall x set1, x set2, ...: domFact1, domFact2, ..., iffFact1, iffFact2, ... => thenFact1, thenFact2, ...`
+
+```litex
+prop p(x, y R)
+prop q(x, y R)
+prop r(x, y R)
+know:
+    forall x, y R:
+        $p(x, y)
+        =>:
+            $q(x, y)
+        <=>:
+            $r(x, y)
+```
+
+This is equivalent to:
+
+```litex
+prop p(x, y R)
+prop q(x, y R)
+prop r(x, y R)
+know:
+    forall x, y R:
+        $p(x, y)
+        $q(x, y)
+        =>:
+            $r(x, y)
+    forall x, y R:
+        $p(x, y)
+        $r(x, y)
+        =>:
+            $q(x, y)
+```
+
+### 6. Chain Equality
+
+A chain equality `a = b = c = ... = d` automatically generates the facts `a = b`, `b = c`, ..., `c = d`.
+
+**Example:**
+
+```litex
+have a, b, c, d R
+know:
+    a = b = c = d
+```
+
+This is equivalent to:
+
+```litex
+have a, b, c, d R
+know:
+    a = b
+    b = c
+    c = d
+```
+
+
+### Conclusion
+
+As you can see, almost all syntax generates a corresponding `forall` statement. This shows that `forall` is the most fundamental concept in Litex, or indeed in all of mathematics. Litex's most fundamental function is to use match and substitution to search for matching facts in the known fact library, then perform substitution and verification. Don't be misled by Litex's many statements—it may seem like different statements have different verification methods, but this is not the case. Essentially, Litex is verifying the simplest specific facts (such as `$p(x)` or `a = b`), as well as `forall` facts and `or` facts.
 
 ## Method 2: Special Verification Methods for Facts Matching Certain Conditions
 

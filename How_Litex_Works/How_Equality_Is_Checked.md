@@ -248,6 +248,19 @@ First, it is transformed into a multiplication expression, then reduced. The abo
 (x + 1) * (x + 1) * (y + 1 - 1) = (x * x + 2 * x + 1) * y
 ```
 
+## Chained Equality
+
+When verifying a chain of equalities like `a = b = c = d`, Litex first verifies `a = b`, then `c = b` and `c = a` (if `c = b` is verified, `c = a` won't be verified again), and finally `d = c` and `d = b`, `d = a` (if `d = c` is verified, `d = b` and `d = a` won't be verified again). If all these verifications pass, then `a = b = c = d` is verified.
+
+```litex
+have a R = 10
+have b R = 20 / 2
+have c R = (a + b) / 2
+have d R = (a + b + c) / 3
+
+a = b = c = d
+```
+
 ## Summary
 
 Equality (`=`) is the most fundamental proposition in mathematics and Litex. All other propositions depend on equality for their definition and verification. Equality enables symbols that are literally different to have the same meaning, allowing substitution in any context.
