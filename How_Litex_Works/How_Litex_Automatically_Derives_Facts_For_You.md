@@ -1,5 +1,7 @@
 # How Litex Automatically Derives Facts For You
 
+version: 2025-12-01
+
 _Before you speak, you are its master; after you speak, you are its slave._
 
 _— Chinese Proverb_

@@ -1,5 +1,7 @@
 # How Factual Statements Are Checked
 
+version: 2025-12-01
+
 _Logic will get you from A to B. Imagination will take you everywhere._
 
 _— Albert Einstein_

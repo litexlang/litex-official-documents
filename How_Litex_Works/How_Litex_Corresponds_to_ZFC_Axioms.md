@@ -1,5 +1,7 @@
 # How Litex Corresponds to ZFC Axioms
 
+version: 2025-12-01
+
 <div align="center">
 <img src="https://publisher.litexlang.org/litex_art_logo1.png" alt="The Litex Logo" width="300">
 </div>
