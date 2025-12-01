@@ -18,218 +18,6 @@ We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an e
 
 > According to Gödel's second incompleteness theorem, the consistency of ZFC cannot be proven within ZFC itself. Since extensions of ZFC include most of mathematics in the usual sense, the consistency of ZFC cannot be proven in other branches of mathematics either. Almost no one doubts that ZFC has any contradictions. It is generally believed that if ZFC were inconsistent, corresponding examples would have been discovered long ago. Since Litex is based on ZFC, Litex should also be considered consistent.
 
-# Natural Numbers
-
-**Definition: Natural Numbers**
-
-The set of natural numbers $\mathbf{N}$ consists of all non-negative integers: $\mathbf{N} := \{0, 1, 2, 3, 4, \ldots\}$. Each element of this set is called a natural number.
-
-**Correspondence in Litex**:
-- **Keywords**: `N` (built-in set)
-- **Expression**: `N` is Litex's built-in set of natural numbers
-- **Example**:
-```litex
-have n N
-n $in N
-0 $in N
-1 $in N
-```
-- **Note**: `N` is a built-in keyword in Litex, representing the set of natural numbers, containing 0, 1, 2, 3, ...
-
-**Axiom: Successor**
-
-For any natural number $n$, its successor $n++$ (or $n+1$) is also a natural number. In symbols: $n \in \mathbf{N} \implies n++ \in \mathbf{N}$.
-
-**Correspondence in Litex**:
-- **Keywords**: built-in arithmetic operations
-- **Expression**: `forall n N => n + 1 $in N`
-- **Example**:
-```litex
-have n N
-n + 1 $in N
-```
-- **Note**: In Litex, the successor operation for natural numbers is represented by `+ 1`, which is a built-in arithmetic operation
-
-**Definition: Natural Number Notation**
-
-We define natural numbers recursively: $1 := 0++$, $2 := 1++$, $3 := 2++$, and so on. Each natural number is the successor of the previous one.
-
-**Correspondence in Litex**:
-- **Keywords**: numeric literals, built-in arithmetic
-- **Expression**: Numbers like `1`, `2`, `3` are built-in literals
-- **Example**:
-```litex
-1 = 0 + 1
-2 = 1 + 1
-3 = 2 + 1
-```
-- **Note**: Litex directly supports numeric literals, and the natural number properties of these numbers are built-in
-
-**Axiom: Zero is Not a Successor**
-
-Zero is not the successor of any natural number. For every natural number $n$, we have $n++ \neq 0$. In symbols: $\forall n \in \mathbf{N}, n++ \neq 0$.
-
-**Correspondence in Litex**:
-- **Keywords**: `forall`, `!=`
-- **Expression**: `forall n N => n + 1 != 0`
-- **Example**:
-```litex
-prove forall n N: n + 1 != 0:
-    prove_by_contradiction n + 1 != 0:
-        n + 1 = 0
-        n = -1
-        -1 $in N
-```
-- **Note**: This is a fundamental property of natural numbers and can be declared as an axiom using `know`
-
-**Axiom: Injectivity of Successor**
-
-Different natural numbers have different successors. If $n \neq m$ for natural numbers $n$ and $m$, then $n++ \neq m++$. Equivalently, if two natural numbers have the same successor, then they must be equal: $n++ = m++ \implies n = m$. In symbols: $\forall n, m \in \mathbf{N}, (n \neq m \implies n++ \neq m++) \iff (n++ = m++ \implies n = m)$.
-
-**Correspondence in Litex**:
-- **Keywords**: `forall`, `=>`, `<=>`, `=`, `!=`
-- **Expression**: `forall n, m N: (n != m => n + 1 != m + 1) <=> (n + 1 = m + 1 => n = m)`
-- **Example**:
-```litex
-prove forall n, m N: n != m => n + 1 != m + 1:
-    prove_by_contradiction n + 1 = m + 1:
-        n = (n+1) - 1 = (m+1)-1 = m
-        n = m
-
-prove forall n, m N: not n + 1 = m + 1 => not n = m:
-    prove_by_contradiction n = m:
-        n + 1 = m + 1
-```
-- **Note**: This is the uniqueness axiom for natural number successors
-
-**Axiom: Mathematical Induction**
-
-If a property $P(n)$ holds for $n=0$, and whenever it holds for some natural number $n$, it also holds for $n++$, then $P(n)$ holds for all natural numbers $n$. In symbols: $(P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$.
-
-**Correspondence in Litex**:
-- **Keywords**: `prove_by_induction`
-- **Expression**: `prove_by_induction($prop(x, n), n, base_case)`
-- **Example**:
-```litex
-prop p(x R, n N)
-let x R
-know $p(x, 1)
-know forall n N_pos: $p(x, n) => $p(x, n + 1)
-
-prove_by_induction($p(x, n), n, 1)
-
-forall n N_pos: $p(x, n)
-```
-- **Note**: `prove_by_induction` is Litex's built-in proof strategy for mathematical induction
-
-**Assumption: Existence of Natural Numbers**
-
-We assume that there exists a set $\mathbf{N}$ satisfying all the axioms above. The elements of this set are called natural numbers.
-
-**Correspondence in Litex**:
-- **Keywords**: `N` (built-in)
-- **Expression**: `N` is Litex's built-in set that satisfies all natural number axioms
-- **Example**:
-```litex
-N $in set
-0 $in N
-```
-- **Note**: `N` is a built-in set in Litex, and its existence and properties are guaranteed by the system
-
-**Definition: Addition**
-
-Addition of natural numbers is defined recursively. For any natural number $m$, we define $0 + m := m$. If we have defined $n + m$, then we define $(n++) + m := (n + m)++$. In symbols: $0 + m := m$; $(n++) + m := (n + m)++$.
-
-**Correspondence in Litex**:
-- **Keywords**: `+` (built-in operator)
-- **Expression**: Addition is a built-in operation in Litex
-- **Example**:
-```litex
-have m N
-0 + m = m
-have n N
-(n + 1) + m = (n + m) + 1
-```
-- **Note**: `+` is a built-in arithmetic operator in Litex that satisfies the recursive definition of natural number addition
-
-**Definition: Positive Natural Numbers**
-
-A natural number $n$ is positive if and only if it is not equal to 0. In symbols: $n > 0 \iff n \neq 0$.
-
-**Correspondence in Litex**:
-- **Keywords**: `>`, `!=`, `N_pos`
-- **Expression**: `n > 0 <=> n != 0`, or use the built-in set `N_pos`
-- **Example**:
-```litex
-have n N
-forall n N: n > 0 => n != 0
-
-# or use the built-in set
-have n N_pos
-n > 0
-```
-- **Note**: `N_pos` is a built-in set in Litex, representing positive natural numbers
-
-**Definition: Ordering of Natural Numbers**
-
-For natural numbers $n$ and $m$, we say $n$ is greater than or equal to $m$ (written $n \geq m$ or $m \leq n$) if there exists a natural number $a$ such that $n = m + a$. We say $n$ is strictly greater than $m$ (written $n > m$ or $m < n$) if $n \geq m$ and $n \neq m$. In symbols: $n \geq m \iff \exists a \in \mathbf{N}, n = m + a$; $n > m \iff (n \geq m) \land (n \neq m)$.
-
-**Correspondence in Litex**:
-- **Keywords**: `>=`, `>`, `exist`, `=`
-- **Expression**: `n >= m <=> exist a N: n = m + a`; `n > m <=> (n >= m), (n != m)`
-- **Example**:
-```litex
-have n, m N
-
-# Define n >= m using exist_prop: n >= m is equivalent to there exists a in N such that n = m + a
-exist_prop a N st self_defined_ge_by_sum(n, m N):
-    <=>:
-        n = m + a
-
-# n >= m is equivalent to $self_defined_ge_by_sum(n, m)
-forall n, m N: n >= m => exist n - m st $self_defined_ge_by_sum(n, m), $self_defined_ge_by_sum(n, m)
-
-know forall n, m N: $self_defined_ge_by_sum(n, m) => n >= m
-
-# n > m is equivalent to n >= m and n != m
-forall n, m N: n > m <=> not n = m, not n < m
-```
-- **Note**: `>=` and `>` are built-in comparison operators in Litex
-
-**Definition: Multiplication**
-
-Multiplication of natural numbers is defined recursively. For any natural number $m$, we define $0 \times m := 0$. If we have defined $n \times m$, then we define $(n++) \times m := (n \times m) + m$. In symbols: $0 \times m := 0$; $(n++) \times m := (n \times m) + m$.
-
-**Correspondence in Litex**:
-- **Keywords**: `*` (built-in operator)
-- **Expression**: Multiplication is a built-in operation in Litex
-- **Example**:
-```litex
-have m N
-0 * m = 0
-have n N
-(n + 1) * m = (n * m) + m
-```
-- **Note**: `*` is a built-in arithmetic operator in Litex that satisfies the recursive definition of natural number multiplication
-
-**Definition: Exponentiation**
-
-Exponentiation for natural numbers is defined recursively. For any natural number $m$, we define $m^0 := 1$ (in particular, $0^0 := 1$). If $m^n$ has been defined, then we define $m^{n++} := m^n \times m$. In symbols: $m^0 := 1$ (in particular, $0^0 := 1$); $m^{n++} := m^n \times m$.
-
-**Correspondence in Litex**:
-- **Keywords**: `^` (built-in operator)
-- **Expression**: Exponentiation is a built-in operation in Litex
-- **Example**:
-```litex
-have m N_pos
-m ^ 0 = 1
-have n N_pos
-m >= 0
-m != 0
-m ^ (n + 1) = (m ^ n) * m
-```
-- **Note**: `^` is a built-in exponentiation operator in Litex that satisfies the recursive definition of natural number exponentiation
-
 # Set Theory
 
 **Definition: Sets**
@@ -718,3 +506,397 @@ Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), y
 **Note**: While Cartesian products are technically constructed from power set and separation axioms, they are such a fundamental construction that Litex provides direct support through `cart` and `cart_prod`.
 
 **Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations.
+
+# Natural Numbers
+
+Natural numbers are ubiquitous in mathematics. They form the foundation for counting, arithmetic, and many other mathematical structures. The axioms that characterize natural numbers are known as the **Peano axioms** (named after the Italian mathematician Giuseppe Peano). Sometimes, as in Terence Tao's *Analysis I*, the Peano axioms for natural numbers are presented as part of set theory, where natural numbers are constructed from sets using the ZFC axioms.
+
+The Peano axioms provide a complete characterization of the natural numbers. They consist of five axioms that define:
+1. The existence of a starting element (0)
+2. The successor operation
+3. The fact that 0 is not a successor
+4. The injectivity of the successor function
+5. The principle of mathematical induction
+
+All properties of natural numbers, including addition, multiplication, ordering, and exponentiation, can be derived from these axioms. Below we present the Peano axioms and related theorems that follow from them.
+
+**Definition: Natural Numbers**
+
+The set of natural numbers $\mathbf{N}$ consists of all non-negative integers: $\mathbf{N} := \{0, 1, 2, 3, 4, \ldots\}$. Each element of this set is called a natural number.
+
+**Correspondence in Litex**:
+- **Keywords**: `N` (built-in set)
+- **Expression**: `N` is Litex's built-in set of natural numbers
+- **Example**:
+```litex
+have n N
+n $in N
+0 $in N
+1 $in N
+```
+- **Note**: `N` is a built-in keyword in Litex, representing the set of natural numbers, containing 0, 1, 2, 3, ...
+
+**Axiom: Successor**
+
+For any natural number $n$, its successor $n++$ (or $n+1$) is also a natural number. In symbols: $n \in \mathbf{N} \implies n++ \in \mathbf{N}$.
+
+**Correspondence in Litex**:
+- **Keywords**: built-in arithmetic operations
+- **Expression**: `forall n N => n + 1 $in N`
+- **Example**:
+```litex
+have n N
+n + 1 $in N
+```
+- **Note**: In Litex, the successor operation for natural numbers is represented by `+ 1`, which is a built-in arithmetic operation
+
+**Definition: Natural Number Notation**
+
+We define natural numbers recursively: $1 := 0++$, $2 := 1++$, $3 := 2++$, and so on. Each natural number is the successor of the previous one.
+
+**Correspondence in Litex**:
+- **Keywords**: numeric literals, built-in arithmetic
+- **Expression**: Numbers like `1`, `2`, `3` are built-in literals
+- **Example**:
+```litex
+1 = 0 + 1
+2 = 1 + 1
+3 = 2 + 1
+```
+- **Note**: Litex directly supports numeric literals, and the natural number properties of these numbers are built-in
+
+**Axiom: Zero is Not a Successor**
+
+Zero is not the successor of any natural number. For every natural number $n$, we have $n++ \neq 0$. In symbols: $\forall n \in \mathbf{N}, n++ \neq 0$.
+
+**Correspondence in Litex**:
+- **Keywords**: `forall`, `!=`
+- **Expression**: `forall n N => n + 1 != 0`
+- **Example**:
+```litex
+prove forall n N: n + 1 != 0:
+    prove_by_contradiction n + 1 != 0:
+        n + 1 = 0
+        n = -1
+        -1 $in N
+```
+- **Note**: This is a fundamental property of natural numbers and can be declared as an axiom using `know`
+
+**Axiom: Injectivity of Successor**
+
+Different natural numbers have different successors. If $n \neq m$ for natural numbers $n$ and $m$, then $n++ \neq m++$. Equivalently, if two natural numbers have the same successor, then they must be equal: $n++ = m++ \implies n = m$. In symbols: $\forall n, m \in \mathbf{N}, (n \neq m \implies n++ \neq m++) \iff (n++ = m++ \implies n = m)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `forall`, `=>`, `<=>`, `=`, `!=`
+- **Expression**: `forall n, m N: (n != m => n + 1 != m + 1) <=> (n + 1 = m + 1 => n = m)`
+- **Example**:
+```litex
+prove forall n, m N: n != m => n + 1 != m + 1:
+    prove_by_contradiction n + 1 = m + 1:
+        n = (n+1) - 1 = (m+1)-1 = m
+        n = m
+
+prove forall n, m N: not n + 1 = m + 1 => not n = m:
+    prove_by_contradiction n = m:
+        n + 1 = m + 1
+```
+- **Note**: This is the uniqueness axiom for natural number successors
+
+**Axiom: Mathematical Induction**
+
+If a property $P(n)$ holds for $n=0$, and whenever it holds for some natural number $n$, it also holds for $n++$, then $P(n)$ holds for all natural numbers $n$. In symbols: $(P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$.
+
+**Correspondence in Litex**:
+- **Keywords**: `prove_by_induction`
+- **Expression**: `prove_by_induction($prop(x, n), n, base_case)`
+- **Example**:
+```litex
+prop p(x R, n N)
+let x R
+know $p(x, 1)
+know forall n N_pos: $p(x, n) => $p(x, n + 1)
+
+prove_by_induction($p(x, n), n, 1)
+
+forall n N_pos: $p(x, n)
+```
+- **Note**: `prove_by_induction` is Litex's built-in proof strategy for mathematical induction
+
+**Assumption: Existence of Natural Numbers**
+
+We assume that there exists a set $\mathbf{N}$ satisfying all the axioms above. The elements of this set are called natural numbers.
+
+**Correspondence in Litex**:
+- **Keywords**: `N` (built-in)
+- **Expression**: `N` is Litex's built-in set that satisfies all natural number axioms
+- **Example**:
+```litex
+N $in set
+0 $in N
+```
+- **Note**: `N` is a built-in set in Litex, and its existence and properties are guaranteed by the system
+
+**Definition: Addition**
+
+Addition of natural numbers is defined recursively. For any natural number $m$, we define $0 + m := m$. If we have defined $n + m$, then we define $(n++) + m := (n + m)++$. In symbols: $0 + m := m$; $(n++) + m := (n + m)++$.
+
+**Correspondence in Litex**:
+- **Keywords**: `+` (built-in operator)
+- **Expression**: Addition is a built-in operation in Litex
+- **Example**:
+```litex
+have m N
+0 + m = m
+have n N
+(n + 1) + m = (n + m) + 1
+```
+- **Note**: `+` is a built-in arithmetic operator in Litex that satisfies the recursive definition of natural number addition
+
+**Definition: Positive Natural Numbers**
+
+A natural number $n$ is positive if and only if it is not equal to 0. In symbols: $n > 0 \iff n \neq 0$.
+
+**Correspondence in Litex**:
+- **Keywords**: `>`, `!=`, `N_pos`
+- **Expression**: `n > 0 <=> n != 0`, or use the built-in set `N_pos`
+- **Example**:
+```litex
+have n N
+forall n N: n > 0 => n != 0
+
+# or use the built-in set
+have n N_pos
+n > 0
+```
+- **Note**: `N_pos` is a built-in set in Litex, representing positive natural numbers
+
+**Definition: Ordering of Natural Numbers**
+
+For natural numbers $n$ and $m$, we say $n$ is greater than or equal to $m$ (written $n \geq m$ or $m \leq n$) if there exists a natural number $a$ such that $n = m + a$. We say $n$ is strictly greater than $m$ (written $n > m$ or $m < n$) if $n \geq m$ and $n \neq m$. In symbols: $n \geq m \iff \exists a \in \mathbf{N}, n = m + a$; $n > m \iff (n \geq m) \land (n \neq m)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `>=`, `>`, `exist`, `=`
+- **Expression**: `n >= m <=> exist a N: n = m + a`; `n > m <=> (n >= m), (n != m)`
+- **Example**:
+```litex
+have n, m N
+
+# Define n >= m using exist_prop: n >= m is equivalent to there exists a in N such that n = m + a
+exist_prop a N st self_defined_ge_by_sum(n, m N):
+    <=>:
+        n = m + a
+
+# n >= m is equivalent to $self_defined_ge_by_sum(n, m)
+forall n, m N: n >= m => exist n - m st $self_defined_ge_by_sum(n, m), $self_defined_ge_by_sum(n, m)
+
+know forall n, m N: $self_defined_ge_by_sum(n, m) => n >= m
+
+# n > m is equivalent to n >= m and n != m
+forall n, m N: n > m <=> not n = m, not n < m
+```
+- **Note**: `>=` and `>` are built-in comparison operators in Litex
+
+**Definition: Multiplication**
+
+Multiplication of natural numbers is defined recursively. For any natural number $m$, we define $0 \times m := 0$. If we have defined $n \times m$, then we define $(n++) \times m := (n \times m) + m$. In symbols: $0 \times m := 0$; $(n++) \times m := (n \times m) + m$.
+
+**Correspondence in Litex**:
+- **Keywords**: `*` (built-in operator)
+- **Expression**: Multiplication is a built-in operation in Litex
+- **Example**:
+```litex
+have m N
+0 * m = 0
+have n N
+(n + 1) * m = (n * m) + m
+```
+- **Note**: `*` is a built-in arithmetic operator in Litex that satisfies the recursive definition of natural number multiplication
+
+**Definition: Exponentiation**
+
+Exponentiation for natural numbers is defined recursively. For any natural number $m$, we define $m^0 := 1$ (in particular, $0^0 := 1$). If $m^n$ has been defined, then we define $m^{n++} := m^n \times m$. In symbols: $m^0 := 1$ (in particular, $0^0 := 1$); $m^{n++} := m^n \times m$.
+
+**Correspondence in Litex**:
+- **Keywords**: `^` (built-in operator)
+- **Expression**: Exponentiation is a built-in operation in Litex
+- **Example**:
+```litex
+have m N_pos
+m ^ 0 = 1
+have n N_pos
+m >= 0
+m != 0
+m ^ (n + 1) = (m ^ n) * m
+```
+- **Note**: `^` is a built-in exponentiation operator in Litex that satisfies the recursive definition of natural number exponentiation
+
+## Theorems About Natural Numbers
+
+The following theorems about natural numbers can be derived from the Peano axioms and the definitions above. These theorems demonstrate the rich structure that emerges from the simple axioms.
+
+**Theorem: Trichotomy of Natural Numbers**
+
+For any two natural numbers $n$ and $m$, exactly one of the following holds: $n < m$, $n = m$, or $n > m$. In symbols: $\forall n, m \in \mathbf{N}, (n < m \lor n = m \lor n > m) \land \neg((n < m \land n = m) \lor (n < m \land n > m) \lor (n = m \land n > m))$.
+
+**Correspondence in Litex**:
+- **Keywords**: `<`, `=`, `>`, `or`, `not`
+- **Expression**: `forall n, m N: (n < m or n = m or n > m), not ((n < m, n = m) or (n < m, n > m) or (n = m, n > m))`
+- **Example**:
+```litex
+have n, m N
+n < m or n = m or n > m
+not ((n < m, n = m) or (n < m, n > m) or (n = m, n > m))
+```
+- **Note**: The trichotomy property is a fundamental ordering property of natural numbers
+
+**Theorem: Commutativity of Addition**
+
+For any natural numbers $n$ and $m$, we have $n + m = m + n$. In symbols: $\forall n, m \in \mathbf{N}, n + m = m + n$.
+
+**Correspondence in Litex**:
+- **Keywords**: `+`, `=`, `forall`
+- **Expression**: `forall n, m N: n + m = m + n`
+- **Example**:
+```litex
+have n, m N
+n + m = m + n
+```
+- **Note**: Commutativity of addition can be proven by mathematical induction
+
+**Theorem: Associativity of Addition**
+
+For any natural numbers $n$, $m$, and $k$, we have $(n + m) + k = n + (m + k)$. In symbols: $\forall n, m, k \in \mathbf{N}, (n + m) + k = n + (m + k)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `+`, `=`, `forall`
+- **Expression**: `forall n, m, k N: (n + m) + k = n + (m + k)`
+- **Example**:
+```litex
+have n, m, k N
+(n + m) + k = n + (m + k)
+```
+- **Note**: Associativity of addition can be proven by mathematical induction
+
+**Theorem: Commutativity of Multiplication**
+
+For any natural numbers $n$ and $m$, we have $n \times m = m \times n$. In symbols: $\forall n, m \in \mathbf{N}, n \times m = m \times n$.
+
+**Correspondence in Litex**:
+- **Keywords**: `*`, `=`, `forall`
+- **Expression**: `forall n, m N: n * m = m * n`
+- **Example**:
+```litex
+have n, m N
+n * m = m * n
+```
+- **Note**: Commutativity of multiplication can be proven by mathematical induction
+
+**Theorem: Associativity of Multiplication**
+
+For any natural numbers $n$, $m$, and $k$, we have $(n \times m) \times k = n \times (m \times k)$. In symbols: $\forall n, m, k \in \mathbf{N}, (n \times m) \times k = n \times (m \times k)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `*`, `=`, `forall`
+- **Expression**: `forall n, m, k N: (n * m) * k = n * (m * k)`
+- **Example**:
+```litex
+have n, m, k N
+(n * m) * k = n * (m * k)
+```
+- **Note**: Associativity of multiplication can be proven by mathematical induction
+
+**Theorem: Distributivity of Multiplication over Addition**
+
+For any natural numbers $n$, $m$, and $k$, we have $n \times (m + k) = (n \times m) + (n \times k)$. In symbols: $\forall n, m, k \in \mathbf{N}, n \times (m + k) = (n \times m) + (n \times k)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `*`, `+`, `=`, `forall`
+- **Expression**: `forall n, m, k N: n * (m + k) = (n * m) + (n * k)`
+- **Example**:
+```litex
+have n, m, k N
+n * (m + k) = (n * m) + (n * k)
+```
+- **Note**: Distributivity is a fundamental property connecting addition and multiplication
+
+**Theorem: Cancellation Law for Addition**
+
+For any natural numbers $n$, $m$, and $k$, if $n + k = m + k$, then $n = m$. In symbols: $\forall n, m, k \in \mathbf{N}, (n + k = m + k) \implies (n = m)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `+`, `=`, `=>`, `forall`
+- **Expression**: `forall n, m, k N: n + k = m + k => n = m`
+- **Example**:
+```litex
+have n, m, k N
+n + k = m + k
+=>:
+    n = m
+```
+- **Note**: The cancellation law follows from the injectivity of the successor function
+
+**Theorem: Well-Ordering Principle**
+
+Every non-empty subset of natural numbers has a least element. That is, for any non-empty set $S \subseteq \mathbf{N}$, there exists $m \in S$ such that for all $n \in S$, we have $m \leq n$. In symbols: $\forall S \subseteq \mathbf{N}, (S \neq \emptyset) \implies (\exists m \in S, \forall n \in S, m \leq n)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `have set`, `{}`, `!=`, `exist`, `forall`, `<=`
+- **Expression**: `forall S set: (S $is_subset_of N), (S != {}) => exist m S: forall n S => m <= n`
+- **Example**:
+```litex
+have set S = {n N: ...}
+S != {}
+exist m S:
+    forall n S:
+        m <= n
+```
+- **Note**: The well-ordering principle is equivalent to the principle of mathematical induction
+
+**Theorem: No Largest Natural Number**
+
+For any natural number $n$, there exists a natural number $m$ such that $m > n$. In symbols: $\forall n \in \mathbf{N}, \exists m \in \mathbf{N}, m > n$.
+
+**Correspondence in Litex**:
+- **Keywords**: `forall`, `exist`, `>`
+- **Expression**: `forall n N => exist m N: m > n`
+- **Example**:
+```litex
+have n N
+exist m N: m > n
+# For example, m = n + 1
+n + 1 > n
+```
+- **Note**: This theorem shows that the set of natural numbers is infinite
+
+**Theorem: Addition Preserves Order**
+
+For any natural numbers $n$, $m$, and $k$, if $n < m$, then $n + k < m + k$. In symbols: $\forall n, m, k \in \mathbf{N}, (n < m) \implies (n + k < m + k)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `<`, `+`, `=>`, `forall`
+- **Expression**: `forall n, m, k N: n < m => n + k < m + k`
+- **Example**:
+```litex
+have n, m, k N
+n < m
+=>:
+    n + k < m + k
+```
+- **Note**: This theorem shows that addition is order-preserving
+
+**Theorem: Multiplication Preserves Order**
+
+For any natural numbers $n$, $m$, and positive natural number $k$, if $n < m$, then $n \times k < m \times k$. In symbols: $\forall n, m \in \mathbf{N}, \forall k \in \mathbf{N}_{>0}, (n < m) \implies (n \times k < m \times k)$.
+
+**Correspondence in Litex**:
+- **Keywords**: `<`, `*`, `=>`, `forall`, `N_pos`
+- **Expression**: `forall n, m N, k N_pos: n < m => n * k < m * k`
+- **Example**:
+```litex
+have n, m N
+have k N_pos
+n < m
+=>:
+    n * k < m * k
+```
+- **Note**: This theorem shows that multiplication by a positive number is order-preserving
