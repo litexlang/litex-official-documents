@@ -16,21 +16,6 @@ This document systematically records the side effects of each Litex statement ty
 
 ---
 
-## Internal Data Structures
-
-Before diving into specific statements, let's understand the key internal data structures that Litex maintains:
-
-- **`knownFactsMap`**: Maps proposition names to lists of known factual statements
-- **`knownForallFactsMap`**: Maps proposition names to lists of `forall` facts
-- **`knownOrFactsMap`**: Maps proposition names to lists of `or` facts
-- **`knownForallOrFactsMap`**: Maps proposition names to lists of `forall` facts containing `or` statements
-- **`ForallFactMap`**: Maps proposition names (including `"="`) to lists of `forall` facts (used for equality and other propositions)
-- **`equalityMap`**: Maps symbols to equivalence sets (for equality relations)
-- **`ValueMap`**: Maps symbols to their numeric values
-- **`equalityMap`**: Stores equivalence sets for equality relations
-
----
-
 ## Statement: `prop`
 
 ### Primary Function

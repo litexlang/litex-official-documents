@@ -63,17 +63,43 @@ import "nat"  # nat is a standard package in `~/litexlang/core_packages`
 import "some_package_installed_by_litex" # When you type `litex -install some_package_installed_by_litex`, some_package_installed_by_litex is installed to ~/litexlang/user_packages
 ```
 
-Now you use `PKGNAME::NAME` to use anything with name `NAME` in the `PKGNAME` in your current code. (It works like C++ or Rust.). `PKGNAME` is the folder name in `~/litexlang/user_packages`, i.e. `xxx` in the `litex -install xxx` command.
+After importing a package, you use dot notation to access items from the package. There are two ways to do this:
 
-Example
+### Method 1: Direct package name with dot notation
+
+After importing a package, you can directly use `PKGNAME.NAME` to access anything with name `NAME` in the `PKGNAME` package. `PKGNAME` is the folder name in `~/litexlang/user_packages` or `~/litexlang/core_packages`.
+
+Example:
 
 ```
 # suppose there is a proposition called prop1 in pkg1, an object called obj2 in pkg2
 import "pkg1"
 import "pkg2"
 
-$pkg1::prop1(pkg2::obj2)
+$pkg1.prop1(pkg2.obj2)
 ```
+
+### Method 2: Using `as` alias with dot notation
+
+You can import a package with an alias using `as`, and then use the alias with dot notation to access items:
+
+```
+import "PACKAGE_NAME" as ALIAS
+```
+
+Then use `ALIAS.NAME` to access items from the package.
+
+Example:
+
+```
+import "core_try" as ct
+
+know ct.core_try_try > 0
+
+ct.core_try_try > 0
+```
+
+The alias syntax can make your code more readable, especially when package names are long.
 
 Note: There cannot be packages (folders) with the same name in `~/litexlang/user_packages` and `~/litexlang/core_packages`, otherwise it will cause conflicts. You can use `litex -list` to list all installed packages.
 
