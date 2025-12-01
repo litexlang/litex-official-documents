@@ -474,6 +474,195 @@ In ZFC set theory, there are **6 fundamental axioms** for constructing new sets 
    cart_prod(X, kv) $in set
    ```
 
+### Intensional Set
+
+The **intensional set** syntax `{x parent_set: facts}` is Litex's implementation of the **Separation Axiom** (also called the **Axiom of Specification**) from ZFC set theory. This is the most fundamental and commonly used way to construct subsets in Litex.
+
+#### Syntax
+
+The general form is:
+```litex
+have set s = {x parent_set: fact1, fact2, ...}
+```
+
+Where:
+- `x` is a **bound variable** that ranges over elements
+- `parent_set` is the **parent set** that `x` must belong to (i.e., `x $in parent_set`)
+- `fact1, fact2, ...` are **conditions** (facts) that `x` must satisfy
+- The result is a **subset** of `parent_set` containing exactly those elements that satisfy all the conditions
+
+#### Mathematical Meaning
+
+In mathematical notation, `{x parent_set: facts}` corresponds to:
+$$\{x \in \text{parent\_set} : \text{facts}(x)\}$$
+
+This reads as: "the set of all `x` in `parent_set` such that `facts` hold for `x`."
+
+#### Automatic Facts Generated
+
+When you define a set using intensional syntax, Litex automatically generates two facts:
+
+1. **The set is indeed a set**: `s $in set`
+2. **Membership characterization**: `forall x parent_set: fact1, fact2, ... <=> x $in s`
+
+This means: an element `x` belongs to `s` if and only if `x` is in `parent_set` and satisfies all the conditions.
+
+#### Examples
+
+**Example 1: Simple condition**
+```litex
+# Define the set of positive real numbers
+have set positive_reals = {x R: x > 0}
+
+# Litex automatically knows:
+# 1. positive_reals $in set
+# 2. forall x R: x > 0 <=> x $in positive_reals
+
+# Usage
+3 $in positive_reals
+-1 $in positive_reals  # This will be false
+```
+
+**Example 2: Using a proposition**
+```litex
+# Define a proposition
+prop is_even(n N):
+    exist k N => n = 2 * k
+
+# Define the set of even numbers
+have set even_numbers = {n N: $is_even(n)}
+
+# Equivalently, we can write the condition directly:
+have set even_numbers2 = {n N: exist k N => n = 2 * k}
+
+# Both define the same set
+```
+
+**Example 3: Multiple conditions**
+```litex
+# Define the set of positive integers greater than 5
+have set large_positive = {n N: n > 0, n > 5}
+
+# Or equivalently:
+have set large_positive2 = {n N: n > 5}
+# (since n > 5 already implies n > 0 for natural numbers)
+```
+
+**Example 4: Function image (Replacement Axiom)**
+```litex
+# Define a function
+have fn f(x R) R = x^2
+
+# Define the image of a set under the function
+have set A = {1, 2, 3}
+have set image = {y R: exist x A => y = f(x)}
+
+# image = {1, 4, 9}
+```
+
+**Example 5: Complex condition with multiple quantifiers**
+```litex
+# Define the set of perfect squares
+have set perfect_squares = {n N: exist k N => n = k * k}
+
+# Or equivalently:
+have set perfect_squares2 = {n N: exist k N => n = k^2}
+```
+
+**Example 6: Subset of a Cartesian product**
+```litex
+# Define a relation (subset of R × R)
+have set less_than_relation = {(x, y) cart(R, R): x < y}
+
+# This defines all ordered pairs (x, y) where x < y
+```
+
+#### Key Points
+
+1. **Parent set is required**: You must always specify `parent_set` to ensure type safety and correctness. This corresponds to the requirement in ZFC that separation can only create subsets of existing sets.
+
+2. **Conditions are facts**: The conditions after the colon can be any facts (propositions, equations, inequalities, etc.) that involve the bound variable `x`.
+
+3. **Multiple conditions**: You can list multiple conditions separated by commas. All conditions must be satisfied for an element to be in the set.
+
+4. **Automatic derivation**: Litex automatically derives membership facts, so you don't need to manually prove that elements satisfying the conditions belong to the set.
+
+5. **Most common construction**: This is the most frequently used method for constructing sets in Litex, as it directly implements the Separation Axiom, which is fundamental to set theory.
+
+#### Proposition and Set Equivalence
+
+**Important Note**: In Litex, there is a fundamental equivalence between propositions and sets. When you define a proposition on a set, you can equivalently think of it as defining a subset of that set.
+
+Specifically:
+- **Defining a proposition**: `prop p(x someset): facts` is equivalent to defining a set `have set set_p = {x someset: facts}`
+- **Using the proposition**: `$p(x)` is equivalent to `x $in set_p`
+
+This means that whenever you can express a property as a proposition on a set, you can also express it as a subset of that set, and vice versa.
+
+**Example**:
+```litex
+# Method 1: Define a proposition
+prop is_positive(x R):
+    x > 0
+
+# Method 2: Define the corresponding set
+have set positive_set = {x R: x > 0}
+
+# These are equivalent:
+# - $is_positive(3) is equivalent to 3 $in positive_set
+# - $is_positive(-1) is equivalent to -1 $in positive_set
+
+# You can use either approach:
+know $is_positive(5)
+know 5 $in positive_set  # Same meaning
+```
+
+**Why this matters**: This equivalence allows you to choose the most convenient representation for your needs:
+- Use **propositions** when you want to emphasize the logical property or when you need to use it in logical contexts
+- Use **sets** when you want to emphasize the collection of objects or when you need to perform set operations (union, intersection, etc.)
+
+Both approaches are mathematically equivalent and Litex treats them as such.
+
+#### Relationship to ZFC
+
+The intensional set syntax `{x parent_set: facts}` directly corresponds to the **Axiom of Separation** (also called **Axiom of Specification**) in ZFC:
+
+**ZFC Axiom of Separation**: For any set $A$ and any property $P(x)$, there exists a set $B$ such that:
+$$B = \{x \in A : P(x)\}$$
+
+In Litex, this becomes:
+```litex
+prop P(x parent_set)
+have set B = {x parent_set: $P(x)}
+```
+
+This axiom ensures that we can always form subsets by "separating" elements from a parent set that satisfy a given property.
+
+#### Multi-Parameter Propositions and Cartesian Products
+
+The equivalence between propositions and sets extends to multi-parameter propositions as well. A proposition with multiple parameters can correspond to a subset of a Cartesian product of sets.
+
+**Example: Two-parameter proposition**
+```litex
+# Define a set of ordered pairs where both coordinates are positive
+have set cart_R_pos_R_pos = {x cart(R, R): coord(x, cart(R, R), 1) > 0, coord(x, cart(R, R), 2) > 0}
+
+# Define the equivalent proposition
+prop larger_than_0_larger_than_0(x cart(R, R)):
+    coord(x, cart(R, R), 1) > 0
+    coord(x, cart(R, R), 2) > 0
+
+# These are equivalent:
+# - $larger_than_0_larger_than_0(x) is equivalent to x $in cart_R_pos_R_pos
+forall x cart_R_pos_R_pos: $larger_than_0_larger_than_0(x)
+```
+
+**General principle**: For a proposition `prop p(x1 set1, x2 set2, ..., xn setn): facts`, you can equivalently define:
+- A set `have set set_p = {(x1, x2, ..., xn) cart(set1, set2, ..., setn): facts}`
+- Where `$p(x1, x2, ..., xn)` is equivalent to `(x1, x2, ..., xn) $in set_p`
+
+This shows that multi-parameter propositions naturally correspond to subsets of Cartesian products, which is consistent with how relations are typically defined in mathematics.
+
 ### What Can Be Constructed?
 
 Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), you can construct:

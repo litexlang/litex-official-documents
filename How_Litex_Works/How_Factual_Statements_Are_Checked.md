@@ -26,9 +26,21 @@ $is_positive(b)  # Verified because a = b and $is_positive(a)
 
 This demonstrates how factual statements work together with equality to enable mathematical reasoning through substitution.
 
-## How Litex Verifies Factual Statements
+## How Litex Verifies SpecificFactual Statements
 
-When proving a factual statement, Litex tries each step in order from the first to the last.
+A specific factual statement is a statement that is neither a forall fact nor an or fact. It is typically written as `$propName(object...)` (if there are two parameters, it can be written as `a $propName b`. If it is a built-in prop, such as `=`, `>`, then the `$` can be omitted).
+
+**Example**:
+```litex
+1 > 0 
+1 + 1 = 2
+
+prop is_positive(x R):
+    x > 0
+$is_positive(17)
+```
+
+When proving a specific factual statement, Litex tries each step in order from the first to the last.
 
 Litex's fundamental working logic is to iterate through a fixed set of verification strategies. As long as verification passes under any strategy, the fact is considered verified. If all strategies fail to verify, then the fact is considered unverified. Failure to verify does not necessarily mean the statement is incorrect; it only means that Litex has not found a method to prove the fact.
 
@@ -183,6 +195,54 @@ This is because Litex maintains a record of symbol values. When proving `a > 1`,
 If verification passes at this step, then the fact is considered verified.
 
 If verification fails at this step, the fact is considered unverified.
+
+## Check or fact
+
+When we have a known fact of the form `$p(a) or $p(b) or $p(c)`, we are essentially proving it by:
+
+1. Assuming that `not $p(b)` and `not $p(c)` are false, then proving that `$p(a)` is correct
+2. Assuming that `not $p(a)` and `not $p(c)` are false, then proving that `$p(b)` is correct
+3. Assuming that `not $p(a)` and `not $p(b)` are false, then proving that `$p(c)` is correct
+
+If any of the above cases is true, then `$p(a) or $p(b) or $p(c)` is correct.
+
+For example:
+
+```litex
+have x R = 1
+x = 1 or x = 2 or x = 3
+```
+
+Since we know `x = 1`, then `x = 1 or x = 2 or x = 3` is correct.
+
+```litex
+let a, b, c R:
+    forall:
+        a != b
+        =>:
+            a = c
+
+    a != b
+
+a = c  # Verified because a != b and a = c
+```
+
+## check forall fact
+
+check `forall x set1: domFact1, domFact2, ... => thenFact1, thenFact2, ...` is true by checking if `x $in set1` is true and if `domFact1, domFact2, ...` are true, then `thenFact1, thenFact2, ...` are true.
+
+For example:
+
+```litex
+forall x R:
+    x > 10
+    =>:
+        x > 1
+```
+
+Here, assuming we know that `x > 10` is correct, then we can prove that `x > 1` is correct.
+
+Note that, essentially, proving `forall` and proving `or` both involve creating a new local environment, adding additional conditions, and then proving a specific fact.
 
 ## Summary
 
