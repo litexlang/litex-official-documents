@@ -9,13 +9,16 @@ prove:
     x $in set
 
     let a x
-    coord(a, x, 1) $in R
 
     $is_cart(cart(R, Q))
     let y cart(R, Q)
     dim(cart(R, Q)) = 2
-    coord(y, cart(R, Q), 1) $in R
 
+    a[1] $in R
+    a[2] $in Q
+    a[3] $in Z
+
+"""
 prove:
     have set X = {1, 2, 3}
     have fn kv(x X) set =:
@@ -36,4 +39,19 @@ prove:
     index_set_of_cart_prod(cart_prod(N, kv2)) = N
     cart_prod_proj(cart_prod(N, kv2), 1) = kv2(1) = Q
     cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N
+"""
+
+# a $in cart(R, R), a[1] $in R, a[2] $in R, a[1] = 1, a[2] = 2
+have a cart(R, R) = (1, 2)
+
+a = (1, 2)
+
+(1, 2)[1] = 1
+
+a[1] = 1
+a[2] = 2
+
+a[1] $in R
+
+a $in cart(Z, Z) # a[1] $in Z, a[2] $in Z
 ```

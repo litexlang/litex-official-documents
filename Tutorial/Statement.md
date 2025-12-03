@@ -1,8 +1,8 @@
 # Statements: The Building Blocks of Litex
 
-_不积跬步无以至千里 (Without single small steps, you cannot reach far.)_
+_The highest form of pure thought is mathematics._
 
-_— 老子 (Lao Tzu)_
+_— Plato_
 
 ---
 
@@ -10,7 +10,7 @@ _— 老子 (Lao Tzu)_
 
 ### Introduction
 
-In this section, we'll explore what happens when you write a statement in Litex. Every statement produces an outcome, and understanding these outcomes is crucial for writing correct Litex code. By the end of this section, you'll know the three possible outcomes of statements and how to interpret them. Proofs in Litex are formed by creatively and accurately combining many, many statements together.
+In this section, we'll explore what happens when you write a statement in Litex. Every statement produces an outcome, and understanding these outcomes is crucial for writing correct Litex code. By the end of this section, you'll know the three possible outcomes of statements and how to interpret them. Proofs in Litex are formed by creatively and accurately combining many, many statements together. Notice the statements can be highly abstract and very far from the real world.
 
 ### From Natural Language to Litex
 

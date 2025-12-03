@@ -287,3 +287,19 @@ Additionally, Litex has special handling for:
 - **Polynomial expressions**: Litex automatically reduces polynomial expressions to canonical form for comparison.
 
 The special storage mechanism for equality (using equivalence sets) reflects its fundamental role: equality is not just another proposition, but the foundation that enables all mathematical reasoning through substitution and equivalence.
+
+## Bonus
+
+### Litex's Duck Test Philosophy
+
+Litex follows the **duck test** philosophy (inspired by Python's duck typing): *"If it looks like a duck, swims like a duck, and quacks like a duck, then it probably is a duck."* This principle is reflected in how Litex handles fundamental mathematical concepts.
+
+Many theorem provers define everything from scratch—they define integers, real numbers, arithmetic operations, and even basic concepts like sets and functions within the language itself. Litex takes a different approach that is more aligned with how humans learn mathematics and how mathematics developed historically.
+
+**How Humans Learn Mathematics**: A person typically encounters concepts like integers at a very young age, but may never learn—or only learn much later—that integers are "defined" using Peano axioms or other foundational systems. Despite not knowing the formal definition, people can use integers and understand their basic properties.
+
+**Litex's Approach**: Litex adopts a similar philosophy. Symbols like `Z` (integers), `R` (real numbers), and expressions like `1 + 1` are not "defined" in the traditional sense. Instead, they exist directly in the kernel, and Litex has built-in knowledge of all common operations and properties for these fundamental mathematical objects.
+
+This means that when you write `1 + 1 = 2` in Litex, you don't need to prove that `1` is a natural number, that `+` is a valid operation, or that the equality holds based on some definition. Litex recognizes these patterns and verifies them using its built-in knowledge, just as a human mathematician would recognize and work with these concepts intuitively.
+
+This design choice makes Litex more intuitive and closer to how mathematics is actually practiced, where we work with familiar concepts without constantly referring back to their foundational definitions.
