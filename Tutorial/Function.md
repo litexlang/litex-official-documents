@@ -923,3 +923,36 @@ The following table summarizes all methods for proving function existence in Lit
 **Note**: Using `fn` (without `have`) does not prove existence—it only introduces a function symbol with properties. Use `have fn` when you need to guarantee existence.
 
 ---
+
+## Bonus: Function In Math is very different from Function in Programming
+
+From the perspective of set theory, a function is a binary relation, i.e., a mapping from one set to another. The function type `fn(R, R) R` is essentially defined as a mapping from `cart(R, R)` to `R`. From this, we can see two key differences: 1. Functions in mathematics are not always "computable"—for example, if a real number is irrational, no computer can compute it exactly. 2. If a function's domain is an infinite set like $R^{\infty}$, then the function has "infinitely many" parameters, which is fundamentally different from the concept of functions in computer programming.
+
+Example: How to define a function that adds two positive real numbers by 1. function takes one parameter, which is a pair of real numbers. 2. function takes two parameters, which are two real numbers.
+
+```litex
+have set s = {x cart(R, R): x[1] > 0, x[2] > 0}
+forall x s: x $in cart(R, R), x[1] $in R, x[2] $in R
+have fn add_2_pos(x s) R = x[1] + x[2]
+
+have fn:
+    add_2_pos2(x, y R) R:
+        dom:
+            x > 0
+            y > 0
+        =>:
+            add_2_pos2(x, y) = x + y
+    
+    prove:
+        do_nothing
+
+    = x + y
+
+forall x s:
+    add_2_pos(x) = x[1] + x[2]
+    x[1] > 0
+    x[2] > 0
+    add_2_pos2(x[1], x[2]) = x[1] + x[2]
+```
+
+However, in Litex, we still treat `fn(R, R) R` and `fn(cart(R, R)) R` as different. The latter takes only one parameter, while the former takes two. Of course, these two types of functions can easily be shown to be equivalent. For example, `fn f(x R, y R) R` and `fn g(x cart(R, R)) R` are equivalent if for any `x cart(R, R)`, we have `g(x) = f(coord(x, cart(R, R), 1), coord(x, cart(R, R), 2))`.
