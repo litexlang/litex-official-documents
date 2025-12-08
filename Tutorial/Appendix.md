@@ -4,7 +4,7 @@ _If you think it's a really good idea and other people tell you it's complete no
 
 _- Geoffrey Hinton_
 
-Litex stands on the shoulders of giants. Previous formal languages demonstrated to the world that mathematics can be written as code, and that writing mathematics as code has value. Previous formal languages were theoretically elegant and abstract, yet they failed to achieve what ordinary people care about most: simplicity and understandability. The AI era has accumulated massive demand for verifiable reasoning. This enormous demand has given birth to Litex's significance.
+Litex stands on the shoulders of giants. Previous formal languages demonstrated to the world that mathematics can be written as code, and that writing mathematics as code has value. They were theoretically elegant and abstract, yet they failed to achieve what ordinary people care about most: simplicity and understandability. The AI era has accumulated massive demand for verifiable reasoning. This enormous demand has given birth to Litex's significance.
 
 ## Language Tradeoffs
 

@@ -6,11 +6,19 @@ _Kurt Godel, What is Cantor's continuum problem?_
 
 ## A Little Bit of History
 
+In 1931, a young Austrian logician named Kurt Gödel delivered a stunning blow to the mathematical world. He discovered what would become known as the incompleteness theorems, revealing a profound truth: in any mathematical system complex enough to define natural numbers, there will always be statements that can neither be proven true nor falsified. The mathematical universe, it turned out, had boundaries—and those boundaries were fundamentally ambiguous.
+
+This revelation forced mathematicians to confront an uncomfortable reality: the choice of axioms was not a matter of finding the "correct" ones, but rather a matter of choosing which mathematical truths one wanted to explore. Different mathematicians could—and did—choose different axiomatic systems, each opening doors to some truths while closing others. There was no inherent right or wrong in these choices; they were neither good nor bad by nature, but rather different paths through the mathematical landscape.
+
+Gödel himself offered a guiding principle: if an axiomatic system could easily derive a large class of facts, then it was appropriate. Following this wisdom, modern mathematics has overwhelmingly chosen set theory as its foundation. The choice was pragmatic: set theory is intuitive enough for most people to grasp, yet powerful enough to express calculus, algebra, and virtually all the mathematics that anyone—except perhaps logic PhD students—would ever need.
+
 The birth of set theory in the late 19th century marked one of the most dramatic revolutions in the history of mathematics—a revolution that would ultimately provide mathematics with its unshakeable foundation. Georg Cantor, the visionary architect of this mathematical paradise, faced fierce resistance and personal attacks from the mathematical establishment of his time, with his revolutionary ideas about infinite sets being dismissed as "a disease from which mathematics will have to recover."
 
 Yet, through decades of relentless pursuit of mathematical truth, Cantor's once-controversial theories about the infinite would eventually be recognized as the bedrock upon which all of modern mathematics rests.
 
-Just as the history of natural science has shown time and again, the most profound truths are often the easiest to grasp. Everyone can understand the syllogism, yet it is almost the entire foundation of mathematical reasoning. Set theory, at its advanced levels, can become very difficult, but one of its great virtues is that we don’t need to master the deepest parts. It is enough to learn just what is necessary to handle everyday mathematics. In fact, when it comes to writing Litex, all the set theory you need can be learned in just five minutes.
+Just as the history of natural science has shown time and again, the most profound truths are often the easiest to grasp. Everyone can understand the syllogism, yet it is almost the entire foundation of mathematical reasoning. Set theory, at its advanced levels, can become very difficult, but one of its great virtues is that we don't need to master the deepest parts. It is enough to learn just what is necessary to handle everyday mathematics. In fact, when it comes to writing Litex, all the set theory you need can be learned in just five minutes.
+
+Litex chooses set theory as its foundation precisely because it is the most accessible to ordinary people. If you need a more powerful axiomatic system than set theory, you can turn to other, more abstract formal languages such as Lean, Coq, and Isabelle, which are built on type theory and other advanced foundations. But for most people and most mathematical tasks, set theory provides the perfect balance of simplicity and power.
 
 ## Set Theory in Litex
 
