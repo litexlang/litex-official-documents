@@ -1,8 +1,8 @@
 # Set Theory: The Solid Foundation of Modern Mathematics
 
-_From the paradise (set theory) that Cantor created for us, no one shall be be able to expel us._
+_Even disregarding the intrinsic necessity of some new axiom, and even in case it has no intrinsic necessity at all, a probable decision about its truth is possible also in another way, namely, inductively by studying its "success". Success here means fruitfulness in consequences, in particular in "verifiable" consequences, i.e., consequences demonstrable without the new axiom, whose proofs with the help of the new axiom, however, are considerably simpler and easier to discover, and make it possible to contract into one proof many different proofs._
 
-_— David Hilbert_
+_Kurt Godel, What is Cantor's continuum problem?_
 
 ## A Little Bit of History
 

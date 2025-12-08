@@ -10,7 +10,7 @@ _— Merriam-Webster Dictionary_
 
 ### Introduction
 
-In this section, we'll explore the fundamental concept of functions in Litex. You'll learn that functions in Litex are fundamentally different from functions in programming languages—they are symbolic constructors, not executable code. By the end of this section, you'll understand why Litex doesn't compute function values and how functions work as "glue" that binds symbols together.
+In this section, we'll explore the fundamental concept of functions in Litex. You'll learn that functions in Litex are fundamentally different from functions in programming languages—they are symbolic constructors, not executable code. By the end of this section, you'll understand why Litex doesn't compute function values and how functions work as "glue" that binds symbols together under certain restrictions (arguments must satisfy the domain of the function).
 
 ### From Natural Language to Litex
 
