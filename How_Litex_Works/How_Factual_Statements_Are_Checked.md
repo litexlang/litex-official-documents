@@ -8,6 +8,16 @@ _— Albert Einstein_
 
 ---
 
+# Introduction
+
+From the moment we learn to count as children, we never need to study mathematical axioms or learn how to verify mathematics. We simply know, intuitively, what is mathematically correct and what is not. When we hear "two plus two equals four," we accept it without question. When someone claims "two plus two equals five," we immediately recognize it as wrong—not because we've memorized rules, but because it feels wrong in our bones.
+
+As we progress through high school and university, we might encounter formal mathematical axioms: Euclidean geometry, Peano arithmetic, set theory. Yet even then, we never truly learn *how* a statement is verified. We just accept that "All humans are mortal, Socrates is human, therefore Socrates is mortal" is correct—we don't question it, we don't analyze the mechanism behind it. We simply know it's right.
+
+This is, in essence, a remarkable phenomenon: we spend our entire lives verifying mathematics without ever understanding *how* mathematics is verified. Every time you calculate change at a store, every time you check if an equation balances, every time you follow a logical argument—you're performing mathematical verification, yet you've never been taught the underlying system that makes this possible.
+
+Litex changes this. It captures and implements the very system of verification that we've been using unconsciously all along. Litex provides a computer-automated verification system (written in software, not relying on AI) that is remarkably intuitive—so intuitive, in fact, that it mirrors how we naturally think—yet it is powerful enough to verify all of mathematics. For the first time, you can see the hidden machinery of mathematical reasoning made explicit, accessible, and automatic.
+
 ## The Role of Factual Statements
 
 Factual statements (propositions) are the building blocks of mathematical reasoning in Litex. Unlike equality, which connects symbols, factual statements express properties and relationships that hold for specific objects or symbols.
