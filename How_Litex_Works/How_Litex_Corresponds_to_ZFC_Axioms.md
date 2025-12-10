@@ -10,6 +10,12 @@ _Mathematics is nothing more than a game played according to certain simple rule
 
 _— David Hilbert_
 
+## Introduction
+
+Zermelo–Fraenkel set theory, named after mathematicians Ernst Zermelo and Abraham Fraenkel, is an axiomatic system proposed in the early twentieth century to formulate a theory of sets free of paradoxes such as Russell's paradox. Today, Zermelo–Fraenkel set theory with the historically controversial axiom of choice (AC) included has become the standard form of axiomatic set theory and serves as the most common foundation of mathematics. When the axiom of choice is included, the system is abbreviated as ZFC (where C stands for "choice"),[1] while ZF refers to Zermelo–Fraenkel set theory without the axiom of choice.
+
+Informally,[2] Zermelo–Fraenkel set theory aims to formalize a single primitive notion: that of a hereditary well-founded set. In this framework, all entities in the universe of discourse are such sets. Consequently, the axioms of Zermelo–Fraenkel set theory refer only to pure sets and prevent its models from containing urelements—elements that are not themselves sets. Additionally, proper classes—collections of mathematical objects defined by a shared property that are too large to be sets—can only be treated indirectly. 
+
 This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
 
 We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners.

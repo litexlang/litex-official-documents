@@ -6,6 +6,8 @@ _Kurt Godel, What is Cantor's continuum problem?_
 
 ## A Little Bit of History
 
+(Skip this section if you are not interested in history)
+
 In 1931, a young Austrian logician named Kurt Gödel delivered a stunning blow to the mathematical world. He discovered what would become known as the incompleteness theorems, revealing a profound truth: in any mathematical system complex enough to define natural numbers, there will always be statements that can neither be proven true nor falsified. The mathematical universe, it turned out, had boundaries—and those boundaries were fundamentally ambiguous.
 
 This revelation forced mathematicians to confront an uncomfortable reality: the choice of axioms was not a matter of finding the "correct" ones, but rather a matter of choosing which mathematical truths one wanted to explore. Different mathematicians could—and did—choose different axiomatic systems, each opening doors to some truths while closing others. There was no inherent right or wrong in these choices; they were neither good nor bad by nature, but rather different paths through the mathematical landscape.
@@ -17,6 +19,10 @@ The birth of set theory in the late 19th century marked one of the most dramatic
 Yet, through decades of relentless pursuit of mathematical truth, Cantor's once-controversial theories about the infinite would eventually be recognized as the bedrock upon which all of modern mathematics rests.
 
 Just as the history of natural science has shown time and again, the most profound truths are often the easiest to grasp. Everyone can understand the syllogism, yet it is almost the entire foundation of mathematical reasoning. Set theory, at its advanced levels, can become very difficult, but one of its great virtues is that we don't need to master the deepest parts. It is enough to learn just what is necessary to handle everyday mathematics. In fact, when it comes to writing Litex, all the set theory you need can be learned in just five minutes.
+
+Zermelo–Fraenkel set theory, named after mathematicians Ernst Zermelo and Abraham Fraenkel, is an axiomatic system proposed in the early twentieth century to formulate a theory of sets free of paradoxes such as Russell's paradox. Today, Zermelo–Fraenkel set theory with the historically controversial axiom of choice (AC) included has become the standard form of axiomatic set theory and serves as the most common foundation of mathematics. When the axiom of choice is included, the system is abbreviated as ZFC (where C stands for "choice"),[1] while ZF refers to Zermelo–Fraenkel set theory without the axiom of choice.
+
+Informally,[2] Zermelo–Fraenkel set theory aims to formalize a single primitive notion: that of a hereditary well-founded set. In this framework, all entities in the universe of discourse are such sets. Consequently, the axioms of Zermelo–Fraenkel set theory refer only to pure sets and prevent its models from containing urelements—elements that are not themselves sets. Additionally, proper classes—collections of mathematical objects defined by a shared property that are too large to be sets—can only be treated indirectly. 
 
 Litex chooses set theory as its foundation precisely because it is the most accessible to ordinary people. If you need a more powerful axiomatic system than set theory, you can turn to other, more abstract formal languages such as Lean, Coq, and Isabelle, which are built on type theory and other advanced foundations. But for most people and most mathematical tasks, set theory provides the perfect balance of simplicity and power.
 
@@ -687,3 +693,64 @@ Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), y
 **Note**: While Cartesian products are technically constructed from power set and separation axioms, they are such a fundamental construction that Litex provides direct support through `cart` and `cart_prod`.
 
 **Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations.
+
+## Bonus: Two Perspectives on Cartesian Products
+
+Set theory is the foundation of modern mathematics. When dealing with foundational concepts, it's easy to make errors or misunderstand them. A perfect example is the definition of Cartesian products.
+
+There are two main approaches to defining Cartesian products: the **ordered pair approach** (recursive definition) and the **function approach** (mapping definition). While both are mathematically valid, the function approach is more modern and elegant, especially as mathematics has evolved to focus on **structure** rather than concrete implementation.
+
+### The Ordered Pair Approach
+
+This is the most common and intuitive introductory definition.
+
+- **For two sets** \(A\) and \(B\):
+  \[
+  A \times B = \{(a,b) \mid a \in A, b \in B\}
+  \]
+  Here, \((a,b)\) must be implemented as a pure set in set theory. For example, using the Kuratowski definition:
+  \[
+  (a,b) := \{\{a\},\{a,b\}\}
+  \]
+  This distinguishes the order of elements.
+
+- **For higher dimensions**, we use recursive definition:
+  \[
+  A \times B \times C := (A \times B) \times C
+  \]
+  So a triple is a **nested ordered pair** like \(((a,b),c)\).
+
+**Advantages**:
+- Intuitive and aligns with the everyday notion of "ordered lists"
+- Strictly built on set-theoretic foundations (everything reduces to sets)
+
+**Disadvantages**:
+- The nested structure is asymmetric: triples are \(((a,b),c)\), quadruples are \((((a,b),c),d)\), etc. But what we actually want is a "flat" structure like \((a,b,c,d)\)
+- Different lengths have different structures, lacking uniformity
+- Ambiguity issues: For \(((0,1),2)\), what does \([1]\) refer to? Is it \(0\) or \((0,1)\)? This creates confusion
+- Difficult to generalize to infinite index sets
+
+### The Function Approach
+
+The Cartesian product \(\prod_{i \in I} A_i\) is defined as the set of all functions \(f: I \to \bigcup_{i \in I} A_i\) such that \(f(i) \in A_i\) for all \(i \in I\).
+
+**Advantages**:
+- **Universal property**: The Cartesian product \(\prod A_i\) has the universal property: there is a family of projection maps \(\pi_j : \prod A_i \to A_j\) such that for any set \(X\) and any family of maps \(g_j: X \to A_j\), there exists a **unique** map \(u: X \to \prod A_i\) satisfying \(\pi_j \circ u = g_j\). The function definition directly satisfies this: \(u(x)\) is simply the function \(i \mapsto g_i(x)\)
+- **Generalizes to infinity**: The function definition seamlessly extends to infinite index sets
+- **Unified with other constructions**: In computer science, tuples are often viewed as records, which are essentially mappings from labels to values
+- **Uniform structure**: All Cartesian products, regardless of dimension, have the same structure (functions from index sets)
+
+### Equivalence of the Two Definitions
+
+A key fact: there exists a natural **bijection** between the two representations.
+
+- **From function to nested ordered pair**: Given \(f: \{1,2,3\} \to \bigcup A_i\) satisfying \(f(i) \in A_i\), we can map it to \(((f(1),f(2)),f(3))\) (a nested ordered pair)
+
+- **From nested ordered pair to function**: Given \(((a,b),c)\), we can construct \(f\) such that \(f(1)=a, f(2)=b, f(3)=c\)
+
+Although the concrete set structures differ (one is a set of functions, the other is a set of nested ordered pairs), mathematically, once we establish a bijection, we treat them as **isomorphic**. We don't distinguish implementation details; we only care about the **universal properties** they satisfy.
+
+### Why the Function Approach is Preferred
+
+As mathematics has advanced, the focus has shifted from concrete implementations to abstract structures. The function approach captures the essential structure of Cartesian products—their universal property—without getting bogged down in the messy details of nested pairs. This is why modern mathematics and Litex favor the function-based definition.
+

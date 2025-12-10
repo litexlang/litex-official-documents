@@ -1,12 +1,12 @@
 ```litex
-have set s = {x R: x > 0}
+have s set = {x R: x > 0}
 forall x R: x > 0 => x $in s
-s $is_subset_of R
+s $subset_of R
 
-have set s2 = {x cart(R, R): x[1] > 0}
+have s2 set = {x cart(R, R): x[1] > 0}
 forall x cart(R, R): x[1] > 0 => x $in s2
 
-have set s3 = {x cart(R, R): x[1] + x[2] = 0}
+have s3 set = {x cart(R, R): x[1] + x[2] = 0}
 forall x cart(R, R): x[1] + x[2] = 0 => x $in s3
 
 # = {} 的释放不是自动的，只能取个名字。本质原因是因为 = {} 是一个fact，{} 不是一个obj
@@ -20,14 +20,19 @@ have fn:
         line(a, b, c) $in set
 
     prove:
-        have set l = {x cart(R, R): a * x[1] + b * x[2] = c}
+        have l set = {x cart(R, R): a * x[1] + b * x[2] = c}
         forall x l: x $in cart(R, R)
-        l $is_subset_of cart(R, R)
+        l $subset_of cart(R, R)
     = l
 
 # release line(1, 1, 1) = {x cart(R, R): 1 * x[1] + 1 * x[2] = 1}
 $line_as_intensional_set(line(1, 1, 1), 1, 1, 1)
+$equal_set(line(1, 1, 1), {x cart(R, R): 1 * x[1] + 1 * x[2] = 1})
 line(1, 1, 1) = {x cart(R, R): 1 * x[1] + 1 * x[2] = 1}
+forall a {x cart(R, R): 1 * x[1] + 1 * x[2] = 1}:
+    a $in cart(R, R)
+    1 * a[1] + 1 * a[2] = 1
+
 forall x line(1, 1, 1):
     x $in cart(R, R)
     1 * x[1] + 1 * x[2] = 1
@@ -48,8 +53,8 @@ prove forall a, b, c R: a != 0 => line(a, b, c) = line(1, b/a, c/a):
         a * (1 * x[1] + (b / a) * x[2]) = a * x[1] + b * x[2] = a * (c / a) = c
         x $in line(a, b, c)
 
-    line(a, b, c) $is_subset_of line(1, b/a, c/a)
-    line(1, b/a, c/a) $is_subset_of line(a, b, c)
+    line(a, b, c) $subset_of line(1, b/a, c/a)
+    line(1, b/a, c/a) $subset_of line(a, b, c)
 
     line(a, b, c) = line(1, b/a, c/a)
 ```

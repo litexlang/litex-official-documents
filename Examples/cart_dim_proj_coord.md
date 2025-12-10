@@ -1,6 +1,6 @@
 ```litex
 prove:
-    have set x = cart(R, Q, Z)
+    have x set = cart(R, Q, Z)
     $is_cart(x)
     set_dim(x) = 3
     proj(x, 1) = R
@@ -42,7 +42,7 @@ prove:
 
 prove:
     # 测试嵌套 cart
-    have set nested = cart(cart(R, Q), cart(Z, N))
+    have nested set = cart(cart(R, Q), cart(Z, N))
     $is_cart(nested)
     set_dim(nested) = 2
     proj(nested, 1) = cart(R, Q)
@@ -61,7 +61,7 @@ prove:
     have x cart(R, R)
     x[1] $in R
 
-    have set t = cart(R, R)
+    have t set = cart(R, R)
     have y t
     y[1] $in R
 

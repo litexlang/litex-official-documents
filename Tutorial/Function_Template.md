@@ -367,3 +367,5 @@ f(3) = f(1) + f(2) = 2
 ```
 
 `fn_template` is a subset of a power set. And `fn(R)R` is actually equal to `R^{R}`.
+
+Essentially, `fn(X)Y` can be thought of as a "function" that takes sets as input—if we view `fn` itself as a function, its input parameters are sets. Typically, we don't allow a function's parameter type to be a set, which is why `fn` is a special keyword designed specifically to handle sets. `fn_template` allows users to define their own functions similar to `fn`, making it convenient to write multivariate functions and impose type requirements on the input sets.
