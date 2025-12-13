@@ -345,6 +345,22 @@ prop P(x R)
 have set s := {x R: $P(x)}
 ```
 
+Example:
+```litex
+have s set = {a R: 1 = 0}
+
+# automatically generate the following facts
+forall a s:
+    a $in R
+    1 = 0
+
+# prove that s is an empty set
+prove_by_contradiction s = {}:
+    have x s # s is an empty set, so we can take an element x from it, and x satisfies the property of the set: x $in R, 1 = 0
+    1 = 0
+
+```
+
 ### The Difference Between `let` and `have`
 
 Although both declare objects, they differ in a fundamental way:
@@ -375,7 +391,7 @@ In short:
 
 **Subset by property**: `have set set_name := {x set_name: $prop(x)}`
 
-**Built-in sets**: `N`, `Z`, `Q`, `R`, `C` are always non-empty
+**Built-in sets**: `N`, `Z`, `Q`, `R` are always non-empty
 
 ### Exercises
 
@@ -388,3 +404,4 @@ In short:
 The `have` keyword provides safety guarantees that `let` does not. When you use `have`, you're telling Litex: "I guarantee this object exists." Litex will verify that guarantee before allowing the declaration. This prevents many common errors and makes your code more robust.
 
 However, this safety comes at a cost: you must prove existence. Sometimes, especially when defining axioms or making assumptions, you don't want this check. That's when `let` is the right choice.
+

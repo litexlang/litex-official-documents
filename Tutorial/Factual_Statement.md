@@ -719,6 +719,29 @@ know a*b=0
 $product_zero_implies_or(a,b)
 ```
 
+Example: The followings are actually logically equivalent:
+
+Interestingly, with cart and set builder, we actually no longer need to use `dom` to define the domain of a function. We can just specify the parameter is in related set.
+
+```litex
+forall a R:
+    a > 0
+    =>:
+        a > -1
+
+forall a {x R: x > 0}:
+    a > -1
+
+forall a, b R:
+    a > 0
+    b > 0
+    =>:
+        a + b > 0
+
+forall ab {x cart(R, R): x[1] > 0, x[2] > 0}:
+    ab[1] + ab[2] > 0
+```
+
 ### Summary
 
 - Existential facts prove the existence of objects

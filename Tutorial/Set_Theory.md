@@ -671,6 +671,29 @@ prop larger_than_0_larger_than_0(x cart(R, R)):
 forall x cart_R_pos_R_pos: $larger_than_0_larger_than_0(x)
 ```
 
+Example:
+
+```litex
+prop p(x R)
+prop q(x R, y R)
+
+know:
+    forall x R: 
+        $p(x)
+        =>:
+            1 $in {a R: $q(x, a), a > 0}
+            {b R: $q(b, x), b > x} $in nonempty_set
+
+    $p(1)
+
+# 1 $in {a R: $q(1, a), a > 0}
+{a R: $q(a, 1), a > 1} $in nonempty_set
+```
+
+```litex
+have fn f(x {y R: y > 0}) {z R: z > -1} = x
+```
+
 **General principle**: For a proposition `prop p(x1 set1, x2 set2, ..., xn setn): facts`, you can equivalently define:
 - A set `have set set_p = {(x1, x2, ..., xn) cart(set1, set2, ..., setn): facts}`
 - Where `$p(x1, x2, ..., xn)` is equivalent to `(x1, x2, ..., xn) $in set_p`

@@ -930,6 +930,13 @@ From the perspective of set theory, a function is a binary relation, i.e., a map
 
 Example: How to define a function that adds two positive real numbers by 1. function takes one parameter, which is a pair of real numbers. 2. function takes two parameters, which are two real numbers.
 
+Example: Use set builder as function template set.
+
+```litex
+have fn f(x {y R: y > 0}) {z R: z > -1} = x
+f(1) = 1
+```
+
 ```litex
 have set s = {x cart(R, R): x[1] > 0, x[2] > 0}
 forall x s: x $in cart(R, R), x[1] $in R, x[2] $in R
@@ -953,6 +960,45 @@ forall x s:
     x[1] > 0
     x[2] > 0
     add_2_pos2(x[1], x[2]) = x[1] + x[2]
+```
+
+Example: How to prove that the sequence 1/n converges to 0.
+
+```litex
+exist_prop M N_pos st abs_less_than(epsilon R):
+    dom:
+        epsilon > 0
+    <=>:
+        1 / M < epsilon
+
+know forall epsilon R: epsilon > 0 => $abs_less_than(epsilon)
+
+exist_prop M N_pos st converge_to(s fn(N_pos)R, x R, epsilon R):
+    dom:
+        epsilon > 0
+    <=>:
+        forall n N_pos:
+            n > M
+            =>:
+                abs(s(n) - x) < epsilon
+
+have fn f(n N_pos) R = 1/n
+
+prove forall epsilon R: epsilon > 0 => $converge_to(f, 0, epsilon):
+    have M st $abs_less_than(epsilon)
+    forall n N_pos:
+        n > M
+        =>:
+            1 / n > 0 # make sure abs(1/n) = 1/n
+            1 / M > 0
+            abs(1 / n - 0) = abs(1/n) = 1 / n = abs(f(n) - 0)
+            abs(1 / M - 0) = abs(1/M) = 1 / M
+            1 / M < epsilon
+            1 / n < 1 / M
+            1 / n < epsilon # < is transitive
+            abs(f(n) - 0) < epsilon
+            
+    exist M st $converge_to(f, 0, epsilon)
 ```
 
 However, in Litex, we still treat `fn(R, R) R` and `fn(cart(R, R)) R` as different. The latter takes only one parameter, while the former takes two. Of course, these two types of functions can easily be shown to be equivalent. For example, `fn f(x R, y R) R` and `fn g(x cart(R, R)) R` are equivalent if for any `x cart(R, R)`, we have `g(x) = f(coord(x, cart(R, R), 1), coord(x, cart(R, R), 2))`.

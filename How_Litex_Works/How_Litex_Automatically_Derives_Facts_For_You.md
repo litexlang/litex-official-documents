@@ -222,3 +222,13 @@ a > 0
 ```
 
 Since `1` is the value of `a`, `a > 0` is automatically established because `a = 1` is known. `a > 0` is replaced with `1 > 0`, and then `1 > 0` is verified to be true.
+
+## Bonus: Is Litex Kernel too big?
+
+Litex implementation is very different from other formal languages whose kernel is very small. Though Litex contains just 30k-50k lines of code, which from any perspective is just a small software, it is still a very large formal language kernel compared to other formal languages with just a few thousand lines of code. Someone worries that the larger kernel makes Litex harder to understand and maintain, thus more easily introduces bugs and logical errors. It's very lucky for Litex to have comments like that, which shows people pay attention to Litex. It's believed that Litex will become increasingly stable and reliable because:
+
+1. Litex's working mechanism is almost perfectly aligned with how the human brain thinks. If you find Litex's internal logic too complex, that precisely demonstrates Litex's importance: before Litex, all these verification processes happened in the human brain. When the brain performs so many checks, mistakes are inevitable. Litex automates these mechanical and tedious verification processes for you.
+
+2. Other formal languages implement mathematical theories—their language semantics—in a very abstract way. The advantage is a small kernel, but the disadvantage is that common mathematical definitions need to be manually implemented in the standard library. Litex's advantage is a larger kernel, but the standard library can be small because relevant mathematical definitions are already built into Litex's kernel. In terms of total code size (kernel + standard library), traditional formal languages don't necessarily have less code than Litex.
+
+3. Considering that Litex has a very large potential user base (ordinary people who are not formal language experts) because it's simple and easy to learn, more users mean more people finding bugs, discovering bugs, and fixing bugs. Litex will become increasingly stable and reliable.
