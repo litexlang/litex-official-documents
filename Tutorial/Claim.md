@@ -1,8 +1,8 @@
 ## Claim: Organize Your Proof into Sub-Proofs
 
-_Well done is better than well said._
+_Arriving at each new city, the traveler finds again a past of his that he did not know he had: the foreignness of what you no longer are or no longer possess lies in wait for you in foreign, unpossessed places._
 
-_— Benjamin Franklin_
+_— Italo Calvino_
 
 ---
 

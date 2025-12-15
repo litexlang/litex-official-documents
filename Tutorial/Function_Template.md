@@ -1,8 +1,8 @@
 # Function Template: The Blueprint of Functions
 
-_Generic programming centers around the idea of abstracting from concrete, efficient algorithms to obtain generic algorithms that can be combined with different data representations to produce a wide variety of useful software._
+_Meaning lies as much in the mind of the reader as in the Haiku._
 
-_— Musser, David R.; Stepanov, Alexander A., Generic Programming_
+_— Douglas R. Hofstadter_
 
 Function templates are one the most powerful features in Litex, inspired by template (generic programming) in C++. They are the blueprint of functions. Introduction of function template makes sequence, matrix, product of sets, and some of the most widely used concepts in math easy to define in Litex.
 
