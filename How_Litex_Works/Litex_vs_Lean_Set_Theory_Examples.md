@@ -429,6 +429,67 @@ a $in {x N: x % 17 = 0, $p(x)}
 
 ---
 
+## Example 10: Proof by Enumeration
+
+**Task**: Prove that for any element x in the set `{1, 2, 3, 4, 17}`, if x is even (i.e., `x % 2 = 0`), then x must be either 2 or 4.
+
+This example demonstrates how Litex's `prove_by_enum` construct allows direct proof by enumerating all cases in a finite set, which is a common and intuitive proof technique.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>prove_by_enum(x {1, 2, 3, 4, 17}):</code><br>
+      <code>&nbsp;&nbsp;dom:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;x % 2 = 0</code><br>
+      <code>&nbsp;&nbsp;=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;x = 2 or x = 4</code><br>
+      <code>&nbsp;&nbsp;prove:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Finset.Basic</code><br>
+      <code>import Mathlib.Data.Nat.Basic</code><br><br>
+      <code>example (x : ℕ) (hx : x ∈ ({1, 2, 3, 4, 17} : Finset ℕ)) (heven : x % 2 = 0) : x = 2 ∨ x = 4 := by</code><br>
+      <code>&nbsp;&nbsp;-- Enumerate all cases</code><br>
+      <code>&nbsp;&nbsp;have h : x = 1 ∨ x = 2 ∨ x = 3 ∨ x = 4 ∨ x = 17 := by</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;simp [Finset.mem_insert, Finset.mem_singleton] at hx</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;tauto</code><br>
+      <code>&nbsp;&nbsp;-- Check each case</code><br>
+      <code>&nbsp;&nbsp;rcases h with (rfl|rfl|rfl|rfl|rfl)</code><br>
+      <code>&nbsp;&nbsp;· -- Case x = 1: 1 % 2 = 1 ≠ 0, contradiction</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;norm_num at heven</code><br>
+      <code>&nbsp;&nbsp;· -- Case x = 2: satisfies conclusion</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;left; rfl</code><br>
+      <code>&nbsp;&nbsp;· -- Case x = 3: 3 % 2 = 1 ≠ 0, contradiction</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;norm_num at heven</code><br>
+      <code>&nbsp;&nbsp;· -- Case x = 4: satisfies conclusion</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;right; rfl</code><br>
+      <code>&nbsp;&nbsp;· -- Case x = 17: 17 % 2 = 1 ≠ 0, contradiction</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;norm_num at heven</code>
+    </td>
+  </tr>
+</table>
+
+Litex's `prove_by_enum` provides a direct and intuitive way to prove statements about finite sets by automatically checking all cases. The `dom` clause specifies the domain condition, the `=>` clause specifies what needs to be proven, and `prove` contains the proof steps (which can be `do_nothing` when the enumeration itself is sufficient).
+
+Lean requires explicit case analysis using tactics like `rcases` and manual verification of each case. The proof structure is clear but requires more boilerplate to enumerate all possibilities and handle each case separately.
+
+```litex
+prove_by_enum(x {1, 2, 3, 4, 17}):
+    dom:
+        x % 2 = 0
+    =>:
+        x = 2 or x = 4
+    prove:
+        do_nothing
+```
+
+---
+
 ## Summary
 
 Since Lean's kernel can only provide built-in functionality for type theory (its foundation), it cannot provide built-in functionality for set theory. Consequently, users must manually implement set-theoretic operations and proofs. 
