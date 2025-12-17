@@ -118,4 +118,41 @@ prove R = image_set(R, R, f):
 
 Von Neumann uses axiom of infinity to construct the natural numbers. Keyword N in Litex is the built-in set of natural numbers, where `0 $in N` and `1 $in N` ... are true.
 
-8.
+8. Axiom of power set: for any set x, there exists a set Power(x) that contains all subsets of x.
+
+Builtin implementation of power set axiom (pseudo code):
+```
+fn power_set(x set) set
+know:
+	forall x set, y power_set(x):
+		y $subset_of x
+	forall x set, y set:
+		y $subset_of x
+		=>:
+			y $in power_set(x)
+```
+
+```litex
+forall x, y set:
+    x $subset_of y
+    =>:
+        x $in power_set(y)
+```
+
+9. Axiom of choice (well-ordering principle): every set can be well-ordered. For any set X, there exists a function f from X to the union of the members of X, called a "choice function", such that forall Y $in X, one has f(Y) $in Y.
+
+Builtin implementation of axiom of choice (pseudo code):
+
+```
+fn choice(x set) fn(x) cup(x)
+know imply axiom_of_choice(x set):
+	forall y x:
+		choice(x)(y) $in y
+```
+
+```litex
+$axiom_of_choice(R)
+forall x R:
+    choice(R)(x) $in x
+    choice(R)(x) $in cup(R)
+```
