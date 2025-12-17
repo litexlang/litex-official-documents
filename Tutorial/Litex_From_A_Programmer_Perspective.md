@@ -4,10 +4,6 @@ _If you define the problem correctly, you almost have the solution._
 
 _- Steve Jobs_
 
-_Everything should be made as simple as possible, but not simpler._
-
-_- Albert Einstein_
-
 Litex is a pragmatic language. Its author aimed to design a language intuitive enough for everyone to use and understand. Litex was designed alongside its implementation. Eventually, the author found a set of very self-consistent, simple (but not simpler), and absolutely correct principles to implement the entire language (hopefully this is truly the case!). This chapter mainly introduces Litex statements and how they correspond to common mathematical propositions. This is the foundation of Litex's rigor, because Litex faithfully operates according to how these mathematical rules work.
 
 **Statement**

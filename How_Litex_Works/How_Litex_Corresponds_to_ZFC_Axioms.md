@@ -906,3 +906,4 @@ n < m
     n * k < m * k
 ```
 - **Note**: This theorem shows that multiplication by a positive number is order-preserving
+

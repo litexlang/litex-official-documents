@@ -38,7 +38,7 @@ example : 1 ∈ my_set := by
   -- simp
 ```
 
-**Why Litex is better**: Litex automatically verifies set membership in one line, while Lean requires imports, explicit definitions, and proof tactics.
+**Comment**: Litex's design allows automatic verification of set membership in a single line, directly expressing the mathematical statement without requiring additional setup.
 
 ---
 
@@ -78,7 +78,7 @@ example : MySet.mk ({1, 2} : Finset ℕ) ∈ my_set_of_sets := by
   -- Or use a more complex type hierarchy
 ```
 
-**Why Litex is better**: Litex's set-theoretic foundation naturally supports sets containing sets, while Lean requires explicit type definitions and complex type hierarchies.
+**Comment**: Litex's set-theoretic foundation naturally supports sets containing sets as elements, reflecting the mathematical principle that sets are objects.
 
 ---
 
@@ -119,22 +119,22 @@ example (h : x ∈ ({1, 2} : Finset ℕ)) : x = 1 ∨ x = 2 := by
   tauto
 ```
 
-**Why Litex is better**: Litex automatically derives disjunctions from set membership, while Lean requires explicit proof tactics and case analysis.
+**Comment**: Litex automatically derives disjunctions from set membership, recognizing that membership in a finite enumerated set implies equality to one of its elements.
 
 ---
 
-## Example 5: Properties from Intensional Set Membership
+## Example 5: Properties from Set Builder Membership
 
-**Task**: If `x` is an element of `{x R: x > 0}`, then `x > 0`.
+**Task**: If `x` is an element of `{y R: y > 0}`, then `x > 0`.
 
 ### Litex Solution
 
 ```litex
-have x {x R: x > 0}
-x > 0
+forall x {y R: y > 0}:
+    x > 0
 ```
 
-Litex automatically derives this property. The kernel recognizes that membership in an intensional set (defined by a condition) implies that condition.
+Litex automatically derives this property. The kernel recognizes that membership in an Set Builder (defined by a condition) implies that condition.
 
 ### Lean Solution
 
@@ -158,7 +158,7 @@ example (h : x ∈ {y : ℝ | y > 0}) : x > 0 := by
   assumption
 ```
 
-**Why Litex is better**: Litex automatically derives properties from intensional set membership, while Lean requires explicit rewriting and proof tactics for this fundamental mathematical pattern.
+**Comment**: Litex automatically derives properties from Set Builder membership, recognizing that membership in a set defined by a condition implies that condition—a fundamental mathematical pattern.
 
 ---
 ## Example 6: Proving Set Inequality by Cardinality
@@ -193,7 +193,7 @@ example : ({1, 2, 3} : Finset ℕ) ≠ ({1, 2} : Finset ℕ) := by
   norm_num at h1
 ```
 
-**Why Litex is better**: Litex's built-in cardinality operations and proof by contradiction make this straightforward, while Lean requires explicit cardinality computation and multiple proof steps.
+**Comment**: Litex's built-in cardinality operations and proof by contradiction mechanism make this type of proof straightforward and intuitive.
 
 ---
 ## Example 7: Sets Cannot Contain Duplicate Elements
@@ -229,10 +229,53 @@ variable (a : ℕ)  -- Assume a is a variable of type ℕ
 
 Lean encounters type inference issues when dealing with sets containing variables, making it difficult to express this scenario.
 
-**Why Litex is better**: Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle. Lean, on the other hand, encounters type inference problems when dealing with sets containing variables, making it difficult to even express this scenario.
+**Comment**: Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle that sets are collections of distinct elements.
+
+## Example 8: Proving Set Equality by Range Enumeration
+
+**Task**: Prove that the integers greater than or equal to 5 and less than 8 are exactly 5, 6, and 7.
+
+### Litex Solution
+
+```litex
+prove_for i $in range(5, 8):
+    i = 5 or i = 6 or i = 7
+
+forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8
+```
+
+The proof proceeds in two steps:
+1. First, we prove that if `i $in range(5, 8)`, then `i = 5 or i = 6 or i = 7` using `prove_for`.
+2. Second, we prove that if `i = 5 or i = 6 or i = 7`, then `i $in range(5, 8)` (i.e., `i >= 5` and `i < 8`).
+
+Litex's `prove_for` makes range-based proofs straightforward and explicit, directly expressing the mathematical intent.
+
+### Lean Solution
+
+In Lean, this requires explicit set equality proof with multiple tactics:
+
+```lean
+import Mathlib.Tactic
+
+example : {n : ℕ | n ≥ 5 ∧ n < 8} = ({5, 6, 7} : Finset ℕ) := by
+  ext n
+  constructor
+  · intro hn
+    have h1 : n ≥ 5 := hn.1
+    have h2 : n < 8 := hn.2
+    interval_cases n <;> simp
+  · intro hn
+    have : n = 5 ∨ n = 6 ∨ n = 7 := by simpa [Finset.mem_insert, Finset.mem_singleton] using hn
+    rcases this with (rfl|rfl|rfl)
+    · exact ⟨by norm_num, by norm_num⟩
+    · exact ⟨by norm_num, by norm_num⟩
+    · exact ⟨by norm_num, by norm_num⟩
+```
+
+**Comment**: Litex's `prove_for` provides a direct, intuitive way to prove range-based set equalities, making the mathematical intent explicit through iterative verification. 
 
 ---
-## Example 8: Set Inclusion Transitivity
+## Example 9: Set Inclusion Transitivity
 
 **Task**: Demonstrate that an object belonging to one set automatically belongs to other sets through set inclusion. If `A ⊆ B` and `B ⊆ C`, then any element `x` in `A` also belongs to both `B` and `C`.
 
@@ -275,11 +318,11 @@ example (x : α) (hx : x ∈ A) : x ∈ C := by
 
 Lean requires explicit application of the inclusion hypotheses and manual construction of intermediate facts.
 
-**Why Litex is better**: Litex automatically handles transitive set membership through its built-in reasoning, while Lean requires explicit proof steps and manual application of inclusion hypotheses.
+**Comment**: Litex automatically handles transitive set membership through its built-in reasoning, recognizing the logical chain from set inclusion facts.
 
 ---
 
-## Example 9: Membership in Intensional Sets with Domain-Restricted Propositions
+## Example 10: Membership in Set Builders with Domain-Restricted Propositions
 
 **Task**: Prove that `17` belongs to the set `{x N: x % 17 = 0, $p(x)}` where `p` is a proposition with domain restriction `{z Z: z < 100}`, and `p` is derived from another proposition `q` with domain `{y Q: y > 0}` through a universal rule.
 
@@ -353,7 +396,7 @@ variable (ha : InSetA p a)
 - **Complex rule application**: The universal rule requires explicit handling of all type conversions and domain conditions.
 - **Structure definition**: The membership condition requires defining a custom structure `InSetA` with explicit proofs of all conditions.
 
-**Why Litex is better**: Litex automatically handles domain restrictions, type conversions, and verification of all conditions. In contrast, Lean requires explicit subtype definitions, manual type conversions with proof obligations, and custom structures to represent set membership. *The convenience of Litex is especially evident in more complex examples like this one.*
+**Comment**: Litex automatically handles domain restrictions, type conversions, and verification of all conditions, making complex scenarios involving multiple constraints and type systems more manageable. *The convenience of Litex's automatic handling is especially evident in more complex examples like this one.*
 
 ---
 
