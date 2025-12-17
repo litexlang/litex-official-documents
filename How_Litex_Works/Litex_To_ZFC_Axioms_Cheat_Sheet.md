@@ -6,9 +6,27 @@ _- John von Neumann_
 
 ---
 
+Zermelo-Fraenkel set theory with the Axiom of Choice (ZFC) serves as the foundation of modern mathematics. Many of its core concepts—sets, elements, membership, and subsets—are familiar to anyone who has studied high-school mathematics. This document demonstrates how Litex implements the ZFC axioms, providing a direct mapping between Litex's syntax and the fundamental principles that underpin virtually all of mathematics.
+
 1. Axiom of extensionality: `forall x, y set: x = y <=> forall z: z $in x <=> z $in y`
 
 Litex example: equal_set is a built-in proposition that checks if two sets are equal by checking if all elements of the first set are in the second set and all elements of the second set are in the first set.
+
+Builtin implementation of axiom of extensionality (pseudo code):
+
+```
+know imply equal_set(x, y set):
+    x = y
+
+know:
+    forall x, y set:
+        forall a x:
+            a $in y
+        forall a y:
+            a $in x
+        =>:
+            $equal_set(x, y)
+```
 
 ```litex
 forall x, y set:
@@ -18,6 +36,7 @@ forall x, y set:
         a $in x
     <=>:
         $equal_set(x, y)
+        x = y
 ```
 
 2. Axiom of regularity: every nonempty set A has an element Y that is disjoint from the set A, i.e. for all items z in Y, z is not in A; for all items z in A, z is not in Y.
