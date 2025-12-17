@@ -353,7 +353,7 @@ variable (ha : InSetA p a)
 - **Complex rule application**: The universal rule requires explicit handling of all type conversions and domain conditions.
 - **Structure definition**: The membership condition requires defining a custom structure `InSetA` with explicit proofs of all conditions.
 
-**Why Litex is better**: Litex automatically handles domain restrictions, type conversions, and verification of all conditions. In contrast, Lean requires explicit subtype definitions, manual type conversions with proof obligations, and custom structures to represent set membership. Litex's set-theoretic foundation naturally supports domain-restricted propositions, while Lean's type theory requires extensive manual work to achieve the same result.
+**Why Litex is better**: Litex automatically handles domain restrictions, type conversions, and verification of all conditions. In contrast, Lean requires explicit subtype definitions, manual type conversions with proof obligations, and custom structures to represent set membership. *The convenience of Litex is especially evident in more complex examples like this one.*
 
 ---
 
