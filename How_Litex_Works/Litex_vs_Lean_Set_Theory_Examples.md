@@ -10,37 +10,27 @@ Our goal is not to criticize Lean (which Litex team deeply respects), but to pro
 
 **Task**: Prove that `1` is an element of the set `{1, 2}`.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-1 $in {1, 2}
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Data.Finset.Basic
-
--- Define the set
-def my_set : Finset ℕ := {1, 2}
-
--- Prove membership
-example : 1 ∈ my_set := by
-  simp [my_set]
-  -- or more explicitly:
-  -- rw [Finset.mem_insert]
-  -- simp
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>1 $in {1, 2}</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Finset.Basic</code><br><br>
+      <code>-- Define the set</code><br>
+      <code>def my_set : Finset ℕ := {1, 2}</code><br><br>
+      <code>-- Prove membership</code><br>
+      <code>example : 1 ∈ my_set := by</code><br>
+      <code>&nbsp;&nbsp;simp [my_set]</code><br>
+      <code>&nbsp;&nbsp;-- or more explicitly:</code><br>
+      <code>&nbsp;&nbsp;-- rw [Finset.mem_insert]</code><br>
+      <code>&nbsp;&nbsp;-- simp</code>
+    </td>
+  </tr>
 </table>
 
 Litex's design allows automatic verification of set membership in a single line, directly expressing the mathematical statement without requiring additional setup.
@@ -57,43 +47,32 @@ Lean requires explicit set definition and proof tactics. The `simp` tactic can s
 
 **Task**: Define a set containing sets as elements: `{{}, {1, 2}}`, and prove that `{1, 2}` is an element of this set.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-{1, 2} $in {{}, {1, 2}}
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Data.Finset.Basic
-
--- Lean requires explicit types, making this awkward
--- You need to use a structure to represent sets of sets
-structure MySet where
-  val : Finset ℕ
-
-def my_set_of_sets : Finset MySet := {
-  MySet.mk ({} : Finset ℕ),
-  MySet.mk ({1, 2} : Finset ℕ)
-}
-
--- To prove membership, you need to construct the set element explicitly
-example : MySet.mk ({1, 2} : Finset ℕ) ∈ my_set_of_sets := by
-  simp [my_set_of_sets]
-  -- Requires explicit construction and proof steps
-  -- Or use a more complex type hierarchy
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>{1, 2} $in {{}, {1, 2}}</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Finset.Basic</code><br><br>
+      <code>-- Lean requires explicit types, making this awkward</code><br>
+      <code>-- You need to use a structure to represent sets of sets</code><br>
+      <code>structure MySet where</code><br>
+      <code>&nbsp;&nbsp;val : Finset ℕ</code><br><br>
+      <code>def my_set_of_sets : Finset MySet := {</code><br>
+      <code>&nbsp;&nbsp;MySet.mk ({} : Finset ℕ),</code><br>
+      <code>&nbsp;&nbsp;MySet.mk ({1, 2} : Finset ℕ)</code><br>
+      <code>}</code><br><br>
+      <code>-- To prove membership, you need to construct the set element explicitly</code><br>
+      <code>example : MySet.mk ({1, 2} : Finset ℕ) ∈ my_set_of_sets := by</code><br>
+      <code>&nbsp;&nbsp;simp [my_set_of_sets]</code><br>
+      <code>&nbsp;&nbsp;-- Requires explicit construction and proof steps</code><br>
+      <code>&nbsp;&nbsp;-- Or use a more complex type hierarchy</code>
+    </td>
+  </tr>
 </table>
 
 
@@ -111,37 +90,26 @@ Lean requires explicit type structures (like `MySet`) to represent sets of sets,
 
 **Task**: If `x` is an element of `{1, 2}`, then `x = 1` or `x = 2`.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-have x {1, 2}
-x = 1 or x = 2
-```
-
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Data.Finset.Basic
-
-variable (x : ℕ)
-
-example (h : x ∈ ({1, 2} : Finset ℕ)) : x = 1 ∨ x = 2 := by
-  simp [Finset.mem_insert, Finset.mem_singleton] at h
-  cases h with
-  | inl h1 => left; exact h1
-  | inr h2 => right; exact h2
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have x {1, 2}</code><br>
+      <code>x = 1 or x = 2</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Finset.Basic</code><br><br>
+      <code>variable (x : ℕ)</code><br><br>
+      <code>example (h : x ∈ ({1, 2} : Finset ℕ)) : x = 1 ∨ x = 2 := by</code><br>
+      <code>&nbsp;&nbsp;simp [Finset.mem_insert, Finset.mem_singleton] at h</code><br>
+      <code>&nbsp;&nbsp;cases h with</code><br>
+      <code>&nbsp;&nbsp;| inl h1 => left; exact h1</code><br>
+      <code>&nbsp;&nbsp;| inr h2 => right; exact h2</code>
+    </td>
+  </tr>
 </table>
 
 Litex automatically derives disjunctions from set membership, recognizing that membership in a finite enumerated set implies equality to one of its elements.
@@ -158,34 +126,24 @@ x = 1 or x = 2
 
 **Task**: If `x` is an element of `{y R: y > 0}`, then `x > 0`.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-forall x {y R: y > 0}:
-    x > 0
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Data.Set.Basic
-
-variable (x : ℝ)
-
-example (h : x ∈ {y : ℝ | y > 0}) : x > 0 := by
-  simp [Set.mem_setOf_eq] at h
-  exact h
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>forall x {y R: y > 0}:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;x > 0</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Set.Basic</code><br><br>
+      <code>variable (x : ℝ)</code><br><br>
+      <code>example (h : x ∈ {y : ℝ | y > 0}) : x > 0 := by</code><br>
+      <code>&nbsp;&nbsp;simp [Set.mem_setOf_eq] at h</code><br>
+      <code>&nbsp;&nbsp;exact h</code>
+    </td>
+  </tr>
 </table>
 
 Litex automatically derives properties from Set Builder membership, recognizing that membership in a set defined by a condition implies that condition—a fundamental mathematical pattern.
@@ -202,39 +160,30 @@ forall x {y R: y > 0}:
 
 **Task**: Prove that `{1, 2, 3} ≠ {1, 2}` by showing that `{1, 2, 3}` has 3 elements while `{1, 2}` has 2 elements.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-prove_by_contradiction {1,2,3} != {1,2}:
-    count({1,2,3}) = 3
-    count({1,2}) = 2
-    count({1,2,3}) = count({1,2})
-    3 = 2
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Data.Finset.Basic
-
-example : ({1, 2, 3} : Finset ℕ) ≠ ({1, 2} : Finset ℕ) := by
-  intro h
-  have h1 : ({1, 2, 3} : Finset ℕ).card = 3 := by simp
-  have h2 : ({1, 2} : Finset ℕ).card = 2 := by simp
-  rw [h] at h1
-  rw [h2] at h1
-  norm_num at h1
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>prove_by_contradiction {1,2,3} != {1,2}:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2,3}) = 3</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2}) = 2</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2,3}) = count({1,2})</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;3 = 2</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Finset.Basic</code><br><br>
+      <code>example : ({1, 2, 3} : Finset ℕ) ≠ ({1, 2} : Finset ℕ) := by</code><br>
+      <code>&nbsp;&nbsp;intro h</code><br>
+      <code>&nbsp;&nbsp;have h1 : ({1, 2, 3} : Finset ℕ).card = 3 := by simp</code><br>
+      <code>&nbsp;&nbsp;have h2 : ({1, 2} : Finset ℕ).card = 2 := by simp</code><br>
+      <code>&nbsp;&nbsp;rw [h] at h1</code><br>
+      <code>&nbsp;&nbsp;rw [h2] at h1</code><br>
+      <code>&nbsp;&nbsp;norm_num at h1</code>
+    </td>
+  </tr>
 </table>
 
 Litex's built-in cardinality operations and proof by contradiction mechanism make this type of proof straightforward and intuitive.
@@ -254,37 +203,26 @@ prove_by_contradiction {1,2,3} != {1,2}:
 
 **Task**: Demonstrate that sets cannot contain duplicate elements. The statement `{1, 1} = {1, 1}` may seem correct, but it is actually problematic because a set cannot contain the same element twice.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-# have a N
-# {a, 1} = {a, 1} 
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib
-
-variable (a : ℕ)  -- Assume a is a variable of type ℕ
-
--- This still causes an error! Because Lean cannot infer what {} is
--- example : ({a, 1} : Set ℕ) = ({a, 1} : Set ℕ) := rfl
--- Error: ambiguous overload, possible interpretations: ...
-
--- This also causes an error
--- example : {a, 1} = {a, 1} := rfl
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code># have a N</code><br>
+      <code># {a, 1} = {a, 1}</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib</code><br><br>
+      <code>variable (a : ℕ)  -- Assume a is a variable of type ℕ</code><br><br>
+      <code>-- This still causes an error! Because Lean cannot infer what {} is</code><br>
+      <code>-- example : ({a, 1} : Set ℕ) = ({a, 1} : Set ℕ) := rfl</code><br>
+      <code>-- Error: ambiguous overload, possible interpretations: ...</code><br><br>
+      <code>-- This also causes an error</code><br>
+      <code>-- example : {a, 1} = {a, 1} := rfl</code>
+    </td>
+  </tr>
 </table>
 
 Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle that sets are collections of distinct elements.
@@ -306,44 +244,34 @@ The proof proceeds in two steps:
 1. First, we prove that if `i $in range(5, 8)`, then `i = 5 or i = 6 or i = 7` using `prove_for`.
 2. Second, we prove that if `i = 5 or i = 6 or i = 7`, then `i $in range(5, 8)` (i.e., `i >= 5` and `i < 8`).
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-prove_for i $in range(5, 8):
-    i = 5 or i = 6 or i = 7
-
-forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Tactic
-
-example : {n : ℕ | n ≥ 5 ∧ n < 8} = ({5, 6, 7} : Finset ℕ) := by
-  ext n
-  constructor
-  · intro hn
-    have h1 : n ≥ 5 := hn.1
-    have h2 : n < 8 := hn.2
-    interval_cases n <;> simp
-  · intro hn
-    have : n = 5 ∨ n = 6 ∨ n = 7 := by simpa [Finset.mem_insert, Finset.mem_singleton] using hn
-    rcases this with (rfl|rfl|rfl)
-    · exact ⟨by norm_num, by norm_num⟩
-    · exact ⟨by norm_num, by norm_num⟩
-    · exact ⟨by norm_num, by norm_num⟩
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>prove_for i $in range(5, 8):</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;i = 5 or i = 6 or i = 7</code><br><br>
+      <code>forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>example : {n : ℕ | n ≥ 5 ∧ n < 8} = ({5, 6, 7} : Finset ℕ) := by</code><br>
+      <code>&nbsp;&nbsp;ext n</code><br>
+      <code>&nbsp;&nbsp;constructor</code><br>
+      <code>&nbsp;&nbsp;· intro hn</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;have h1 : n ≥ 5 := hn.1</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;have h2 : n < 8 := hn.2</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;interval_cases n <;> simp</code><br>
+      <code>&nbsp;&nbsp;· intro hn</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;have : n = 5 ∨ n = 6 ∨ n = 7 := by simpa [Finset.mem_insert, Finset.mem_singleton] using hn</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;rcases this with (rfl|rfl|rfl)</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;· exact ⟨by norm_num, by norm_num⟩</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;· exact ⟨by norm_num, by norm_num⟩</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;· exact ⟨by norm_num, by norm_num⟩</code>
+    </td>
+  </tr>
 </table> 
 
 Litex's `prove_for` provides a direct, intuitive way to prove range-based set equalities, making the mathematical intent explicit through iterative verification.
@@ -362,48 +290,36 @@ forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8
 
 **Task**: Demonstrate that an object belonging to one set automatically belongs to other sets through set inclusion. If `A ⊆ B` and `B ⊆ C`, then any element `x` in `A` also belongs to both `B` and `C`.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-have a, b, c nonempty_set
-know forall x a => x $in b
-know forall x b => x $in c
-
-have x a
-x $in b
-x $in c
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib
-
-variable {α : Type*}  -- Arbitrary type
-variable (A B C : Set α)  -- Three sets
-
--- Premises
-variable (hA_nonempty : Set.Nonempty A)  -- A is nonempty
-variable (hAB : ∀ x, x ∈ A → x ∈ B)      -- ∀x∈A, x∈B (i.e., A ⊆ B)
-variable (hBC : ∀ x, x ∈ B → x ∈ C)      -- ∀x∈B, x∈C (i.e., B ⊆ C)
-
--- Conclusion
-example (x : α) (hx : x ∈ A) : x ∈ C := by
-  -- Since x ∈ A, we have x ∈ B
-  have hxB : x ∈ B := hAB x hx
-  -- Since x ∈ B, we have x ∈ C
-  exact hBC x hxB
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have a, b, c nonempty_set</code><br>
+      <code>know forall x a => x $in b</code><br>
+      <code>know forall x b => x $in c</code><br><br>
+      <code>have x a</code><br>
+      <code>x $in b</code><br>
+      <code>x $in c</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib</code><br><br>
+      <code>variable {α : Type*}  -- Arbitrary type</code><br>
+      <code>variable (A B C : Set α)  -- Three sets</code><br><br>
+      <code>-- Premises</code><br>
+      <code>variable (hA_nonempty : Set.Nonempty A)  -- A is nonempty</code><br>
+      <code>variable (hAB : ∀ x, x ∈ A → x ∈ B)      -- ∀x∈A, x∈B (i.e., A ⊆ B)</code><br>
+      <code>variable (hBC : ∀ x, x ∈ B → x ∈ C)      -- ∀x∈B, x∈C (i.e., B ⊆ C)</code><br><br>
+      <code>-- Conclusion</code><br>
+      <code>example (x : α) (hx : x ∈ A) : x ∈ C := by</code><br>
+      <code>&nbsp;&nbsp;-- Since x ∈ A, we have x ∈ B</code><br>
+      <code>&nbsp;&nbsp;have hxB : x ∈ B := hAB x hx</code><br>
+      <code>&nbsp;&nbsp;-- Since x ∈ B, we have x ∈ C</code><br>
+      <code>&nbsp;&nbsp;exact hBC x hxB</code>
+    </td>
+  </tr>
 </table>
 
 Litex automatically handles transitive set membership through its built-in reasoning, recognizing the logical chain from set inclusion facts.
@@ -428,69 +344,54 @@ x $in c
 
 This example demonstrates how Litex and Lean handle propositions with domain restrictions (subsets as domains) and the complexity of type conversions between different number systems.
 
-<table style="max-width: 900px;">
-<tr>
-<td width="50%">
-
-**Litex**
-
-```
-have a R = 17
-prop p(x {z Z: z < 100})
-prop q(x {y Q: y > 0})
-know $q(17)
-know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)
-a $in {x N: x % 17 = 0, $p(x)}
-```
-
-</td>
-<td width="50%">
-
-**Lean**
-
-```lean
-import Mathlib.Data.Int.Basic
-import Mathlib.Data.Rat.Basic
-
--- Define constant R
-def R : ℤ := 17
-
--- 1. Define predicates with range restrictions (Subtypes)
--- The domain of p is {z : ℤ | z < 100}
-def DomainP := {z : ℤ // z < 100}
-variable (p : DomainP → Prop)
-
--- The domain of q is {y : ℚ | y > 0}
-def DomainQ := {y : ℚ // y > 0}
-variable (q : DomainQ → Prop)
-
--- 2. know q(17)
--- Here we need to prove 17 > 0 to construct an element of DomainQ
-axiom q_17 : q ⟨17, by norm_num⟩
-
--- 3. know ∀ x ∈ ℤ: x ∈ {y ∈ ℤ : y < 20, q(y)} => p(x)
--- Here we need to handle type conversions: x must satisfy x > 0 to pass to q, and x < 100 to pass to p
-axiom p_rule : ∀ (x : ℤ), 
-  (h_range : x < 20) → 
-  (h_pos : x > (0 : ℚ)) → 
-  q ⟨x, h_pos⟩ → 
-  p ⟨x, by linarith⟩
-
--- 4. a ∈ {x ∈ ℕ : x % 17 = 0, p(x)}
--- a is a natural number satisfying both conditions
-structure InSetA (a : ℕ) : Prop where
-  mod_17 : a % 17 = 0
-  -- Similarly, here we need to prove a < 100 to pass a to p
-  h_lt_100 : (a : ℤ) < 100
-  prop_p : p ⟨(a : ℤ), h_lt_100⟩
-
--- Declare that a belongs to this set
-variable (a : ℕ)
-variable (ha : InSetA p a)
-```
-
-</td>
-</tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have a R = 17</code><br>
+      <code>prop p(x {z Z: z < 100})</code><br>
+      <code>prop q(x {y Q: y > 0})</code><br>
+      <code>know $q(17)</code><br>
+      <code>know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)</code><br>
+      <code>a $in {x N: x % 17 = 0, $p(x)}</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Int.Basic</code><br>
+      <code>import Mathlib.Data.Rat.Basic</code><br><br>
+      <code>-- Define constant R</code><br>
+      <code>def R : ℤ := 17</code><br><br>
+      <code>-- 1. Define predicates with range restrictions (Subtypes)</code><br>
+      <code>-- The domain of p is {z : ℤ | z < 100}</code><br>
+      <code>def DomainP := {z : ℤ // z < 100}</code><br>
+      <code>variable (p : DomainP → Prop)</code><br><br>
+      <code>-- The domain of q is {y : ℚ | y > 0}</code><br>
+      <code>def DomainQ := {y : ℚ // y > 0}</code><br>
+      <code>variable (q : DomainQ → Prop)</code><br><br>
+      <code>-- 2. know q(17)</code><br>
+      <code>-- Here we need to prove 17 > 0 to construct an element of DomainQ</code><br>
+      <code>axiom q_17 : q ⟨17, by norm_num⟩</code><br><br>
+      <code>-- 3. know ∀ x ∈ ℤ: x ∈ {y ∈ ℤ : y < 20, q(y)} => p(x)</code><br>
+      <code>-- Here we need to handle type conversions: x must satisfy x > 0 to pass to q, and x < 100 to pass to p</code><br>
+      <code>axiom p_rule : ∀ (x : ℤ),</code><br>
+      <code>&nbsp;&nbsp;(h_range : x < 20) →</code><br>
+      <code>&nbsp;&nbsp;(h_pos : x > (0 : ℚ)) →</code><br>
+      <code>&nbsp;&nbsp;q ⟨x, h_pos⟩ →</code><br>
+      <code>&nbsp;&nbsp;p ⟨x, by linarith⟩</code><br><br>
+      <code>-- 4. a ∈ {x ∈ ℕ : x % 17 = 0, p(x)}</code><br>
+      <code>-- a is a natural number satisfying both conditions</code><br>
+      <code>structure InSetA (a : ℕ) : Prop where</code><br>
+      <code>&nbsp;&nbsp;mod_17 : a % 17 = 0</code><br>
+      <code>&nbsp;&nbsp;-- Similarly, here we need to prove a < 100 to pass a to p</code><br>
+      <code>&nbsp;&nbsp;h_lt_100 : (a : ℤ) < 100</code><br>
+      <code>&nbsp;&nbsp;prop_p : p ⟨(a : ℤ), h_lt_100⟩</code><br><br>
+      <code>-- Declare that a belongs to this set</code><br>
+      <code>variable (a : ℕ)</code><br>
+      <code>variable (ha : InSetA p a)</code>
+    </td>
+  </tr>
 </table>
 
 Litex automatically handles domain restrictions, type conversions, and verification of all conditions, making complex scenarios involving multiple constraints and type systems more manageable. The convenience of Litex's automatic handling is especially evident in more complex examples like this one.
