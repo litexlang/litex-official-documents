@@ -253,7 +253,17 @@ The proof proceeds in two steps:
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>prove_for i $in range(5, 8):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;i = 5 or i = 6 or i = 7</code><br><br>
-      <code>forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8</code>
+      <code>prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:</code><br>
+      <code>&nbsp;&nbsp;prove_case_by_case:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x >= 5</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x < 8</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;case x = 5:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;case x = 6:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;case x = 7:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Tactic</code><br><br>
@@ -282,7 +292,17 @@ Lean requires explicit set extensionality (`ext`) and case analysis (`interval_c
 prove_for i $in range(5, 8):
     i = 5 or i = 6 or i = 7
 
-forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8
+prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
+    prove_case_by_case:
+        =>:
+            x >= 5
+            x < 8
+        case x = 5:
+            do_nothing
+        case x = 6:
+            do_nothing
+        case x = 7:
+            do_nothing
 ```
 
 ---
