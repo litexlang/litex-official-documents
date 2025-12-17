@@ -1,5 +1,7 @@
 # Litex vs Lean: Number Examples
 
+This document compares Litex and Lean in expressing number-related statements through side-by-side code examples. Our goal is not to criticize Lean (which Litex team deeply respects), but to propose complementary ideas where Lean may be less intuitive, particularly in number theory. We explore alternative design choices that prioritize accessibility while maintaining rigor.
+
 # Example 1: Prove that 1 + 1 = 2
 
 ## Litex Solution
@@ -48,14 +50,16 @@ example : {n : ℕ | n ≥ 5 ∧ n < 8} = ({5, 6, 7} : Finset ℕ) := by
   · intro hn
     have h1 : n ≥ 5 := hn.1
     have h2 : n < 8 := hn.2
-    -- Since n < 8 and n ≥ 5, n can only be 5, 6, or 7
     interval_cases n <;> simp
   · intro hn
     have : n = 5 ∨ n = 6 ∨ n = 7 := by simpa [Finset.mem_insert, Finset.mem_singleton] using hn
-    rcases this with (rfl|rfl|rfl) <;> refine ⟨by norm_num, by norm_num⟩
+    rcases this with (rfl|rfl|rfl)
+    · exact ⟨by norm_num, by norm_num⟩
+    · exact ⟨by norm_num, by norm_num⟩
+    · exact ⟨by norm_num, by norm_num⟩
 ```
 
-Lean requires explicit set equality proof with multiple tactics, case analysis, and manual construction of intermediate facts. This is because Lean's foundational axioms are based on type theory, and set theory is merely a consequence derived from type theory. 
+Lean requires explicit set equality proof with multiple tactics, case analysis, and manual construction of intermediate facts. This is because Lean's foundational axioms are based on type theory, and set theory is merely a consequence derived from type theory. The user have to remember and understand so many concepts and tactics.
 
 Since Lean's kernel can only provide built-in functionality for type theory (its foundation), it cannot provide built-in functionality for set theory. Consequently, users must manually implement set-theoretic operations and proofs. 
 
@@ -80,4 +84,4 @@ example : forall a, b, c, d : ℝ, (a + b) * (c + d) / (a * c + b * d) = 1 := by
   field_simp
 ```
 
-Lean requires importing the real number library and using a field simplification tactic, even though the statement is straightforward algebra.
+Lean requires importing the real number library and using a field simplification tactic, even though the statement is straightforward algebra. If an ordinary user wants to prove this statement, he/she will find it very difficult to understand what a field,which is only taught in university mathematics courses, is.
