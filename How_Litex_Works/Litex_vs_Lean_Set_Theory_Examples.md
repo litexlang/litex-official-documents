@@ -99,7 +99,7 @@ Lean requires explicit type structures (like `MySet`) to represent sets of sets,
 
 ---
 
-## Example 4: Disjunction from Set Membership
+## Example 3: Disjunction from Set Membership
 
 **Task**: If `x` is an element of `{1, 2}`, then `x = 1` or `x = 2`.
 
@@ -141,7 +141,7 @@ Litex automatically derives disjunctions from set membership, recognizing that m
 Lean requires explicit proof steps using tactics like `simp`, `cases`, or `tauto` to derive the disjunction from set membership. The proof structure is more explicit but requires more manual steps.
 ---
 
-## Example 5: Properties from Set Builder Membership
+## Example 4: Properties from Set Builder Membership
 
 **Task**: If `x` is an element of `{y R: y > 0}`, then `x > 0`.
 
@@ -180,7 +180,7 @@ Litex automatically derives properties from Set Builder membership, recognizing 
 Lean requires explicit rewriting with `Set.mem_setOf_eq` to extract the condition from set membership. The proof is straightforward but requires manual application of the membership definition.
 
 ---
-## Example 6: Proving Set Inequality by Cardinality
+## Example 5: Proving Set Inequality by Cardinality
 
 **Task**: Prove that `{1, 2, 3} ≠ {1, 2}` by showing that `{1, 2, 3}` has 3 elements while `{1, 2}` has 2 elements.
 
@@ -224,7 +224,7 @@ Litex's built-in cardinality operations and proof by contradiction mechanism mak
 Lean requires explicit cardinality computation using `.card` and manual proof by contradiction. The proof structure is clear but requires more steps to establish the contradiction.
 
 ---
-## Example 7: Sets Cannot Contain Duplicate Elements
+## Example 6: Sets Cannot Contain Duplicate Elements
 
 **Task**: Demonstrate that sets cannot contain duplicate elements. The statement `{1, 1} = {1, 1}` may seem correct, but it is actually problematic because a set cannot contain the same element twice.
 
@@ -239,8 +239,6 @@ Lean requires explicit cardinality computation using `.card` and manual proof by
 # have a N
 # {a, 1} = {a, 1} 
 ```
-
-Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle that sets are collections of distinct elements.
 
 </td>
 <td width="50%">
@@ -260,13 +258,15 @@ variable (a : ℕ)  -- Assume a is a variable of type ℕ
 -- example : {a, 1} = {a, 1} := rfl
 ```
 
-Lean encounters type inference issues when dealing with sets containing variables, making it difficult to express this scenario. `Finset` enforces distinctness at the type level, but type inference can be problematic with variables.
-
 </td>
 </tr>
 </table>
 
-## Example 8: Proving Set Equality by Range Enumeration
+Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle that sets are collections of distinct elements.
+
+Lean encounters type inference issues when dealing with sets containing variables, making it difficult to express this scenario. `Finset` enforces distinctness at the type level, but type inference can be problematic with variables.
+
+## Example 7: Proving Set Equality by Range Enumeration
 
 **Task**: Prove that the integers greater than or equal to 5 and less than 8 are exactly 5, 6, and 7.
 
@@ -319,7 +319,7 @@ Litex's `prove_for` provides a direct, intuitive way to prove range-based set eq
 Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities. The proof is rigorous but requires more manual construction of the cases.
 
 ---
-## Example 9: Set Inclusion Transitivity
+## Example 8: Set Inclusion Transitivity
 
 **Task**: Demonstrate that an object belonging to one set automatically belongs to other sets through set inclusion. If `A ⊆ B` and `B ⊆ C`, then any element `x` in `A` also belongs to both `B` and `C`.
 
@@ -373,7 +373,7 @@ Lean requires explicit application of the inclusion hypotheses and manual constr
 
 ---
 
-## Example 10: Membership in Set Builders with Domain-Restricted Propositions
+## Example 9: Membership in Set Builders with Domain-Restricted Propositions
 
 **Task**: Prove that `17` belongs to the set `{x N: x % 17 = 0, $p(x)}` where `p` is a proposition with domain restriction `{z Z: z < 100}`, and `p` is derived from another proposition `q` with domain `{y Q: y > 0}` through a universal rule.
 
