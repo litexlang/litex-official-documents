@@ -10,19 +10,20 @@ Our goal is not to criticize Lean (which Litex team deeply respects), but to pro
 
 **Task**: Prove that `1` is an element of the set `{1, 2}`.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
 
-In Litex, this is straightforward and intuitive:
+**Litex**
 
 ```litex
 1 $in {1, 2}
 ```
 
-That's it! Litex automatically verifies this statement. The syntax directly mirrors mathematical notation, and the kernel handles the verification automatically.
+</td>
+<td width="50%">
 
-### Lean Solution
-
-In Lean, proving this simple fact requires significantly more code:
+**Lean**
 
 ```lean
 import Mathlib.Data.Finset.Basic
@@ -38,7 +39,13 @@ example : 1 ∈ my_set := by
   -- simp
 ```
 
-**Comment**: Litex's design allows automatic verification of set membership in a single line, directly expressing the mathematical statement without requiring additional setup.
+</td>
+</tr>
+</table>
+
+Litex's design allows automatic verification of set membership in a single line, directly expressing the mathematical statement without requiring additional setup.
+
+Lean requires explicit set definition and proof tactics. The `simp` tactic can simplify the proof, but the setup (imports, type annotations, and proof structure) is more verbose.
 
 ---
 
@@ -46,17 +53,20 @@ example : 1 ∈ my_set := by
 
 **Task**: Define a set containing sets as elements: `{{}, {1, 2}}`, and prove that `{1, 2}` is an element of this set.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
 
-Litex handles this naturally, as sets are objects and can be elements of other sets:
+**Litex**
 
 ```litex
 {1, 2} $in {{}, {1, 2}}
 ```
 
-### Lean Solution
+</td>
+<td width="50%">
 
-In Lean, this becomes complex because Lean requires explicit type information. You need to work with a specific type system:
+**Lean**
 
 ```lean
 import Mathlib.Data.Finset.Basic
@@ -78,7 +88,14 @@ example : MySet.mk ({1, 2} : Finset ℕ) ∈ my_set_of_sets := by
   -- Or use a more complex type hierarchy
 ```
 
-**Comment**: Litex's set-theoretic foundation naturally supports sets containing sets as elements, reflecting the mathematical principle that sets are objects.
+</td>
+</tr>
+</table>
+
+
+Litex's set-theoretic foundation naturally supports sets containing sets as elements, reflecting the mathematical principle that sets are objects.
+
+Lean requires explicit type structures (like `MySet`) to represent sets of sets, as its type system needs explicit type annotations. This adds boilerplate but provides type safety.
 
 ---
 
@@ -86,18 +103,22 @@ example : MySet.mk ({1, 2} : Finset ℕ) ∈ my_set_of_sets := by
 
 **Task**: If `x` is an element of `{1, 2}`, then `x = 1` or `x = 2`.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 have x {1, 2}
 x = 1 or x = 2
 ```
 
-Litex automatically derives this disjunction from set membership. The kernel recognizes that membership in a finite enumerated set implies equality to one of its elements.
 
-### Lean Solution
+</td>
+<td width="50%">
 
-In Lean, this requires explicit proof steps:
+**Lean**
 
 ```lean
 import Mathlib.Data.Finset.Basic
@@ -111,34 +132,34 @@ example (h : x ∈ ({1, 2} : Finset ℕ)) : x = 1 ∨ x = 2 := by
   | inr h2 => right; exact h2
 ```
 
-Or using tactics:
+</td>
+</tr>
+</table>
 
-```lean
-example (h : x ∈ ({1, 2} : Finset ℕ)) : x = 1 ∨ x = 2 := by
-  simp [Finset.mem_insert, Finset.mem_singleton] at h
-  tauto
-```
+Litex automatically derives disjunctions from set membership, recognizing that membership in a finite enumerated set implies equality to one of its elements.
 
-**Comment**: Litex automatically derives disjunctions from set membership, recognizing that membership in a finite enumerated set implies equality to one of its elements.
-
+Lean requires explicit proof steps using tactics like `simp`, `cases`, or `tauto` to derive the disjunction from set membership. The proof structure is more explicit but requires more manual steps.
 ---
 
 ## Example 5: Properties from Set Builder Membership
 
 **Task**: If `x` is an element of `{y R: y > 0}`, then `x > 0`.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 forall x {y R: y > 0}:
     x > 0
 ```
 
-Litex automatically derives this property. The kernel recognizes that membership in an Set Builder (defined by a condition) implies that condition.
+</td>
+<td width="50%">
 
-### Lean Solution
-
-In Lean, this requires explicit proof steps:
+**Lean**
 
 ```lean
 import Mathlib.Data.Set.Basic
@@ -150,22 +171,24 @@ example (h : x ∈ {y : ℝ | y > 0}) : x > 0 := by
   exact h
 ```
 
-Or more verbosely:
+</td>
+</tr>
+</table>
 
-```lean
-example (h : x ∈ {y : ℝ | y > 0}) : x > 0 := by
-  rw [Set.mem_setOf_eq] at h
-  assumption
-```
+Litex automatically derives properties from Set Builder membership, recognizing that membership in a set defined by a condition implies that condition—a fundamental mathematical pattern.
 
-**Comment**: Litex automatically derives properties from Set Builder membership, recognizing that membership in a set defined by a condition implies that condition—a fundamental mathematical pattern.
+Lean requires explicit rewriting with `Set.mem_setOf_eq` to extract the condition from set membership. The proof is straightforward but requires manual application of the membership definition.
 
 ---
 ## Example 6: Proving Set Inequality by Cardinality
 
 **Task**: Prove that `{1, 2, 3} ≠ {1, 2}` by showing that `{1, 2, 3}` has 3 elements while `{1, 2}` has 2 elements.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 prove_by_contradiction {1,2,3} != {1,2}:
@@ -175,11 +198,10 @@ prove_by_contradiction {1,2,3} != {1,2}:
     3 = 2
 ```
 
-Litex uses proof by contradiction: if the sets were equal, their cardinalities would be equal, leading to the contradiction `3 = 2`.
+</td>
+<td width="50%">
 
-### Lean Solution
-
-In Lean, this requires explicit cardinality computation and proof steps:
+**Lean**
 
 ```lean
 import Mathlib.Data.Finset.Basic
@@ -193,14 +215,24 @@ example : ({1, 2, 3} : Finset ℕ) ≠ ({1, 2} : Finset ℕ) := by
   norm_num at h1
 ```
 
-**Comment**: Litex's built-in cardinality operations and proof by contradiction mechanism make this type of proof straightforward and intuitive.
+</td>
+</tr>
+</table>
+
+Litex's built-in cardinality operations and proof by contradiction mechanism make this type of proof straightforward and intuitive.
+
+Lean requires explicit cardinality computation using `.card` and manual proof by contradiction. The proof structure is clear but requires more steps to establish the contradiction.
 
 ---
 ## Example 7: Sets Cannot Contain Duplicate Elements
 
 **Task**: Demonstrate that sets cannot contain duplicate elements. The statement `{1, 1} = {1, 1}` may seem correct, but it is actually problematic because a set cannot contain the same element twice.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 # This is a problem, because a set cannot contain the same element twice. In this case, we do not know if a != 1 or not, so we cannot prove {a, 1} is a valid set.
@@ -208,11 +240,12 @@ example : ({1, 2, 3} : Finset ℕ) ≠ ({1, 2} : Finset ℕ) := by
 # {a, 1} = {a, 1} 
 ```
 
-Litex detects this error at verification time and reports: `parameters in set must be different from one another, inequality of a and 1 in {a, 1} is unknown`. Litex enforces the mathematical principle that sets are collections of distinct elements, catching this error automatically.
+Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle that sets are collections of distinct elements.
 
-### Lean Solution
+</td>
+<td width="50%">
 
-In Lean, this situation is more complex:
+**Lean**
 
 ```lean
 import Mathlib
@@ -227,15 +260,25 @@ variable (a : ℕ)  -- Assume a is a variable of type ℕ
 -- example : {a, 1} = {a, 1} := rfl
 ```
 
-Lean encounters type inference issues when dealing with sets containing variables, making it difficult to express this scenario.
+Lean encounters type inference issues when dealing with sets containing variables, making it difficult to express this scenario. `Finset` enforces distinctness at the type level, but type inference can be problematic with variables.
 
-**Comment**: Litex detects the issue when it cannot verify that set elements are distinct (e.g., when `a ≠ 1` is unknown), providing a clear error message that explains the mathematical principle that sets are collections of distinct elements.
+</td>
+</tr>
+</table>
 
 ## Example 8: Proving Set Equality by Range Enumeration
 
 **Task**: Prove that the integers greater than or equal to 5 and less than 8 are exactly 5, 6, and 7.
 
-### Litex Solution
+The proof proceeds in two steps:
+1. First, we prove that if `i $in range(5, 8)`, then `i = 5 or i = 6 or i = 7` using `prove_for`.
+2. Second, we prove that if `i = 5 or i = 6 or i = 7`, then `i $in range(5, 8)` (i.e., `i >= 5` and `i < 8`).
+
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 prove_for i $in range(5, 8):
@@ -244,15 +287,10 @@ prove_for i $in range(5, 8):
 forall i Z: i = 5 or i = 6 or i = 7 => i >= 5, i < 8
 ```
 
-The proof proceeds in two steps:
-1. First, we prove that if `i $in range(5, 8)`, then `i = 5 or i = 6 or i = 7` using `prove_for`.
-2. Second, we prove that if `i = 5 or i = 6 or i = 7`, then `i $in range(5, 8)` (i.e., `i >= 5` and `i < 8`).
+</td>
+<td width="50%">
 
-Litex's `prove_for` makes range-based proofs straightforward and explicit, directly expressing the mathematical intent.
-
-### Lean Solution
-
-In Lean, this requires explicit set equality proof with multiple tactics:
+**Lean**
 
 ```lean
 import Mathlib.Tactic
@@ -272,14 +310,24 @@ example : {n : ℕ | n ≥ 5 ∧ n < 8} = ({5, 6, 7} : Finset ℕ) := by
     · exact ⟨by norm_num, by norm_num⟩
 ```
 
-**Comment**: Litex's `prove_for` provides a direct, intuitive way to prove range-based set equalities, making the mathematical intent explicit through iterative verification. 
+</td>
+</tr>
+</table> 
+
+Litex's `prove_for` provides a direct, intuitive way to prove range-based set equalities, making the mathematical intent explicit through iterative verification.
+
+Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities. The proof is rigorous but requires more manual construction of the cases.
 
 ---
 ## Example 9: Set Inclusion Transitivity
 
 **Task**: Demonstrate that an object belonging to one set automatically belongs to other sets through set inclusion. If `A ⊆ B` and `B ⊆ C`, then any element `x` in `A` also belongs to both `B` and `C`.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 have a, b, c nonempty_set
@@ -291,11 +339,10 @@ x $in b
 x $in c
 ```
 
-Litex automatically derives `x $in b` from `x $in a` using the first inclusion fact, and then derives `x $in c` from `x $in b` using the second inclusion fact. The kernel handles the transitive reasoning automatically.
+</td>
+<td width="50%">
 
-### Lean Solution
-
-In Lean, this requires explicit proof steps:
+**Lean**
 
 ```lean
 import Mathlib
@@ -316,9 +363,13 @@ example (x : α) (hx : x ∈ A) : x ∈ C := by
   exact hBC x hxB
 ```
 
-Lean requires explicit application of the inclusion hypotheses and manual construction of intermediate facts.
+</td>
+</tr>
+</table>
 
-**Comment**: Litex automatically handles transitive set membership through its built-in reasoning, recognizing the logical chain from set inclusion facts.
+Litex automatically handles transitive set membership through its built-in reasoning, recognizing the logical chain from set inclusion facts.
+
+Lean requires explicit application of the inclusion hypotheses and manual construction of intermediate facts. The proof structure is clear but requires explicit steps for each logical inference.
 
 ---
 
@@ -328,7 +379,11 @@ Lean requires explicit application of the inclusion hypotheses and manual constr
 
 This example demonstrates how Litex and Lean handle propositions with domain restrictions (subsets as domains) and the complexity of type conversions between different number systems.
 
-### Litex Solution
+<table>
+<tr>
+<td width="50%">
+
+**Litex**
 
 ```litex
 have a R = 17
@@ -339,14 +394,10 @@ know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)
 a $in {x N: x % 17 = 0, $p(x)}
 ```
 
-Litex handles this elegantly:
-- **Domain-restricted propositions**: `prop p(x {z Z: z < 100})` defines a proposition `p` whose domain is the set of integers less than 100. Litex automatically ensures that when applying `p`, the argument satisfies the domain condition.
-- **Automatic type conversions**: Litex automatically handles conversions between real numbers, integers, rationals, and naturals as needed.
-- **Automatic verification**: Litex automatically verifies that `17` satisfies `17 % 17 = 0` and that `$p(17)` holds (by applying the universal rule with `$q(17)` and the fact that `17 < 20`).
+</td>
+<td width="50%">
 
-### Lean Solution
-
-In Lean, this requires extensive manual work with subtypes, type conversions, and explicit proofs:
+**Lean**
 
 ```lean
 import Mathlib.Data.Int.Basic
@@ -389,14 +440,13 @@ variable (a : ℕ)
 variable (ha : InSetA p a)
 ```
 
-**Complexity in Lean**:
-- **Subtypes**: Lean requires explicit definition of subtypes (`DomainP`, `DomainQ`) to represent domain-restricted propositions.
-- **Manual type conversions**: Each type conversion (ℕ → ℤ → ℚ) must be explicit, and domain conditions must be proven manually.
-- **Explicit proofs**: For `q(17)`, we must explicitly prove `17 > 0` to construct the subtype element `⟨17, by norm_num⟩`.
-- **Complex rule application**: The universal rule requires explicit handling of all type conversions and domain conditions.
-- **Structure definition**: The membership condition requires defining a custom structure `InSetA` with explicit proofs of all conditions.
+</td>
+</tr>
+</table>
 
-**Comment**: Litex automatically handles domain restrictions, type conversions, and verification of all conditions, making complex scenarios involving multiple constraints and type systems more manageable. *The convenience of Litex's automatic handling is especially evident in more complex examples like this one.*
+Litex automatically handles domain restrictions, type conversions, and verification of all conditions, making complex scenarios involving multiple constraints and type systems more manageable. The convenience of Litex's automatic handling is especially evident in more complex examples like this one.
+
+Lean requires explicit definition of subtypes (`DomainP`, `DomainQ`) to represent domain-restricted propositions. Each type conversion (ℕ → ℤ → ℚ) must be explicit, and domain conditions must be proven manually. For `q(17)`, we must explicitly prove `17 > 0` to construct the subtype element. The universal rule requires explicit handling of all type conversions and domain conditions. The membership condition requires defining a custom structure `InSetA` with explicit proofs of all conditions.
 
 ---
 
