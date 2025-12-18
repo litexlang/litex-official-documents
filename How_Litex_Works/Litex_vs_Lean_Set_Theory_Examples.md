@@ -1,8 +1,8 @@
 # Litex vs Lean: Set Theory Examples
 
-This document compares Litex and Lean in expressing set-theoretic statements through side-by-side code examples. Set is *the most basic concept in mathematics*, and through sets we can observe the similarities and differences in how different formal languages express everyday mathematical concepts, sharing their distinctive characteristics.
+This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. Set is *the most basic concept in mathematics*, and through sets we can observe the similarities and differences between Litex and other formal languages.
 
-Our goal is not to criticize Lean (which Litex team deeply respects), but to propose complementary ideas where Lean may be less intuitive, particularly in set theory. We explore alternative design choices that prioritize accessibility while maintaining rigor.
+Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural and intuitive way to express basic mathematical statements, which addresses Lean's shortcomings in usability. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex!
 
 ---
 
@@ -492,12 +492,8 @@ prove_by_enum(x {1, 2, 3, 4, 17}):
 
 ## Summary
 
-Since Lean's kernel can only provide built-in functionality for type theory (its foundation), it cannot provide built-in functionality for set theory. Consequently, users must manually implement set-theoretic operations and proofs. 
+Mathematics has many different axiomatic systems, and choosing different foundational axiom systems as the basis for a formal language results in vastly different user experiences. Lean chooses type theory as its foundation, while Litex chooses set theory.
 
-It is understandable why Lean's expression of set theory is more complex than Litex's. Lean is built on type theory as its foundational axiom system. Type theory is a more abstract mathematical theory than set theory (type theory can derive set theory, but set theory cannot derive type theory). Naturally, Lean's support for set theory will be less direct than Litex, which takes set theory as its foundation.
+This design makes Lean easier to maintain (*Litex surely suffers from the difficulty of maintaining a larger and more powerful kernel*) and theoretically more general, but means that Lean's expression of some daily mathematical statements is more complex than Litex's. Litex's lower barrier to entry, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-old students.
 
-Mathematics has many different axiomatic systems, and choosing different foundational axiom systems as the basis for a formal language results in vastly different user experiences. The choice of foundation fundamentally shapes how users express mathematical concepts, what operations are built-in versus requiring manual implementation, and the overall learning curve and accessibility of the language. 
-
-This design makes Lean easier to maintain and more general, but means that Lean's expression of set theory—the most fundamental mathematical theory taught in schools—is significantly more complex than Litex's. The high barrier to entry in Lean creates a highly professional community, but limits accessibility. In contrast, Litex's lower barrier to entry, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor.
-
-In the meantime, Lean's extensive standard library (Mathlib) is a significant strength, and all of Litex contributors show great respect for the Lean community and the work of the Lean developers. Wish the Lean community a bright future and Litex will continuously learn and collaborate with the Lean community.
+We wish experts and enthusiasts of formal languages to contact Litex team [litexlang@outlook.com](mailto:litexlang@outlook.com) to point out any mistakes or suggestions. Really appreciate the decades-long efforts of the experts and enthusiasts of Lean and other formal languages.

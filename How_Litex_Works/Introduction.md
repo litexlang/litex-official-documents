@@ -10,12 +10,9 @@ _Mathematics is the language with which God has written the universe._
 _— Galileo Galilei_
 
 # Define, Verify, Infer, Memorize
+Mathematics is complicated, and so are the implementation details of Litex. However, the fundamental concepts behind how Litex, as a set-theory based LCF, works are actually quite straightforward and elegant.
 
-Often, complicated things can be divided into simple pieces which are much easier to understand and remember.
-
-Mathematics is complicated, and so are the implementation details of Litex. However, the fundamental concepts behind how Litex works are actually quite simple and elegant. Once you understand these core concepts, you can develop an intuitive understanding of how Litex operates, even without diving deep into the implementation details.
-
-At its heart, Litex operates through four fundamental operations: **Define**, **Verify**, **Infer**, and **Memorize**. Every statement you write in Litex involves some combination of these operations. To understand how they work together, let's start with a simple example of syllogism—a form of logical reasoning that demonstrates these concepts clearly.
+At its heart, Litex operates through four fundamental operations: **Define**, **Verify**, **Infer**, and **Memorize**. Every statement you write in Litex involves some combination of these operations, just like how they works in mathematics. Let's start with a simple example of syllogism (三段论). Read [comparison with other LCFs](https://litexlang.com/doc/How_Litex_Works/Litex_vs_Lean_Set_Theory_Examples) if you want to know more about the differences between Litex and other formal languages.
 
 ## Example
 
@@ -157,9 +154,15 @@ This approach makes equality verification very efficient, as Litex only needs to
 
 Verification is the core operation of Litex—it's what makes Litex a proof assistant rather than just a programming language. Any system capable of mathematical verification must be built on two fundamental components:
 
-1. **Axioms**: These are foundational facts that we accept as true without proof. In Litex, axioms are typically introduced using the `know` keyword. They serve as the starting point for all mathematical reasoning.
+1. **Axioms**: These are foundational facts that we accept as true without proof. ZFC set theory is the axiom that Litex, as a LCF, chooses to use. ZFC set theory is the most common foundation of mathematics, and it is the most accessible to ordinary people. So every object in Litex is a set.
 
-2. **Inference rules**: These are the logical rules that determine how Litex can derive new facts from existing ones. Inference rules specify what conclusions can be drawn from given premises.
+2. **Inference rules**: These are the logical rules that determine how Litex can derive new facts from existing ones. Inference rules specify what conclusions can be drawn from given premises. Basic inference rules include:
+
+1. match and substitution: if a = b, then $p(a) => $p(b); forall x human: $is_intelligent(x) and Jordan $in human => $is_intelligent(Jordan)
+
+2. numeric expression computation (as string not floating-point): if a = 10 / 7, b = 20 / 14, then a = b
+
+3. builtin rules like: any set in the form of {...} satisfy $is_a_finite_set({...}), transitivity of >, <, etc.
 
 The verification process works as follows: Starting from axioms (known facts), Litex applies inference rules to derive new facts. When a new fact is successfully verified, it is memorized in the knowledge base and becomes available for future verification attempts. This creates a growing body of mathematical knowledge that can be used to verify increasingly complex statements.
 
