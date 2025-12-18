@@ -1,0 +1,10 @@
+```litex
+prove_by_enum(x {1, 2, 3, 4, 17}):
+    dom:
+        x % 2 = 0
+    =>:
+        x = 2 or x = 4
+    prove:
+        do_nothing
+
+```
