@@ -7,3 +7,4 @@ git_add_commit.sh
 check_tutorial_examples.sh
 upload_pictures.sh
 .cursor
+check_litex_blocks.py

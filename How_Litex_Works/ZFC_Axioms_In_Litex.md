@@ -180,6 +180,15 @@ prove R = image_set(R, R, f):
 
 **Litex implementation**: The keyword `N` in Litex is the built-in set of natural numbers, which is constructed using the axiom of infinity. Statements like `0 $in N` and `1 $in N` are true by definition.
 
+Besides `N`, Litex also builds in the following built-in axiom. You can use it to define your own N, or build connection between your own N and N.
+
+```
+exist_prop x set st axiom_of_infinity():
+	{} $in x
+	forall y x:
+		union(y, {y}) $in x
+```
+
 8. Axiom of power set: for any set x, there exists a set Power(x) that contains all subsets of x.
 
 **Explanation**: This axiom states that for any set, the collection of all its subsets forms a set (called the power set). This is fundamental for many areas of mathematics, including topology, measure theory, and logic. For example, if `x = {1, 2}`, then `power_set(x) = {{}, {1}, {2}, {1, 2}}`. The power set is always strictly larger than the original set (by Cantor's theorem), which is why this axiom is essential for constructing larger infinite sets.

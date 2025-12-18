@@ -1,4 +1,4 @@
-# How Litex Corresponds to ZFC Axioms
+# Recipe: Common Mathematical Symbols in Litex
 
 version: 2025-12-01
 
@@ -12,17 +12,9 @@ _— David Hilbert_
 
 ## Introduction
 
-Zermelo–Fraenkel set theory, named after mathematicians Ernst Zermelo and Abraham Fraenkel, is an axiomatic system proposed in the early twentieth century to formulate a theory of sets free of paradoxes such as Russell's paradox. Today, Zermelo–Fraenkel set theory with the historically controversial axiom of choice (AC) included has become the standard form of axiomatic set theory and serves as the most common foundation of mathematics. When the axiom of choice is included, the system is abbreviated as ZFC (where C stands for "choice"),[1] while ZF refers to Zermelo–Fraenkel set theory without the axiom of choice.
+This document provides a recipe for translating common mathematical symbols (those typically found in standard LaTeX mathematical notation) into Litex syntax. Whether you're working with sets, functions, logical operators, or arithmetic expressions, this guide shows you how to express familiar mathematical concepts in Litex.
 
-Informally,[2] Zermelo–Fraenkel set theory aims to formalize a single primitive notion: that of a hereditary well-founded set. In this framework, all entities in the universe of discourse are such sets. Consequently, the axioms of Zermelo–Fraenkel set theory refer only to pure sets and prevent its models from containing urelements—elements that are not themselves sets. Additionally, proper classes—collections of mathematical objects defined by a shared property that are too large to be sets—can only be treated indirectly. 
-
-This document demonstrates how Litex statements correspond to mathematical statements, establishing that Litex's design is grounded in rigorous mathematical foundations. The mathematical principles presented here are essential knowledge for anyone interested in understanding how mathematics works, as well as for all undergraduate mathematics students. Readers will discover that the rich and diverse world of mathematics is actually built from a small set of axioms and inference rules.
-
-We reference Chapters 2 and 3 of Terence Tao's *Analysis I*, which provides an excellent introduction to the foundations of mathematics for beginners.
-
-**Brief Statement**: If you believe that the ZFC axioms are sound (i.e. there is no self-contradiction, also known as self-consistency) and expressive (i.e. can express most of mathematics in the usual sense), if you believe that the [inference rules]() provided by Litex are sound and expressive, and if you also believe that the Litex kernel faithfully implements the above axioms and inference rules without software bugs (or that bugs will be promptly discovered and fixed because of the growing community), then you can consider Litex to be sound and expressive as well. This is because Litex implements, and only implements, these axioms and inference rules.
-
-> According to Gödel's second incompleteness theorem, the consistency of ZFC cannot be proven within ZFC itself. Since extensions of ZFC include most of mathematics in the usual sense, the consistency of ZFC cannot be proven in other branches of mathematics either. Almost no one doubts that ZFC has any contradictions. It is generally believed that if ZFC were inconsistent, corresponding examples would have been discovered long ago. Since Litex is based on ZFC, Litex should also be considered consistent.
+The mathematical symbols covered here are limited to those commonly encountered in undergraduate mathematics and standard mathematical notation—no more extensive than what you would typically see in LaTeX mathematical documents. This makes it easy to translate mathematical statements from traditional notation into Litex code.
 
 # Set Theory
 
@@ -906,4 +898,3 @@ n < m
     n * k < m * k
 ```
 - **Note**: This theorem shows that multiplication by a positive number is order-preserving
-
