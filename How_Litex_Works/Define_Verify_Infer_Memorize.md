@@ -57,34 +57,51 @@ $is_smart(Jordan)
 
 This cycle of **Define** → **Memorize** → **Verify** → **Infer** → **Memorize** is the fundamental pattern that drives all of Litex's mathematical reasoning.
 
-## 每个litex语句（statement）都涉及到的define, verify, infer, memorize中的某几个步骤
+## Each litex statement involves some of the steps: define, verify, infer, and memorize
 
-比如：have x R = 17 涉及到
+For example: `have x R = 17` involves:
 
-1. define: 定义对象（nouns） objects
-2. verify: 验证对象 17 确实是 R 的元素
-3. memorize: x = 17 被 memorize 为 known fact
+1. **define**: Define objects (nouns)
+2. **verify**: Verify that the object 17 is indeed an element of R
+3. **memorize**: x = 17 is memorized as a known fact
 
-比如：x > 0 涉及到
-1. 验证 x > 0
-2. memorize: x > 0 被 memorize 为 known fact
-3. infer: 因为 大于0太常见了，所以litex会自动memorize很多额外的事实，比如叫 x != 0, not x < 0, x >= 0这些
+For example: `x > 0` involves:
+1. **verify**: Verify x > 0
+2. **memorize**: x > 0 is memorized as a known fact
+3. **infer**: Because being greater than 0 is very common, Litex will automatically memorize many additional facts, such as x != 0, not x < 0, x >= 0
 
-不同类型的语句涉及到的步骤不同，即他们的语义不同。litex的涉及非常直观，本质上用户在写数学的时候，他们脑子是怎么想的，litex也是怎么实践的。这也看出来litex的另外一个好处：一方面litex很自然，一方面litex确实让用户更仔细细致地思考数学。
+Different types of statements involve different steps, meaning their semantics differ. Litex's design is very intuitive—essentially, when users write mathematics, Litex practices it the same way their minds think about it. This also reveals another benefit of Litex: on one hand, Litex is very natural; on the other hand, Litex indeed makes users think about mathematics more carefully and thoroughly.
 
 ## Define
 
-分两种情况：
+There are two cases:
 
-1. 定义对象（nouns） objects
-2. 定义命题谓词（verbs） proposition predicates 和 existential proposition predicates 和 implication predicates
-定义谓词和定义名词的区别
+1. Define objects (nouns)
+2. Define proposition predicates (verbs), existential proposition predicates, and implication predicates
 
-1. 名词不具备被判断对错的能力
-2. 定义谓词不需要验证存在性
+The difference between defining predicates and defining nouns:
 
-阅读 Define 
+1. Nouns do not have the ability to be judged as true or false
+2. Defining predicates does not require verifying existence
+
+See [litexlang.com/How_Litex_Works/Define](https://litexlang.com/How_Litex_Works/Define)
 
 ## Verify
 
-这是Litex的核心。
+This is the core of Litex. 任何能进行验证的系统都离不开两个东西
+
+1. 公理
+
+2. 推理规则
+
+公理就是已知事实。推理规则就是Litex怎么基于已知的事实来验证新的事实。从公理出发，结合推理规则，我们可以验证新的事实。验证成功的事实，会被保存下来，成为新的可能被未来使用到的已知事实。
+
+See [litexlang.com/How_Litex_Works/Verify](https://litexlang.com/How_Litex_Works/Verify)
+
+## Infer
+
+See [litexlang.com/How_Litex_Works/Infer](https://litexlang.com/How_Litex_Works/Infer)
+
+## Memorize
+
+See [litexlang.com/How_Litex_Works/Memorize](https://litexlang.com/How_Litex_Works/Memorize)

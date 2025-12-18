@@ -232,3 +232,25 @@ Litex implementation is very different from other formal languages whose kernel 
 2. Other formal languages implement mathematical theories—their language semantics—in a very abstract way. The advantage is a small kernel, but the disadvantage is that common mathematical definitions need to be manually implemented in the standard library. Litex's advantage is a larger kernel, but the standard library can be small because relevant mathematical definitions are already built into Litex's kernel. In terms of total code size (kernel + standard library), traditional formal languages don't necessarily have less code than Litex.
 
 3. Considering that Litex has a very large potential user base (ordinary people who are not formal language experts) because it's simple and easy to learn, more users mean more people finding bugs, discovering bugs, and fixing bugs. Litex will become increasingly stable and reliable.
+
+举例
+
+比如 not exist <=> forall not 
+
+```litex
+prop q(x R, y R)
+prop t(x R, y R)
+
+exist_prop x R st p(y R):
+    dom:
+        y > 0
+    <=>:
+        $q(x, y)
+        $t(x, y)
+
+know not $p(1)
+
+# inferred by fact not $p(1)
+forall x R:
+    not $q(x, 1) or not $t(x, 1)
+```
