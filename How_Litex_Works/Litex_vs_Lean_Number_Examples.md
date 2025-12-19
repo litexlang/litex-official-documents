@@ -4,6 +4,10 @@ This document compares Litex and Lean in expressing number-related statements th
 
 Our goal is not to criticize Lean (which Litex team deeply respects), but to propose complementary ideas where Lean may be less intuitive, particularly in number theory. We explore alternative design choices that prioritize accessibility while maintaining rigor.
 
+_Stay humble, stay foolish._
+
+_- Steve Jobs_
+
 ---
 
 ## Example 1: Prove that 1 + 1 = 2

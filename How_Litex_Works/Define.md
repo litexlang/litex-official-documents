@@ -1,49 +1,22 @@
 # Define
 
-_Young man, in mathematics you don't understand things. You just get used to them._
+Version: 2025-12-18, Author: Jiachen Shen
+
+_In mathematics you don't understand things. You just get used to them._
 
 _- John von Neumann_
 
-Version: 2025-12-18
+---
 
-任何语句都由动词和名词组成。动词用于判断对错.
+Every statement consists of verbs and nouns. Verbs are used to judge truth or falsity.
 
-## 定义动词
-
-和定义名词不同，定义动词是不需要证明存在性的
-
-1. 定义prop predicate
-
-prop predicate_name(parameter1 set1, parameter2 set2, ...):
-    domain_facts
-    <=>:
-        iff_facts
-
-2. 定义exist_prop predicate
-
-exist_prop predicate_name(parameter1 set1, parameter2 set2, ...):
-    domain_facts
-    <=>:
-        iff_facts
-
-3. 定义implication fact
-
-imply fact_name(parameter1 set1, parameter2 set2, ...):
-    domain_facts
-    =>:
-        then_facts
-
-注意：litex里你不需要给所有的事实取名，因为litex会自动搜索相关的事实并使用它们。这大大提高了开发效率。
-
-## 定义名词
+# Defining Nouns
 
 Have Statement Execution Functions Documentation
 
 This document lists all have-related AST statements and their execution functions.
 
-============================================================================
-1. HaveObjStStmt
-============================================================================
+## 1. HaveObjStStmt
 
 syntax: have objects st some_exist_prop(params)
 
@@ -60,9 +33,8 @@ Description:
 - Verifies that the SpecFactStmt is satisfied
 - Defines objects in the environment with properties by definition.
 
-============================================================================
-2. HaveObjInNonEmptySetStmt
-============================================================================
+## 2. HaveObjInNonEmptySetStmt
+
 syntax: have object from
 
 Description:
@@ -79,11 +51,7 @@ have w set # $is_a_set(w) is true, so w is a set
 have v finite_set # $is_a_finite_set(v) is true, so v is a finite set
 ```
 
-============================================================================
-3. HaveObjEqualStmt
-============================================================================
-AST Type: HaveObjEqualStmt
-Execution Function: haveObjEqualStmt(stmt *ast.HaveObjEqualStmt) ExecRet
+## 3. HaveObjEqualStmt
 
 syntax: have object some_nonempty_set = some_other_object
 
@@ -98,9 +66,7 @@ have x R = 1
 x = 1 # true by definition of equality
 ```
 
-============================================================================
-4. HaveFnEqualStmt
-============================================================================
+## 4. HaveFnEqualStmt
 
 syntax: have fn function_name(param1 set1, param2 set2, ...) retSet = equalTo
 
@@ -112,15 +78,13 @@ example:
 ```litex
 have fn f(x, y R) R = x + y
 f(1, 2) = 3
-``
+```
 
-============================================================================
-5. HaveFnEqualCaseByCaseStmt
-============================================================================
+## 5. HaveFnEqualCaseByCaseStmt
 
 syntax: 
 
-have fnfunction_name(param1 set1, param2 set2, ...) retSet =:
+have fn function_name(param1 set1, param2 set2, ...) retSet =:
     case condition1: value1
     case condition2: value2
     ...
@@ -139,9 +103,8 @@ f(0) = 0
 f(-1) = 0
 ```
 
-============================================================================
-6. HaveFnStmt
-============================================================================
+## 6. HaveFnStmt
+
 syntax: 
 have fn:
     function_name(param1 set1, param2 set2, ...) retSet:
@@ -173,9 +136,7 @@ have fn:
 
 So we have a function h such that h(x) > 1 for all x > 0. `forall x R: h(x) = x + 1` is not emitted in the outer scope because it is part of the proof of the existence of the function h, not a fact.
 
-============================================================================
-7. HaveFnCaseByCaseStmt
-============================================================================
+## 7. HaveFnCaseByCaseStmt
 
 syntax: 
 have fn:
@@ -214,3 +175,65 @@ have fn:
     = x + 1
 ```
 
+# Defining Verbs
+
+Unlike defining nouns, defining verbs does not require proving existence. When called, they have prefix `$`.
+
+## 1. Define prop predicate
+
+prop predicate_name(parameter1 set1, parameter2 set2, ...):
+    domain_facts
+    <=>:
+        iff_facts
+
+This is the most common way to define verbs. When specific fact is verified or known to be true, the fact from the corresponding prop definition is automatically known.
+
+```litex
+prop p(x, y R):
+    x > y
+    <=>:
+        x + y > 10
+
+let x, y R: $p(x, y) # Suppose $p(x, y) is true
+
+x + y > 10 # true by definition of p
+```
+
+2. Define exist_prop predicate
+
+```
+exist_prop predicate_name(parameter1 set1, parameter2 set2, ...):
+    domain_facts
+    <=>:
+        iff_facts
+```
+
+```litex
+exist_prop a R st exist_x_larger_than(x R) :
+    <=>:
+        a > x
+
+# claim spec fact prove
+claim:
+    $exist_x_larger_than(1)
+    prove:
+        exist 2 st $exist_x_larger_than(1)
+        
+$exist_x_larger_than(1)
+        
+have a st $exist_x_larger_than(1)
+a $in R
+a > 1
+```
+
+3. Define implication fact
+```
+imply fact_name(parameter1 set1, parameter2 set2, ...):
+    domain_facts
+    =>:
+        then_facts
+```
+
+When a specific implication fact is verified or known to be true, the fact from the corresponding implication definition is automatically known.
+
+Note: In Litex, you don't need to name all facts, because Litex automatically searches for related facts and uses them. This greatly improves development efficiency.

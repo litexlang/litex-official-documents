@@ -2,12 +2,12 @@
 
 Author: Jiachen Shen
 Version: 2025-12-18
-This document is a summary of how Litex works.
-
----
+This document is a summary of how Litex works. Still under drastic revision.
 
 _Mathematics is the language with which God has written the universe._
 _— Galileo Galilei_
+
+---
 
 # Define, Verify, Infer, Memorize
 Mathematics is complicated, and so are the implementation details of Litex. However, the fundamental concepts behind how Litex, as a set-theory based LCF, works are actually quite straightforward and elegant.

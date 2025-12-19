@@ -1,4 +1,4 @@
-# How Litex Automatically Derives Facts For You
+# Infer
 
 version: 2025-12-19, under drastic revision
 

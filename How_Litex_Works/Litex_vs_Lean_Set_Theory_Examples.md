@@ -498,4 +498,4 @@ Mathematics has many different axiomatic systems, and choosing different foundat
 
 This design makes Lean easier to maintain and theoretically more general, which experts prefer. Litex's design, on the other hand, is more intuitive and easier to learn, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-olds.
 
-For the time being, Litex is still a toy language for learning purposes and toy projects, very far from being a serious language for professional use. We wish experts and enthusiasts of formal languages to contact Litex team [litexlang@outlook.com](mailto:litexlang@outlook.com) to point out any mistakes or suggestions. 
+For the time being, Litex is still a toy language for learning purposes and toy projects, very far from being a serious language for professional use. We wish experts and enthusiasts of formal languages to contact Litex team [litexlang@outlook.com](mailto:litexlang@outlook.com) to point out any mistakes or suggestions. Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us!

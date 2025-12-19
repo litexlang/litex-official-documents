@@ -1,6 +1,6 @@
 # How Factual Statements Are Checked
 
-version: 2025-12-01
+version: 2025-12-01, Author: Jiachen Shen
 
 _Logic will get you from A to B. Imagination will take you everywhere._
 
