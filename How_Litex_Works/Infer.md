@@ -1,256 +1,287 @@
 # How Litex Automatically Derives Facts For You
 
-version: 2025-12-01
+version: 2025-12-19, under drastic revision
 
 _Before you speak, you are its master; after you speak, you are its slave._
 
 _— Chinese Proverb_
 
----
-
-## Introduction
-
-Litex has invested tremendous effort—indeed, most of its effort—into improving user experience. This means that **if the kernel can mechanically help users automatically derive facts, it will automatically derive and save them for you**. At the same time, Litex incorporates many techniques to help users think about mathematics the way they naturally think about mathematics in everyday life. This document explains how Litex achieves this goal.
-
-The core philosophy behind Litex's automatic derivation is simple: **mathematics should feel natural, not mechanical**. When you write mathematics on paper, you don't manually track every single equality relation or substitution—your mind automatically connects related facts. Litex does the same: it automatically maintains equivalence sets, performs substitutions, simplifies expressions, and derives new facts from known ones, all behind the scenes, so you can focus on the mathematics itself.
-
-The fundamental working principle is: 1. Verify the factual statement 2. Save this factual statement 3. Automatically derive something from this factual statement (we call this post-processing after knowing a fact). When using `know` or `let`, the verification step (step 1) is skipped.
-
-Although Litex has many, many built-in techniques provided by the kernel to make proofs more convenient, you don't need to remember them all. Essentially, you only need to remember: 1. When Litex encounters statements that are entirely numeric (and polynomial), it processes them the way humans do in everyday situations. 2. Litex's fundamental working principle is match and substitution—when verifying, it replaces all related symbols with equal symbols to verify. Even without relying on these techniques, we can prove all facts.
-
----
-
-## Method 1: Post-Processing After Saving Specific Facts
-
-If a fact matches certain characteristics after being saved, Litex can automatically derive additional facts from it.
-
-Below are some statements and their corresponding automatic derivations:
-
-### 1. Post-processing for `a = {1, 2, 3}` (e.g., `have set a = {1, 2, 3}`)
-
-The following facts are automatically established:
-1. `a $in set`
-2. `forall x obj: x $in a <=> x = 1 or x = 2 or x = 3`
-
-### 2. Post-processing for `x = cart(R, Q, Z)` (e.g., `have set x = cart(R, Q, Z)`)
-
-The following facts are automatically established:
-1. `$is_cart(x)`
-2. `dim(x) = 3`
-3. `proj(x, 1) = R`
-4. `proj(x, 2) = Q`
-5. `proj(x, 3) = Z`
-6. `x $in set`
-
-### 3. Defining `prop` Predicates
-
-If you define a `prop` predicate, Litex automatically knows that the predicate is equivalent to its `iffFacts`.
-
-```litex
-prop p(x R):
-    $q(x)
-    <=>:
-        $t(x)
-```
-
-After this definition, Litex automatically saves the following fact:
-
-```litex
-forall x R:
-    $q(x)
-    =>:
-        $p(x)
-    <=>:
-        $t(x)
-```
-
-### 4. Post-processing for `a = {x parent_set: fact1, fact2, ...}`
-
-That is: `a = {x parent_set: fact1, fact2, ...}` automatically generates `a $in set` and `forall x parent_set: fact1, fact2, ... <=> x $in a`.
-
-**Example**: `have set a = {x R: x > 0}`
-
-```litex
-have set a = {x R: x > 0}
-```
-
-The following facts are automatically established:
-1. `a $in set`
-2. `forall x R: x > 0 <=> x $in a`
-
-### 5. `iff` Facts
-
-When saving a fact of the form `forall x set1, x set2, ...: domFact1, domFact2, ... => thenFact1, thenFact2, ... <=> iffFact1, iffFact2, ...`, Litex actually saves the following two facts:
-
-1. `forall x set1, x set2, ...: domFact1, domFact2, ..., thenFact1, thenFact2, ... => iffFact1, iffFact2, ...`
-
-2. `forall x set1, x set2, ...: domFact1, domFact2, ..., iffFact1, iffFact2, ... => thenFact1, thenFact2, ...`
-
-```litex
-prop p(x, y R)
-prop q(x, y R)
-prop r(x, y R)
-know:
-    forall x, y R:
-        $p(x, y)
-        =>:
-            $q(x, y)
-        <=>:
-            $r(x, y)
-```
-
-This is equivalent to:
-
-```litex
-prop p(x, y R)
-prop q(x, y R)
-prop r(x, y R)
-know:
-    forall x, y R:
-        $p(x, y)
-        $q(x, y)
-        =>:
-            $r(x, y)
-    forall x, y R:
-        $p(x, y)
-        $r(x, y)
-        =>:
-            $q(x, y)
-```
-
-### 6. Chain Equality
-
-A chain equality `a = b = c = ... = d` automatically generates the facts `a = b`, `b = c`, ..., `c = d`.
-
-**Example:**
-
-```litex
-have a, b, c, d R
-know:
-    a = b = c = d
-```
-
-This is equivalent to:
-
-```litex
-have a, b, c, d R
-know:
-    a = b
-    b = c
-    c = d
-```
-
-
-### Conclusion
-
-As you can see, almost all syntax generates a corresponding `forall` statement. This shows that `forall` is the most fundamental concept in Litex, or indeed in all of mathematics. Litex's most fundamental function is to use match and substitution to search for matching facts in the known fact library, then perform substitution and verification. Don't be misled by Litex's many statements—it may seem like different statements have different verification methods, but this is not the case. Essentially, Litex is verifying the simplest specific facts (such as `$p(x)` or `a = b`), as well as `forall` facts and `or` facts.
-
-## Method 2: Special Verification Methods for Facts Matching Certain Conditions
-
-If a fact matches certain conditions, Litex provides additional special verification methods.
-
-### 1. Numeric Expression Computation
-
-If both sides of an equality or inequality are entirely numeric expressions, Litex will compute them for you.
-
-**Examples:**
-
-```litex
-1 + 1 = 2
-4 * 2 - 10 = -2 + (7 - 7)
-7^2 = 49
-2 / 3 = 4 / 6
-```
-
-Addition, subtraction, and multiplication operations use string-based computation (not floating-point arithmetic), so theoretically, adding 100-digit numbers in Litex is feasible and can be quite fast.
-
-If the exponent is a positive integer, Litex will compute it. If it's not an integer, it remains unchanged.
-
-Division verification does not compute floating-point values. Instead, it uses the properties of division to transform the equation into an equality with only multiplication, addition, and exponentiation on both sides (`a / b = c / d` becomes `a * d = b * c`, where `b` and `d` cannot be 0). For example, `2 / 3 = 4 / 6` is first transformed into `2 * 6 = 3 * 4`, and then addition, subtraction, and multiplication are verified.
-
-```litex
-2 > 1
--3 * 8 <= 0
-```
-
-Inequality verification is similar to equality verification—it also uses string-based computation (not floating-point arithmetic) and then verifies.
-
-### 2. Polynomial Reduction
-
-If both sides are entirely polynomial expressions (addition, subtraction, multiplication, division, exponentiation), Litex reduces both sides.
-
-#### 2.1 Without Division
-
-```litex
-(x + 1) * (x + 1) = x * x + 2 * x + 1
-```
-
-When Litex sees such expressions, it automatically simplifies them to their canonical form (addition expressions sorted in dictionary order, like `x * x + 2 * x + 1`), and then verifies the equality. If the canonical forms of both sides are the same, the equality is established.
-
-#### 2.2 With Division
-
-```litex
-(x + 1) * (x + 1) / y = x * x + 2 * x + 1 / (y + 1 - 1)
-```
-
-First, it is transformed into a multiplication expression, then reduced. The above expression is equivalent to:
-
-```litex
-(x + 1) * (x + 1) * (y + 1 - 1) = (x * x + 2 * x + 1) * y
-```
-
-### 3. Symbol Value Substitution
-
-If symbols on the left or right side have numeric values, Litex will help verify the equality.
-
-**Examples:**
-
-```litex
-1 + 1 = 2
-4 * 2 - 10 = -2 + (7 - 7)
-7^2 = 49
-2 / 3 = 4 / 6
-```
-
-### 4. Automatic Verification Using Symbol Values
-
-If symbols on the left or right side have corresponding values, Litex will help verify the equality.
-
-```litex
-have a R = 1
-a > 0
-```
-
-Since `1` is the value of `a`, `a > 0` is automatically established because `a = 1` is known. `a > 0` is replaced with `1 > 0`, and then `1 > 0` is verified to be true.
-
-## Bonus: Is Litex Kernel too big?
-
-Litex implementation is very different from other formal languages whose kernel is very small. Though Litex contains just 30k-50k lines of code, which from any perspective is just a small software, it is still a very large formal language kernel compared to other formal languages with just a few thousand lines of code. Someone worries that the larger kernel makes Litex harder to understand and maintain, thus more easily introduces bugs and logical errors. It's very lucky for Litex to have comments like that, which shows people pay attention to Litex. It's believed that Litex will become increasingly stable and reliable because:
-
-1. Litex's working mechanism is almost perfectly aligned with how the human brain thinks. If you find Litex's internal logic too complex, that precisely demonstrates Litex's importance: before Litex, all these verification processes happened in the human brain. When the brain performs so many checks, mistakes are inevitable. Litex automates these mechanical and tedious verification processes for you.
-
-2. Other formal languages implement mathematical theories—their language semantics—in a very abstract way. The advantage is a small kernel, but the disadvantage is that common mathematical definitions need to be manually implemented in the standard library. Litex's advantage is a larger kernel, but the standard library can be small because relevant mathematical definitions are already built into Litex's kernel. In terms of total code size (kernel + standard library), traditional formal languages don't necessarily have less code than Litex.
-
-3. Considering that Litex has a very large potential user base (ordinary people who are not formal language experts) because it's simple and easy to learn, more users mean more people finding bugs, discovering bugs, and fixing bugs. Litex will become increasingly stable and reliable.
-
-举例
-
-比如 not exist <=> forall not 
-
-```litex
-prop q(x R, y R)
-prop t(x R, y R)
-
-exist_prop x R st p(y R):
-    dom:
-        y > 0
-    <=>:
-        $q(x, y)
-        $t(x, y)
-
-know not $p(1)
-
-# inferred by fact not $p(1)
-forall x R:
-    not $q(x, 1) or not $t(x, 1)
-```
+InferenceEngine Automatic Inference Functions Documentation
+
+This document describes all automatic inference functions performed by the InferenceEngine.
+These functions are automatically triggered when certain facts are introduced into the environment.
+
+============================================================================
+1. TRUE $IN FACT INFERENCES
+============================================================================
+
+The InferenceEngine performs various inferences when a true $in fact (x $in S) is introduced,
+depending on the type of set S.
+
+trueInFact
+----------
+Trigger: When a true $in fact is introduced (x $in S)
+Inference: Dispatches to appropriate inference handlers based on the type of set S
+
+trueInFactByFnTemplate
+----------------------
+Trigger: When x $in fnTemplate(...)
+Inference: Derives a universal fact from the function template definition and stores
+           the function-template satisfaction relationship
+
+trueInFactByFnTemplateFnObj
+---------------------------
+Trigger: When x $in fnTemplateFnObj
+Inference: Inserts the function x into the function template table
+
+trueInFactByCart
+----------------
+Trigger: When x $in cart(S1, S2, ..., Sn)
+Inference: If x is in a cartesian product, then each component of x is in the corresponding set.
+           Generates: a[i] $in Si for each i, dim(a) = n, is_tuple(a)
+
+trueInFactInCart
+----------------
+Trigger: When obj $in cart(S1, S2, ..., Sn)
+Inference: Generates:
+           - a[i] $in Si for each i (each component is in the corresponding set)
+           - dim(a) = n (dimension equals the number of sets)
+           - is_tuple(a) (the object is a tuple)
+
+trueInFactByListSet
+-------------------
+Trigger: When x $in listSet(e1, e2, ..., en)
+Inference: If x is in a finite list set, then x equals one of the elements.
+           Generates: x = e1 or x = e2 or ... or x = en
+
+trueInFactInListSet
+-------------------
+Trigger: When obj $in listSet(e1, e2, ..., en)
+Inference: Generates an OR fact indicating that obj equals one of the list set elements.
+           Result: obj = e1 or obj = e2 or ... or obj = en
+
+trueInFactBySetBuilder
+----------------------
+Trigger: When x $in {y in T: P(y)}
+Inference: If x is in a set builder, then x is in the parent set T and satisfies all intentional facts P(x).
+           Generates: x $in T, and all instantiated intentional facts P(x)
+
+trueInFactInSetBuilder
+----------------------
+Trigger: When obj $in {param in parentSet: facts}
+Inference: Generates:
+           - obj $in parentSet (membership in parent set)
+           - All instantiated intentional facts from the set builder
+
+trueInFactByRangeOrClosedRange
+-------------------------------
+Trigger: When x $in range(a, b) or x $in closed_range(a, b)
+Inference: Generates:
+           - x $in Z (integer membership)
+           - x >= a (lower bound)
+           - x < b (for range) or x <= b (for closed_range)
+           - Additional derived facts from comparison postprocessing (e.g., x != 0, x^2 > 0, etc.)
+
+trueInFactByNPos
+----------------
+Trigger: When x $in NPos (positive natural numbers)
+Inference: Generates:
+           - x $in N, x $in Q, x $in R (number type memberships)
+           - x > 0, x >= 1 (positivity facts)
+           - Additional derived facts from comparison postprocessing (e.g., x != 0, x^2 > 0, sqrt(x) > 0, etc.)
+
+============================================================================
+2. TRUE EQUALITY FACT INFERENCES
+============================================================================
+
+The InferenceEngine performs various inferences when a true equality fact (x = y) is introduced,
+depending on the types of x and y.
+
+newTrueEqual
+------------
+Trigger: When a true equality fact is introduced (x = y)
+Inference: Dispatches to appropriate equality inference handlers
+
+trueEqualFactByCart
+-------------------
+Trigger: When x = cart(x1, x2, ..., xn)
+Inference: Generates:
+           - is_cart(x) fact
+           - dim(x) = len(cart.Params) fact
+           - proj(x, i+1) = cart.Params[i] facts for each i
+
+trueEqualFactByTuple
+---------------------
+Trigger: When dealing with tuple equality (tuple = tuple, obj = tuple, or tuple = obj)
+Inference: Handles three cases:
+           - (.., …) = (.., ..): tuple = tuple (generates equal facts for each corresponding element)
+           - a = (.., ..): obj = tuple (generates obj[index] = tuple[i] for each index)
+           - (.., ..) = a: tuple = obj (same as above, reversed)
+
+trueEqualByLeftAtEachIndexIsEqualToTupleAtCorrespondingIndex
+-------------------------------------------------------------
+Trigger: When obj = tuple
+Inference: Generates obj[index] = tuple[i] facts for each index
+
+trueEqualByLeftAndRightAreBothTuple
+------------------------------------
+Trigger: When tuple = tuple
+Inference: Generates equal facts for each corresponding element
+
+trueEqualFactByListSet
+----------------------
+Trigger: When x = {1, 2, 3} (list set equality)
+Inference: If the right side is a list set, it creates:
+           - An OR fact indicating that x equals one of the list set elements
+           - count(x) = len(listSet) fact
+           - is_finite_set(x) fact
+
+============================================================================
+3. PURE FACT POST-PROCESSING INFERENCES
+============================================================================
+
+The InferenceEngine performs post-processing inferences when pure facts are introduced.
+
+newPureFact
+-----------
+Trigger: When a pure fact is introduced
+Inference: Dispatches to appropriate handlers based on whether it's builtin, user-defined prop, or exist prop
+
+equalTupleFactPostProcess
+--------------------------
+Trigger: When equal_tuple(a, b, dim) fact is introduced
+Inference: Automatically derives a[i] = b[i] for i from 1 to dim
+
+newFalseExist
+-------------
+Trigger: When a false exist fact is introduced
+Inference: Currently returns empty (no additional inference)
+
+newTrueExist
+------------
+Trigger: When a true exist fact is introduced (have(exist ... st ...))
+Inference: Generates the corresponding exist fact and processes iff/then facts
+
+newFalseExistFact_EmitEquivalentUniFact
+----------------------------------------
+Trigger: When a false exist fact is introduced (not exist)
+Inference: Converts to equivalent universal fact: not exist => forall not.
+           Generates: forall x, if conditions then not conclusion
+
+============================================================================
+4. BUILTIN PROPERTY INFERENCES
+============================================================================
+
+The InferenceEngine performs various inferences for builtin properties, especially comparison operations.
+
+BuiltinPropExceptEqualPostProcess
+----------------------------------
+Trigger: When a builtin property fact is introduced (except equality)
+Inference: Dispatches to appropriate builtin property handlers
+
+builtinPropExceptEqualPostProcess_WhenPropIsGreaterAndRightParamIsZero
+-----------------------------------------------------------------------
+Trigger: When x > 0
+Inference: Generates:
+           - x != 0, x >= 0, not x <= 0
+           - x > -x, -x < 0
+           - 1/x > 0, x^2 > 0, sqrt(x) > 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsLargerEqualAndRightParamIsZero
+---------------------------------------------------------------------------
+Trigger: When x >= 0
+Inference: Generates:
+           - abs(x) = x
+           - x >= -x
+           - sqrt(x) >= 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsLessAndRightParamIsZero
+--------------------------------------------------------------------
+Trigger: When x < 0
+Inference: Generates:
+           - x != 0, x <= 0, not x >= 0
+           - x < -x, -x > 0
+           - 1/x < 0, x^2 > 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsLessEqualAndRightParamIsZero
+-------------------------------------------------------------------------
+Trigger: When x <= 0
+Inference: Generates:
+           - abs(x) = -x
+           - x <= -x
+           - -x >= 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsGreaterAndRightParamIsNotZero
+--------------------------------------------------------------------------
+Trigger: When x > c (where c != 0)
+Inference: Generates:
+           - x != c, x >= c, not x <= c
+           - c < x, not c >= x
+           - x - c > 0, x - c >= 0
+           - c - x < 0, c - x <= 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsLargerEqualAndRightParamIsNotZero
+------------------------------------------------------------------------------
+Trigger: When x >= c (where c != 0)
+Inference: Generates:
+           - not x < c
+           - c <= x, not c > x
+           - x - c >= 0
+           - c - x <= 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsLessAndRightParamIsNotZero
+-----------------------------------------------------------------------
+Trigger: When x < c (where c != 0)
+Inference: Generates:
+           - x != c, x <= c, not x >= c
+           - c > x, not c <= x
+           - x - c < 0, x - c <= 0
+           - c - x > 0, c - x >= 0
+
+builtinPropExceptEqualPostProcess_WhenPropIsLessEqualAndRightParamIsNotZero
+---------------------------------------------------------------------------
+Trigger: When x <= c (where c != 0)
+Inference: Generates:
+           - not x > c
+           - c >= x, not c < x
+           - x - c <= 0
+           - c - x >= 0
+
+subsetOfFactPostProcess
+------------------------
+Trigger: When subset_of(A, B) fact is introduced
+Inference: Generates: forall x in A, x $in B
+
+falseEqualFact
+--------------
+Trigger: When x != y fact is introduced
+Inference: Generates: x - y != 0
+
+============================================================================
+5. BUILTIN PROPERTY INFERENCES (ie_builtin_props.go)
+============================================================================
+
+equalSetFactPostProcess
+------------------------
+Trigger: When equal_set(a, b) fact is introduced
+Inference: Creates an equality fact a = b and collects derived facts
+
+============================================================================
+6. USER-DEFINED PROPERTY INFERENCES
+============================================================================
+
+newUserDefinedTruePureFactByDef
+--------------------------------
+Trigger: When a user-defined true pure fact is introduced and has a property definition
+Inference: Derives facts from the property definition using iff and implication rules:
+           - Iff facts: facts that are equivalent (when the prop is true, these facts are also true)
+           - Implication facts: facts that are implied (when the prop is true, these facts follow)
+
+============================================================================
+HELPER FUNCTIONS
+============================================================================
+
+storeSpecFactInMemAndCollect
+-----------------------------
+Purpose: Helper function to store a fact in memory and collect its string representation
+         for tracking derived facts

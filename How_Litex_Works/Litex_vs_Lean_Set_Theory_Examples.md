@@ -286,7 +286,7 @@ The proof proceeds in two steps:
 
 Litex's `prove_for` provides iterates over items in a range and when the item satisfies the condition (domain restriction), it runs the proof section and the then section. After all items are iterated, it concludes the proof. `forall i range(x, y): domain_facts => then_facts`. In this case. there is no domain restriction and no proof section, it concludes `forall i range(5, 8): i = 5 or i = 6 or i = 7`. Here `range(x, y) = {i Z: x <= i, i < y}`.
 
-Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities. The proof is rigorous but requires more manual construction of the cases.
+Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities.
 
 ```litex
 prove_for i $in range(5, 8):
@@ -344,7 +344,7 @@ prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
 
 In set theory, an item can belong to multiple sets. So Litex also supports this way of writing naturally.
 
-Lean requires explicit application of the inclusion hypotheses and manual construction of intermediate facts. The proof structure is clear but requires explicit steps for each logical inference.
+Lean requires explicit application of the inclusion hypotheses and manual construction of intermediate facts. Since type theory only supports one type at a time, it requires extra steps and explicit type conversions between different types.
 
 ```litex
 have a, b, c nonempty_set
@@ -362,7 +362,7 @@ x $in c
 
 **Task**: Prove that `17` belongs to the set `{x N: x % 17 = 0, $p(x)}` where `p` is a proposition with domain restriction `{z Z: z < 100}`, and `p` is derived from another proposition `q` with domain `{y Q: y > 0}` through a universal rule.
 
-This example demonstrates how Litex and Lean handle propositions with domain restrictions (subsets as domains) and the complexity of type conversions between different number systems.
+This example demonstrates how Litex and Lean handle propositions with domain restrictions (subsets as domains).
 
 <table style="border-collapse: collapse; width: 100%;">
   <tr>
