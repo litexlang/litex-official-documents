@@ -68,11 +68,12 @@ Factual statements are prefixed with `$` to distinguish them from functions. Whe
 
 **Example:**
 ```litex
-# Using $ prefix
-$intelligent(Jordan)
+have Jordan, Alice R
+prop intelligent(x R)
+know $intelligent(Jordan)
 
 # Using infix notation (when proposition takes two objects)
-prop is_friend_of(x, y people)
+prop is_friend_of(x, y R)
 know Jordan $is_friend_of Alice
 ```
 
@@ -109,20 +110,20 @@ You'll see that `$intelligent(Jordan)` is established by applying the universal 
 1. Write Litex code to express: "All birds can fly. Tweety is a bird. Therefore, Tweety can fly."
 
 2. Given the following code:
-   ```litex
-   have numbers nonempty_set, three numbers
-   prop is_positive(x numbers)
-   know forall x numbers => $is_positive(x)
-   ```
-   What statement would verify that `three` is positive?
+```litex
+have numbers nonempty_set, three numbers
+prop is_positive(x numbers)
+know forall x numbers => $is_positive(x)
+```
+What statement would verify that `three` is positive?
 
 3. Explain in your own words how match and substitution works in the following example:
-   ```litex
-   have animals nonempty_set, cat animals
-   prop has_fur(x animals)
-   know forall x animals => $has_fur(x)
-   $has_fur(cat)
-   ```
+```litex
+have animals nonempty_set, cat animals
+prop has_fur(x animals)
+know forall x animals => $has_fur(x)
+$has_fur(cat)
+```
 
 ### Bonus: The Power of Abstraction
 

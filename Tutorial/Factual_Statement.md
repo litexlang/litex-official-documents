@@ -148,7 +148,8 @@ Besides builtin propositions (verb) like `>`, `=`, `!=`, you can also use your o
 
 **Custom propositions:**
 ```litex
-prop is_positive(x R)
+prop is_positive(x R):
+    x > 0
 $is_positive(5)  # Using custom proposition
 ```
 
@@ -228,7 +229,7 @@ The assumption and the conclusion are identical, so the statement is always true
 
 The complete syntax is:
 
-```litex
+```
 forall parameter1 set1, parameter2 set2, ...:
     domFact1
     domFact2
@@ -262,7 +263,7 @@ Both assert the same fact.
 
 Litex also supports a compact **inline form**:
 
-```litex
+```
 forall parameter1 set1, parameter2 set2, ... : inline domain facts => inline conclusion facts
 ```
 
@@ -377,18 +378,6 @@ forall:
         x = 1 * 1
 ```
 
-Notice that no extra parameters are needed in the universal fact. What we are doing is: assuming a parameter defined elsewhere (not in the scope of the universal fact) and assuming it satisfies the requirements of the universal fact. This is very similar to `if` statement in programming languages. We actually allow you to use keyword `when` to do so in Litex:
-
-```litex
-have x R
-
-when:
-    x = 1
-    =>:
-        x = 1 * 1
-```
-
-This looks much more natural and readable, right?
 
 ### Summary
 
@@ -511,10 +500,10 @@ In short, **match and substitution** is the fundamental mechanism by which Litex
 ### Exercises
 
 1. Given:
-   ```litex
-   know forall x R: x > 0 => x^2 > 0
-   ```
-   How would Litex verify `5^2 > 0`?
+```litex
+know forall x R: x > 0 => x^2 > 0
+```
+How would Litex verify `5^2 > 0`
 
 2. Explain the difference between "from special case to special case" and "from general case to special case".
 
@@ -609,7 +598,7 @@ x = 1 or x = 2
 
 The syntax is:
 
-```litex
+```
 or:
     specific_fact1
     specific_fact2
@@ -681,9 +670,13 @@ When the Litex kernel reads `fact1 or fact2 or ... or factN`, it will check if `
 That explains why the following code does not work:
 
 ```litex
-know forall x, y R: x * y = 0 => x = 0 or y = 0
+imply either_x_or_y_is_zero(x, y R):
+    x = 0 or y = 0
+
+know forall x, y R: x * y = 0 => $either_x_or_y_is_zero(x, y)
 let a,b R
 know a*b=0
+$either_x_or_y_is_zero(a,b)
 a=0 or b=0
 ```
 
@@ -696,7 +689,7 @@ To fix this, give a name to the known fact `forall x, y R: x * y = 0 => x = 0 or
 **Example 1:**
 
 ```litex
-know @product_zero_implies_or(x, y R):
+know imply product_zero_implies_or(x, y R):
     x * y = 0
     =>:
         x = 0 or y = 0

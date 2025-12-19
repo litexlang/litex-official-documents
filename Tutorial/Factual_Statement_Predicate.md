@@ -158,7 +158,7 @@ prop can_form_a_triangle(x, y, z R):
 
 The complete definition of a predicate is:
 
-```litex
+```
 prop propName(parameter1 set1, parameter2 set2, ...):
     domFact1
     domFact2
@@ -171,7 +171,7 @@ prop propName(parameter1 set1, parameter2 set2, ...):
 
 Or you can write `dom` explicitly:
 
-```litex
+```
 prop propName(parameter1 set1, parameter2 set2, ...):
     dom:
         domFact1
@@ -189,7 +189,7 @@ prop propName(parameter1 set1, parameter2 set2, ...):
 
 When there is no domain facts, you can hide `<=>`:
 
-```litex
+```
 prop propName(parameter1 set1, parameter2 set2, ...):
     iffFact1
     iffFact2
@@ -200,7 +200,7 @@ prop propName(parameter1 set1, parameter2 set2, ...):
 
 Sometimes we just want to declare a predicate without specifying what facts it is equivalent to. You can write:
 
-```litex
+```
 prop propName(parameter1 set1, parameter2 set2, ...)
 ```
 
@@ -292,17 +292,6 @@ Litex gives you flexibility in how you define predicates. You can define everyth
 
 In this section, we'll learn how to use predicates once they're defined. You'll learn how to call predicates, how Litex automatically infers equivalent facts, and how to work with named universal facts. By the end of this section, you'll be able to use predicates effectively in your proofs.
 
-### From Natural Language to Litex
-
-**Natural Language**: "Is 3, 4, 5 a valid triangle?"  
-**Litex**: `$can_form_a_triangle(3, 4, 5)`
-
-**Natural Language**: "For all real numbers x, y, z, if they can form a triangle, then x + y > z"  
-**Litex**: 
-```litex
-know forall x, y, z R: $can_form_a_triangle(x, y, z) => x + y > z
-```
-
 ### Calling a Predicate
 
 After declaring a predicate, you could call it anywhere with a prepend `$`:
@@ -389,7 +378,7 @@ a < c
 However, this is not the best way to do it. Litex provides you a short way to do it.
 
 ```litex
-know @transitivity_of_less(a, b, c R):
+know imply transitivity_of_less(a, b, c R):
     a < b
     b < c
     =>:
@@ -413,8 +402,8 @@ Named universal fact can be used in the following situations:
 
 **1. Follow keyword `know`:**
 
-```litex
-know @name(parameter1 set1, parameter2 set2, ...):
+```
+know imply name(parameter1 set1, parameter2 set2, ...):
     fact1
     fact2
     ...
@@ -426,9 +415,9 @@ know @name(parameter1 set1, parameter2 set2, ...):
 
 **2. Follow keyword `claim`:**
 
-```litex
+```
 claim:
-    @propName(parameter1 set1, parameter2 set2, ...):
+    imply propName(parameter1 set1, parameter2 set2, ...):
         fact1
         fact2
         ...
@@ -442,8 +431,8 @@ claim:
 
 **3. Use directly:**
 
-```litex
-@propName(parameter1 set1, parameter2 set2, ...):
+```
+imply propName(parameter1 set1, parameter2 set2, ...):
     fact1
     fact2
     ...
@@ -461,7 +450,7 @@ Sometimes, a predicate has transitive properties. For example, being colleagues 
 have people nonempty_set
 have oddie_bird, hippo_dog, thin_penguin people
 prop are_colleagues(x, y people)
-know @are_colleagues_transitive(x, y, z people):
+know imply are_colleagues_transitive(x, y, z people):
     $are_colleagues(x, y)
     $are_colleagues(y, z)
     =>:
@@ -478,7 +467,7 @@ $are_colleagues(oddie_bird, thin_penguin)
 - Predicates are called with `$propName(objects)`
 - Two-argument predicates can use infix notation: `obj1 $prop obj2`
 - Litex automatically infers equivalent facts from predicates
-- Named universal facts (`@name`) provide a concise way to define and use universal statements
+- Named universal facts (`imply name`) provide a concise way to define and use universal statements
 - Named universal facts can be used with `know`, `claim`, or directly
 
 ### Litex Syntax Reference
@@ -487,7 +476,7 @@ $are_colleagues(oddie_bird, thin_penguin)
 
 **Infix notation**: `obj1 $prop obj2` (for two-argument predicates)
 
-**Named universal fact**: `know @name(params): conditions => conclusions`
+**Named universal fact**: `know imply name(params): conditions => conclusions`
 
 **Automatic inference**: Litex automatically knows equivalent facts when predicates are true
 

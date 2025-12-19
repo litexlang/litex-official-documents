@@ -62,7 +62,7 @@ They all looks similar, don't they? Litex allows you to define them in a very sh
 fn_template sequence(s set):
 	fn (n N) s
 
-let a sequence(Z), b sequence(Q), c sequence(R), d sequence(happy_baby_characters_sequence)
+let a sequence(Z), b sequence(Q), c sequence(R)
 ```
 
 In this case template parameter `s` of `sequence` definition, replaces the `Z` of `integer_sequence` definition, `Q` of `rational_sequence` definition, `R` of `real_sequence()` definition. So `sequence(Z)` is equivalent to `integer_sequence()`.
@@ -121,10 +121,10 @@ Notice `12 >= 10` must be true so that `finite_positive_sequence_with_at_least_1
 The `f` here is equivalent to `f` defined here.
 
 ```litex
-fn f(n N_pos) R:
+let fn f(n N_pos) R:
     n <= 12
     =>:
-p        f(n) > 0
+        f(n) > 0
 ```
 
 <!-- TODO: Return Set Inference --> 
@@ -231,9 +231,9 @@ let a seq(R), b seq(R), c seq(R), d seq(R):
     forall n N => d(n) = n * n * n * n
 
 a(1) = 1
-=(b(3), 3 * 3, 9)
-=(c(3), 3 * 3 * 3, 27)
-=(d(3), 3 * 3 * 3 * 3, 81)
+b(3) = 3 * 3 = 9
+c(3) = 3 * 3 * 3 = 27
+d(3) = 3 * 3 * 3 * 3 = 81
 ```
 
 Here we have defined four sequences `a`, `b`, `c`, `d` which are all in the set `R`. We have also defined the domain of each sequence.
@@ -250,46 +250,6 @@ $$
 
 where $a_1$ is the first term and $d$ is the common difference.
 
-```litex
-prop is_arithmetic_progression(a seq(R), d R):
-    forall k N_pos => a(k+1) = a(1) + k * d
-    forall k N_pos => a(k+1) = a(k) + d
-
-fn sum_of_first_n_numbers(a seq(R), n N_pos) R
-know:
-    forall a seq(R), n N_pos:
-        sum_of_first_n_numbers(a, n+1) = sum_of_first_n_numbers(a, n) + a(n+1)
-    forall a seq(R):
-        sum_of_first_n_numbers(a, 1) = a(1)
-
-claim:
-    forall a seq(R), n N_pos, d R:
-        $is_arithmetic_progression(a, d)
-        =>:
-            sum_of_first_n_numbers(a, n) = n * (2 * a(1) + (n-1) * d) / 2
-    prove:
-    	=:
-            sum_of_first_n_numbers(a, 1)
-            a(1)
-            1 * (2 * a(1) + (1-1) * d) / 2
-        
-        claim:
-            forall k N_pos:
-                sum_of_first_n_numbers(a, k) = k * (2 * a(1) + (k-1) * d) / 2
-                =>:
-                    sum_of_first_n_numbers(a, k+1) = (k+1) * (2 * a(1) + (k+1 - 1) * d) / 2
-            prove:
-                a(k+1) = a(k) + d
-                =:
-                    sum_of_first_n_numbers(a, k+1)
-                    sum_of_first_n_numbers(a, k) + a(k+1)
-                    k * (2 * a(1) + (k-1) * d) / 2 + (a(1) + k * d)
-                    (k+1) * (2 * a(1) + (k+1 - 1) * d) / 2
-
-        prove_by_induction(sum_of_first_n_numbers(a, k) = k * (2 * a(1) + (k-1) * d) / 2, k, 1)
-        n >= 1
-        sum_of_first_n_numbers(a, n) = n * (2 * a(1) + (n-1) * d) / 2
-```
 
 Here is the builtin implementation of sequence related stuffs:
 
@@ -347,7 +307,7 @@ let f fn(N) N
 ## Function Template is a set
 
 ```litex
-have set a = {x fn(R)R: x(0) = 0}
+have a set = {x fn(R)R: x(0) = 0}
 let b a
 b $in fn(R)R 
 b(0) = 0
@@ -357,7 +317,7 @@ prop is_fib(f fn(N_pos) N):
     f(2) = 1
     forall n N_pos: n >= 3 => f(n) = f(n - 1) + f(n - 2)
 
-have set F = { f fn(N_pos) N: $is_fib(f) }
+have F set = { f fn(N_pos) N: $is_fib(f) }
 let f F
 f $in fn(N_pos) N
 $is_fib(f)
