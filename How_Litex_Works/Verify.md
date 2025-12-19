@@ -36,6 +36,8 @@ $is_positive(b)  # Verified because a = b and $is_positive(a)
 
 This demonstrates how factual statements work together with equality to enable mathematical reasoning through substitution.
 
+Remarkably, in Litex, you don't need to give names to the facts you want to use and call them manually later. This releases huge productivity for the user.
+
 ## How Litex Verifies SpecificFactual Statements
 
 A specific factual statement is a statement that is neither a forall fact nor an or fact. It is typically written as `$propName(object...)` (if there are two parameters, it can be written as `a $propName b`. If it is a built-in prop, such as `=`, `>`, then the `$` can be omitted).

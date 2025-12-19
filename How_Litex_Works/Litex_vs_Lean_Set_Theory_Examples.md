@@ -146,7 +146,9 @@ x = 1 or x = 2
   </tr>
 </table>
 
-The meaning of an item is in a set builder set is that the item satisfies the condition. So Litex automatically derives the fact `x > 0` from the fact `x $in {y R: y > 0}` for the user.
+The meaning of an item is in a set builder set is that the item satisfies the condition. So Litex automatically derives the fact `x > 0` from the fact `x $in {y R: y > 0}` for the user. 
+
+Also, Litex searches related facts from the database mechanically to derive the fact, you don't need to give names to the facts you want to use and call them manually later like Lean, so words like `simp [Set.mem_setOf_eq]` are not needed. This releases huge productivity for the user.
 
 Lean requires explicit rewriting with `Set.mem_setOf_eq` to extract the condition from set membership. The proof is straightforward but requires manual application of the membership definition.
 
