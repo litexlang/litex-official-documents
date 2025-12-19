@@ -1,4 +1,4 @@
-# Litex: From A Mathematical Perspective
+<!-- # Litex: From A Mathematical Perspective
 
 <div align="center">
 <img src="https://publisher.litexlang.org/litex_art_logo1.png" alt="The Litex Logo" width="300">
@@ -715,4 +715,4 @@ Through combinations of these 7 operations (6 ZFC axioms + Cartesian product), y
 
 **Note**: While Cartesian products are technically constructed from power set and separation axioms, they are such a fundamental construction that Litex provides direct support through `cart` and `cart_prod`.
 
-**Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations.
+**Important**: There are no other independent construction methods in ZFC. All set constructions in mathematics ultimately reduce to combinations of these operations. -->

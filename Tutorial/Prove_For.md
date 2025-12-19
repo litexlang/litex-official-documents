@@ -40,7 +40,7 @@ For finite ranges, `prove_for` is more efficient and clearer than general univer
 
 The basic syntax of `prove_for` is:
 
-```litex
+```
 prove_for variable_name $in range_type(lower, upper):
     =>:
         # then facts (what you want to prove)
@@ -86,19 +86,10 @@ This iterates over all integers \(i\) from 1 to 10 (inclusive) and proves that \
 
 `prove_for` is closely related to `forall`, but serves a different purpose:
 
-**Using `forall`**:
-```litex
-forall i Z:
-    i >= 1
-    i < 10
-    =>:
-        $p(i)
-```
-
-This states a universal fact logically, but doesn't specify how to verify it.
-
 **Using `prove_for`**:
 ```litex
+prop p(x R)
+
 prove_for i $in range(1, 10):
     =>:
         $p(i)
@@ -114,88 +105,13 @@ This explicitly iterates over the range and proves the property for each element
 
 **Using `prove_in_range`**:
 ```litex
-let s set:
-    s := {x Z : 1 <= x < 10}
-
-prove_in_range(1, 10, i, s):
-    $p(i)
-```
-
-**Using `prove_for`** (equivalent):
-```litex
+have s set = {x Z : 1 <= x, x < 10}
 prove_for i $in range(1, 10):
-    =>:
-        $p(i)
-    prove:
-        # proof steps
+    i $in s
 ```
 
 The `prove_for` syntax is more direct and doesn't require explicitly defining the set.
 
-### `prove_for` with Set Notation
-
-You can also use `prove_for` with explicitly defined ranges:
-
-```litex
-forall i range(1, 10):
-    i >= 1
-    i < 10
-    $p(i)
-```
-
-This is equivalent to the `prove_for` version, but `prove_for` makes the iterative proof process explicit.
-
----
-
-## Practical Examples
-
-### Example 1: Proving Properties Over a Small Range
-
-```litex
-prop is_positive(x R)
-
-prove_for i $in range(1, 6):
-    =>:
-        $is_positive(i)
-    prove:
-        i >= 1
-        i > 0
-        $is_positive(i)
-```
-
-This proves that all integers from 1 to 5 are positive.
-
-### Example 2: Using Closed Range
-
-```litex
-prop is_non_negative(x R)
-
-prove_for i $in closed_range(0, 5):
-    =>:
-        $is_non_negative(i)
-    prove:
-        i >= 0
-        $is_non_negative(i)
-```
-
-This proves that all integers from 0 to 5 (inclusive) are non-negative.
-
-### Example 3: Combining with Domain Facts
-
-```litex
-prop p(x R)
-prop q(x R)
-
-prove_for i $in range(1, 10):
-    i > 0
-    =>:
-        $p(i)
-    prove:
-        $q(i)
-        # Additional proof steps showing $q(i) => $p(i)
-```
-
-This proves that for all integers \(i\) in \([1, 10)\), if \(i > 0\) (which is always true in this range), then \(p(i)\) holds, using the fact that \(q(i)\) holds.
 
 ---
 

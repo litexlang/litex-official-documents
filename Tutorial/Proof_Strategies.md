@@ -186,90 +186,20 @@ This approach is especially useful when direct reasoning is difficult, but the p
 The syntax is:
 
 ```
-prove_in_each_case:
-    fact1 or fact2 or ... or factN
+prove_case_by_case:
     =>:
-        then_fact
-    prove:
-        # assume fact1 is true, prove then_fact
-    prove:
-        # assume fact2 is true, prove then_fact
+        then_facts
+    case condition1:
+        proof1
     ...
-    prove:
-        # assume factN is true, prove then_fact
+    case conditionN:
+        proofN
 ```
 
-Note the number of prove sections is the same as the number of cases in the `or` statement. The indent of the prove sections is the same as the indent of the `or` statement.
+condition1 or condition2 or ... or conditionN is must be true. We prove `then_facts` in each case after running the proof steps in each proof section.
 
-or inline form:
 
-```
-prove_in_each_case fact1 or fact2 ... or factN => fact1, fact2 ...:
-    prove:
-        ...
-    prove:
-        ...
-    ...
-    prove:
-        ...
-```
-
-If `fact1 or fact2 or ... or factN` is true, and each `prove` section, where the nth fact in `or` statement, proves `then_fact`, then ¸`then_fact` is always true.
-
-For example
-
-```litex
-let weekdays set
-prop is_monday(x weekdays)
-prop is_tuesday(x weekdays)
-prop is_wednesday(x weekdays)
-prop is_thursday(x weekdays)
-prop is_friday(x weekdays)
-prop is_saturday(x weekdays)
-prop is_sunday(x weekdays)
-know forall x weekdays => $is_monday(x) or $is_tuesday(x) or $is_wednesday(x) or $is_thursday(x) or $is_friday(x) or $is_saturday(x) or $is_sunday(x)
-
-prop stay_at_home_doctor_wear_his_uniform(x weekdays)
-know:
-    forall x weekdays: $is_monday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-    forall x weekdays: $is_tuesday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-    forall x weekdays: $is_wednesday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-    forall x weekdays: $is_thursday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-    forall x weekdays: $is_friday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-    forall x weekdays: $is_saturday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-    forall x weekdays: $is_sunday(x) => $stay_at_home_doctor_wear_his_uniform(x)
-
-prop stay_at_home_doctor_always_wear_his_uniform():
-    forall x weekdays => $stay_at_home_doctor_wear_his_uniform(x)
-
-claim:
-    forall x weekdays => $stay_at_home_doctor_wear_his_uniform(x)
-    prove:
-        prove_in_each_case:
-            $is_monday(x) or $is_tuesday(x) or $is_wednesday(x) or $is_thursday(x) or $is_friday(x) or $is_saturday(x) or $is_sunday(x)
-            =>:
-                $stay_at_home_doctor_wear_his_uniform(x)
-            prove:
-                $is_monday(x)
-            prove:
-                $is_tuesday(x)
-            prove:
-                $is_wednesday(x)
-            prove:
-                $is_thursday(x)
-            prove:
-                $is_friday(x)
-            prove:
-                $is_saturday(x)
-            prove:
-                $is_sunday(x)
-
-$stay_at_home_doctor_always_wear_his_uniform()
-```
-
-In example, we know any item in `weekdays` is either satisfies `is_monday`, `is_tuesday`, `is_wednesday`, `is_thursday`, `is_friday`, `is_saturday`, or `is_sunday`. And we know the stay at home doctor wears his uniform on each of these days. Therefore, we can conclude that the stay at home doctor wears his uniform on any day.
-
-Here is another example:
+Here is an example:
 
 ```litex
 know forall x R: x > 0 => x^2 > 0
@@ -277,26 +207,20 @@ know forall x R: x > 0 => x^2 > 0
 claim:
     forall a R => a^2 >= 0
     prove:
-        prove_in_each_case:
-            a > 0 or a = 0 or a < 0
-                a > 0
-                a = 0
-                a < 0
+        prove_case_by_case:
             =>:
                 a^2 >= 0
-            prove:
+            case a > 0:
                 a * a = a ^ 2
                 a ^ 2 > 0
                 a ^ 2 >= 0
-            prove:
-                =(0, 0^2, a ^ 2, a * a)
-                0 >= 0
-                a^2 >= 0
-            prove:
-                a ^ 2 = (-a) ^ 2
-                -a > 0
-                (-a) ^ 2 > 0
-                (-a) ^ 2 >= 0
+            case a = 0:
+                a * a = 0 ^ 2 = 0
+                a ^ 2 >= 0
+            case a < 0:
+                a * a = a ^ 2
+                a ^ 2 > 0
+                a ^ 2 >= 0
 ```
 
 In this example, we use the known fact `forall x R: x > 0 => x^2 > 0` to prove `forall a R => a^2 >= 0`. We split the case into `a > 0`, `a = 0`, and `a < 0`. And we prove `a^2 >= 0` in each case.
@@ -465,73 +389,52 @@ For example, we want to prove that forall x in the set {1, 2, 3}, x is less than
 There can be no domain facts, no prove sections, or both.
 
 ```litex
-let s set:
-    s := {1, 2, 3}
+have s set = {1, 2, 3}
 
-prove_by_enum(x, s):
+prove_by_enum(x s):
     x > 0 # then facts
 ```
 
 Empty set, which is the very special case of finite set, is also supported. As you can see, any factual statement is true on items in empty set, since there is no item in empty set.
 
 ```litex
-have set s := {}
+have s set = {}
 
 # any factual statement is true on empty set
-prove_by_enum(x, s):
+prove_by_enum(x s):
     x > 0
     x < 0
 ```
 
-You can pass multiple sets to `prove_by_enum` to prove a universal fact over multiple sets. These sets must all be finite.
-
-```litex
-let s3, s4 set:
-    s3 := {1, 2, 3}
-    s4 := {1, 2, 3}
-
-prove_by_enum(x, s3), prove_by_enum(y, s4):
-    x * y >= 1
-```
-
-The number of `prove_by_enum` statements here are the same as the number of sets in the universal fact header. The `prove_by_enum` statements are executed in the order of the sets in the universal fact header.
-
-For example
-
-```litex
-let s1 set, s2 set:
-    s1 := {1, 2}
-    s2 := {3, 4}
-
-prove_by_enum(x, s1), prove_by_enum(y, s2):
-    x * y >= 1
-```
-
-## Prove in Range: Iteratively Prove Over a Range of Integers
+## Prove For In Range
 
 Given a set which is the subset of a consecutive integers range, we can prove a universal fact over this set by iteratively proving over each integer in this set.
 
 ```
-prove_in_range(a, b, x_name, set_name):
-    ... # then facts
+prove_for variable_name $in range_type(lower, upper):
+    dom:
+        ...
+    =>:
+        ... # then facts
     prove:
         ...
-```
+``` 
 
-prove section can be empty.
-
-For example
+For example, we want to prove that forall x in the range {1, 2, 3}, x is less than 4.
 
 ```litex
-let s set:
-    s := {x Z : 1 <= x < 3, x > 1}
+prove_for i $in range(5, 8):
+    i = 5 or i = 6 or i = 7
 
-prove_in_range(1, 3, x, s):
-    x > 0
+prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
+    prove_case_by_case:
+        =>:
+            x >= 5
+            x < 8
+        case x = 5:
+            do_nothing
+        case x = 6:
+            do_nothing
+        case x = 7:
+            do_nothing
 ```
-
-First, Litex checks whether your given `set_name` is the subset of the consecutive integers range `{x Z : a <= x < b}`. If not, it will report an error.
-
-Then, it iterates over `{x Z : a <= x < b}` and checks whether the the current x satisfies the definition of the intensional set `set_name`. When current x satisfies the definition of the intensional set `set_name`, it will prove the `then` facts. If not, it won't prove.
-
-In this example, Litex iterates over `{x Z : 1 <= x < 3, x > 1}` and checks whether the the current x satisfies the definition of the intensional set `{x Z : 1 <= x < 3, x > 1}`. `x = 1` does not satisfy `x > 1`, so it won't prove the `then` facts. `x = 2` satisfies `x > 1`, so it will prove the `then` facts.

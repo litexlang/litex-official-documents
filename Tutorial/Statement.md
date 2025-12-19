@@ -38,7 +38,7 @@ let a R # Successfully declared a real number
 
 If you enter a factual statement but the interpreter cannot find the corresponding known fact or built-in rule, it outputs **unknown**.
 
-```litex
+```
 # The following code will output unknown
 1 = 2
 ```
@@ -49,7 +49,7 @@ If you enter a factual statement but the interpreter cannot find the correspondi
 
 When you write an invalid sentence, such as operating on an undeclared object or entering a syntactically incorrect sentence, it results in an **error**.
 
-```litex
+```
 # The following code will output error
 You can checkout any time you like but you can never leave.
 What the F**K are you talking about?
@@ -61,7 +61,7 @@ What the F**K are you talking about?
 
 A very common mistake is writing just a number:
 
-```litex
+```
 # The following code will output error
 1
 ```
@@ -101,13 +101,13 @@ Notice that these three kinds of outputs are produced by the Litex kernel **to t
 If an **unknown** or **error** occurs, the Litex kernel will terminate the current execution and notify you of the issue. If everything you wrote is correct, then the result is **success**!
 
 **Example of error handling:**
-```litex
+```
 let x R
 x + y = 5  # Error: y is not declared
 ```
 
 **Example of unknown:**
-```litex
+```
 let x, y R
 x > y  # Unknown: we don't know if x > y
 ```
@@ -134,15 +134,15 @@ x > y  # Unknown: we don't know if x > y
 ### Exercises
 
 1. What is the outcome of the following statement? Why?
-   ```litex
-   2 + 2 = 4
-   ```
+```litex
+2 + 2 = 4
+```
 
 2. What is the outcome of the following code? Why?
-   ```litex
-   let x R
-   x = y
-   ```
+```
+let x R
+x = y
+```
 
 3. Explain the difference between `unknown` and `error` outcomes.
 

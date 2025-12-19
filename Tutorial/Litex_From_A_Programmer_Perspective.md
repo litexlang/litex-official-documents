@@ -1,4 +1,4 @@
-# Litex: From A Programmer Perspective
+<!-- # Litex: From A Programmer Perspective
 
 _If you define the problem correctly, you almost have the solution._
 
@@ -678,4 +678,4 @@ claim:
 - 自然数集合`N`、整数集合`Z`、有理数集合`Q`、实数集合`R`、复数集合`C`都是Litex的内置集合
 - litex中经常出现x1 set1, x2 set2, ...这样的语句，比如forall x1 set1, x2 set2, ...: ...这样的语句，其中x1, x2, ...是对象，set1, set2, ...是集合。但其实不完全是这样，set1, set2上可能出现set, nonempty_set, obj，这几个不是集合的对象。即虽然litex都是写xxx in yyy，但是yyy不一定是集合。比如xxx in set中，就是在说xxx是（is）集合（所有的set组成的全体，不是一个set），xxx in obj在说xxx是（is）对象，但是obj（包含所有东西）也不是一个集合，来说明x1是集合，而不是像x1 in R这样用in来表示某某元素在集合R里。注意到，如果右侧是set, obj这种东西，那就我们在自然语言表达时的谓词就是is；如果是set这种东西，那我们在自然语言表达时的谓词就是in。特别注意，litex中的 x $in set 其实意思是 x is a set，而不是，而不是在说x在集合构成的集合里。这里的in重载了is的语义。。 -->
 
-## Thanks
+## Thanks -->

@@ -53,16 +53,6 @@ have a N
 a $in N
 ```
 
-2. A function satisfy a function template also uses the keyword `in`.
-
-```litex
-fn_template self_defined_seq(s set):
-    fn (n N) s
-
-fn f(n N) R
-
-f $in self_defined_seq(R)
-```
 
 3. As parameter condition for everything: function, proposition, etc.
 
@@ -150,12 +140,12 @@ Litex provides two ways to work with Cartesian products: `cart` for fixed-arity 
 
 The `cart` function creates a Cartesian product of a fixed number of sets. For sets $X_1, X_2, \ldots, X_n$, the Cartesian product $X_1 \times X_2 \times \ldots \times X_n$ is the set of all ordered $n$-tuples $(x_1, x_2, \ldots, x_n)$ where $x_i \in X_i$ for all $1 \leq i \leq n$.
 
-**Keywords**: `cart`, `$is_cart`, `dim`, `proj`, `coord`
+**Keywords**: `cart`, `$is_cart`, `dim`, `proj`, `coord`, `set_dim`
 
 **Built-in functions and predicates**:
 - `cart(X1, X2, ..., Xn)`: Creates the Cartesian product of sets $X_1, X_2, \ldots, X_n$
 - `$is_cart(x)`: A predicate that checks whether `x` is a Cartesian product
-- `dim(x)`: Returns the dimension (number of components) of a Cartesian product
+- `set_dim(x)`: Returns the dimension (number of components) of a Cartesian product
 - `proj(x, i)`: Returns the $i$-th projection (the $i$-th component set) of a Cartesian product
 - `coord(a, x, i)`: Returns the $i$-th coordinate of element `a` in Cartesian product `x`
 
@@ -163,19 +153,20 @@ The `cart` function creates a Cartesian product of a fixed number of sets. For s
 
 ```litex
 # Create a 3-fold Cartesian product: R × Q × Z
-have set x = cart(R, Q, Z)
+have x set = cart(R, Q, Z)
 $is_cart(x)
-dim(x) = 3
+set_dim(x) = 3
 proj(x, 1) = R
 proj(x, 2) = Q
 proj(x, 3) = Z
-x $in set
+$is_a_set(x)
 
 # Access elements and coordinates
-let a x
-coord(a, x, 1) $in R
-coord(a, x, 2) $in Q
-coord(a, x, 3) $in Z
+have a cart(R, Q, Z)
+a[1] $in R
+a[2] $in Q
+a[3] $in Z
+dim(a) = 3
 ```
 
 **Explanation**:
@@ -184,7 +175,7 @@ coord(a, x, 3) $in Z
 3. **`dim(x) = 3`**: The dimension of `x` is 3, meaning it is a product of three sets. This corresponds to the number of arguments passed to `cart()`.
 4. **`proj(x, i)`**: Returns the $i$-th component set of the Cartesian product. For example, `proj(x, 1) = R`.
 5. **`let a x`**: This declares an element `a` that belongs to the Cartesian product `x`. Since `x = cart(R, Q, Z)`, the element `a` is an ordered triple $(a_1, a_2, a_3)$ where $a_1 \in \mathbb{R}$, $a_2 \in \mathbb{Q}$, and $a_3 \in \mathbb{Z}$.
-6. **`coord(a, x, i)`**: Extracts the $i$-th component of the ordered tuple `a` in the Cartesian product `x`. For example, `coord(a, x, 1) $in R` means the first coordinate of `a` belongs to $\mathbb{R}$.
+6. **`a[i] $in X_i`**: Extracts the $i$-th component of the ordered tuple `a` in the Cartesian product `x`. For example, `a[1] $in R` means the first coordinate of `a` belongs to $\mathbb{R}$.
 
 **Example 2: Two-Dimensional Cartesian Product**
 
@@ -192,23 +183,23 @@ Litex can compute non-numeric values, such as the dimension of a Cartesian produ
 
 ```litex
 $is_cart(cart(R, Q))
-let y cart(R, Q)
-dim(cart(R, Q)) = 2
-coord(y, cart(R, Q), 1) $in R
-coord(y, cart(R, Q), 2) $in Q
+have y cart(R, Q)
+dim(y) = 2
+y[1] $in R
+y[2] $in Q
 ```
 
 **Explanation**:
 1. **`$is_cart(cart(R, Q))`**: This verifies that `cart(R, Q)` is a Cartesian product. Note that we can use `cart(R, Q)` directly without assigning it to a variable first.
-2. **`let y cart(R, Q)`**: This declares an element `y` in the Cartesian product $\mathbb{R} \times \mathbb{Q}$. The element `y` is an ordered pair $(y_1, y_2)$ where $y_1 \in \mathbb{R}$ and $y_2 \in \mathbb{Q}$.
-3. **`dim(cart(R, Q)) = 2`**: The dimension of `cart(R, Q)` is 2, since it is a product of two sets. Litex can compute this value directly.
+2. **`have y cart(R, Q)`**: This declares an element `y` in the Cartesian product $\mathbb{R} \times \mathbb{Q}$. The element `y` is an ordered pair $(y_1, y_2)$ where $y_1 \in \mathbb{R}$ and $y_2 \in \mathbb{Q}$.
+3. **`set_dim(y) = 2`**: The dimension of `y` is 2, since it is a product of two sets. Litex can compute this value directly.
 
 **Key Concepts**:
 
 - **Dimension**: The dimension of a Cartesian product is the number of sets being multiplied together. For example:
-  - `dim(cart(R, Q)) = 2` (two-dimensional)
-  - `dim(cart(R, Q, Z)) = 3` (three-dimensional)
-  - `dim(cart(X1, X2, ..., Xn)) = n` ($n$-dimensional)
+  - `set_dim(y) = 2` (two-dimensional)
+  - `set_dim(x) = 3` (three-dimensional)
+  - `set_dim(x) = n` ($n$-dimensional)
 
 - **Projections**: The projection `proj(x, i)` returns the $i$-th component set of the Cartesian product `x`. For `x = cart(X1, X2, ..., Xn)`:
   - `proj(x, 1) = X1`
@@ -218,46 +209,6 @@ coord(y, cart(R, Q), 2) $in Q
 
 - **Coordinates**: For an element `a` in a Cartesian product `x = cart(X1, X2, ..., Xn)`, the coordinate `coord(a, x, i)` extracts the $i$-th component of `a`. The coordinate satisfies:
   - `coord(a, x, i) $in proj(x, i)` for all valid indices $i$
-
-### `cart_prod`: Indexed Cartesian Products
-
-The `cart_prod` function creates a Cartesian product using an index set and a key-value function that maps each index to a set. This is useful when you want to define a product over an arbitrary (possibly infinite) index set.
-
-**Keywords**: `cart_prod`, `index_set_of_cart_prod`, `cart_prod_proj`, `fn` (for key-value function)
-
-**Example 1: Finite index set**:
-```litex
-# Define an index set
-have set X = {1, 2, 3}
-
-# Define a key-value function mapping indices to sets
-have fn kv(x X) set =:
-    case x = 1: N
-    case x = 2: Q
-    case x = 3: Z
-
-# Create the Cartesian product: N × Q × Z
-cart_prod(X, kv) $in set
-index_set_of_cart_prod(cart_prod(X, kv)) = X
-cart_prod_proj(cart_prod(X, kv), 1) = kv(1) = N
-cart_prod_proj(cart_prod(X, kv), 2) = kv(2) = Q
-cart_prod_proj(cart_prod(X, kv), 3) = kv(3) = Z
-```
-
-**Example 2: Infinite index set**:
-```litex
-# Use natural numbers as index set
-have fn kv2(x N) set =:
-    case x >= 2: N
-    case x < 2: Q
-
-# Create Cartesian product indexed by natural numbers
-cart_prod(N, kv2) $in set
-index_set_of_cart_prod(cart_prod(N, kv2)) = N
-cart_prod_proj(cart_prod(N, kv2), 1) = kv2(1) = Q
-cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N
-cart_prod_proj(cart_prod(N, kv2), 3) = kv2(3) = N
-```
 
 **Explanation**:
 - `cart_prod(X, kv)` creates a Cartesian product where `X` is the index set and `kv` is a function from `X` to sets
@@ -293,138 +244,74 @@ Litex provides a built-in `power_set` function:
 ```litex
 # Every element of power_set(R) is a subset of R
 forall y power_set(R):
-    y $is_subset_of R
+    y $subset_of R
 ```
 
-**Keywords**: `power_set`, `$is_subset_of`
+**Keywords**: `power_set`, `$subset_of`
 
 **Example**:
 ```litex
 # The power set of R contains all subsets of R
 have y power_set(R)
-y $is_subset_of R
+y $subset_of R
 
-# The empty set is in the power set of any set
-empty_set $is_subset_of R # empty_set is a builtin set. it is defined by `have set empty_set = {}`
-empty_set $in power_set(R)
 ```
-
-### Self-Defined Power Set
-
-You can also define your own power set function using Litex's set definition capabilities:
-
-```litex
-# Define power set as a function from sets to sets
-fn self_defined_power_set(A set) set:
-    forall y self_defined_power_set(A):
-        y $in set
-        y $is_subset_of A
-    forall y set:
-        y $is_subset_of A
-        =>:
-            y $in self_defined_power_set(A)
-```
-
-**Explanation**:
-- `self_defined_power_set(A)` is a function that takes a set `A` and returns a set
-- The first `forall` states that every element of `self_defined_power_set(A)` is a subset of `A`
-- The second `forall` states that every subset of `A` is an element of `self_defined_power_set(A)`
-- Together, these define the power set: it contains exactly all subsets of `A`
-
-**Keywords**: `fn`, `set`, `$is_subset_of`, `$in`, `forall`, `=>`
 
 ### Examples
 
 **Example 1: Power set of a finite set**
 ```litex
 # Define a finite set
-have set A = {1, 2, 3}
+have A set = {1, 2, 3}
 
 # Use built-in power_set
+$is_a_nonempty_set({1, 2, 3})
+$is_a_set(A)
 have y power_set(A)
-y $is_subset_of A
+y $subset_of A
 
 # All subsets of A are in power_set(A)
-have set empty = {}
-empty $is_subset_of A
+have empty set = {}
+empty $subset_of A
 empty $in power_set(A)
 
-have set singleton1 = {1}
-singleton1 $is_subset_of A
+have singleton1 set = {1}
+singleton1 $subset_of A
 singleton1 $in power_set(A)
 
-have set pair12 = {1, 2}
-pair12 $is_subset_of A
+have pair12 set = {1, 2}
+prove_by_enum(x pair12):
+    x $in A
+pair12 $subset_of A
 pair12 $in power_set(A)
 
 # A itself is in its power set
-A $is_subset_of A
+A $subset_of A
 A $in power_set(A)
 ```
 
 **Example 2: Using self-defined power set**
 ```litex
 # Define a set
-have set B = {5, 10}
+have B set = {5, 10}
 
 # Use self-defined power set
-fn self_defined_power_set(A set) set:
+let fn self_defined_power_set(A set) set:
     forall y self_defined_power_set(A):
-        y $is_subset_of A
+        y $subset_of A
     forall y set:
-        y $is_subset_of A
+        y $subset_of A
         =>:
             y $in self_defined_power_set(A)
 
 # Check that subsets are in the power set
-have set subset1 = {5}
-subset1 $is_subset_of B
+have subset1 set = {5}
+subset1 $subset_of B
 subset1 $in self_defined_power_set(B)
 
 # The set itself is in its power set
-B $is_subset_of B
+B $subset_of B
 B $in self_defined_power_set(B)
-```
-
-**Example 3: Power set properties**
-```litex
-# The empty set is always in the power set
-have set empty = {}
-have A set
-
-empty $is_subset_of A
-empty $in power_set(A)
-
-# The set itself is always in its power set
-A $is_subset_of A
-A $in power_set(A)
-
-# If B is a subset of A, then power_set(B) is a subset of power_set(A)
-have B set
-B $is_subset_of A
-=>:
-    forall y power_set(B):
-        y $is_subset_of B
-        y $is_subset_of A
-        y $in power_set(A)
-    forall y power_set(B) => y $in power_set(A)
-    power_set(B) $is_subset_of power_set(A)
-```
-
-**Example 4: Power set of natural numbers**
-```litex
-# Power set of N contains all subsets of natural numbers
-have y power_set(N)
-y $is_subset_of N
-
-# Examples of subsets in power_set(N)
-have set even_numbers = {n N: exist k N => n = 2 * k}
-even_numbers $is_subset_of N
-even_numbers $in power_set(N)
-
-have set positive_numbers = N_pos
-N_pos $is_subset_of N
-N_pos $in power_set(N)
 ```
 
 ---
@@ -436,7 +323,7 @@ In ZFC set theory, there are **6 fundamental axioms** for constructing new sets 
 | ZFC Axiom | What It Constructs | Litex Implementation | Example |
 |-----------|---------------------|---------------------|---------|
 | **Separation (Specification)** | Subsets of A satisfying property P | `have set s = {x A: $P(x)}` | ```litex<br>prop P(x A)<br>have set s = {x A: $P(x)}<br>``` |
-| **Power Set** | Set of all subsets of A | `power_set(A)` or `fn self_defined_power_set(A set) set` | ```litex<br>have y power_set(R)<br>y $is_subset_of R<br>``` |
+| **Power Set** | Set of all subsets of A | `power_set(A)` or `fn self_defined_power_set(A set) set` | ```litex<br>have y power_set(R)<br>y $subset_of R<br>``` |
 | **Pairing** | Set containing exactly two objects | `have set s = {a, b}` | ```litex<br>have a, b obj<br>have set pair = {a, b}<br>``` |
 | **Union** | Set containing all elements from sets in A | `union(A, B)` or `union_of_family(F)` | ```litex<br>have a, b set<br>forall x a => x $in union(a, b)<br>forall x b => x $in union(a, b)<br>``` |
 | **Replacement** | Image of A under function F | Function application + `know` (if needed) | ```litex<br>have X, Y set<br>have fn f(x X) Y<br># f[A] = {f(x): x in A}<br>have set image = {y Y: exist x A => y = f(x)}<br>``` |
@@ -444,49 +331,19 @@ In ZFC set theory, there are **6 fundamental axioms** for constructing new sets 
 
 ### Key Points:
 
+Read [ZFC Axioms In Litex](https://litexlang.com/doc/How_Litex_Works/ZFC_Axioms_In_Litex) for more details.
+
 1. **Separation** is implemented directly through Litex's intensional set syntax `{x parent_set: condition}`. This is the most commonly used construction method.
 
-2. **Power Set** can use the built-in `power_set(A)` or be defined as a function:
-   ```litex
-   fn self_defined_power_set(A set) set:
-       forall y self_defined_power_set(A):
-           y $in set
-           y $is_subset_of A
-       forall y set:
-           y $is_subset_of A
-           =>:
-               y $in self_defined_power_set(A)
-   ```
+2. **Power Set** is built-in in Litex. It is a function that takes a set and returns the power set of that set, i.e. a set contains and only contains subsets of the input set.
 
 3. **Pairing** creates finite sets through enumeration: `{a}`, `{a, b}`, `{a, b, c}`, etc.
 
 4. **Union** combines sets. For pairwise union: `union(A, B)`. For union of a family: define a function `union_of_family(F)`.
 
-5. **Replacement** constructs the image of a set under a function. In Litex, this is typically done by defining the image set explicitly:
-   ```litex
-   have set image = {y Y: exist x A => y = f(x)}
-   ```
+5. **Replacement** constructs the image of a set under a function. In Litex, this is typically done by defining the image set explicitly.
 
-6. **Cartesian Product** constructs ordered tuples from sets. Litex provides two methods:
-   - **Fixed-arity**: `cart(X1, X2, ..., Xn)` for a fixed number of sets
-   - **Indexed**: `cart_prod(index_set, kv)` where `kv` is a function mapping indices to sets
-   
-   ```litex
-   # Fixed-arity Cartesian product
-   have set x = cart(R, Q, Z)
-   let a x
-   coord(a, x, 1) $in R
-   coord(a, x, 2) $in Q
-   coord(a, x, 3) $in Z
-   
-   # Indexed Cartesian product
-   have set X = {1, 2, 3}
-   have fn kv(x X) set =:
-       case x = 1: N
-       case x = 2: Q
-       case x = 3: Z
-   cart_prod(X, kv) $in set
-   ```
+6. **Cartesian Product** constructs ordered tuples from sets. 
 
 ### Intensional Set
 
@@ -495,8 +352,8 @@ The **intensional set** syntax `{x parent_set: facts}` is Litex's implementation
 #### Syntax
 
 The general form is:
-```litex
-have set s = {x parent_set: fact1, fact2, ...}
+```
+have s set = {x parent_set: fact1, fact2, ...}
 ```
 
 Where:
@@ -526,7 +383,7 @@ This means: an element `x` belongs to `s` if and only if `x` is in `parent_set` 
 **Example 1: Simple condition**
 ```litex
 # Define the set of positive real numbers
-have set positive_reals = {x R: x > 0}
+have positive_reals set = {x R: x > 0}
 
 # Litex automatically knows:
 # 1. positive_reals $in set
@@ -534,59 +391,33 @@ have set positive_reals = {x R: x > 0}
 
 # Usage
 3 $in positive_reals
--1 $in positive_reals  # This will be false
+# -1 $in positive_reals  # This will be false
 ```
 
 **Example 2: Using a proposition**
 ```litex
 # Define a proposition
 prop is_even(n N):
-    exist k N => n = 2 * k
+    n % 2 = 0
 
 # Define the set of even numbers
-have set even_numbers = {n N: $is_even(n)}
-
-# Equivalently, we can write the condition directly:
-have set even_numbers2 = {n N: exist k N => n = 2 * k}
-
-# Both define the same set
+have even_numbers set = {n N: $is_even(n)}
 ```
 
 **Example 3: Multiple conditions**
 ```litex
 # Define the set of positive integers greater than 5
-have set large_positive = {n N: n > 0, n > 5}
+prop p(x R)
+have large_positive set = {n N: $p(n), n > 0, n > 5}
 
 # Or equivalently:
-have set large_positive2 = {n N: n > 5}
-# (since n > 5 already implies n > 0 for natural numbers)
-```
-
-**Example 4: Function image (Replacement Axiom)**
-```litex
-# Define a function
-have fn f(x R) R = x^2
-
-# Define the image of a set under the function
-have set A = {1, 2, 3}
-have set image = {y R: exist x A => y = f(x)}
-
-# image = {1, 4, 9}
-```
-
-**Example 5: Complex condition with multiple quantifiers**
-```litex
-# Define the set of perfect squares
-have set perfect_squares = {n N: exist k N => n = k * k}
-
-# Or equivalently:
-have set perfect_squares2 = {n N: exist k N => n = k^2}
+have large_positive2 set = {n N: $p(n), n > 5}
 ```
 
 **Example 6: Subset of a Cartesian product**
 ```litex
 # Define a relation (subset of R × R)
-have set less_than_relation = {(x, y) cart(R, R): x < y}
+have less_than_relation set = {z cart(R, R): z[1] < z[2]}
 
 # This defines all ordered pairs (x, y) where x < y
 ```
@@ -608,7 +439,7 @@ have set less_than_relation = {(x, y) cart(R, R): x < y}
 **Important Note**: In Litex, there is a fundamental equivalence between propositions and sets. When you define a proposition on a set, you can equivalently think of it as defining a subset of that set.
 
 Specifically:
-- **Defining a proposition**: `prop p(x someset): facts` is equivalent to defining a set `have set set_p = {x someset: facts}`
+- **Defining a proposition**: `prop p(x someset): facts` is equivalent to defining a set `have set_p set = {x someset: facts}`
 - **Using the proposition**: `$p(x)` is equivalent to `x $in set_p`
 
 This means that whenever you can express a property as a proposition on a set, you can also express it as a subset of that set, and vice versa.
@@ -620,7 +451,7 @@ prop is_positive(x R):
     x > 0
 
 # Method 2: Define the corresponding set
-have set positive_set = {x R: x > 0}
+have positive_set set = {x R: x > 0}
 
 # These are equivalent:
 # - $is_positive(3) is equivalent to 3 $in positive_set
@@ -645,9 +476,9 @@ The intensional set syntax `{x parent_set: facts}` directly corresponds to the *
 $$B = \{x \in A : P(x)\}$$
 
 In Litex, this becomes:
-```litex
+```
 prop P(x parent_set)
-have set B = {x parent_set: $P(x)}
+have B set = {x parent_set: $P(x)}
 ```
 
 This axiom ensures that we can always form subsets by "separating" elements from a parent set that satisfy a given property.
@@ -659,12 +490,12 @@ The equivalence between propositions and sets extends to multi-parameter proposi
 **Example: Two-parameter proposition**
 ```litex
 # Define a set of ordered pairs where both coordinates are positive
-have set cart_R_pos_R_pos = {x cart(R, R): coord(x, cart(R, R), 1) > 0, coord(x, cart(R, R), 2) > 0}
+have cart_R_pos_R_pos set = {x cart(R, R): x[1] > 0, x[2] > 0}
 
 # Define the equivalent proposition
 prop larger_than_0_larger_than_0(x cart(R, R)):
-    coord(x, cart(R, R), 1) > 0
-    coord(x, cart(R, R), 2) > 0
+    x[1] > 0
+    x[2] > 0
 
 # These are equivalent:
 # - $larger_than_0_larger_than_0(x) is equivalent to x $in cart_R_pos_R_pos
@@ -682,12 +513,12 @@ know:
         $p(x)
         =>:
             1 $in {a R: $q(x, a), a > 0}
-            {b R: $q(b, x), b > x} $in nonempty_set
+            $is_a_nonempty_set({b R: $q(b, x), b > x})
 
     $p(1)
 
 # 1 $in {a R: $q(1, a), a > 0}
-{a R: $q(a, 1), a > 1} $in nonempty_set
+$is_a_nonempty_set({a R: $q(a, 1), a > 1})
 ```
 
 ```litex

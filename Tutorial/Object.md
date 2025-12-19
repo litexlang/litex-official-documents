@@ -106,7 +106,7 @@ let a N: a = 2, a = 3
 For example, the existence of the empty set is itself an axiom:
 
 ```litex
-let self_defined_empty_set set: forall x obj => not x $in self_defined_empty_set
+let self_defined_empty_set set: forall x set => not x $in self_defined_empty_set
 ```
 
 ### Declaring Multiple Objects
@@ -228,13 +228,13 @@ While `let` assumes nothing, `have` requires proof that the object's set is **no
 You can define a non-empty set by enumerating its elements:
 
 ```litex
-have set s1 := {1, 2, 3}
+have s1 set = {1, 2, 3}
 ```
 
 Or by restricting an existing domain:
 
 ```litex
-have set s2 := {n N: n > 0, n < 4}
+have s2 set = {n N: n > 0, n < 4}
 ```
 
 Here `s1` is explicitly finite, while `s2` is defined by conditions. They are different, even though both happen to describe `{1, 2, 3}`.
@@ -264,35 +264,22 @@ Here, `x` is guaranteed to exist because `$larger_than(m)` has been proven.
 ### Declaring Objects in Built-In Sets
 
 ```litex
-have n N, z Z, q Q, r R, c C
+have n N, z Z, q Q, r R
 ```
 
 You can also declare objects in custom sets, provided you prove the set is non-empty:
 
 ```litex
-let s set
-know $item_exists_in(s)
+have s nonempty_set
 
 have n s
-```
-
-`item_exists_in` is a built-in existential proposition. In fact:
-
-```litex
-have n s
-```
-
-is equivalent to:
-
-```litex
-have n st $item_exists_in(s)
 ```
 
 ### Declare Objects When Existential Fact is True
 
 `have` keyword can work together with existential facts.
 
-```litex
+```
 have object1, object2, ... st $existential_fact(param1, ...)
 ```
 
@@ -321,13 +308,14 @@ In this case, we use `17` to prove `$exist_number_larger_than(1)` and `have a st
 When we were children, the first thing we learn about math is counting from `1` to `5`. Litex thus allows you to define a set by enumeration. (Do not underestimate enumeration: in fact, the very reason we are able to define a finite set by enumeration is guaranteed by the axioms of set theory — and this is something quite profound.)
 
 ```litex
-have set one_to_five := {1,2,3,4,5}
+have one_to_five set = {1,2,3,4,5}
 ```
 
 If a set is finite, then to prove that forall x in this set some property holds, we can simply check each element one by one. In this way, unlike the general case of infinite sets, the conclusion can be obtained by directly traversing all the elements in the set.
 
 ```litex
-prove_by_enum(x, one_to_five):
+have one_to_five set = {1,2,3,4,5}
+prove_by_enum(x one_to_five):
     x = 1 or x = 2 or x = 3 or x = 4 or x = 5
 ```
 
@@ -342,23 +330,12 @@ How to define {x∈A: P(x) is true}?
 ```litex
 prop P(x R)
 
-have set s := {x R: $P(x)}
+have s set = {x R: $P(x)}
 ```
 
 Example:
 ```litex
-have s set = {a R: 1 = 0}
-
-# automatically generate the following facts
-forall a s:
-    a $in R
-    1 = 0
-
-# prove that s is an empty set
-prove_by_contradiction s = {}:
-    have x s # s is an empty set, so we can take an element x from it, and x satisfies the property of the set: x $in R, 1 = 0
-    1 = 0
-
+have s set = {x R: 1 = 0}
 ```
 
 ### The Difference Between `let` and `have`
