@@ -531,6 +531,7 @@ Litex's function definition with set builder notation naturally handles domain r
 - Verifies that `x + 1 > 0` when `x > 0` (since if `x > 0`, then `x + 1 > 1 > 0`)
 - Infers that `g(x) > 0` for all positive `x`
 - Allows us to state that `g` belongs to the set of functions from positive reals to positive reals
+`fn(domain) return_set` is the set of functions from domain to return_set, e.g. `fn({y R: y > 0}) {y R: y > 0}` is the set of functions from positive reals to positive reals.
 
 Lean requires explicit definition of a subtype (`PositiveReal`) to represent the domain restriction. The function definition must include a proof that the return value satisfies the codomain constraint (`x + 1 > 0`). Additional lemmas are needed to establish properties like `g(x) = x + 1` and `g(x) > 0`, and the function membership statement requires explicit type annotations and proofs. Furthermore, Lean requires writing `(g x).val` to access the value of a subtype in an object-oriented way, which is not how mathematics is typically written in everyday practice.
 

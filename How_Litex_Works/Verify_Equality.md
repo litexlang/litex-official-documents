@@ -34,9 +34,9 @@ have z R = 17 * x
 # Function equality: f(a) and g(b) are different symbols, but equal
 have fn f(a R) R = a
 have fn g(a R) R = f(a)
-have a R
-have b R = a
-f(a) = g(b)
+have a2 R
+have b2 R = a2
+f(a2) = g(b2)
 ```
 
 In all these cases, equality connects symbols that are literally different but semantically identical.
@@ -70,7 +70,7 @@ Litex's fundamental working logic is to iterate through a fixed set of verificat
 
 For example, `+`, `-`, `*`, `/` in Litex can only take elements from `R` as parameters. If an element is not a real number, such as `R` itself, it cannot appear in arithmetic expressions.
 
-```litex
+```text
 R + R # Error! What does it mean to add two sets of real numbers?
 ```
 
@@ -198,7 +198,7 @@ If this method fails to prove `a = b`, Litex will try the same approach to prove
 
 **Example**: Suppose we have:
 ```litex
-have set a = {1, 2, 3}
+have a set = {1, 2, 3}
 forall x a: x = 1 or x = 2 or x = 3
 let x a:
     not x = 1
@@ -232,7 +232,7 @@ If both sides are entirely polynomial expressions (addition, subtraction, multip
 #### 2.1 Without Division
 
 ```litex
-(x + 1) * (x + 1) = x * x + 2 * x + 1
+forall x R: (x + 1) * (x + 1) = x * x + 2 * x + 1
 ```
 
 When Litex sees such expressions, it automatically simplifies them to their canonical form (addition expressions sorted in dictionary order, like `x * x + 2 * x + 1`), and then verifies the equality. If the canonical forms of both sides are the same, the equality is established.
@@ -240,13 +240,14 @@ When Litex sees such expressions, it automatically simplifies them to their cano
 #### 2.2 With Division
 
 ```litex
-(x + 1) * (x + 1) / y = x * x + 2 * x + 1 / (y + 1 - 1)
+forall x R, y R: y ！= 0 => (x + 1) * (x + 1) / y = x * x + 2 * x + 1 / y
 ```
 
 First, it is transformed into a multiplication expression, then reduced. The above expression is equivalent to:
 
 ```litex
-(x + 1) * (x + 1) * (y + 1 - 1) = (x * x + 2 * x + 1) * y
+forall x R, y R:
+    (x + 1) * (x + 1) * (y + 1 - 1) = (x * x + 2 * x + 1) * y
 ```
 
 ## Chained Equality

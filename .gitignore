@@ -8,3 +8,4 @@ check_tutorial_examples.sh
 upload_pictures.sh
 .cursor
 check_litex_blocks.py
+check_litex_blocks_errors.txt
