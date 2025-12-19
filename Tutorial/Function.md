@@ -27,13 +27,13 @@ def square_root(x):
 
 In Litex, functions don't execute—they construct symbols:
 ```litex
-fn square_root(x R) R:
+let fn square_root(x R) R:
     x >= 0
     =>:
         square_root(x) * square_root(x) = x
 ```
 
-**Natural Language**: "The square root function" → **Litex**: `fn square_root(x R) R: ...` → **Meaning**: A symbol constructor, not executable code
+**Natural Language**: "The square root function" → **Litex**: `let fn square_root(x R) R: ...` → **Meaning**: A symbol constructor, not executable code
 
 ### Detailed Explanation
 
@@ -50,8 +50,8 @@ In both math and programming, the common feature is that functions use `()` to w
 
 | Natural Language | Litex Code | Meaning |
 |-----------------|------------|---------|
-| "Define a function f that takes a real number" | `fn f(x R) R` | Introduces a function symbol |
-| "f(x) equals x squared" | `fn f(x R) R: f(x) = x^2` | Defines function properties |
+| "Define a function f that takes a real number" | `let fn f(x R) R` | Introduces a function symbol |
+| "f(x) equals x squared" | `let fn f(x R) R: f(x) = x^2` | Defines function properties |
 | "The square root of 4" | `square_root(4)` | A symbol, not a computed value |
 
 ### Summary
@@ -64,7 +64,7 @@ In both math and programming, the common feature is that functions use `()` to w
 
 ### Litex Syntax Reference
 
-**Function declaration**: `fn function_name(param set) return_set: ...`
+**Function declaration**: `let fn function_name(param set) return_set: ...`
 
 **Key point**: Functions don't execute—they construct symbols according to their definitions.
 
@@ -162,7 +162,7 @@ Built-in functions are provided because they are so fundamental to mathematics t
 
 ---
 
-## Section 3: Defining Functions with `fn`
+## Section 3: Defining Functions with `let fn`
 
 ### Introduction
 
@@ -178,30 +178,36 @@ In mathematics, we might say:
 In Litex:
 
 ```litex
-fn f(x R) R
+let fn f(x R) R
 
-fn square_root(x R) R:
+let fn square_root(x R) R:
     x >= 0
     =>:
         square_root(x) * square_root(x) = x
 
-fn f(x R) R:
+let fn g(x R) R:
     x > 0
     =>:
         f(x) > 0
 ```
 
-**Natural Language**: "Define a function f" → **Litex**: `fn f(x R) R: ...` → **Meaning**: Introduces a function symbol with properties
+**Natural Language**: "Define a function f" → **Litex**: `let fn f(x R) R: ...` → **Meaning**: Introduces a function symbol with properties
 
 ### Detailed Explanation
 
 Sometimes we simply want to introduce a function symbol with certain properties, without proving existence. For example, the square root function:
 
 ```litex
-fn square_root(x R) R:
+let fn square_root(x R) R:
     dom:
         x >= 0
     =>:
+        square_root(x) * square_root(x) = x
+
+forall x R:
+    x >= 0
+    =>:
+        square_root(x) $in R
         square_root(x) * square_root(x) = x
 ```
 
@@ -220,18 +226,10 @@ So, `square_root(-1)` is invalid, since `-1` does not satisfy the domain.
 
 When writing `fn` to declare a function, facts about that function are known without verification:
 
-```litex
-forall x R:
-    x >= 0
-    =>:
-        square_root(x) $in R
-        square_root(x) * square_root(x) = x
-```
-
 **Important**: You should not refer to the function itself in domain facts. For example, don't do this:
 
-```litex
-fn f(x R) R:
+```
+let fn f(x R) R:
     f(x) > 0  # ❌ Don't do this
     =>:
         ...
@@ -242,7 +240,7 @@ fn f(x R) R:
 Litex encourages short, clean definitions. For example, we can omit `dom` explicitly:
 
 ```litex
-fn square_root(x R) R:
+let fn square_root(x R) R:
     x >= 0
     =>:
         square_root(x) * square_root(x) = x
@@ -251,28 +249,28 @@ fn square_root(x R) R:
 Or even inline:
 
 ```litex
-fn square_root(x R) R: x >= 0 => square_root(x) * square_root(x) = x
+let fn square_root(x R) R: x >= 0 => square_root(x) * square_root(x) = x
 ```
 
 Other shorthand examples:
 
 ```litex
-fn f(x R) R
-fn f2(x R) R: x > 0
-fn f3(x R) R => f3(x) > 0
-fn f4(x R) R: x > 0 => f4(x) > 0
+let fn f(x R) R
+let fn f2(x R) R: x > 0
+let fn f3(x R) R => f3(x) > 0
+let fn f4(x R) R: x > 0 => f4(x) > 0
 ```
 
 Equivalent to the expanded forms:
 
 ```litex
-fn f(x R) R
-fn f2(x R) R:
+let fn f(x R) R
+let fn f2(x R) R:
     dom:
         x > 0
-fn f3(x R) R:
+let fn f3(x R) R:
     f3(x) > 0
-fn f4(x R) R:
+let fn f4(x R) R:
     x > 0
     =>:
         f4(x) > 0
@@ -282,9 +280,9 @@ fn f4(x R) R:
 
 | Natural Language | Litex Code | Meaning |
 |-----------------|------------|---------|
-| "Define a function f" | `fn f(x R) R` | Introduces function symbol |
-| "f has domain x > 0" | `fn f(x R) R: x > 0` | Specifies domain restriction |
-| "f(x) > 0 for all x > 0" | `fn f(x R) R: x > 0 => f(x) > 0` | Defines function property |
+| "Define a function f" | `let fn f(x R) R` | Introduces function symbol |
+| "f has domain x > 0" | `let fn f(x R) R: x > 0` | Specifies domain restriction |
+| "f(x) > 0 for all x > 0" | `let fn f(x R) R: x > 0 => f(x) > 0` | Defines function property |
 
 ### Summary
 
@@ -297,19 +295,19 @@ fn f4(x R) R:
 ### Litex Syntax Reference
 
 **Basic function definition**:
-```litex
-fn function_name(param set) return_set
+```
+let fn function_name(param set) return_set
 ```
 
 **With domain restriction**:
-```litex
-fn function_name(param set) return_set:
+```
+let fn function_name(param set) return_set:
     domain_condition
 ```
 
 **With properties**:
-```litex
-fn function_name(param set) return_set:
+```
+let fn function_name(param set) return_set:
     domain_condition
     =>:
         property1
@@ -317,8 +315,8 @@ fn function_name(param set) return_set:
 ```
 
 **Inline form**:
-```litex
-fn function_name(param set) return_set: domain_condition => property
+```
+let fn function_name(param set) return_set: domain_condition => property
 ```
 
 ### Exercises
@@ -394,21 +392,21 @@ have fn:
         g(x) = x
     prove:
         x = x
-    have x
+    = x
 
 have fn:
     s(x R) R:
         s(x) = x^2
     prove:
         x^2 = x^2
-    have x^2
+    = x^2
 
 have fn:
     q(x R) R:
         q(x) = x^2 + 1
     prove:
         x^2 + 1 = x^2 + 1
-    have x^2 + 1
+    = x^2 + 1
 ```
 
 #### Method 2: Define with Proof
@@ -423,7 +421,7 @@ have fn:
             a(x) > 0
     prove:
         x > 0
-    have x
+    = x
 ```
 
 Explanation:
@@ -477,8 +475,8 @@ You can also use the shorthand:
 
 ```litex
 have fn f(x R) R =:
-    case x > 0 = x
-    case x <= 0 = 0
+    case x > 0 : x
+    case x <= 0 : 0
 
 f(2) = 2
 f(-1) = 0
@@ -509,12 +507,12 @@ For example, `have fn f(x R) R = x` proves the existence of a function with doma
 ### Litex Syntax Reference
 
 **Simple definition**:
-```litex
+```
 have fn function_name(param set) return_set = expression
 ```
 
 **With proof**:
-```litex
+```
 have fn:
     function_name(param set) return_set:
         domain_condition
@@ -526,7 +524,7 @@ have fn:
 ```
 
 **With explicit return**:
-```litex
+```
 have fn:
     function_name(param set) return_set:
         domain_condition
@@ -538,7 +536,7 @@ have fn:
 ```
 
 **Case-by-case**:
-```litex
+```
 have fn function_name(param set) return_set =:
     case condition1 = value1
     case condition2 = value2
@@ -571,10 +569,10 @@ In mathematics, we say:
 
 In Litex:
 
-```litex
-square_root(4)
-f(2)
-g(x)
+```
+$square_root(4)
+$f(2)
+$g(x)
 ```
 
 **Natural Language**: "Call function f with argument x" → **Litex**: `f(x)` → **Meaning**: Constructs a symbol according to function definition
@@ -584,7 +582,7 @@ g(x)
 Function calls in Litex look exactly like in mathematics:
 
 ```litex
-fn square_root(x R) R:
+let fn square_root(x R) R:
     x >= 0
     =>:
         square_root(x) * square_root(x) = x
@@ -594,49 +592,19 @@ square_root(4) $in R
 
 ⚠️ **Critical Understanding: Litex Does Not Execute Functions**
 
-Litex **does not compute** function values. Functions are not executed; they are only used according to their definitions.
-
-For example, consider the square root function:
-
-```litex
-fn sqrt(x R) R:
-    x >= 0
-    =>:
-        sqrt(x) * sqrt(x) = x
-        sqrt(x) >= 0
-```
-
-If we write `sqrt(4) = 2`, this equality holds **not because Litex computed** `sqrt(4)` and got `2`, but because:
-- According to the definition of `sqrt`, we have `sqrt(4) * sqrt(4) = 4` and `sqrt(4) >= 0`
-- We can verify that `2 * 2 = 4` and `2 >= 0`
-- Therefore, `sqrt(4) = 2` follows from the definition, not from computation
-
-**Most of the time, functions cannot be computed to specific values.** For example, `sqrt(2)` cannot be computed to a specific number—it's just a symbol that satisfies `sqrt(2) * sqrt(2) = 2` and `sqrt(2) >= 0`. Similarly, `square_root(4)` in general denotes "some value in `R` such that `square_root(x)^2 = x` when `x = 4`." The actual value is irrelevant; only the properties defined by the function matter.
-
 This is fundamentally different from programming languages where functions execute and return computed values.
 
 ### Parameters Must Satisfy Domain
 
 You should not pass parameters which do not satisfy the domain of the function. For example:
 
-```litex
-fn f(x R) R:
+```
+let fn f(x R) R:
     x > 0
     =>:
         f(x) > 0
 
 f(-1) > 0  # ❌ Error!
-```
-
-You cannot write `f(-1)`, because `-1` does not satisfy the domain fact `x > 0`. If you run the above code, it will output an error like this:
-
-```
-failed to check param(s) (-1 * 1) satisfy domain of
-fn (x R) R:
-    dom
-        x > 0
-    =>
-        f(x) > 0
 ```
 
 ### Using Functions with Different Types
@@ -645,7 +613,7 @@ You can define functions for any types, not just numbers:
 
 ```litex
 have cartoon_characters nonempty_set, oddie_bird, carmela_bird cartoon_characters
-fn fuse_characters(x, y cartoon_characters) cartoon_characters
+let fn fuse_characters(x, y cartoon_characters) cartoon_characters
 
 # You can not add two cartoon characters, because + takes real numbers as parameters.
 # oddie_bird + carmela_bird = oddie_bird + carmela_bird
@@ -692,63 +660,6 @@ The fact that Litex doesn't compute functions is not a limitation—it's a featu
 
 ---
 
-## Section 6: Function Templates
-
-### Introduction
-
-Functions are also objects in Litex. This means you can use `let` to declare functions from templates, just like you declare other objects. This section introduces function templates and shows how to use them to create functions dynamically.
-
-### From Natural Language to Litex
-
-In mathematics, we might say:
-- "Define a sequence function for natural numbers less than 10"
-- "Create a function from a template"
-- "Let f be a function satisfying certain conditions"
-
-In Litex:
-
-```litex
-fn_template finite_sequence(s set, max N):
-    fn (n N) R:
-        dom:
-            n < max
-
-let fs1 finite_sequence(R, 10):
-    fs1(n) = n * n
-```
-
-**Natural Language**: "Create function from template" → **Litex**: `let function_name template_name(...): ...` → **Meaning**: Declares function using template
-
-### Detailed Explanation
-
-Functions are also objects. Thus, with `let`, we can declare functions from templates.
-
-```litex
-# function template
-fn_template finite_sequence(s set, max N):
-    fn (n N) R:
-        dom:
-            n < max
-
-let n N
-
-# declare a function from the template
-let fs1 finite_sequence(R, 10):
-    fs1(n) = n * n
-```
-
-This is shorthand for:
-
-```litex
-fn_template finite_sequence(s set, max N):
-    fn (n N) R:
-        dom:
-            n < max
-
-let fs1 finite_sequence(R, 10):
-
-know forall n N => fs1(n) = n * n
-```
 
 ### Example: Defining Image of a Function
 
@@ -784,35 +695,6 @@ forall x R:
     exist x st $exist_preimage(R, R, id_R, x)
     $exist_preimage(R, R, id_R, x)
     x $in range_of_fn(R, R, id_R)
-```
-
-### Litex Code and Natural Language Correspondence
-
-| Natural Language | Litex Code | Meaning |
-|-----------------|------------|---------|
-| "Define a function template" | `fn_template name(...): fn ...` | Creates reusable function pattern |
-| "Declare function from template" | `let f template_name(...): f(x) = ...` | Instantiates template |
-
-### Summary
-
-- Functions are objects, so they can be declared using `let`
-- Function templates allow creating reusable function patterns
-- Use `let function_name template_name(...): ...` to create functions from templates
-- Templates are useful for creating families of similar functions
-
-### Litex Syntax Reference
-
-**Function template**:
-```litex
-fn_template template_name(param1 type1, param2 type2, ...):
-    fn (arg set) return_set:
-        domain_condition
-```
-
-**Using template**:
-```litex
-let function_name template_name(arg1, arg2, ...):
-    function_name(x) = expression
 ```
 
 ## Example: Inverse Function
@@ -938,7 +820,7 @@ f(1) = 1
 ```
 
 ```litex
-have set s = {x cart(R, R): x[1] > 0, x[2] > 0}
+have s set = {x cart(R, R): x[1] > 0, x[2] > 0}
 forall x s: x $in cart(R, R), x[1] $in R, x[2] $in R
 have fn add_2_pos(x s) R = x[1] + x[2]
 
