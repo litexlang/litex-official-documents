@@ -6,7 +6,7 @@ _—- Bjarne Stroustrup_
 
 It is important to break down a complex project into independent parts. For example, when a file becomes too long, we can split it into several independent files for easier reading.
 
-Another benefit of doing this is that it facilitates collaboration among multiple people. In programming, users package their code and share it with others. This allows others to directly use these packages and build their own projects based on the tools within these packages, without having to build everything from scratch. The same applies to mathematics. If someone has already formalized mathematical knowledge into litex code, we can use it directly (provided we assume their code is accurate). Therefore, just like Python, a package management system is an important component of Litex. This allows us to share the code we write and use code written by others.
+Another benefit of doing this is that it facilitates collaboration among multiple people. In programming, users package their code and share it with others. This allows others to directly use these packages and build their own projects based on the tools within these packages, without having to build everything from scratch. The same applies to mathematics. If someone has already formalized mathematical knowledge into litex code, we can use it directly (provided we assume their code is accurate). Therefore, just like Python, a package management system is an important component of Litex. This allows us to share the code we write and use code written by others. The syntax of import mimics the syntax of import in Python.
 
 Litex has two ways to import: import a folder containing `main.lit` (which we call a package), or import a `.lit` file. The two have different usage:
 
