@@ -34,7 +34,7 @@ There are two ways to use `know`: **multi-line** and **inline**.
 
 Write `know:` and list the facts below. Each fact can itself be inline or multi-line.
 
-```litex
+```
 know:
     fact_1
     fact_2
@@ -56,7 +56,7 @@ know:
 
 Write `know` followed by a sequence of inline facts. Specific facts end with `,` and universal facts with `;`. The final ending mark may be omitted.
 
-```litex
+```
 know specific_fact_1, universal_fact_1; specific_fact_2, universal_fact_2; ...
 ```
 
@@ -87,11 +87,11 @@ know 1 > 0, forall x R => x $in R; forall x R => x $in R; 2 > 1
 
 1. Write a `know` statement establishing that all integers are rational numbers.
 2. Convert this multi-line `know` to inline format:
-   ```litex
-   know:
-       1 > 0
-       forall x R => x $in R
-   ```
+```litex
+know:
+    1 > 0
+    forall x R => x $in R
+```
 3. Explain why `know` is like "faith" in mathematics.
 
 ### Bonus: The Foundation of Mathematics

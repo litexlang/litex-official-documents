@@ -253,7 +253,7 @@ claim:
     prove:
         1 > 0
 
-claim 1 > 0 prove:
+prove 1 > 0:
     1 > 0
 ```
 
@@ -266,20 +266,16 @@ claim:
     prove:
         x > 0
 
-claim forall y R: y > 0 => y > 0; prove:
+prove forall y R: y > 0 => y > 0:
     y > 0
 
 # you can omit `prove` here
-claim 1 > 0:
+prove 1 > 0:
     1 > 0
 
-claim:
+prove_by_contradiction 1 > 0:
     1 > 0
-    prove_by_contradiction:
-        1 > 0
 
-claim 1 > 0 prove_by_contradiction:
-    1 > 0
 
 exist_prop x R st exist_R_larger_than_any_positive_number_multi_lines(y R):
     y > 0

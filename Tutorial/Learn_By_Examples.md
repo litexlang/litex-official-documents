@@ -23,7 +23,7 @@ This is already very simple. However, we can enclose the solving process in a pr
 Method2: Use the `solve_linear_equation` function.
 
 ```litex
-know @solve_linear_equation(a, b, x R):
+know imply solve_linear_equation(a, b, x R):
     a != 0
     a * x + b = 0
     =>:
@@ -59,7 +59,7 @@ As you can see, solving a multi-variable linear equation is much more complicate
 Method2: Use the `solve_linear_equation2` function.
 
 ```litex
-know @solve_linear_equation2(a, b, c, d, e, f, x, y R):
+know imply solve_linear_equation2(a, b, c, d, e, f, x, y R):
     a * x + b * y + c = 0
     d * x + e * y + f = 0
     a * e - b * d != 0
