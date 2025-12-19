@@ -2,7 +2,7 @@
 
 This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. Set is *the most basic concept in mathematics*, and through sets we can observe the similarities and differences between Litex and other formal languages.
 
-Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural and intuitive way to express basic mathematical statements, which addresses Lean's shortcomings in usability. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex!
+Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex!
 
 ---
 
@@ -496,6 +496,6 @@ prove_by_enum(x {1, 2, 3, 4, 17}):
 
 Mathematics has many different axiomatic systems, and choosing different foundational axiom systems as the basis for a formal language results in vastly different user experiences. Lean chooses type theory as its foundation, while Litex chooses set theory.
 
-This design makes Lean easier to maintain (*Litex surely suffers from the difficulty of maintaining a larger and more powerful kernel, we welcome contributions from the community to help Litex become more stable and reliable!*) and theoretically more general, but means that Lean's expression of some daily mathematical statements is more complex than Litex's. Litex's lower barrier to entry, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-olds.
+This design makes Lean easier to maintain and theoretically more general, which experts prefer. Litex's design, on the other hand, is more intuitive and easier to learn, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-olds.
 
-We wish experts and enthusiasts of formal languages to contact Litex team [litexlang@outlook.com](mailto:litexlang@outlook.com) to point out any mistakes or suggestions. Really appreciate the decades-long efforts of the experts and enthusiasts of Lean and other formal languages.
+For the time being, Litex is still a toy language for learning purposes and toy projects, very far from being a serious language for professional use. We wish experts and enthusiasts of formal languages to contact Litex team [litexlang@outlook.com](mailto:litexlang@outlook.com) to point out any mistakes or suggestions. 

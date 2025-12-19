@@ -44,10 +44,8 @@ This document lists all have-related AST statements and their execution function
 ============================================================================
 1. HaveObjStStmt
 ============================================================================
-AST Type: HaveObjStStmt
-Execution Function: haveObjStStmt(stmt *ast.HaveObjStStmt, requireMsg bool) ExecRet
 
-example:
+syntax: have objects st some_exist_prop(params)
 
 ```litex
 prop q(x, y R)
@@ -55,193 +53,164 @@ exist_prop x R p(y R):
     $q(x, y)
 know $p(1)
 have x st $p(1)
-$q(x, 1)
+$q(x, 1) # true by definition of exist_prop p
 ```
 
 Description:
 - Verifies that the SpecFactStmt is satisfied
-- Defines objects in the environment with their corresponding sets, properties by definition.
+- Defines objects in the environment with properties by definition.
 
 ============================================================================
 2. HaveObjInNonEmptySetStmt
 ============================================================================
-AST Type: HaveObjInNonEmptySetStmt
-Execution Function: haveObjInNonEmptySetStmt(stmt *ast.HaveObjInNonEmptySetStmt) ExecRet
-Location: executor/exec_have.go:240
+syntax: have object from
 
 Description:
-- For each object, verifies that the set is non-empty
-- Defines objects in the environment with their corresponding sets
-- Uses DefLetStmt to define objects
+- Verify that from is a non-empty set, or is a keyword (set, nonempty_set, finite_set)
+- Define objects in the environment in that given nonempty set. When from is a keyword set, then $is_a_set(object) is true. When from is a keyword nonempty_set, then $is_a_nonempty_set(object) is true. When from is a keyword finite_set, then $is_a_finite_set(object) is true.
+
+example:
+
+```litex
+have x R # R is a non-empty set, so you can take an element x from R
+have y nonempty_set
+have z y # $is_a_nonempty_set(y) is true, so you can take an element z from y
+have w set # $is_a_set(w) is true, so w is a set
+have v finite_set # $is_a_finite_set(v) is true, so v is a finite set
+```
 
 ============================================================================
 3. HaveObjEqualStmt
 ============================================================================
 AST Type: HaveObjEqualStmt
 Execution Function: haveObjEqualStmt(stmt *ast.HaveObjEqualStmt) ExecRet
-Location: executor/exec_have.go:204
+
+syntax: have object some_nonempty_set = some_other_object
 
 Description:
-- For each object:
-  * Verifies that objEqualTo is defined or is a function satisfying its requirements
-  * Verifies that objEqualTo is in objSet
-  * Defines the object with DefLetStmt, including equality fact
-  * Checks that atoms in objEqualTo are defined or builtin
+- Verify that some_nonempty_set is a non-empty set
+- some_other_object is an element of some_nonempty_set
+- Define object with the equality fact: object = some_other_object
+
+example:
+```litex
+have x R = 1
+x = 1 # true by definition of equality
+```
 
 ============================================================================
 4. HaveFnEqualStmt
 ============================================================================
-AST Type: HaveFnEqualStmt
-Execution Function: haveFnEqualStmt(stmt *ast.HaveFnEqualStmt) ExecRet
-Location: executor/exec_have.go:264
+
+syntax: have fn function_name(param1 set1, param2 set2, ...) retSet = equalTo
 
 Description:
-- Verifies that retSet is a set
-- Checks function equality statement (checkFnEqualStmt):
-  * Creates new environment
-  * Defines parameters in the new environment
-  * Verifies that equalTo is in retSet
-- Defines the function using DefFnStmt with equality fact in thenFacts
+- Verify that equalTo is an element of retSet
+- Define the function with the equality fact
 
-Helper Function: checkFnEqualStmt(stmt *ast.HaveFnEqualStmt) (ExecRet, error)
-Location: executor/exec_have.go:290
+example:
+```litex
+have fn f(x, y R) R = x + y
+f(1, 2) = 3
+``
 
 ============================================================================
 5. HaveFnEqualCaseByCaseStmt
 ============================================================================
-AST Type: HaveFnEqualCaseByCaseStmt
-Execution Function: haveFnEqualCaseByCaseStmt(stmt *ast.HaveFnEqualCaseByCaseStmt) ExecRet
-Location: executor/exec_have.go:660
+
+syntax: 
+
+have fnfunction_name(param1 set1, param2 set2, ...) retSet =:
+    case condition1: value1
+    case condition2: value2
+    ...
 
 Description:
-- Verifies that retSet is a set
-- Checks function equality case-by-case statement (checkHaveFnEqualCaseByCaseStmt):
-  * For each case: verifies return value is in retSet (checkCaseReturnValueInRetSet)
-  * Verifies all cases cover the domain (checkAtLeastOneCaseHolds)
-  * Verifies cases don't overlap (checkCasesNoOverlap)
-- Builds thenFacts: for each case, if condition holds, function equals corresponding return value
-- Defines the function using DefFnStmt with thenFacts
+- Verify condition1 or condition2 or ... is true
+- Under each condition, value is in retSet
 
-Helper Functions:
-- checkHaveFnEqualCaseByCaseStmt(stmt *ast.HaveFnEqualCaseByCaseStmt) (ExecRet, error)
-  Location: executor/exec_have.go:719
-- checkCaseReturnValueInRetSet(stmt *ast.HaveFnEqualCaseByCaseStmt, caseIndex int) (ExecRet, error)
-  Location: executor/exec_have.go:743
-- checkAtLeastOneCaseHolds(stmt *ast.HaveFnEqualCaseByCaseStmt) (ExecRet, error)
-  Location: executor/exec_have.go:778
-- checkCasesNoOverlap(stmt *ast.HaveFnEqualCaseByCaseStmt) (ExecRet, error)
-  Location: executor/exec_have.go:808
-- checkCaseNoOverlapWithOthers(stmt *ast.HaveFnEqualCaseByCaseStmt, caseIndex int) (ExecRet, error)
-  Location: executor/exec_have.go:820
+```litex
+have fn f(x R) R =:
+    case x > 0: x
+    case x <= 0: 0
+
+f(1) = 1
+f(0) = 0
+f(-1) = 0
+```
 
 ============================================================================
 6. HaveFnStmt
 ============================================================================
-AST Type: HaveFnStmt
-Execution Function: haveFnStmt(stmt *ast.HaveFnStmt) ExecRet
-Location: executor/exec_have.go:327
+syntax: 
+have fn:
+    function_name(param1 set1, param2 set2, ...) retSet:
+        domain_facts
+        =>:
+            then_facts
+    prove:
+        ...
+    = value
+
+We must prove the existence of the function by specifying a value for each element in the domain that satisfies the conditions.
 
 Description:
-- Verifies the have function statement (checkHaveFnStmt):
-  * Verifies retSet is a set
-  * Verifies each paramSet is a set
-  * Defines parameters in new environment
-  * Executes proof statements
-  * Verifies that HaveObjSatisfyFn is in retSet
-  * Declares function locally
-  * Adds fact that function equals HaveObjSatisfyFn
-  * Verifies all thenFacts are true
-- Defines the function using DefFnStmt
+- Verify that the prove facts are true when the domain facts are supposed to be true and parameters are instantiated.
+- Verify value satisfies then facts and is in the retSet.
 
-Helper Function: checkHaveFnStmt(stmt *ast.HaveFnStmt) (ExecRet, error)
-Location: executor/exec_have.go:343
+Example:
+
+```litex
+have fn:
+    h(x R) R:
+        x > 0
+        =>:
+            h(x) > 1
+    prove:
+        x + 1 > 1
+    = x + 1
+```
+
+So we have a function h such that h(x) > 1 for all x > 0. `forall x R: h(x) = x + 1` is not emitted in the outer scope because it is part of the proof of the existence of the function h, not a fact.
 
 ============================================================================
 7. HaveFnCaseByCaseStmt
 ============================================================================
-AST Type: HaveFnCaseByCaseStmt
-Execution Function: haveFnCaseByCaseStmt(stmt *ast.HaveFnCaseByCaseStmt) ExecRet
-Location: executor/exec_have.go:433
+
+syntax: 
+have fn:
+    function_name(param1 set1, param2 set2, ...) retSet:
+        domain_facts
+        ...
+        =>:
+            then_facts
+            ...
+
+        case condition1:
+            proofs
+            ...
+        = value1
+    
+        case condition2:
+            proofs
+            ...
+        = value2
 
 Description:
-- Verifies the have function case-by-case statement (checkHaveFnCaseByCaseStmt):
-  * Verifies each paramSet is a set
-  * Verifies retSet is a set
-  * For each case: verifies proof and return value (verifyHaveFnCaseByCase_OneCase)
-  * Verifies all cases cover the domain (checkAtLeastOneCaseHolds_ForHaveFn)
-  * Verifies cases don't overlap (checkCasesNoOverlap_ForHaveFn)
-  * Builds thenFacts: for each case, if condition holds, function equals corresponding return value
-- Defines the function using DefFnStmt
+- condition1 or condition2 or ... is true
+- In each case, run the proofs and verify value satisfies then facts in fn definition and is in the retSet.
 
-Helper Functions:
-- checkHaveFnCaseByCaseStmt(stmt *ast.HaveFnCaseByCaseStmt) (ExecRet, []ast.FactStmt, error)
-  Location: executor/exec_have.go:449
-- verifyHaveFnCaseByCase_OneCase(stmt *ast.HaveFnCaseByCaseStmt, caseIndex int) (ExecRet, error)
-  Location: executor/exec_have.go:521
-- checkAtLeastOneCaseHolds_ForHaveFn(stmt *ast.HaveFnCaseByCaseStmt) (ExecRet, error)
-  Location: executor/exec_have.go:573
-- checkCasesNoOverlap_ForHaveFn(stmt *ast.HaveFnCaseByCaseStmt) (ExecRet, error)
-  Location: executor/exec_have.go:603
-- checkCaseNoOverlapWithOthers_ForHaveFn(stmt *ast.HaveFnCaseByCaseStmt, caseIndex int) (ExecRet, error)
-  Location: executor/exec_have.go:615
-
-============================================================================
-8. HaveCartSetStmt
-============================================================================
-AST Type: HaveCartSetStmt
-Execution Function: haveCartSetStmt(stmt *ast.HaveCartSetStmt) ExecRet
-Location: executor/exec_have.go:170
-
-Description:
-- Checks that cart has at least 2 parameters
-- Verifies that each parameter of cart is a set
-- Defines the new set variable using DefLetStmt
-- Stores the equal fact: x = cart(a, b, c, ...)
-
-============================================================================
-9. HaveObjFromCartSetStmt
-============================================================================
-AST Type: HaveObjFromCartSetStmt
-Execution Function: haveObjFromCartSetStmt(stmt *ast.HaveObjFromCartSetStmt) ExecRet
-Location: executor/exec_have.go:865
-
-Description:
-- Checks the statement (checkHaveObjFromCartSetStmt):
-  * Verifies each parameter of cart is a set
-  * Verifies equalTo is a tuple
-  * Verifies tuple length matches cart parameters length
-  * Verifies each element of equalTo is in corresponding cart set
-- Post-processes (postProcessHaveObjFromCartSetStmt):
-  * Adds obj in cart(...) fact
-  * Adds obj = equalTo fact
-  * Adds obj[i] = equalTo[i] for each i
-  * Adds dim(obj) = len(cartSet.Params)
-
-Helper Functions:
-- checkHaveObjFromCartSetStmt(stmt *ast.HaveObjFromCartSetStmt) ExecRet
-  Location: executor/exec_have.go:885
-- postProcessHaveObjFromCartSetStmt(stmt *ast.HaveObjFromCartSetStmt) ExecRet
-  Location: executor/exec_have.go:931
-
-============================================================================
-10. HaveCartWithDimStmt
-============================================================================
-AST Type: HaveCartWithDimStmt
-Execution Function: (Not implemented)
-Location: N/A
-
-Description:
-- This statement type exists in AST but does not have an execution function yet.
-- It is defined in ast/ast_statements.go:491
-
-============================================================================
-SUMMARY
-============================================================================
-
-Total Have Statement Types: 10
-Implemented Execution Functions: 9
-Unimplemented: 1 (HaveCartWithDimStmt)
-
-All execution functions are located in executor/exec_have.go except for the
-dispatcher which is in executor/exe_statements.go.
+```litex
+have fn:
+    p(x R) R:
+        x > 0
+        =>:
+            p(x) > x
+    case 100 > x:
+        do_nothing
+    = 100
+    case not 100 > x:
+        x + 1 > x
+    = x + 1
+```
 
