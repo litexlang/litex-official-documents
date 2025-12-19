@@ -490,6 +490,114 @@ prove_by_enum(x {1, 2, 3, 4, 17}):
         do_nothing
 ```
 
+## Example 11: A Function is in a set of functions
+
+**Task**: Define a function `g` that maps from the set of positive real numbers to real numbers, and show that `g` belongs to the set of functions from positive reals to positive reals.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have fn g(x {y R: y > 0}) R = x + 1</code><br><br>
+      <code>forall x {y R: y > 0}: g(x) = x + 1, x + 1 > 0, g(x) > 0</code><br><br>
+      <code>g $in fn({y R: y > 0}) {y R: y > 0}</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>-- Define a subtype of real numbers that are greater than 0</code><br>
+      <code>def PositiveReal := {x : ℝ // x > 0}</code><br><br>
+      <code>-- Define function g: PositiveReal -> PositiveReal</code><br>
+      <code>-- Must prove that x.val + 1 > 0 when x > 0</code><br>
+      <code>def g (x : PositiveReal) : PositiveReal :=</code><br>
+      <code>&nbsp;&nbsp;⟨x.val + 1, by</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;let hx := x.property  -- x > 0</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;linarith              -- proves x + 1 > 0</code><br>
+      <code>&nbsp;&nbsp;⟩</code><br><br>
+      <code>-- Prove that g(x) = x + 1</code><br>
+      <code>example (x : PositiveReal) : (g x).val = x.val + 1 := by</code><br>
+      <code>&nbsp;&nbsp;rfl</code><br><br>
+      <code>-- Prove that g(x) > 0</code><br>
+      <code>lemma g_pos (x : PositiveReal) : (g x).val > 0 := by</code><br>
+      <code>&nbsp;&nbsp;exact (g x).property</code>
+    </td>
+  </tr>
+</table>
+
+Litex's function definition with set builder notation naturally handles domain restrictions. When we define `g(x {y R: y > 0}) R = x + 1`, Litex automatically:
+- Recognizes that the domain is the set of positive real numbers
+- Verifies that `x + 1 > 0` when `x > 0` (since if `x > 0`, then `x + 1 > 1 > 0`)
+- Infers that `g(x) > 0` for all positive `x`
+- Allows us to state that `g` belongs to the set of functions from positive reals to positive reals
+
+Lean requires explicit definition of a subtype (`PositiveReal`) to represent the domain restriction. The function definition must include a proof that the return value satisfies the codomain constraint (`x + 1 > 0`). Additional lemmas are needed to establish properties like `g(x) = x + 1` and `g(x) > 0`, and the function membership statement requires explicit type annotations and proofs. Furthermore, Lean requires writing `(g x).val` to access the value of a subtype in an object-oriented way, which is not how mathematics is typically written in everyday practice.
+
+```litex
+have fn g(x {y R: y > 0}) R = x + 1
+forall x {y R: y > 0}: g(x) = x + 1, x + 1 > 0, g(x) > 0
+g $in fn({y R: y > 0}) {y R: y > 0}
+```
+
+## Example 12: Define a function with existence proof
+
+**Task**: Prove that there exists a function `h : ℝ → ℝ` such that `h(x) > 1` for all `x > 0`, and show that `h(1) > 1`.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have fn:</code><br>
+      <code>&nbsp;&nbsp;h(x R) R:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;x > 0</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h(x) > 1</code><br>
+      <code>&nbsp;&nbsp;prove:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;100 > 1</code><br>
+      <code>&nbsp;&nbsp;= 100</code><br><br>
+      <code>h(1) > 1</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>def Property (f : ℝ → ℝ) : Prop :=</code><br>
+      <code>&nbsp;&nbsp;∀ x > 0, f x > 1</code><br><br>
+      <code>lemma exists_h : ∃ f : ℝ → ℝ, Property f := by</code><br>
+      <code>&nbsp;&nbsp;use (λ _ => 2)</code><br>
+      <code>&nbsp;&nbsp;intro x hx</code><br>
+      <code>&nbsp;&nbsp;simp [Property]</code><br>
+      <code>&nbsp;&nbsp;norm_num</code><br><br>
+      <code>example : ∃ h : ℝ → ℝ, Property h ∧ h 1 > 0 := by</code><br>
+      <code>&nbsp;&nbsp;obtain ⟨h, h_prop⟩ := exists_h</code><br>
+      <code>&nbsp;&nbsp;</code><br>
+      <code>&nbsp;&nbsp;use h</code><br>
+      <code>&nbsp;&nbsp;constructor</code><br>
+      <code>&nbsp;&nbsp;· exact h_prop</code><br>
+      <code>&nbsp;&nbsp;· have h1_gt_1 : h 1 > 1 := h_prop 1 (by norm_num)</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;linarith</code>
+    </td>
+  </tr>
+</table>
+
+Litex's `have fn` statement provides a direct way to prove the existence of a function by specifying a concrete value that satisfies the conditions. In this example, we prove that there exists a function `h` such that `h(x) > 1` for all `x > 0` by showing that when `h(x) = 100` for all `x > 0`, the condition `h(x) > 1` is satisfied (since `100 > 1`). Once the function is defined, we can immediately use it: `h(1) > 1` is automatically verified because `1 > 0` and `h(1) = 100 > 1`.
+
+Lean requires explicit definition of the property as a separate proposition, a lemma to prove existence, and then constructing the final example by combining the lemma with additional properties. The proof structure is rigorous but requires more steps: defining the property, proving existence with a witness function, and then manually applying the property to specific values.
+
+```litex
+have fn:
+    h(x R) R:
+        x > 0
+        =>:
+            h(x) > 1
+    prove:
+        100 > 1
+    = 100
+h(1) > 1
+```
+
 ---
 
 ## Summary
