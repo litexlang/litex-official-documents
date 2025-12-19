@@ -12,75 +12,8 @@ _— Merriam-Webster Dictionary_
 
 In this section, we'll explore the fundamental concept of functions in Litex. You'll learn that functions in Litex are fundamentally different from functions in programming languages—they are symbolic constructors, not executable code. By the end of this section, you'll understand why Litex doesn't compute function values and how functions work as "glue" that binds symbols together under certain restrictions (arguments must satisfy the domain of the function).
 
-### From Natural Language to Litex
-
-In mathematics, we often say:
-- "The square root of x"
-- "A function that maps each real number to its square"
-- "f(x) equals x squared"
-
-In programming languages like Python, functions execute code:
-```python
-def square_root(x):
-    return math.sqrt(x)  # This computes a value
-```
-
-In Litex, functions don't execute—they construct symbols:
-```litex
-let fn square_root(x R) R:
-    x >= 0
-    =>:
-        square_root(x) * square_root(x) = x
-```
-
-**Natural Language**: "The square root function" → **Litex**: `let fn square_root(x R) R: ...` → **Meaning**: A symbol constructor, not executable code
-
-### Detailed Explanation
-
-Functions are among the most fundamental concepts in mathematics. Litex, as a **non-Turing-complete domain language** designed purely for reasoning, treats functions in a way that is quite different from programming languages like Python or C.
-
-This gap becomes clear once we compare the concept of a *function* in reasoning (mathematics) with that in programming:
-
 * In **programming languages** (e.g. Python, Lean), a function is a block of executable code that performs computation or side effects.
-* In **mathematics**, a function is not executable code. Instead, it is a **symbolic constructor** that builds a new symbol from input symbols. You can think of it as *glue* that binds symbols together.
-
-In both math and programming, the common feature is that functions use `()` to wrap inputs and produce new expressions. For example, `square_root(x)` in mathematics simply denotes a new symbol formed from `x`. **No computation happens.**
-
-### Litex Code and Natural Language Correspondence
-
-| Natural Language | Litex Code | Meaning |
-|-----------------|------------|---------|
-| "Define a function f that takes a real number" | `let fn f(x R) R` | Introduces a function symbol |
-| "f(x) equals x squared" | `let fn f(x R) R: f(x) = x^2` | Defines function properties |
-| "The square root of 4" | `square_root(4)` | A symbol, not a computed value |
-
-### Summary
-
-- Functions in Litex are symbolic constructors, not executable code
-- Litex does not compute function values
-- Functions bind symbols together using `()` notation
-- When you write `sqrt(4) = 2`, this holds because `2` satisfies the definition, not because Litex computed it
-- Most functions cannot be computed to specific values—they are symbols satisfying certain properties
-
-### Litex Syntax Reference
-
-**Function declaration**: `let fn function_name(param set) return_set: ...`
-
-**Key point**: Functions don't execute—they construct symbols according to their definitions.
-
-### Exercises
-
-1. Explain the difference between a function in Python and a function in Litex.
-2. Why can't Litex compute `sqrt(2)` to a specific value?
-3. If `sqrt(4) = 2` holds in Litex, what makes this equality true?
-
-### Bonus: Why Functions Don't Execute
-
-⚠️ **Critical Understanding**: Litex does not execute functions. When you write `sqrt(4) = 2`, this equality holds because `2` satisfies the definition of `sqrt` (i.e., `2 * 2 = 4` and `2 >= 0`), not because Litex computed `sqrt(4)`. Most functions cannot be computed to specific values—they are symbols that satisfy certain properties defined by the function.
-
-This is fundamentally different from programming languages where functions execute and return computed values. In Litex, functions are purely mathematical objects that follow their definitions, not computational procedures.
-
----
+* In **mathematics**, a function is not executable code. Instead, it is a **symbolic constructor** that builds a new symbol from input symbols. You can think of it as *glue* that binds objects together to form a new object.
 
 ## Section 2: Built-in Functions
 
@@ -162,11 +95,236 @@ Built-in functions are provided because they are so fundamental to mathematics t
 
 ---
 
-## Section 3: Defining Functions with `let fn`
+## Section 3: Defining Functions with `have fn`
 
 ### Introduction
 
-In this section, you'll learn how to define your own functions using the `fn` keyword. This method introduces a function symbol with certain properties without proving its existence. It's useful when you want to work with functions whose existence is assumed or will be proven later.
+In programming, defining a function only requires writing a block of code. In mathematics, however, *declaring a new function must come with a proof of its existence*. Otherwise, the declaration is unsafe and could lead to contradictions. This section teaches you how to define functions with existence guarantees using `have fn`.
+
+**Important**: In Litex, **function existence must be explicitly declared**. You cannot use a function without first proving or declaring its existence. This is fundamentally different from programming languages where functions are automatically available once defined.
+
+### From Natural Language to Litex
+
+In mathematics, we might say:
+- "Define a function g such that g(x) = x"
+- "Prove there exists a function h such that h(x) > 1 for all x > 0"
+- "Define f(x) = x squared"
+
+In Litex:
+
+```litex
+have fn g(x R) R = x
+
+have fn:
+    h(x R) R:
+        x > 0
+        =>:
+            h(x) > 1
+    prove:
+        100 > 1
+    = 100
+
+have fn s(x R) R = x^2
+```
+
+**Natural Language**: "Define a function with existence proof" → **Litex**: `have fn ...` → **Meaning**: Function with guaranteed existence
+
+### Detailed Explanation
+
+When declaring a new object with existence guarantee, we use `have` keyword. When declaring a function with existence guarantee, we use `have fn` keyword.
+
+There are several ways to define functions with `have fn`:
+
+#### Method 1: Define by Equality (Simplest)
+
+In daily math, when we want to define a function, we just write `g(x) = x` or `s(x) = x^2` or `q(x) = x^2 + 1` etc. In Litex, we can do the same thing:
+
+```litex
+have fn g(x R) R = x
+have fn s(x R) R = x^2
+have fn q(x R) R = x^2 + 1
+```
+
+These are equivalent to:
+
+```litex
+have fn:
+    g(x R) R:
+        g(x) = x
+    prove:
+        x = x
+    = x
+
+have fn:
+    s(x R) R:
+        s(x) = x^2
+    prove:
+        x^2 = x^2
+    = x^2
+
+have fn:
+    q(x R) R:
+        q(x) = x^2 + 1
+    prove:
+        x^2 + 1 = x^2 + 1
+    = x^2 + 1
+```
+
+#### Method 2: Define with Proof
+
+When you need to prove a function exists with specific properties:
+
+```litex
+have fn:
+    a(x R) R:
+        x > 0
+        =>:
+            a(x) > 0
+    prove:
+        x > 0
+    = x
+```
+
+Explanation:
+* In the `prove` section, the parameters of the function (here `x`) are assumed to satisfy the domain condition (`x > 0`).
+* We must then provide an object that lies in the return set and satisfies all the conclusions (`a(x) > 0`).
+* If we define `a(x) = x`, then `a(x) > 0` holds whenever `x > 0`.
+* Writing `have x` ensures the existence of such a function.
+
+#### Method 3: Define with Explicit Return Value
+
+You can also use `=` to specify the return value directly:
+
+```litex
+have fn:
+    h(x R) R:
+        x > 0
+        =>:
+            h(x) > 1
+    prove:
+        100 > 1
+    = 100
+```
+
+This defines `h(x) = 100` for all `x > 0`, which satisfies `h(x) > 1`.
+
+#### Method 4: Case-by-Case Definition
+
+You can define functions differently for different cases:
+
+```litex
+have fn:
+    p(x R) R:
+        x > 0
+        =>:
+            p(x) > x
+    case 100 > x:
+        do_nothing
+    = 100
+    case not 100 > x:
+        x + 1 > x
+    = x + 1
+```
+
+This defines:
+- When `100 > x`: `p(x) = 100`
+- When `not 100 > x` (i.e., `x >= 100`): `p(x) = x + 1`
+
+Both cases satisfy `p(x) > x`.
+
+You can also use the shorthand:
+
+```litex
+have fn f(x R) R =:
+    case x > 0 : x
+    case x <= 0 : 0
+
+f(2) = 2
+f(-1) = 0
+```
+
+### Key Difference: Function Existence vs. Other Existence
+
+Proving other things' existence can only use `exist_prop`. However, function existence can be proven by **specifying a value for each element in the domain** that satisfies the conditions.
+
+For example, `have fn f(x R) R = x` proves the existence of a function with domain R and range R, because we specify that each `f(x)` equals `x`, and `x` is in R.
+
+### Litex Code and Natural Language Correspondence
+
+| Natural Language | Litex Code | Meaning |
+|-----------------|------------|---------|
+| "Define g(x) = x" | `have fn g(x R) R = x` | Function with guaranteed existence |
+| "Prove h exists with h(x) > 1" | `have fn: h(x R) R: x > 0 => h(x) > 1; prove: 100 > 1; = 100` | Existence proof |
+| "Define f case by case" | `have fn f(x R) R =: case x > 0 = x; case x <= 0 = 0` | Conditional definition |
+
+### Summary
+
+- `have fn` defines functions with existence guarantees
+- Simplest form: `have fn f(x set) return_set = expression`
+- Can prove existence by providing values satisfying conditions
+- Can define functions case-by-case
+- Function existence is proven by specifying values, not just asserting existence
+- **Function existence must be declared before use**: Unlike programming languages, you cannot use a function in Litex without first declaring its existence with `have fn` or `let fn`
+
+### Litex Syntax Reference
+
+**Simple definition**:
+```
+have fn function_name(param set) return_set = expression
+```
+
+**With proof**:
+```
+have fn:
+    function_name(param set) return_set:
+        domain_condition
+        =>:
+            conclusion
+    prove:
+        proof_statement
+    have object_satisfying_conclusion
+```
+
+**With explicit return**:
+```
+have fn:
+    function_name(param set) return_set:
+        domain_condition
+        =>:
+            conclusion
+    prove:
+        proof_statement
+    = return_value
+```
+
+**Case-by-case**:
+```
+have fn function_name(param set) return_set =:
+    case condition1 = value1
+    case condition2 = value2
+```
+
+### Exercises
+
+1. Define a function `square` that takes a real number and returns its square, using `have fn`.
+2. Define a function `positive` that takes a positive real number and returns a number greater than 1.
+3. Define a function `sign` that returns 1 for positive numbers, -1 for negative numbers, and 0 for zero.
+
+### Bonus: Why Prove Function Existence?
+
+In mathematics, declaring a function without proving its existence can lead to contradictions. For example, if we could declare "a function f such that f(x) > f(x)" without proof, we'd have a contradiction. `have fn` ensures that functions we use are well-defined and exist, making our proofs safe and sound.
+
+**Key Principle**: In Litex, **all functions must have their existence declared** before they can be used. Built-in functions (like `+`, `-`, `*`) have their existence guaranteed by the kernel. Custom functions must be declared with either `have fn` (with existence proof) or `let fn` (without existence proof, for assumed functions).
+
+---
+
+## Section 4: Defining Functions with `let fn`
+
+### Introduction
+
+In this section, you'll learn how to define your own functions using the `let fn` keyword. This method introduces a function symbol with certain properties **without proving its existence**. It's useful when you want to work with functions whose existence is assumed or will be proven later.
+
+**Important**: `let fn` does **not** guarantee function existence. It only introduces a function symbol with properties. For functions whose existence must be guaranteed, use `have fn` (covered in the previous section). However, **you still must declare the function with `let fn` before using it**—Litex requires explicit function declarations.
 
 ### From Natural Language to Litex
 
@@ -332,225 +490,7 @@ Use `fn` when:
 - You're working with functions whose existence will be proven later
 - You want to introduce a function symbol quickly without proof
 
-Remember: `fn` doesn't guarantee existence. For functions whose existence must be proven, use `have fn` (covered in the next section).
-
----
-
-## Section 4: Defining Functions with `have fn`
-
-### Introduction
-
-In programming, defining a function only requires writing a block of code. In mathematics, however, *declaring a new function must come with a proof of its existence*. Otherwise, the declaration is unsafe and could lead to contradictions. This section teaches you how to define functions with existence guarantees using `have fn`.
-
-### From Natural Language to Litex
-
-In mathematics, we might say:
-- "Define a function g such that g(x) = x"
-- "Prove there exists a function h such that h(x) > 1 for all x > 0"
-- "Define f(x) = x squared"
-
-In Litex:
-
-```litex
-have fn g(x R) R = x
-
-have fn:
-    h(x R) R:
-        x > 0
-        =>:
-            h(x) > 1
-    prove:
-        100 > 1
-    = 100
-
-have fn s(x R) R = x^2
-```
-
-**Natural Language**: "Define a function with existence proof" → **Litex**: `have fn ...` → **Meaning**: Function with guaranteed existence
-
-### Detailed Explanation
-
-When declaring a new object with existence guarantee, we use `have` keyword. When declaring a function with existence guarantee, we use `have fn` keyword.
-
-There are several ways to define functions with `have fn`:
-
-#### Method 1: Define by Equality (Simplest)
-
-In daily math, when we want to define a function, we just write `g(x) = x` or `s(x) = x^2` or `q(x) = x^2 + 1` etc. In Litex, we can do the same thing:
-
-```litex
-have fn g(x R) R = x
-have fn s(x R) R = x^2
-have fn q(x R) R = x^2 + 1
-```
-
-These are equivalent to:
-
-```litex
-have fn:
-    g(x R) R:
-        g(x) = x
-    prove:
-        x = x
-    = x
-
-have fn:
-    s(x R) R:
-        s(x) = x^2
-    prove:
-        x^2 = x^2
-    = x^2
-
-have fn:
-    q(x R) R:
-        q(x) = x^2 + 1
-    prove:
-        x^2 + 1 = x^2 + 1
-    = x^2 + 1
-```
-
-#### Method 2: Define with Proof
-
-When you need to prove a function exists with specific properties:
-
-```litex
-have fn:
-    a(x R) R:
-        x > 0
-        =>:
-            a(x) > 0
-    prove:
-        x > 0
-    = x
-```
-
-Explanation:
-* In the `prove` section, the parameters of the function (here `x`) are assumed to satisfy the domain condition (`x > 0`).
-* We must then provide an object that lies in the return set and satisfies all the conclusions (`a(x) > 0`).
-* If we define `a(x) = x`, then `a(x) > 0` holds whenever `x > 0`.
-* Writing `have x` ensures the existence of such a function.
-
-#### Method 3: Define with Explicit Return Value
-
-You can also use `=` to specify the return value directly:
-
-```litex
-have fn:
-    h(x R) R:
-        x > 0
-        =>:
-            h(x) > 1
-    prove:
-        100 > 1
-    = 100
-```
-
-This defines `h(x) = 100` for all `x > 0`, which satisfies `h(x) > 1`.
-
-#### Method 4: Case-by-Case Definition
-
-You can define functions differently for different cases:
-
-```litex
-have fn:
-    p(x R) R:
-        x > 0
-        =>:
-            p(x) > x
-    case 100 > x:
-        do_nothing
-    = 100
-    case not 100 > x:
-        x + 1 > x
-    = x + 1
-```
-
-This defines:
-- When `100 > x`: `p(x) = 100`
-- When `not 100 > x` (i.e., `x >= 100`): `p(x) = x + 1`
-
-Both cases satisfy `p(x) > x`.
-
-You can also use the shorthand:
-
-```litex
-have fn f(x R) R =:
-    case x > 0 : x
-    case x <= 0 : 0
-
-f(2) = 2
-f(-1) = 0
-```
-
-### Key Difference: Function Existence vs. Other Existence
-
-Proving other things' existence can only use `exist_prop`. However, function existence can be proven by **specifying a value for each element in the domain** that satisfies the conditions.
-
-For example, `have fn f(x R) R = x` proves the existence of a function with domain R and range R, because we specify that each `f(x)` equals `x`, and `x` is in R.
-
-### Litex Code and Natural Language Correspondence
-
-| Natural Language | Litex Code | Meaning |
-|-----------------|------------|---------|
-| "Define g(x) = x" | `have fn g(x R) R = x` | Function with guaranteed existence |
-| "Prove h exists with h(x) > 1" | `have fn: h(x R) R: x > 0 => h(x) > 1; prove: 100 > 1; = 100` | Existence proof |
-| "Define f case by case" | `have fn f(x R) R =: case x > 0 = x; case x <= 0 = 0` | Conditional definition |
-
-### Summary
-
-- `have fn` defines functions with existence guarantees
-- Simplest form: `have fn f(x set) return_set = expression`
-- Can prove existence by providing values satisfying conditions
-- Can define functions case-by-case
-- Function existence is proven by specifying values, not just asserting existence
-
-### Litex Syntax Reference
-
-**Simple definition**:
-```
-have fn function_name(param set) return_set = expression
-```
-
-**With proof**:
-```
-have fn:
-    function_name(param set) return_set:
-        domain_condition
-        =>:
-            conclusion
-    prove:
-        proof_statement
-    have object_satisfying_conclusion
-```
-
-**With explicit return**:
-```
-have fn:
-    function_name(param set) return_set:
-        domain_condition
-        =>:
-            conclusion
-    prove:
-        proof_statement
-    = return_value
-```
-
-**Case-by-case**:
-```
-have fn function_name(param set) return_set =:
-    case condition1 = value1
-    case condition2 = value2
-```
-
-### Exercises
-
-1. Define a function `square` that takes a real number and returns its square, using `have fn`.
-2. Define a function `positive` that takes a positive real number and returns a number greater than 1.
-3. Define a function `sign` that returns 1 for positive numbers, -1 for negative numbers, and 0 for zero.
-
-### Bonus: Why Prove Function Existence?
-
-In mathematics, declaring a function without proving its existence can lead to contradictions. For example, if we could declare "a function f such that f(x) > f(x)" without proof, we'd have a contradiction. `have fn` ensures that functions we use are well-defined and exist, making our proofs safe and sound.
+Remember: `let fn` doesn't guarantee existence. For functions whose existence must be proven, use `have fn` (covered in the previous section). However, **both `let fn` and `have fn` are required declarations**—you cannot use a function in Litex without first declaring it.
 
 ---
 
