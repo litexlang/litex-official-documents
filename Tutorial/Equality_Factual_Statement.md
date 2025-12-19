@@ -408,11 +408,11 @@ As you can see, `=:` and `.. = .. = .. = ..` saves you from writing a lot of `=`
 ### Exercises
 
 1. Rewrite the following using `=:` syntax:
-   ```litex
-   let x R: x = 1
-   x = 1 + 0
-   1 + 0 = 1
-   ```
+```litex
+let x R: x = 1
+x = 1 + 0
+1 + 0 = 1
+```
 
 2. Write a chain of equalities showing that `(x + 1)^2 = x^2 + 2x + 1`.
 

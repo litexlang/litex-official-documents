@@ -30,8 +30,8 @@ For example
 exist_prop x N st exist_natural_number_larger_than(y N):
     x > y
 
-prove $exist_natural_number_larger_than(1)
-    let x N: x = 2
+prove $exist_natural_number_larger_than(1):
+    have x N = 2
     2 > 1
     x > 1
     exist x st $exist_natural_number_larger_than(1)
@@ -103,7 +103,7 @@ You can use `claim` to make something affect part out of the Prove sub-environme
 
 ```litex
 claim:
-    @p(x N):
+    imply p(x N):
         x > 1
         =>:
             x > -1

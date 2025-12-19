@@ -103,10 +103,10 @@ forall a, b R => a * b = b * a, a + b = b + a
 1. Write a Litex statement expressing that 5 plus 3 equals 8.
 2. Write a Litex statement expressing that for any real numbers a and b, a + b equals b + a.
 3. Verify the following polynomial identity in Litex:
-   ```litex
-   have x R, y R
-   (x + y) * (x - y) = x * x - y * y
-   ```
+```litex
+have x R, y R
+(x + y) * (x - y) = x * x - y * y
+```
 
 ### Bonus: Solving Equations
 
@@ -118,18 +118,16 @@ let x R, y R:
     4 * x + 5 * y = 14
 
 # Multiply the first equation by 2
-2 * (2 * x + 3 * y) = 2 * 10
-4 * x + 6 * y = 20
+2 * (2 * x + 3 * y) = 2 * 10 = 4 * x + 6 * y = 20
 
 # Subtract the second equation
-(4 * x + 6 * y) - (4 * x + 5 * y) = 20 - 14
-y = 6
+(4 * x + 6 * y) - (4 * x + 5 * y) = 20 - 14 = y = 6
 
 # Substitute back
 2 * x + 3 * 6 = 10
 2 * x + 18 = 10
-2 * x = -8
-x = -4
+2 * x = 10 - 18 = -8
+x = 2 * x / 2 = -8 / 2 = -4
 ```
 
 Step by step, we find: $y = 6, \quad x = -4$
@@ -212,7 +210,6 @@ not (3 / 2) $in Z
 # Examples of not in N_pos (positive integers)
 not -1 $in N_pos
 not 0 $in N_pos
-not 3.5 $in N_pos
 ```
 
 ### Summary
@@ -445,11 +442,10 @@ let x R, y R:
     4 * x + 5 * y = 14
 
 # Multiply the first equation by 2
-2 * (2 * x + 3 * y) = 2 * 10
+2 * (2 * x + 3 * y) = 2 * 10 = 20
 
 # Subtract to eliminate x
-(4 * x + 6 * y) - (4 * x + 5 * y) = 20 - 14
-y = 6
+(4 * x + 6 * y) - (4 * x + 5 * y) = 20 - 14 = y = 6
 ```
 
 ### Summary
@@ -488,21 +484,20 @@ comment text
 ### Exercises
 
 1. Add a comment explaining what the following code does:
-   ```litex
-   let x R: x = 5
-   x * 2 = 10
-   ```
+```litex
+let x R: x = 5
+x * 2 = 10
+```
 
 2. Write a multi-line comment explaining the steps in solving a quadratic equation.
 
 3. Add appropriate comments to make this code more readable:
-   ```litex
-   let a R, b R, c R
-   a = 1
-   b = 2
-   c = 3
-   a + b + c = 6
-   ```
+```litex
+have a R = 1
+have b R = 2
+have c R = 3
+a + b + c = 6
+```
 
 ### Bonus: Comments as Documentation
 

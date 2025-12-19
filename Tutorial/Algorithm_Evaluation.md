@@ -1,4 +1,4 @@
-# Algorithm And Evaluation
+<!-- # Algorithm And Evaluation
 
 _Algorithms + Data Structures = Programs_
 
@@ -116,4 +116,4 @@ Note: If you try to `eval(f(1.5))` here, it will result in an infinite loop. Thi
 
 In summary, algo and eval save you from manually writing numerous similar proof processes. For example, without eval, to prove that f(10) = 10 here, we would have to write *f(1) = f(0) + 1 = 0 + 1 = 1, f(2) = f(1) + 1 = 1 + 1 = 2, .... f(10) = f(9) + 1 = 9 + 1 = 10*—a long series of highly repetitive proofs.
 
-Note: This allows users to recursively generate code. Because humans can write infinite proof processes that are meaningless to the final result, litex's `by` keyword may also recursively call itself indefinitely, causing an infinite loop.
+Note: This allows users to recursively generate code. Because humans can write infinite proof processes that are meaningless to the final result, litex's `by` keyword may also recursively call itself indefinitely, causing an infinite loop. -->

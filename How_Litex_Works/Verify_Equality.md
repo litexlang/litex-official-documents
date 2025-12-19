@@ -21,18 +21,24 @@ Equality makes symbols that are literally different have the same meaning. A sym
 ```litex
 have a, b R
 a = a # left-hand-side and right-hand-side of equality are the same.
+```
 
+```litex
 # Numeric equality: 1 + 1 and 2 are different symbols, but equal
 1 + 1 = 2
+```
 
+```litex
 # Variable equality: 20 * x and y + z are different symbols, but equal
 have x R
 have y R = 3 * x
 have z R = 17 * x
 20 * x = 3 * x + 17 * x = y + z
+```
 
+```litex
 # Function equality: f(a) and g(b) are different symbols, but equal
-have fn f(a R) R = a
+have fn f(t R) R = t
 have fn g(a R) R = f(a)
 have a2 R
 have b2 R = a2
@@ -240,7 +246,7 @@ When Litex sees such expressions, it automatically simplifies them to their cano
 #### 2.2 With Division
 
 ```litex
-forall x R, y R: y ！= 0 => (x + 1) * (x + 1) / y = x * x + 2 * x + 1 / y
+forall x R, y R: y != 0 => (x + 1) * (x + 1) / y = (x * x + 2 * x + 1) / y
 ```
 
 First, it is transformed into a multiplication expression, then reduced. The above expression is equivalent to:

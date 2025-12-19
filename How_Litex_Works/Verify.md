@@ -76,9 +76,9 @@ For example, if we want to prove `$p(c)`, Litex iterates through all facts in `k
 
 ```litex
 prop p(x R)
+have a R
 know $p(a)
-know $p(b)
-let c R = a
+have c R = a
 $p(c)  # Verified because c = a and $p(a)
 ```
 
@@ -150,9 +150,10 @@ If verification fails at this step, Litex will continue to try the next step.
 **Example**: Suppose we have:
 ```litex
 prop p(x R)
-have set s = {1, 2, 3}
-forall x s: $p(x) or $q(x)
-let x s = 2:
+prop q(x R)
+have s set= {1, 2, 3}
+know forall x s: $p(x) or $q(x)
+let x s:
     not $q(x)
 $p(x)
 ```
@@ -170,43 +171,6 @@ If verification passes at this step, then the fact is considered verified.
 
 If verification fails at this step, Litex will continue to try the next step.
 
-5. **Step 5: Special properties**
-
-Litex also handles special properties of predicates that can help verify factual statements:
-
-**Commutativity**: If a binary predicate `p` is commutative, and `$p(a, b)` cannot be proven directly, then Litex will try to prove `$p(b, a)` instead.
-
-```litex
-prop is_equal(x, y R)
-prove_is_commutative_prop is_equal
-let a, b R:
-    $is_equal(b, a)
-$is_equal(a, b)  # Verified by commutativity
-```
-
-**Transitivity**: If a binary predicate has transitivity, and both `$p(a, b)` and `$p(b, c)` can be proven true, then `$p(a, c)` is automatically proven.
-
-```litex
-prop is_greater(x, y R)
-prove_is_transitive_prop is_greater
-let a, b, c R:
-    a > b
-    b > c
-a > c  # Automatically verified by transitivity
-```
-
-**Numeric value substitution**: If parameters have corresponding numeric values (for example, if we previously recorded `a = 2`, `b = 1 / 7`), Litex automatically substitutes symbols with numeric values with their values, then proves the related facts.
-
-```litex
-let a R = 2
-a > 1  # Verified automatically: Litex substitutes a with 2, then verifies 2 > 1
-```
-
-This is because Litex maintains a record of symbol values. When proving `a > 1`, Litex finds that `a = 2` is stored, substitutes `a` with `2`, then verifies `2 > 1` using built-in numeric comparison.
-
-If verification passes at this step, then the fact is considered verified.
-
-If verification fails at this step, the fact is considered unverified.
 
 ## Check or fact
 

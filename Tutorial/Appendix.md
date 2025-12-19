@@ -8,25 +8,13 @@ Litex stands on the shoulders of giants. Previous formal languages demonstrated 
 
 ## Language Tradeoffs
 
-_Everything should be made as simple as possible, but not simpler._
-
-__-- Albert Einstein__
-
 *Simplicity over Generality*: Litex focuses more on simplicity of the language, so that more people can learn to use it. Currently, Litex has built-in support for naive set theory and first-order logic, which is enough for most daily math. If adding certain features (such as higher-order logic) would compromise Litex’s simplicity, we would rather leave them out. Just as Python gave up C’s manual memory management, and Markdown gave up LaTeX’s fine-grained pixel control, Litex gives up generality in exchange for simplicity.
 
 *Simplicity is the single most important consideration in our design. It is more important than any other features like generality, elegance, efficiency, etc.*
 
-__Given enough eyeballs, all bugs are shallow.__
-
-__-- Linus Torvalds__
-
-*Community-Driven Fast Development over Careful Design*: Litex follows the 'worse is better' development model, because this is the most effective way for software to gain impact. We care more about building the community and iterating quickly based on community feedback. No matter how good a feature is, if it cannot be implemented quickly or is not widely requested by the community, we won’t consider it.
+*Community-Driven Fast Development over Careful Design*: Litex follows the 'worse is better' development model, because this is the most effective way for software to gain impact. We care more about building the community and iterating quickly based on community feedback. No matter how good a feature is, if it cannot be implemented quickly or is not widely requested by the community, we won’t consider it. Also, as the quote by Linus Torvalds `Given enough eyeballs, all bugs are shallow.`, we listen to the community and fix bugs quickly.
 
 *Bugs won't make a software obsolete. What truly kills a software is the lack of users and supporters.*
-
-__We have some freedom in setting up our personal standards of beauty, but it is especially nice when the things we regard as beautiful are also regarded by other people as useful.__
-
-__-- Donald Knuth__
 
 *Pragmatic over Idealistic*: We would rather add features that are useful for daily math than features that are useful for theoretical math which is understood by only a few people on earth. That's why Litex is ended with tex: we want to make it a wide-spread pragmatic language which solves real problems just like tex.
 
@@ -533,6 +521,7 @@ For example, consider the following code:
 prop p(x R)
 prop q(x R)
 know forall x R => $p(x) <=> $q(x)
+know $q(1)
 $p(1)
 ```
 

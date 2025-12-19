@@ -1,8 +1,16 @@
 # Litex vs Lean: Set Theory Examples
 
-This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. Set is *the most basic concept in mathematics*, and through sets we can observe the similarities and differences between Litex and other formal languages.
+version: 2025-12-19, Author: Jiachen Shen
 
-Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex!
+_Everything should be as simple as it can be, but not simpler_
+
+_— Albert Einstein_
+
+---
+
+This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. In our view, Litex can fill the gap between what ordinary people want and what formal languages provide.
+
+Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! 
 
 ---
 
@@ -21,14 +29,9 @@ Lean, the most popular formal language in the world and the language that Litex 
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Data.Finset.Basic</code><br><br>
-      <code>-- Define the set</code><br>
       <code>def my_set : Finset ℕ := {1, 2}</code><br><br>
-      <code>-- Prove membership</code><br>
       <code>example : 1 ∈ my_set := by</code><br>
       <code>&nbsp;&nbsp;simp [my_set]</code><br>
-      <code>&nbsp;&nbsp;-- or more explicitly:</code><br>
-      <code>&nbsp;&nbsp;-- rw [Finset.mem_insert]</code><br>
-      <code>&nbsp;&nbsp;-- simp</code>
     </td>
   </tr>
 </table>
@@ -58,19 +61,14 @@ Lean requires explicit set definition and proof tactics. The `simp` tactic can s
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Data.Finset.Basic</code><br><br>
-      <code>-- Lean requires explicit types, making this awkward</code><br>
-      <code>-- You need to use a structure to represent sets of sets</code><br>
       <code>structure MySet where</code><br>
       <code>&nbsp;&nbsp;val : Finset ℕ</code><br><br>
       <code>def my_set_of_sets : Finset MySet := {</code><br>
       <code>&nbsp;&nbsp;MySet.mk ({} : Finset ℕ),</code><br>
       <code>&nbsp;&nbsp;MySet.mk ({1, 2} : Finset ℕ)</code><br>
       <code>}</code><br><br>
-      <code>-- To prove membership, you need to construct the set element explicitly</code><br>
       <code>example : MySet.mk ({1, 2} : Finset ℕ) ∈ my_set_of_sets := by</code><br>
       <code>&nbsp;&nbsp;simp [my_set_of_sets]</code><br>
-      <code>&nbsp;&nbsp;-- Requires explicit construction and proof steps</code><br>
-      <code>&nbsp;&nbsp;-- Or use a more complex type hierarchy</code>
     </td>
   </tr>
 </table>
@@ -218,11 +216,6 @@ prove_by_contradiction {1,2,3} != {1,2}:
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib</code><br><br>
       <code>variable (a : ℕ)  -- Assume a is a variable of type ℕ</code><br><br>
-      <code>-- This still causes an error! Because Lean cannot infer what {} is</code><br>
-      <code>-- example : ({a, 1} : Set ℕ) = ({a, 1} : Set ℕ) := rfl</code><br>
-      <code>-- Error: ambiguous overload, possible interpretations: ...</code><br><br>
-      <code>-- This also causes an error</code><br>
-      <code>-- example : {a, 1} = {a, 1} := rfl</code>
     </td>
   </tr>
 </table>
@@ -330,15 +323,11 @@ prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
       <code>import Mathlib</code><br><br>
       <code>variable {α : Type*}  -- Arbitrary type</code><br>
       <code>variable (A B C : Set α)  -- Three sets</code><br><br>
-      <code>-- Premises</code><br>
       <code>variable (hA_nonempty : Set.Nonempty A)  -- A is nonempty</code><br>
       <code>variable (hAB : ∀ x, x ∈ A → x ∈ B)      -- ∀x∈A, x∈B (i.e., A ⊆ B)</code><br>
       <code>variable (hBC : ∀ x, x ∈ B → x ∈ C)      -- ∀x∈B, x∈C (i.e., B ⊆ C)</code><br><br>
-      <code>-- Conclusion</code><br>
       <code>example (x : α) (hx : x ∈ A) : x ∈ C := by</code><br>
-      <code>&nbsp;&nbsp;-- Since x ∈ A, we have x ∈ B</code><br>
       <code>&nbsp;&nbsp;have hxB : x ∈ B := hAB x hx</code><br>
-      <code>&nbsp;&nbsp;-- Since x ∈ B, we have x ∈ C</code><br>
       <code>&nbsp;&nbsp;exact hBC x hxB</code>
     </td>
   </tr>
@@ -383,33 +372,21 @@ This example demonstrates how Litex and Lean handle propositions with domain res
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Data.Int.Basic</code><br>
       <code>import Mathlib.Data.Rat.Basic</code><br><br>
-      <code>-- Define constant R</code><br>
       <code>def R : ℤ := 17</code><br><br>
-      <code>-- 1. Define predicates with range restrictions (Subtypes)</code><br>
-      <code>-- The domain of p is {z : ℤ | z < 100}</code><br>
       <code>def DomainP := {z : ℤ // z < 100}</code><br>
       <code>variable (p : DomainP → Prop)</code><br><br>
-      <code>-- The domain of q is {y : ℚ | y > 0}</code><br>
       <code>def DomainQ := {y : ℚ // y > 0}</code><br>
       <code>variable (q : DomainQ → Prop)</code><br><br>
-      <code>-- 2. know q(17)</code><br>
-      <code>-- Here we need to prove 17 > 0 to construct an element of DomainQ</code><br>
       <code>axiom q_17 : q ⟨17, by norm_num⟩</code><br><br>
-      <code>-- 3. know ∀ x ∈ ℤ: x ∈ {y ∈ ℤ : y < 20, q(y)} => p(x)</code><br>
-      <code>-- Here we need to handle type conversions: x must satisfy x > 0 to pass to q, and x < 100 to pass to p</code><br>
       <code>axiom p_rule : ∀ (x : ℤ),</code><br>
       <code>&nbsp;&nbsp;(h_range : x < 20) →</code><br>
       <code>&nbsp;&nbsp;(h_pos : x > (0 : ℚ)) →</code><br>
       <code>&nbsp;&nbsp;q ⟨x, h_pos⟩ →</code><br>
       <code>&nbsp;&nbsp;p ⟨x, by linarith⟩</code><br><br>
-      <code>-- 4. a ∈ {x ∈ ℕ : x % 17 = 0, p(x)}</code><br>
-      <code>-- a is a natural number satisfying both conditions</code><br>
       <code>structure InSetA (a : ℕ) : Prop where</code><br>
       <code>&nbsp;&nbsp;mod_17 : a % 17 = 0</code><br>
-      <code>&nbsp;&nbsp;-- Similarly, here we need to prove a < 100 to pass a to p</code><br>
       <code>&nbsp;&nbsp;h_lt_100 : (a : ℤ) < 100</code><br>
       <code>&nbsp;&nbsp;prop_p : p ⟨(a : ℤ), h_lt_100⟩</code><br><br>
-      <code>-- Declare that a belongs to this set</code><br>
       <code>variable (a : ℕ)</code><br>
       <code>variable (ha : InSetA p a)</code>
     </td>
@@ -456,21 +433,14 @@ This example demonstrates how Litex's `prove_by_enum` construct allows direct pr
       <code>import Mathlib.Data.Finset.Basic</code><br>
       <code>import Mathlib.Data.Nat.Basic</code><br><br>
       <code>example (x : ℕ) (hx : x ∈ ({1, 2, 3, 4, 17} : Finset ℕ)) (heven : x % 2 = 0) : x = 2 ∨ x = 4 := by</code><br>
-      <code>&nbsp;&nbsp;-- Enumerate all cases</code><br>
       <code>&nbsp;&nbsp;have h : x = 1 ∨ x = 2 ∨ x = 3 ∨ x = 4 ∨ x = 17 := by</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;simp [Finset.mem_insert, Finset.mem_singleton] at hx</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;tauto</code><br>
-      <code>&nbsp;&nbsp;-- Check each case</code><br>
       <code>&nbsp;&nbsp;rcases h with (rfl|rfl|rfl|rfl|rfl)</code><br>
-      <code>&nbsp;&nbsp;· -- Case x = 1: 1 % 2 = 1 ≠ 0, contradiction</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;norm_num at heven</code><br>
-      <code>&nbsp;&nbsp;· -- Case x = 2: satisfies conclusion</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;left; rfl</code><br>
-      <code>&nbsp;&nbsp;· -- Case x = 3: 3 % 2 = 1 ≠ 0, contradiction</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;norm_num at heven</code><br>
-      <code>&nbsp;&nbsp;· -- Case x = 4: satisfies conclusion</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;right; rfl</code><br>
-      <code>&nbsp;&nbsp;· -- Case x = 17: 17 % 2 = 1 ≠ 0, contradiction</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;norm_num at heven</code>
     </td>
   </tr>
@@ -507,19 +477,14 @@ prove_by_enum(x {1, 2, 3, 4, 17}):
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Tactic</code><br><br>
-      <code>-- Define a subtype of real numbers that are greater than 0</code><br>
       <code>def PositiveReal := {x : ℝ // x > 0}</code><br><br>
-      <code>-- Define function g: PositiveReal -> PositiveReal</code><br>
-      <code>-- Must prove that x.val + 1 > 0 when x > 0</code><br>
       <code>def g (x : PositiveReal) : PositiveReal :=</code><br>
       <code>&nbsp;&nbsp;⟨x.val + 1, by</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;let hx := x.property  -- x > 0</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;linarith              -- proves x + 1 > 0</code><br>
       <code>&nbsp;&nbsp;⟩</code><br><br>
-      <code>-- Prove that g(x) = x + 1</code><br>
       <code>example (x : PositiveReal) : (g x).val = x.val + 1 := by</code><br>
       <code>&nbsp;&nbsp;rfl</code><br><br>
-      <code>-- Prove that g(x) > 0</code><br>
       <code>lemma g_pos (x : PositiveReal) : (g x).val > 0 := by</code><br>
       <code>&nbsp;&nbsp;exact (g x).property</code>
     </td>

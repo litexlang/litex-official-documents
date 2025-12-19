@@ -41,9 +41,9 @@ Lean requires importing a library and using a proof tactic (`norm_num`) even for
 
 ---
 
-## Example 2: Prove that forall a, b, c, d R: (a + b) * (c + d) / (a * c + b * d) = 1
+## Example 2: Prove that forall a, b, c, d R: (a + b) * (c + d) / (a * c + a * d + b * c + b * d) = 1
 
-**Task**: Prove that for all real numbers a, b, c, d, the expression `(a + b) * (c + d) / (a * c + b * d)` equals 1.
+**Task**: Prove that for all real numbers a, b, c, d, the expression `(a + b) * (c + d) / (a * c + a * d + b * c + b * d)` equals 1.
 
 <table style="border-collapse: collapse; width: 100%;">
   <tr>
@@ -53,11 +53,14 @@ Lean requires importing a library and using a proof tactic (`norm_num`) even for
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>forall a, b, c, d R:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;(a + b) * (c + d) / (a * c + b * d) = 1</code>
+      <code>&nbsp;&nbsp;dom:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;a * c + b * d != 0</code><br>
+      <code>&nbsp;&nbsp;=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;(a + b) * (c + d) / (a * c + a * d + b * c + b * d) = 1</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Data.Real.Basic</code><br><br>
-      <code>example : forall a, b, c, d : ℝ, (a + b) * (c + d) / (a * c + b * d) = 1 := by</code><br>
+      <code>example : forall a, b, c, d : ℝ, (a + b) * (c + d) / (a * c + a * d + b * c + b * d) = 1 := by</code><br>
       <code>&nbsp;&nbsp;intro a b c d</code><br>
       <code>&nbsp;&nbsp;field_simp</code>
     </td>
@@ -70,7 +73,10 @@ Lean requires importing the real number library and using a field simplification
 
 ```litex
 forall a, b, c, d R:
-    (a + b) * (c + d) / (a * c + b * d) = 1
+    dom:
+        a * c + a * d + b * c + b * d != 0
+    =>:
+        (a + b) * (c + d) / (a * c + a * d + b * c + b * d) = 1
 ```
 
 ---
@@ -139,6 +145,61 @@ prove_for i $in range(2, 97):
     97 % i != 0
 
 $is_prime(97)
+```
+
+## Example 4: Congruence Modulo
+
+**Task**: Define the congruence relation (two numbers are congruent modulo n if they have the same remainder when divided by n) and prove that addition is commutative modulo any nonzero integer.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>prop 同余(x, y, z Z):</code><br>
+      <code>&nbsp;&nbsp;dom:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;z != 0</code><br>
+      <code>&nbsp;&nbsp;<=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;x % z = y % z</code><br><br>
+      <code>forall a, b, c Z:</code><br>
+      <code>&nbsp;&nbsp;c != 0</code><br>
+      <code>&nbsp;&nbsp;=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;(a + b) % c = (b + a) % c</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;$同余(a+b, b+a, c)</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Int.Basic</code><br>
+      <code>import Mathlib.Data.ZMod.Basic</code><br><br>
+      <code>-- Define congruence relation</code><br>
+      <code>def 同余 (x y z : ℤ) : Prop :=</code><br>
+      <code>&nbsp;&nbsp;z ≠ 0 → x % z = y % z</code><br><br>
+      <code>-- Prove addition is commutative modulo</code><br>
+      <code>example (a b c : ℤ) (hc : c ≠ 0) :</code><br>
+      <code>&nbsp;&nbsp;(a + b) % c = (b + a) % c ∧ 同余 (a + b) (b + a) c := by</code><br>
+      <code>&nbsp;&nbsp;constructor</code><br>
+      <code>&nbsp;&nbsp;· -- Prove (a + b) % c = (b + a) % c</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;rw [Int.add_comm]</code><br>
+      <code>&nbsp;&nbsp;· -- Prove congruence</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;intro h</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;rw [Int.add_comm]</code>
+    </td>
+  </tr>
+</table>
+
+Litex allows direct definition of the congruence relation using a domain-restricted proposition. The definition naturally expresses that two numbers are congruent modulo `z` if they have the same remainder when divided by `z`. Once defined, Litex automatically infers that `(a + b) % c = (b + a) % c` (by commutativity of addition) and that `$同余(a+b, b+a, c)` holds (by the definition of congruence).
+
+Lean requires explicit definition of the congruence relation and manual proof construction. The proof must separately establish that `(a + b) % c = (b + a) % c` (using commutativity of addition) and that the congruence relation holds, even though these facts are closely related. The proof structure requires understanding of tactics like `rw` (rewrite) and `constructor` (for splitting conjunctions).
+
+```litex
+prop 同余(x, y, z Z):
+    dom:
+        z != 0
+    <=>:
+        x % z = y % z
+
+forall a, b, c Z: c != 0 => (a + b) % c = (b + a) % c, $同余(a+b, b+a, c)
 ```
 
 ---

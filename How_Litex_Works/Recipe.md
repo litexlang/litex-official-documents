@@ -1,4 +1,4 @@
-# Recipe: Common Mathematical Symbols in Litex
+<!-- # Recipe: Common Mathematical Symbols in Litex
 
 version: 2025-12-01
 
@@ -24,11 +24,11 @@ A set is an unordered collection of objects. For example, $\{3,8,5,2\}$ is a set
 
 **Correspondence in Litex**:
 - **Keywords**: `set`, `$in`, `have set`
-- **Expression**: `have set A = {item1, item2, ...}` or `have set A = {x parent_set: fact1, ...}`
+- **Expression**: `have A set = {item1, item2, ...}` or `have A set = {x parent_set: fact1, ...}`
 - **Example**:
 ```litex
 # Define set by enumeration
-have set A = {3, 8, 5, 2}
+have A set = {3, 8, 5, 2}
 have x A
 x $in A
 
@@ -36,22 +36,12 @@ x $in A
 ```
 - **Note**: `set` is a built-in keyword in Litex, and `$in` is the membership predicate
 
-**Axiom: Sets are Objects**
+**Axiom: All objects are sets**
 
-Every set is also an object. This means that sets can be elements of other sets. For any sets $A$ and $B$, it is meaningful to ask whether $A \in B$. In symbols: $A$ is a set $\implies A$ is an object.
+Everything you defined as object is a set, satisfying `$is_a_set(object)`. This is because in set theory, everything is a set.
 
-**Correspondence in Litex**:
-- **Keywords**: `set`, `obj`, `$in`
-- **Expression**: `forall s set => s $in obj`
-- **Example**:
-```litex
-forall s set => s $in obj
+When you see statements like `have a set`. It means `$is_a_set(a)`. It does not mean `set` is a set and a is an element of the set of all sets. Indeed, it is just a syntax sugar for `$is_a_set(a)`. Similarly, `have a nonempty_set`, `have a finite_set`, etc. are just syntax sugar for `$is_a_nonempty_set(a)`, `$is_a_finite_set(a)`. There are and only are 3 kinds of such keywords: `set`, `nonempty_set`, `finite_set` that have special semantics. Everything else is just a syntax sugar for `a $in setName`.
 
-have set A
-A $in obj
-have set B
-```
-- **Note**: In Litex, sets are also objects and can be elements of other sets
 
 **Definition: Equality of Sets**
 
@@ -65,6 +55,7 @@ Two sets $A$ and $B$ are equal (written $A = B$) if and only if they contain exa
 forall A, B set:
     A = B
     <=>:
+        $equal_set(A, B)
         forall x A:
             x $in B
         forall x B:
@@ -82,7 +73,7 @@ There exists a set $\emptyset$ (called the empty set) that contains no elements.
 - **Example**:
 ```litex
 # Define empty set by enumeration
-have set self_defined_empty_set = {}
+have self_defined_empty_set set = {}
 ```
 - **Note**: The empty set can be defined by enumeration `{}` or declared through an existence axiom
 
@@ -96,14 +87,14 @@ For any object $a$, there exists a set $\{a\}$ (called a singleton set) containi
 - **Example**:
 ```litex
 # Singleton set
-have a obj
-have set singleton = {a}
+have a set
+have singleton set = {a}
 have y singleton
 y = a
 
 # Pair set
 have a, b obj
-have set pair = {a, b}
+have pair set = {a, b}
 have y pair
 y = a or y = b
 ```
@@ -131,13 +122,13 @@ For any set $A$ and any property $P(x)$, there exists a set $\{x \in A : P(x)\}$
 
 **Correspondence in Litex**:
 - **Keywords**: `have set`, `{x parent_set: fact1, ...}`, `prop`
-- **Expression**: `have set s = {x A: $P(x)}`
+- **Expression**: `have s set = {x A: $P(x)}`
 - **Example**:
 ```litex
-have set A
+have A set
 prop P(x A)
 
-have set s = {x A: $P(x)}
+have s set = {x A: $P(x)}
 have y s
 y $in A
 $P(y)
@@ -149,30 +140,30 @@ $P(y)
 For sets $A$ and $B$, we say $A$ is a subset of $B$ (written $A \subseteq B$) if every element of $A$ is also an element of $B$. We say $A$ is a proper subset of $B$ (written $A \subsetneq B$) if $A \subseteq B$ and $A \neq B$. In symbols: $A \subseteq B \iff (\forall x, x \in A \implies x \in B)$; $A \subsetneq B \iff (A \subseteq B \land A \neq B)$.
 
 **Correspondence in Litex**:
-- **Keywords**: `$is_subset_of`, `forall`, `=>`, `!=`
-- **Expression**: `A $is_subset_of B <=> forall x A => x $in B`; `A $is_proper_subset_of B <=> (A $is_subset_of B), (A != B)`
+- **Keywords**: `$subset_of`, `forall`, `=>`, `!=`
+- **Expression**: `A $subset_of B <=> forall x A => x $in B`; `A $is_proper_subset_of B <=> (A $subset_of B), (A != B)`
 - **Example**:
 ```litex
 forall A, B set:
-    A $is_subset_of B
+    A $subset_of B
     <=>:
         forall x A:
             x $in B
 
 # Proper subset
 prop self_defined_proper_subset(A set, B set):
-    A $is_subset_of B
+    A $subset_of B
     A != B
 ```
-- **Note**: Subset relations can be defined through predicates, or use the built-in `$is_subset_of`
+- **Note**: Subset relations can be defined through predicates, or use the built-in `$subset_of`
 
 **Definition: Intersection**
 
 The intersection of two sets $S_1$ and $S_2$, denoted $S_1 \cap S_2$, is the set of all elements that belong to both $S_1$ and $S_2$. In symbols: $S_1 \cap S_2 := \{x \in S_1 : x \in S_2\}$; $x \in S_1 \cap S_2 \iff (x \in S_1 \land x \in S_2)$.
 
 **Correspondence in Litex**:
-- **Keywords**: `have set`, `{x parent_set: fact}`, `$in`
-- **Expression**: `have set intersection = {x S1: x $in S2}`
+- **Keywords**: `have intersection set`, `{x parent_set: fact}`, `$in`
+- **Expression**: `have intersection set = {x S1: x $in S2}`
 - **Example**:
 ```litex
 have a, b set
@@ -189,8 +180,8 @@ forall x intersect(a, b) => $item_in_intersect(x, a, b), x $in a, x $in b
 For sets $A$ and $B$, the set difference $A \setminus B$ (also written $A - B$) is the set of all elements of $A$ that do not belong to $B$. In symbols: $A \setminus B := \{x \in A : x \not\in B\}$; $x \in A \setminus B \iff (x \in A \land x \not\in B)$.
 
 **Correspondence in Litex**:
-- **Keywords**: `have set`, `{x parent_set: not fact}`, `not`, `$in`
-- **Expression**: `have set difference = {x A: not x $in B}`
+- **Keywords**: `have difference set`, `{x parent_set: not fact}`, `not`, `$in`
+- **Expression**: `have xxx set = {x A: not x $in B}`
 - **Example**:
 ```litex
 have a, b set
@@ -322,13 +313,13 @@ prop is_bijective(f fn(X)Y):
 For a function $f : X \to Y$ and a subset $S \subseteq X$, the image of $S$ under $f$ is the set $f(S) := \{f(x) : x \in S\}$. This set is a subset of $Y$.
 
 **Correspondence in Litex**:
-- **Keywords**: `have set`, `{f(x): x parent_set}`
-- **Expression**: `have set image = {f(x): x S}` (requires replacement axiom support)
+- **Keywords**: `have image set`, `{f(x): x parent_set}`
+- **Expression**: `have image set = {f(x): x S}` (requires replacement axiom support)
 - **Example**:
 ```litex
 have X, Y nonempty_set
 have f fn(X)Y
-have set S = {x X: ...}
+have S set = {x X: ...}
 # Define image set through replacement axiom (currently needs to be assumed via know)
 know exist set image: forall y Y => (y $in image <=> exist x S: f(x) = y)
 ```
@@ -339,7 +330,7 @@ know exist set image: forall y Y => (y $in image <=> exist x S: f(x) = y)
 For a function $f : X \to Y$ and a subset $U \subseteq Y$, the inverse image of $U$ under $f$ is the set $f^{-1}(U) := \{x \in X : f(x) \in U\}$. In symbols: $f(x) \in U \iff x \in f^{-1}(U)$.
 
 **Correspondence in Litex**:
-- **Keywords**: `fn`, `{x parent_set: fact}`, `$is_subset_of`
+- **Keywords**: `fn`, `{x parent_set: fact}`, `$subset_of`
 - **Expression**: `Given f : X -> Y, U subset Y, then f^{-1}(U) = {x X : f(x) $in U}`
 - **Example**:
 ```litex
@@ -349,7 +340,7 @@ have X, Y, U set
 
 fn f(x X) Y
 
-have set s = {x X : f(x) $in U}
+have s set = {x X : f(x) $in U}
 ```
 - **Note**: Inverse images are implemented through the separation axiom (intensional set definition)
 
@@ -378,7 +369,7 @@ For sets $X$ and $Y$, the Cartesian product $X \times Y$ is the set of all order
 - **Expression**: `cart(X1, X2, ..., Xn)` for n-fold Cartesian product, `$is_cart(x)` to check if x is a Cartesian product, `dim(x)` for dimension, `proj(x, i)` for projection to i-th component, `coord(a, x, i)` for i-th coordinate of element a
 - **Example**:
 ```litex
-have set x = cart(R, Q, Z)
+have x set = cart(R, Q, Z)
 $is_cart(x)
 dim(x) = 3
 proj(x, 1) = R
@@ -407,13 +398,13 @@ For sets $X_1, \ldots, X_n$, their Cartesian product $\prod_{i=1}^n X_i$ (also w
 - **Expression**: `cart_prod(X, kv)` where X is an index set and kv is a function from X to sets, `index_set_of_cart_prod(cart_prod(X, kv)) = X`, `cart_prod_proj(cart_prod(X, kv), i) = kv(i)` for the i-th projection
 - **Example**:
 ```litex
-have set X = {1, 2, 3}
+have X set = {1, 2, 3}
 have fn kv(x X) set =:
     case x = 1: N
     case x = 2: Q
     case x = 3: Z
 
-cart_prod(X, kv) $in set
+$is_a_set(cart_prod(X, kv))
 index_set_of_cart_prod(cart_prod(X, kv)) = X
 cart_prod_proj(cart_prod(X, kv), 1) = kv(1) = N
 
@@ -422,7 +413,7 @@ have fn kv2(x N) set =:
     case x >= 2: N
     case x < 2: Q
 
-cart_prod(N, kv2) $in set
+$is_a_set(cart_prod(N, kv2))
 index_set_of_cart_prod(cart_prod(N, kv2)) = N
 cart_prod_proj(cart_prod(N, kv2), 1) = kv2(1) = Q
 cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N
@@ -435,12 +426,12 @@ In ZFC set theory, there are **6 fundamental axioms** for constructing new sets 
 
 | ZFC Axiom | What It Constructs | Litex Implementation | Example |
 |-----------|---------------------|---------------------|---------|
-| **Separation (Specification)** | Subsets of A satisfying property P | `have set s = {x A: $P(x)}` | ```litex<br>prop P(x A)<br>have set s = {x A: $P(x)}<br>``` |
-| **Power Set** | Set of all subsets of A | `power_set(A)` or `fn self_defined_power_set(A set) set` | ```litex<br>have y power_set(R)<br>y $is_subset_of R<br>``` |
-| **Pairing** | Set containing exactly two objects | `have set s = {a, b}` | ```litex<br>have a, b obj<br>have set pair = {a, b}<br>``` |
+| **Separation (Specification)** | Subsets of A satisfying property P | `have s set = {x A: $P(x)}` | ```litex<br>prop P(x A)<br>have s set = {x A: $P(x)}<br>``` |
+| **Power Set** | Set of all subsets of A | `power_set(A)` or `fn self_defined_power_set(A set) set` | ```litex<br>have y power_set(R)<br>y $subset_of R<br>``` |
+| **Pairing** | Set containing exactly two objects | `have pair set = {a, b}` | ```litex<br>have a, b obj<br>have pair set = {a, b}<br>``` |
 | **Union** | Set containing all elements from sets in A | `union(A, B)` or `union_of_family(F)` | ```litex<br>have a, b set<br>forall x a => x $in union(a, b)<br>forall x b => x $in union(a, b)<br>``` |
-| **Replacement** | Image of A under function F | Function application + `know` (if needed) | ```litex<br>have X, Y set<br>have fn f(x X) Y<br># f[A] = {f(x): x in A}<br>have set image = {y Y: exist x A => y = f(x)}<br>``` |
-| **Cartesian Product** | Set of ordered n-tuples from sets X₁, X₂, ..., Xₙ | `cart(X1, X2, ..., Xn)` or `cart_prod(index_set, kv)` | ```litex<br>have set x = cart(R, Q, Z)<br>let a x<br>coord(a, x, 1) $in R<br>``` |
+| **Replacement** | Image of A under function F | Function application + `know` (if needed) | ```litex<br>have X, Y set<br>have fn f(x X) Y<br># f[A] = {f(x): x in A}<br>have image set = {y Y: exist x A => y = f(x)}<br>``` |
+| **Cartesian Product** | Set of ordered n-tuples from sets X₁, X₂, ..., Xₙ | `cart(X1, X2, ..., Xn)` or `cart_prod(index_set, kv)` | ```litex<br>have x set = cart(R, Q, Z)<br>let a x<br>coord(a, x, 1) $in R<br>``` |
 
 ### Key Points:
 
@@ -451,9 +442,9 @@ In ZFC set theory, there are **6 fundamental axioms** for constructing new sets 
    fn self_defined_power_set(A set) set:
        forall y self_defined_power_set(A):
            y $in set
-           y $is_subset_of A
+           y $subset_of A
        forall y set:
-           y $is_subset_of A
+           y $subset_of A
            =>:
                y $in self_defined_power_set(A)
    ```
@@ -839,10 +830,10 @@ Every non-empty subset of natural numbers has a least element. That is, for any 
 
 **Correspondence in Litex**:
 - **Keywords**: `have set`, `{}`, `!=`, `exist`, `forall`, `<=`
-- **Expression**: `forall S set: (S $is_subset_of N), (S != {}) => exist m S: forall n S => m <= n`
+- **Expression**: `forall S set: (S $subset_of N), (S != {}) => exist m S: forall n S => m <= n`
 - **Example**:
 ```litex
-have set S = {n N: ...}
+have S set = {n N: ...}
 S != {}
 exist m S:
     forall n S:
@@ -897,4 +888,4 @@ n < m
 =>:
     n * k < m * k
 ```
-- **Note**: This theorem shows that multiplication by a positive number is order-preserving
+- **Note**: This theorem shows that multiplication by a positive number is order-preserving -->

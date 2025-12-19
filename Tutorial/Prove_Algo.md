@@ -1,4 +1,4 @@
-# prove_algo and by
+<!-- # prove_algo and by
 
 _Computer science is a science of abstraction. ... An algorithm is a precise and unambiguous specification of a sequence of steps that can be carried out mechanically._
 
@@ -120,4 +120,4 @@ prove_algo table_nth(x, p):
 have px U
 by table_nth(2, px)
 nth(2, px) = l(r(px)) # this does not work
-```
+``` -->

@@ -71,7 +71,7 @@ forall z Y: not z $in A
 Example:
 
 ```litex
-forall x {x R: x > 0}:
+forall x {y R: y > 0}:
     x > -1
 ```
 
@@ -108,12 +108,12 @@ exist_prop y x st cup_witness_item(x set, z cup(x)):
 ```
 
 ```litex
-forall A, B set:
-    A != B
+forall A set, B set:
+    not A = B
     =>:
         A $in {A, B}
         forall x A:
-            $cup_contains_all_items({A, B}, A, x)
+            $cup_contains_all_items({A, B}, A)
             x $in cup({A, B})
 ```
 
