@@ -8,7 +8,7 @@ _- John von Neumann_
 
 ---
 
-Every statement consists of verbs and nouns. Verbs are used to judge truth or falsity.
+Every statement consists of verbs and nouns. Verbs are used to judge truth or falsity. Nouns are used to represent objects.
 
 # Defining Nouns
 
@@ -177,16 +177,33 @@ have fn:
 
 # Defining Verbs
 
-Unlike defining nouns, defining verbs does not require proving existence. When called, they have prefix `$`.
+Verbs in Litex are predicates—statements that can be evaluated as true or false. Unlike defining nouns (objects), defining verbs does not require proving existence. When you use a verb in a statement, it is prefixed with `$` to indicate it's a factual statement.
+
+There are three types of verbs you can define in Litex: **prop predicates**, **exist_prop predicates**, and **implication facts**. Each serves a different purpose in mathematical reasoning.
 
 ## 1. Define prop predicate
 
+**Syntax:**
+
+```litex
 prop predicate_name(parameter1 set1, parameter2 set2, ...):
     domain_facts
     <=>:
         iff_facts
+```
 
-This is the most common way to define verbs. When specific fact is verified or known to be true, the fact from the corresponding prop definition is automatically known.
+**Description:**
+
+Prop predicates are the most common way to define verbs in Litex. They establish a biconditional relationship (if and only if) between domain facts and the predicate itself. When a specific fact using this predicate is verified or known to be true, Litex automatically infers the corresponding facts from the definition.
+
+**How it works:**
+
+- The `domain_facts` specify the conditions under which the predicate applies
+- The `iff_facts` specify what must be true when the predicate is true (and vice versa)
+- When `$predicate_name(...)` is verified or known, Litex automatically knows that the `iff_facts` are true (with parameters substituted)
+- Conversely, when the `iff_facts` are true and `domain_facts` are satisfied, the predicate is automatically known to be true
+
+**Example:**
 
 ```litex
 prop p(x, y R):
@@ -197,43 +214,90 @@ prop p(x, y R):
 let x, y R: $p(x, y) # Suppose $p(x, y) is true
 
 x + y > 10 # true by definition of p
+# Since $p(x, y) is true and x > y, we automatically know x + y > 10
 ```
 
-2. Define exist_prop predicate
+## 2. Define exist_prop predicate
 
-```
-exist_prop predicate_name(parameter1 set1, parameter2 set2, ...):
+**Syntax:**
+
+```litex
+exist_prop variable_name set_name st predicate_name(parameter1 set1, parameter2 set2, ...):
     domain_facts
     <=>:
         iff_facts
 ```
 
+**Description:**
+
+Exist_prop predicates are used to express existential statements—statements about the existence of objects with certain properties. Unlike prop predicates, exist_prop predicates introduce a bound variable that represents the object whose existence is being asserted.
+
+**How it works:**
+
+- The `variable_name` is the bound variable that will be introduced when the existential statement is used
+- The `set_name` specifies the set from which the variable is taken
+- When you use `have variable st $predicate_name(...)`, Litex introduces a new object `variable` that satisfies the conditions in the definition
+- The `iff_facts` can reference the bound variable to specify what properties it must have
+
+**Example:**
+
 ```litex
-exist_prop a R st exist_x_larger_than(x R) :
+exist_prop a R st exist_x_larger_than(x R):
     <=>:
         a > x
 
-# claim spec fact prove
+# First, we prove that such an object exists
 claim:
     $exist_x_larger_than(1)
     prove:
-        exist 2 st $exist_x_larger_than(1)
+        exist 2 st $exist_x_larger_than(1)  # 2 > 1, so the existential is true
         
-$exist_x_larger_than(1)
-        
+$exist_x_larger_than(1)  # Now we know this is true
+
+# Now we can introduce an object that satisfies the condition
 have a st $exist_x_larger_than(1)
-a $in R
-a > 1
+a $in R      # true: a is from R
+a > 1        # true by definition of exist_x_larger_than
 ```
 
-3. Define implication fact
-```
+## 3. Define implication fact
+
+**Syntax:**
+
+```litex
 imply fact_name(parameter1 set1, parameter2 set2, ...):
     domain_facts
     =>:
         then_facts
 ```
 
-When a specific implication fact is verified or known to be true, the fact from the corresponding implication definition is automatically known.
+**Description:**
 
-Note: In Litex, you don't need to name all facts, because Litex automatically searches for related facts and uses them. This greatly improves development efficiency.
+Implication facts express conditional relationships—if certain conditions hold, then certain conclusions follow. Unlike prop predicates which use biconditional (`<=>`), implication facts use one-way implication (`=>`).
+
+**How it works:**
+
+- The `domain_facts` specify the conditions under which the implication fact applies
+- The `then_facts` specify the conclusions that follow when the premises are true
+- When a specific implication fact is verified or known to be true, Litex automatically infers that the `then_facts` are true (with parameters substituted)
+- Note that the reverse is not automatically true—knowing the `then_facts` does not automatically imply the `domain_facts`
+
+```litex
+prop p(x, y R)
+
+know imply p_is_transitive(x R, y R, z R):
+    x $p y
+    y $p z
+    =>:
+        x $p z
+
+let x, y, z R: x $p y, y $p z
+$p_is_transitive(x, y, z)
+x $p z
+```
+
+This is essential because verification process of Litex is based on match and substitution. 
+
+## Important Note
+
+In Litex, you don't need to name all facts explicitly, because Litex automatically searches for related facts in its knowledge base and uses them during verification. This automatic fact discovery greatly improves development efficiency—you can focus on the mathematical content rather than managing fact names and references manually.
