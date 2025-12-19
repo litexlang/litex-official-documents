@@ -33,7 +33,7 @@ Lean, the most popular formal language in the world and the language that Litex 
   </tr>
 </table>
 
-Litex's design allows automatic verification of set membership in a single line, directly expressing the mathematical statement without requiring additional setup.
+Litex's design allows automatic verification of set membership in a single line, by iterating over items in the list set and finding the item that equals to the item we are looking for.
 
 Lean requires explicit set definition and proof tactics. The `simp` tactic can simplify the proof, but the setup (imports, type annotations, and proof structure) is more verbose.
 
@@ -76,7 +76,7 @@ Lean requires explicit set definition and proof tactics. The `simp` tactic can s
 </table>
 
 
-Litex's set-theoretic foundation naturally supports sets containing sets as elements, reflecting the mathematical principle that sets are objects.
+Litex's set-theoretic foundation naturally supports sets containing sets as elements.
 
 Lean requires explicit type structures (like `MySet`) to represent sets of sets, as its type system needs explicit type annotations. This adds boilerplate but provides type safety.
 
@@ -112,7 +112,7 @@ Lean requires explicit type structures (like `MySet`) to represent sets of sets,
   </tr>
 </table>
 
-Litex automatically derives disjunctions from set membership, recognizing that membership in a finite enumerated set implies equality to one of its elements.
+The meaning of an item is in a list set is that the item equals to one of the items in the list. So Litex automatically derives the fact `x = 1 or x = 2` from the fact `x $in {1, 2}` for the user.
 
 Lean requires explicit proof steps using tactics like `simp`, `cases`, or `tauto` to derive the disjunction from set membership. The proof structure is more explicit but requires more manual steps.
 
@@ -146,7 +146,7 @@ x = 1 or x = 2
   </tr>
 </table>
 
-Litex automatically derives properties from Set Builder membership, recognizing that membership in a set defined by a condition implies that condition—a fundamental mathematical pattern.
+The meaning of an item is in a set builder set is that the item satisfies the condition. So Litex automatically derives the fact `x > 0` from the fact `x $in {y R: y > 0}` for the user.
 
 Lean requires explicit rewriting with `Set.mem_setOf_eq` to extract the condition from set membership. The proof is straightforward but requires manual application of the membership definition.
 
@@ -186,7 +186,7 @@ forall x {y R: y > 0}:
   </tr>
 </table>
 
-Litex's built-in cardinality operations and proof by contradiction mechanism make this type of proof straightforward and intuitive.
+Litex's built-in count function derives the number of items in a set. So Litex automatically derives the fact `count({1,2,3}) = 3` and `count({1,2}) = 2`.
 
 Lean requires explicit cardinality computation using `.card` and manual proof by contradiction. The proof structure is clear but requires more steps to establish the contradiction.
 
@@ -284,7 +284,7 @@ The proof proceeds in two steps:
   </tr>
 </table> 
 
-Litex's `prove_for` provides a direct, intuitive way to prove range-based set equalities, making the mathematical intent explicit through iterative verification.
+Litex's `prove_for` provides iterates over items in a range and when the item satisfies the condition (domain restriction), it runs the proof section and the then section. After all items are iterated, it concludes the proof. `forall i range(x, y): domain_facts => then_facts`. In this case. there is no domain restriction and no proof section, it concludes `forall i range(5, 8): i = 5 or i = 6 or i = 7`. Here `range(x, y) = {i Z: x <= i, i < y}`.
 
 Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities. The proof is rigorous but requires more manual construction of the cases.
 
@@ -342,7 +342,7 @@ prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
   </tr>
 </table>
 
-Litex automatically handles transitive set membership through its built-in reasoning, recognizing the logical chain from set inclusion facts.
+In set theory, an item can belong to multiple sets. So Litex also supports this way of writing naturally.
 
 Lean requires explicit application of the inclusion hypotheses and manual construction of intermediate facts. The proof structure is clear but requires explicit steps for each logical inference.
 
@@ -414,7 +414,7 @@ This example demonstrates how Litex and Lean handle propositions with domain res
   </tr>
 </table>
 
-Litex automatically handles domain restrictions, type conversions, and verification of all conditions, making complex scenarios involving multiple constraints and type systems more manageable. The convenience of Litex's automatic handling is especially evident in more complex examples like this one.
+Litex automatically handles domain restrictions, set builder sets, and verification of all conditions.
 
 Lean requires explicit definition of subtypes (`DomainP`, `DomainQ`) to represent domain-restricted propositions. Each type conversion (ℕ → ℤ → ℚ) must be explicit, and domain conditions must be proven manually. For `q(17)`, we must explicitly prove `17 > 0` to construct the subtype element. The universal rule requires explicit handling of all type conversions and domain conditions. The membership condition requires defining a custom structure `InSetA` with explicit proofs of all conditions.
 
@@ -474,7 +474,7 @@ This example demonstrates how Litex's `prove_by_enum` construct allows direct pr
   </tr>
 </table>
 
-Litex's `prove_by_enum` provides a direct and intuitive way to prove statements about finite sets by automatically checking all cases. The `dom` clause specifies the domain condition, the `=>` clause specifies what needs to be proven, and `prove` contains the proof steps (which can be `do_nothing` when the enumeration itself is sufficient).
+Litex's `prove_by_enum` iterates over items in a set and when the item satisfies the condition (domain restriction), it runs the proof section and the then section, then concludes the universal fact `forall x some_list_set: dom => then`. In this case, the domain condition is `x % 2 = 0`, the then condition is `x = 2 or x = 4`, and the proof steps are `do_nothing`. After all items are iterated, it concludes the `forall x {1, 2, 3, 4, 17}: x % 2 = 0 => x = 2 or x = 4`.
 
 Lean requires explicit case analysis using tactics like `rcases` and manual verification of each case. The proof structure is clear but requires more boilerplate to enumerate all possibilities and handle each case separately.
 
@@ -494,6 +494,6 @@ prove_by_enum(x {1, 2, 3, 4, 17}):
 
 Mathematics has many different axiomatic systems, and choosing different foundational axiom systems as the basis for a formal language results in vastly different user experiences. Lean chooses type theory as its foundation, while Litex chooses set theory.
 
-This design makes Lean easier to maintain (*Litex surely suffers from the difficulty of maintaining a larger and more powerful kernel*) and theoretically more general, but means that Lean's expression of some daily mathematical statements is more complex than Litex's. Litex's lower barrier to entry, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-old students.
+This design makes Lean easier to maintain (*Litex surely suffers from the difficulty of maintaining a larger and more powerful kernel, we welcome contributions from the community to help Litex become more stable and reliable!*) and theoretically more general, but means that Lean's expression of some daily mathematical statements is more complex than Litex's. Litex's lower barrier to entry, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-olds.
 
 We wish experts and enthusiasts of formal languages to contact Litex team [litexlang@outlook.com](mailto:litexlang@outlook.com) to point out any mistakes or suggestions. Really appreciate the decades-long efforts of the experts and enthusiasts of Lean and other formal languages.
