@@ -8,9 +8,19 @@ _— Albert Einstein_
 
 ---
 
-This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. In our view, Litex can fill the gap between what ordinary people want and what formal languages provide.
+This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. In our view, Litex can fill the gap between what people without hardcore mathematical training, including AI researchers, physicists, etc., want and what formal languages provide.
 
-Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! 
+Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. 
+
+The fundamental difference includes:
+
+- Lean requires each object to have exactly one type, which conflicts with set theory where each element can belong to multiple sets.
+
+- Lean requires naming each fact for later reference, while Litex automatically searches for related facts and verifies them for you.
+
+- Lean lacks built-in set-theoretic inference rules and syntax features, requiring dependencies and deep familiarity with a series of tools in those packages. Litex, being based on set theory, has built-in common rules and syntax, making it more convenient for users.
+
+Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! 
 
 ---
 
