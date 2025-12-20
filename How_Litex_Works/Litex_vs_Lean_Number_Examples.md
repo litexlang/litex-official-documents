@@ -202,6 +202,55 @@ prop 同余(x, y, z Z):
 forall a, b, c Z: c != 0 => (a + b) % c = (b + a) % c, $同余(a+b, b+a, c)
 ```
 
+## Example 5: Euler's Conjecture Counterexample
+
+**Task**: Define Euler's conjecture (that there are no solutions to `a^4 + b^4 + c^4 = d^4` for positive integers) and prove that it is false by providing a counterexample: `95800^4 + 217519^4 + 414560^4 = 422481^4`.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>exist_prop a, b, c, d N_pos st Euler_conjecture():</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;a ^ 4 + b ^ 4 + c ^ 4 = d ^ 4</code><br><br>
+      <code>exist 95800, 217519, 414560, 422481 st $Euler_conjecture()</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Nat.Basic</code><br>
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>-- Define Euler's conjecture property</code><br>
+      <code>def Euler_conjecture (a b c d : ℕ) : Prop :=</code><br>
+      <code>&nbsp;&nbsp;a > 0 ∧ b > 0 ∧ c > 0 ∧ d > 0 ∧</code><br>
+      <code>&nbsp;&nbsp;a ^ 4 + b ^ 4 + c ^ 4 = d ^ 4</code><br><br>
+      <code>-- Prove counterexample</code><br>
+      <code>example : ∃ a b c d : ℕ, Euler_conjecture a b c d := by</code><br>
+      <code>&nbsp;&nbsp;use 95800, 217519, 414560, 422481</code><br>
+      <code>&nbsp;&nbsp;constructor</code><br>
+      <code>&nbsp;&nbsp;· norm_num</code><br>
+      <code>&nbsp;&nbsp;· constructor</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;· norm_num</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;· constructor</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· norm_num</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· constructor</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· norm_num</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· norm_num</code>
+    </td>
+  </tr>
+</table>
+
+Litex's `exist_prop` allows direct definition of an existential property with named variables, making it natural to express conjectures and their counterexamples. The `exist` statement with concrete values automatically verifies that the property holds for those values, providing a straightforward way to disprove conjectures.
+
+Lean requires explicit definition of the property as a function returning a `Prop`, with all conditions (positivity of all variables and the equation) explicitly stated. Proving the existence requires using the `use` tactic to provide witnesses, then manually proving each condition using tactics like `norm_num`. The proof structure requires nested `constructor` calls to handle the conjunction of conditions, making it more verbose.
+
+```litex
+exist_prop a, b, c, d N_pos st Euler_conjecture():
+    a ^ 4 + b ^ 4 + c ^ 4 = d ^ 4
+
+exist 95800, 217519, 414560, 422481 st $Euler_conjecture()
+```
+
 ---
 
 ## Summary

@@ -16,9 +16,11 @@ The fundamental difference includes:
 
 - Lean requires each object to have exactly one type, which conflicts with set theory where each element can belong to multiple sets.
 
-- Lean requires naming each fact for later reference, while Litex automatically searches for related facts and verifies them for you.
+- Lean requires naming each fact for later reference, while Litex automatically searches for related facts and verifies them for you. That means Litex takes a more functional programming approach to write math. The user says what he wants to prove instead of saying how to prove it step by step, and Litex will automatically find the related facts and prove it for you.
 
 - Lean lacks built-in set-theoretic inference rules and syntax features, requiring dependencies and deep familiarity with a series of tools in those packages. Litex, being based on set theory, has built-in common rules and syntax, making it more convenient for users.
+
+- Lean has rich type theory and proof assistant facilities, while Litex has a more focused and simpler design.
 
 Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! 
 
