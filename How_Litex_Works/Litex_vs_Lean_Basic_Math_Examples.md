@@ -1,8 +1,6 @@
-# Litex vs Lean: Number Examples
+# Litex vs Lean: Basic Math Examples
 
-This document compares Litex and Lean in expressing number-related statements through side-by-side code examples. Numbers are fundamental to mathematics, and through arithmetic and number theory we can observe how different formal languages express everyday mathematical concepts.
-
-Our goal is not to criticize Lean (which Litex team deeply respects), but to propose complementary ideas where Lean may be less intuitive, particularly in number theory. We explore alternative design choices that prioritize accessibility while maintaining rigor.
+This document compares Litex and Lean in expressing basic math statements through side-by-side code examples. 下面所有的例子都代表着一大类的常见的数学表达，比如定义函数，简单四则运算，证明存在性等。一方面，我们希望读者借此能学会怎么用litex表达日常数学，一方面，我们通过和lean的对比来直观感受litex和其他形式化语言的异同。litex在简洁性和使用门槛上有极大的优势。Lean和Coq等语言在标准库丰富度和表达逻辑的抽象级上更胜一筹。
 
 _Stay humble, stay foolish._
 
@@ -81,7 +79,7 @@ forall a, b, c, d R:
 
 ---
 
-## Example 3: Proving Primality by Enumeration
+## Example 3: Proving by Enumeration
 
 **Task**: Define the property of being prime and prove that 97 is prime by checking that it is not divisible by any number from 2 to 96.
 
@@ -132,14 +130,9 @@ Lean requires defining primality as a proposition with explicit quantifiers and 
 
 ```litex
 prop is_prime(x N_pos):
-    dom:
-        x >= 2
+    x >= 2
     <=>:
-        forall y N_pos:
-            y >= 2
-            y < x
-            =>:
-                x % y != 0
+        forall y N_pos: y >= 2, y < x => x % y != 0
         
 prove_for i $in range(2, 97):
     97 % i != 0
@@ -249,6 +242,136 @@ exist_prop a, b, c, d N_pos st Euler_conjecture():
     a ^ 4 + b ^ 4 + c ^ 4 = d ^ 4
 
 exist 95800, 217519, 414560, 422481 st $Euler_conjecture()
+```
+
+## Example 6: Define function
+
+**Task**: Define a function `f` that takes a real number `x` and an integer `y`, and returns `x * y`. Then verify that `f(1, 2) = 2`.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have fn f(x R, y Z) R = x * y</code><br><br>
+      <code>f(1, 2) = 2</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Real.Basic</code><br>
+      <code>import Mathlib.Data.Int.Basic</code><br><br>
+      <code>def f (x : ℝ) (y : ℤ) : ℝ := x * y</code><br><br>
+      <code>example : f 1 2 = 2 := by</code><br>
+      <code>&nbsp;&nbsp;simp [f]</code><br>
+      <code>&nbsp;&nbsp;norm_num</code>
+    </td>
+  </tr>
+</table>
+
+Litex allows direct definition of functions with mixed types (real and integer) and automatically handles type conversions. The verification `f(1, 2) = 2` is straightforward and requires no explicit proof steps.
+
+Lean requires explicit type annotations and manual handling of type conversions. When multiplying a real number with an integer, Lean automatically coerces the integer to a real number, but the proof still requires tactics like `simp` and `norm_num` to verify the equality.
+
+```litex
+have fn f(x R, y Z) R = x * y
+f(1, 2) = 2
+```
+
+If you pass `f(1, 1.2) = 1.2`, then `1.2 $in Z` is not true, and Litex will report an error:
+
+```
+Function f requires its 2nd argument to satisfy the domain constraint:
+1.2 $in Z
+but verification failed
+```
+
+## Example 7: Proving Universal Statement by Enumeration
+
+**Task**: Prove that every element in `{4, 17, 6.6}` is greater than every element in `{1, 2 * 0.2, 3.0}`.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>prove_by_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;x > y</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Real.Basic</code><br>
+      <code>import Mathlib.Data.Finset.Basic</code><br>
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>def set1 : Finset ℝ := {4, 17, 6.6}</code><br>
+      <code>def set2 : Finset ℝ := {1, 2 * 0.2, 3.0}</code><br><br>
+      <code>example : ∀ x ∈ set1, ∀ y ∈ set2, x > y := by</code><br>
+      <code>&nbsp;&nbsp;intro x hx y hy</code><br>
+      <code>&nbsp;&nbsp;simp [set1, set2] at hx hy</code><br>
+      <code>&nbsp;&nbsp;rcases hx with (rfl|rfl|rfl)</code><br>
+      <code>&nbsp;&nbsp;· rcases hy with (rfl|rfl|rfl) <;> norm_num</code><br>
+      <code>&nbsp;&nbsp;· rcases hy with (rfl|rfl|rfl) <;> norm_num</code><br>
+      <code>&nbsp;&nbsp;· rcases hy with (rfl|rfl|rfl) <;> norm_num</code>
+    </td>
+  </tr>
+</table>
+
+Litex's `prove_by_enum` directly expresses the universal statement over finite sets and automatically enumerates all cases to verify the property. The syntax is intuitive: for all `x` in the first set and all `y` in the second set, prove that `x > y`. Litex handles the enumeration and verification automatically.
+
+Lean requires explicit definition of the finite sets, then manual case analysis using tactics like `rcases` to enumerate all possibilities. The proof must explicitly handle each combination of elements from the two sets, requiring nested `rcases` calls and multiple `norm_num` applications. While the proof is correct, it is verbose and requires understanding of tactics like `rcases` and `simp`.
+
+```litex
+prove_by_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):
+    x > y
+```
+
+---
+
+## Example 8: Proving Universal Statement over Ranges with Domain Restrictions
+
+**Task**: Prove that for all even numbers `i` in `range(1, 6)` and all odd numbers `j` in `closed_range(1, 5)`, the sum `i + j` is odd (i.e., `(i + j) % 2 = 1`). Then use this conclusion to prove equivalent universal statements.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>prove_for i $in range(1, 6), j $in closed_range(1, 5):</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;dom:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i % 2 = 0</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j % 2 = 1</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(i + j) % 2 = 1</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;prove:</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code><br><br>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Int.Basic</code><br>
+      <code>import Mathlib.Data.Finset.Basic</code><br>
+      <code>import Mathlib.Tactic</code><br><br>
+      <code>theorem even_plus_odd_mod_two_in_range :</code><br>
+      <code>&nbsp;&nbsp;∀ i ∈ (Finset.Icc 1 5 : Finset ℤ), ∀ j ∈ (Finset.Icc 1 6 : Finset ℤ),</code><br>
+      <code>&nbsp;&nbsp;i % 2 = 0 → j % 2 = 1 → (i + j) % 2 = 1 := by</code><br>
+      <code>&nbsp;&nbsp;decide</code>
+  </tr>
+</table>
+
+Litex's `prove_for` provides a natural way to express universal statements over ranges with domain restrictions. The syntax clearly separates the domain conditions (`dom:`) from the conclusion (`=>:`), and Litex automatically enumerates all valid cases (where domain conditions hold) to verify the property. The `prove:` section allows for additional proof steps if needed, but in this case `do_nothing` suffices as the property follows directly from arithmetic. After proving with `prove_for`, Litex automatically generates the equivalent universal statement, which can then be used directly or rewritten in different but equivalent forms.
+
+Lean requires explicit quantification over finite sets (`Finset.Icc` for closed intervals) with all conditions stated in the premise. For finite cases, Lean's `decide` tactic can automatically verify the statement by exhaustive enumeration, which is concise but hides the enumeration process from the user. While `decide` is powerful for finite domains, it requires the domain to be explicitly finite (using `Finset`), and the enumeration process is not transparent. The equivalent statement using explicit conditions would require more verbose proof steps if not using `decide`.
+
+```litex
+prove_for i $in range(1, 6), j $in closed_range(1, 5):
+    dom:
+        i % 2 = 0
+        j % 2 = 1
+    =>:
+        (i + j) % 2 = 1
+    prove:
+        do_nothing
 ```
 
 ---

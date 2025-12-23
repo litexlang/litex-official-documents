@@ -382,3 +382,25 @@ The `have` keyword provides safety guarantees that `let` does not. When you use 
 
 However, this safety comes at a cost: you must prove existence. Sometimes, especially when defining axioms or making assumptions, you don't want this check. That's when `let` is the right choice.
 
+### Bonus: Syntax Sugar for Mathematical Notation
+
+The set notation `{}` and tuple notation `()` are syntactic sugar in Litex. Under the hood, they can be written as function calls:
+
+- `{1, 2, 3}` is equivalent to `list_set(1, 2, 3)`
+- `{x R: x > 0}` is equivalent to `set_builder(x R: x > 0)`
+- `(1, 2, 3)` is equivalent to `tuple(1, 2, 3)`
+
+```litex
+have s set = list_set(1, 2, 3)
+s = {1, 2, 3}
+
+have a set = set_builder(x R: x > 0)
+a = {x R: x > 0}
+
+tuple(1, 2, 3) $in cart(R, R, N)
+(1, 2, 3) = tuple(1, 2, 3)
+
+obj_at_index(tuple(1, 2, 3), 1) = 1
+```
+
+While these could all be expressed using function notation, Litex introduces these syntax sugars to make mathematical expressions more intuitive and closer to traditional mathematical notation. This design choice prioritizes readability and familiarity for mathematicians, making Litex code feel more natural when expressing mathematical concepts.

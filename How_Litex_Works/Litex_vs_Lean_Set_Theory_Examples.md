@@ -107,8 +107,7 @@ Lean requires explicit type structures (like `MySet`) to represent sets of sets,
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>have x {1, 2}</code><br>
-      <code>x = 1 or x = 2</code>
+      <code>forall i {1, 2}: i = 1 or i = 2</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Data.Finset.Basic</code><br><br>
@@ -122,13 +121,12 @@ Lean requires explicit type structures (like `MySet`) to represent sets of sets,
   </tr>
 </table>
 
-The meaning of an item is in a list set is that the item equals to one of the items in the list. So Litex automatically derives the fact `x = 1 or x = 2` from the fact `x $in {1, 2}` for the user.
+The meaning of an item is in a list set is that the item equals to one of the items in the list. So Litex automatically derives the fact `i = 1 or i = 2` from the fact `i $in {1, 2}` for the user.
 
 Lean requires explicit proof steps using tactics like `simp`, `cases`, or `tauto` to derive the disjunction from set membership. The proof structure is more explicit but requires more manual steps.
 
 ```litex
-have x {1, 2}
-x = 1 or x = 2
+forall i {1, 2}: i = 1 or i = 2
 ```
 ---
 
