@@ -423,7 +423,7 @@ prove_for variable_name $in range_type(lower, upper):
 For example, we want to prove that forall x in the range {1, 2, 3}, x is less than 4.
 
 ```litex
-prove_for i $in range(5, 8):
+prove_for i range(5, 8):
     i = 5 or i = 6 or i = 7
 
 prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:

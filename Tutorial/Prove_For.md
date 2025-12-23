@@ -41,7 +41,7 @@ For finite ranges, `prove_for` is more efficient and clearer than general univer
 The basic syntax of `prove_for` is:
 
 ```
-prove_for variable_name $in range_type(lower, upper):
+prove_for variable_name range_type(lower, upper):
     =>:
         # then facts (what you want to prove)
     prove:
@@ -60,7 +60,7 @@ Litex supports two types of ranges:
 ```litex
 prop p(x R)
 
-prove_for i $in range(1, 10):
+prove_for i range(1, 10):
     =>:
         $p(i)
     prove:
@@ -72,7 +72,7 @@ This iterates over all integers \(i\) from 1 to 9 (inclusive of 1, exclusive of 
 ### With Closed Range
 
 ```litex
-prove_for i $in closed_range(1, 10):
+prove_for i closed_range(1, 10):
     i > 0
 ```
 
@@ -90,7 +90,7 @@ This iterates over all integers \(i\) from 1 to 10 (inclusive) and proves that \
 ```litex
 prop p(x R)
 
-prove_for i $in range(1, 10):
+prove_for i range(1, 10):
     =>:
         $p(i)
     prove:
@@ -106,7 +106,7 @@ This explicitly iterates over the range and proves the property for each element
 **Using `prove_in_range`**:
 ```litex
 have s set = {x Z : 1 <= x, x < 10}
-prove_for i $in range(1, 10):
+prove_for i range(1, 10):
     i $in s
 ```
 

@@ -1,5 +1,5 @@
 ```litex
-prove_for i $in range(1, 10):
+prove_for i range(1, 10):
     dom:
         i % 2 = 0
     =>:
@@ -7,12 +7,12 @@ prove_for i $in range(1, 10):
     prove:
         do_nothing
 
-prove_for i $in closed_range(1, 3):
+prove_for i closed_range(1, 3):
     =>:
         i = 1 or i = 2 or i = 3
     prove:
         do_nothing
 
-prove_for i $in range(1, 3):
+prove_for i range(1, 3):
     i = 1 or i = 2
 ```

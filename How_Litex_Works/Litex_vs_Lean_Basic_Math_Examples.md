@@ -99,7 +99,7 @@ forall a, b, c, d R:
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y < x</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x % y != 0</code><br><br>
-      <code>prove_for i $in range(2, 97):</code><br>
+      <code>prove_for i range(2, 97):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;97 % i != 0</code><br><br>
       <code>$is_prime(97)</code>
     </td>
@@ -134,7 +134,7 @@ prop is_prime(x N_pos):
     <=>:
         forall y N_pos: y >= 2, y < x => x % y != 0
         
-prove_for i $in range(2, 97):
+prove_for i range(2, 97):
     97 % i != 0
 
 $is_prime(97)
@@ -339,7 +339,7 @@ prove_by_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_for i $in range(1, 6), j $in closed_range(1, 5):</code><br>
+      <code>prove_for i range(1, 6), j closed_range(1, 5):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;dom:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i % 2 = 0</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j % 2 = 1</code><br>
@@ -364,7 +364,7 @@ Litex's `prove_for` provides a natural way to express universal statements over 
 Lean requires explicit quantification over finite sets (`Finset.Icc` for closed intervals) with all conditions stated in the premise. For finite cases, Lean's `decide` tactic can automatically verify the statement by exhaustive enumeration, which is concise but hides the enumeration process from the user. While `decide` is powerful for finite domains, it requires the domain to be explicitly finite (using `Finset`), and the enumeration process is not transparent. The equivalent statement using explicit conditions would require more verbose proof steps if not using `decide`.
 
 ```litex
-prove_for i $in range(1, 6), j $in closed_range(1, 5):
+prove_for i range(1, 6), j closed_range(1, 5):
     dom:
         i % 2 = 0
         j % 2 = 1

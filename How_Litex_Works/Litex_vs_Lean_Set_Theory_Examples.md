@@ -247,7 +247,7 @@ Lean encounters type inference issues when dealing with sets containing variable
 
 The proof proceeds in two steps:
 1. First, we prove that if `i $in range(5, 8)`, then `i = 5 or i = 6 or i = 7` using `prove_for`.
-2. Second, we prove that if `i = 5 or i = 6 or i = 7`, then `i $in range(5, 8)` (i.e., `i >= 5` and `i < 8`).
+2. Second, we prove that if `i = 5 or i = 6 or i = 7`, then `i range(5, 8)` (i.e., `i >= 5` and `i < 8`).
 
 <table style="border-collapse: collapse; width: 100%;">
   <tr>
@@ -256,7 +256,7 @@ The proof proceeds in two steps:
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_for i $in range(5, 8):</code><br>
+      <code>prove_for i range(5, 8):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;i = 5 or i = 6 or i = 7</code><br><br>
       <code>prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:</code><br>
       <code>&nbsp;&nbsp;prove_case_by_case:</code><br>
@@ -294,7 +294,7 @@ Litex's `prove_for` provides iterates over items in a range and when the item sa
 Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities.
 
 ```litex
-prove_for i $in range(5, 8):
+prove_for i range(5, 8):
     i = 5 or i = 6 or i = 7
 
 prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
