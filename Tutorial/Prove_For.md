@@ -1,8 +1,8 @@
 # Prove For: Iterative Proofs Over Ranges
 
-_Iteration is human, recursion is divine._
+_You can checkout anytime you like but you can never leave._
 
-_— L. Peter Deutsch_
+_— Hotel California_
 
 When proving universal statements over ranges of integers, Litex provides a powerful and intuitive mechanism called `prove_for`. This feature allows you to prove properties that hold for all elements in a range by iterating through each element, making it particularly useful for finite ranges and bounded integer sets.
 

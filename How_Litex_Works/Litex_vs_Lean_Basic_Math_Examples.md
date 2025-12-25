@@ -1,10 +1,27 @@
 # Litex vs Lean: Basic Math Examples
 
-This document compares Litex and Lean in expressing basic math statements through side-by-side code examples. 下面所有的例子都代表着一大类的常见的数学表达，比如定义函数，简单四则运算，证明存在性等。一方面，我们希望读者借此能学会怎么用litex表达日常数学，一方面，我们通过和lean的对比来直观感受litex和其他形式化语言的异同。litex在简洁性和使用门槛上有极大的优势。Lean和Coq等语言在标准库丰富度和表达逻辑的抽象级上更胜一筹。
+_Nothing in biology makes sense except in the light of evolution._
 
-_Stay humble, stay foolish._
+_- Theodosius Dobzhansky_
 
-_- Steve Jobs_
+<style>
+/* Code block styling - bright pink for visibility */
+table code {
+  color: #ff00ff;
+  padding: 2px 6px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+  display: inline-block;
+  line-height: 1.4;
+  font-weight: 500;
+}
+</style>
+
+---
+
+This document compares Litex and Lean in expressing basic math statements through side-by-side code examples. All the examples below represent common categories of mathematical expressions, such as defining functions, basic arithmetic operations, proving existence, etc. 
+
+On one hand, we hope readers can learn how to express everyday mathematics using Litex. While languages like Lean and Coq excel in library richness and the abstraction level of logical expression, Litex has advantages in simplicity of its keywords and syntax. Starting from simple examples, we can glimpse the fundamental units of more complex logic and imagine how the edifice of mathematics evolves.
 
 ---
 

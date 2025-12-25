@@ -411,7 +411,7 @@ prove_by_enum(x s):
 Given a set which is the subset of a consecutive integers range, we can prove a universal fact over this set by iteratively proving over each integer in this set.
 
 ```
-prove_for variable_name $in range_type(lower, upper):
+prove_for variable_name range_type(lower, upper):
     dom:
         ...
     =>:
