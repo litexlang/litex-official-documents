@@ -588,6 +588,39 @@ h(1) > 1
 
 ---
 
+## Explanation: What's behind the scenes?
+
+Run the following code the observe the output:
+
+```litex
+have a {1,2,3}
+```
+
+The output looks like this:
+
+```
+have a {1, 2, 3}
+
+by definition:
+a $in {1, 2, 3}
+
+infer:
+a = 1 or a = 2 or a = 3
+
+Success!
+```
+
+First, we execution `have a {1, 2, 3}`. `{1, 2, 3}` is a nonempty set, so the statement works. Then by definition, we get `a $in {1, 2, 3}`. Then, by definition of a list set, we infer that `a = 1 or a = 2 or a = 3`. We can see how Litex automatically infers new facts for the user.
+
+This is just an example showing how litex works internally. Try the following example and see what you get, ha ha.
+
+```
+$is_nonempty_with_item({x R: x > 0}, 1)
+have a {1,2,3}, b cart(R, R), c {x R: x > 0}, d range(1, 3)
+```
+
+---
+
 ## Summary
 
 Mathematics has many different axiomatic systems, and choosing different foundational axiom systems as the basis for a formal language results in vastly different user experiences. Lean chooses type theory as its foundation, while Litex chooses set theory.
