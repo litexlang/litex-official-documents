@@ -588,6 +588,43 @@ h(1) > 1
 
 ---
 
+## Example 13: Function Definition and Domain Restriction
+
+**Task**: Define a function `f` from real numbers to real numbers such that `f(x) = x + 1`, prove its existence, and demonstrate how to restrict its domain to positive integers `{x Z: x > 0}`.
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Litex</th>
+    <th style="border: 2px solid black; padding: 4px; text-align: left; width: 50%;">Lean</th>
+  </tr>
+  <tr>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>have fn f(x R) R = x + 1</code><br><br>
+      <code>f $in fn({x Z: x > 0})R</code>
+    </td>
+    <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
+      <code>import Mathlib.Data.Real.Basic</code><br>
+      <code>import Mathlib.Data.Int.Basic</code><br><br>
+      <code>def f (x : ℝ) : ℝ := x + 1</code><br><br>
+        <code>-- To restrict to positive integers, define a subtype</code><br>
+        <code>def PositiveInt := {x : ℤ // x > 0}</code><br><br>
+        <code>def f_pos_int (x : PositiveInt) : ℝ := (x.val : ℝ) + 1</code><br><br>
+        <code>example : f_pos_int ∈ (PositiveInt → ℝ) := by</code><br>
+        <code>&nbsp;&nbsp;rfl</code>
+    </td>
+  </tr>
+</table>
+
+In Litex, `have fn f(x R) R = x + 1` simultaneously defines the function and proves its existence. The function `f` can be viewed with different domain restrictions. When we write `f $in fn({x Z: x > 0})R`, Litex automatically restricts the domain to the set of positive integers `{x Z: x > 0}`. This demonstrates Litex's flexibility: the same function can be viewed with different domain restrictions without redefinition, as long as the restricted domain is a subset of the original domain.
+
+In Lean, to express a function restricted to positive integers, we need to define a subtype for positive integers and create a new function with explicit type conversion. Lean requires explicit handling of domain restrictions through subtypes (`{x : ℤ // x > 0}`), making the code more verbose.
+
+```litex
+have fn f(x R) R = x + 1
+-- Restrict domain to positive integers
+f $in fn({x Z: x > 0})R
+```
+
 ## Explanation: What's behind the scenes?
 
 Run the following code the observe the output:
@@ -615,8 +652,13 @@ First, we execution `have a {1, 2, 3}`. `{1, 2, 3}` is a nonempty set, so the st
 This is just an example showing how litex works internally. Try the following example and see what you get, ha ha.
 
 ```
+have s set = cart(R, R)
+s = cart(R, R)
+
+have a {1, 2}
+
 $is_nonempty_with_item({x R: x > 0}, 1)
-have a {1,2,3}, b cart(R, R), c {x R: x > 0}, d range(1, 3)
+have c {x R: x > 0}
 ```
 
 ---
