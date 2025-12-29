@@ -235,6 +235,24 @@ d(3) = 3 * 3 * 3 * 3 = 81
 
 Here we have defined four sequences `a`, `b`, `c`, `d` which are all in the set `R`. We have also defined the domain of each sequence.
 
+## Matrix
+
+Matrices are another common application of function sets. A matrix can be thought of as a function that takes two indices (row and column) and returns a value. Using function sets, we can define matrices of any size:
+
+```litex
+have fn_set matrix(m N_pos, n N_pos):
+    fn (i N_pos, j N_pos) R:
+        dom:
+            i <= m
+            j <= n
+
+let x matrix(3, 3)
+
+x(2,2) = x(2,2)
+```
+
+Here, `matrix(m, n)` defines the set of all m×n matrices (functions from pairs of positive integers `(i, j)` where `i ≤ m` and `j ≤ n` to real numbers). When we declare `x matrix(3, 3)`, we're saying that `x` is a 3×3 matrix, and we can access its elements using `x(i, j)` where `1 ≤ i ≤ 3` and `1 ≤ j ≤ 3`.
+
 ## Sequence and Prove By Induction
 
 When studying sequences, mathematical induction is often the most natural proof technique. Since sequences are defined step by step along the natural numbers, many of their properties are expressed in terms of the relationship between consecutive terms. This makes induction especially suitable for proving results such as general formulas and summation identities. Below, we use the formula for the sum of an arithmetic progression as an example, showing how sequences and induction work hand in hand in Litex.

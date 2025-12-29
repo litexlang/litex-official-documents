@@ -404,3 +404,44 @@ obj_at_index(tuple(1, 2, 3), 1) = 1
 ```
 
 While these could all be expressed using function notation, Litex introduces these syntax sugars to make mathematical expressions more intuitive and closer to traditional mathematical notation. This design choice prioritizes readability and familiarity for mathematicians, making Litex code feel more natural when expressing mathematical concepts.
+
+### Comprehensive Example: Various Object Declarations
+
+Here is a comprehensive example demonstrating various ways to declare objects in Litex:
+
+```litex
+-- Declare a real number with a specific value
+have a R = 3
+
+-- Define an existential property with domain restriction
+exist_prop x, y R st p(a R):
+    dom:
+        a > 0
+    <=>:
+        x * y > a
+
+-- Prove existence by providing witnesses
+exist 2, 10 st $p(10)
+
+-- Declare objects from an existential property
+have x, y st $p(10)
+
+-- Declare a real number without specific value
+have b R
+
+-- Define a function
+have fn f(t R) R = t
+
+-- Define a set (Cartesian product)
+have s set = cart(R, R)
+```
+
+This example showcases:
+- **Basic object declaration** with `have` and assignment (`have a R = 3`)
+- **Existential properties** with domain restrictions (`exist_prop`)
+- **Existence proofs** by providing concrete values (`exist 2, 10 st $p(10)`)
+- **Object extraction** from existential properties (`have x, y st $p(10)`)
+- **Function definition** (`have fn f(t R) R = t`)
+- **Set definition** using Cartesian products (`have s set = cart(R, R)`)
+
+Each declaration follows the fundamental principle: every object must belong to a set, and Litex verifies the existence and validity of these declarations according to set-theoretic rules.
