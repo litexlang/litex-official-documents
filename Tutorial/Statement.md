@@ -1,8 +1,9 @@
 # Statements: The Building Blocks of Litex
 
-_The highest form of pure thought is mathematics._
+_Design is not just what it looks like and feels like. Design is how it works._
 
-_— Plato_
+_— Steve Jobs_
+
 
 ---
 

@@ -18,14 +18,20 @@ print(x)
 However, in math, we are not allowed to use an object directly without proving its existence. For example, many new-comers of Litex may try to write the following code:
 
 ```litex
-let x R:
-    x = 2
-    x + 1 = 5
+have x N = 2
 ```
 
-The code runs, but you might be confused by `x = 2` and `x = 4` are both true. This is because Litex does not check the existence of `x` when you are using keyword `let` to declare an object.
+This works and you have defined a new object `x` with the property `x $in N` and `x = 2`.
 
-To overcome this unsafe declaration, Litex introduces the keyword `exist` and `have`. `exist` represents an existential fact, and `have` represents a declaration of an object with existential promise.
+However, if you try to write the following code:
+
+```litex
+have x N: x = 2.5
+```
+
+This will not work, because there is no object `x` in `N` (the set of natural numbers) that equals to 2.5.
+
+## Define a 
 
 ## What is an existential proposition
 

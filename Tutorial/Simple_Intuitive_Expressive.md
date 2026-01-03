@@ -1,8 +1,8 @@
-# Introduction: Begin the journey with Litex
+# Simple Intuitive Expressive
 
-_Design is not just what it looks like and feels like. Design is how it works._
+_Occam's razor principle: the problem-solving principle that recommends searching for explanations constructed with the smallest possible set of elements._
 
-_— Steve Jobs_
+_— William of Ockham_
 
 The experience of writing Litex feels like magic. Since a 10-year-old can reason about basic math, even a 10-year-old should be able to learn and use Litex easily to solve their own problems. Whether it’s a human or an AI, learning Litex is very easy, because Litex’s syntax is extremely close to natural language. The three key features of Litex are: **intuitive, simple, and expressive**.
 

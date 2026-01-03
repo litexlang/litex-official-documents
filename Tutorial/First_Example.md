@@ -1,10 +1,8 @@
 # First Example: Your First Steps with Litex
 
-_Classes will dull your mind. Destroy the potential for authentic creativity._
+_All human knowledge begins with intuitions, thence passes to concepts and ends with ideas._
 
-_— John Nash_
-
-Litex is a language full of fun. It's a completely new way of bridging the world of math and programming, so let your creativity fly when learning it! Think of some examples on your own when reading this tutorial.
+_- Kant_
 
 ---
 
@@ -12,7 +10,7 @@ Litex is a language full of fun. It's a completely new way of bridging the world
 
 ### Introduction
 
-In this section, we'll explore the most fundamental mechanism in Litex: **match and substitution**. This is how Litex derives new facts from established ones—exactly like how humans reason in everyday mathematics. By the end of this section, you'll understand how Litex automatically verifies statements by matching patterns and substituting values.
+In this section, we'll explore the most fundamental mechanism in Litex: **match and substitution**. This is how Litex derives new facts from established ones—exactly like how humans reason in everyday mathematics. By the end of this section, you'll understand how Litex automatically verifies statements by matching patterns and substituting values. As John Nash said: Classes will dull your mind. Destroy the potential for authentic creativity, so please be creative and think of some examples on your own when reading this tutorial!
 
 ### From Natural Language to Litex
 
