@@ -6,6 +6,7 @@ Define_Verify_Memorize_Infer
 statement
 object
 factual_statement
+existential_factual_statement
 factual_statement_predicate
 Define_Objects
 equality_factual_statement
