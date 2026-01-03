@@ -126,6 +126,28 @@ It prints out all effects of all the statements in the code, making both humans 
 
 A statement in natural language involves nouns and verbs. In math, we have objects and proposition predicates. For example, `2 > 1` is a statement that involves the objects `2` and `1` and the proposition predicate `>`. Besides builtin objects and predicates like `1`, `2`, `3`, `>`, `=`, `!=`, you can also define your own objects and predicates using `have`/ `let` and `prop` keywords.
 
+```litex
+have x R
+```
+
+In this case, `x` is defined to be an object in the set of real numbers.
+
+```litex
+prop is_positive_number_larger_than_one(x R):
+    dom:
+        x > 0
+    <=>:
+        x > 1
+```
+
+In this case, `is_positive_number_larger_than_one(x)` is defined to be a proposition predicate that is true when `x` is a positive number and greater than one.
+
+Notice there are 2 major differences between objects and proposition predicates:
+
+1. When defining an object (a noun), you must prove its existence. When defining a proposition predicate (a verb), you do not need to prove its existence. Notice a function is an object in Litex, but it is not a proposition predicate.
+
+2. You can pass nouns into predicates, but you cannot pass predicates to predicates.
+
 ## Verify
 
 The core functionality of Litex is to verify statements. When you write a statement in Litex, Litex will try to use memorized facts to verify the statement. If the statement is verified, Litex will memorize the fact for future use.
