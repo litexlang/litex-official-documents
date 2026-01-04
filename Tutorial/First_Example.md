@@ -1,8 +1,6 @@
 # First Example: Your First Steps with Litex
 
-_All human knowledge begins with intuitions, thence passes to concepts and ends with ideas._
 
-_- Kant_
 
 ---
 

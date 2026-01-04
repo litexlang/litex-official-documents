@@ -1,47 +1,50 @@
 # Litex Roadmap
 
-There are two kinds of Litex statements
+_All human knowledge begins with intuitions, thence passes to concepts and ends with ideas._
 
-1. factual statements 用来被验证。被验证后，被保留下来作为未来的验证已知事实
+_- Kant_
 
-2. non-factual statements 不用来做验证。功能可能是定义object，import一个包等
+There are two kinds of Litex statements:
 
-## factual statements
+1. **Factual statements**: Used for verification. Once verified, they are stored as known facts for future verification.
 
-构成：动词加若干名词
+2. **Non-factual statements**: Not used for verification. They may define objects, import packages, etc.
 
-本质上数学验证就是在做这样的游戏：引入一些动词（数学里通常叫proposition predicate），引入一些名词（数学里通常叫object），然后验证这些object满足这些东西。有些很容易验证，比如`1 + 1 = 2`，有些很难验证，比如费马大定理。
+## Factual Statements
 
-Litex的一大特点是，有很少但很有效的验证机制帮用户去验证一个factual statement是否正确。其他形式化语言要求用户写很多很多的过程来验证一个很简单的东西，但litex强大且实用的内核帮用户省去了大部分力气，所以用litex写证明非常容易。
+**Structure**: Verb plus nouns.
 
-输出结果可能是true, unknown, error
+Mathematical verification is essentially a game: introduce verbs (propositions/predicates) and nouns (objects), then verify that these objects satisfy the predicates. Some are easy to verify (e.g., `1 + 1 = 2`), others are hard (e.g., Fermat's Last Theorem).
 
-1. true: litex内核帮你找到了一个办法证明。证明过程会被打印出来。
+Litex's strength lies in its few but effective verification mechanisms that help users verify factual statements. Other formal languages require extensive manual proof steps even for simple statements, but Litex's powerful and practical kernel handles most of the work automatically, making proofs much easier to write.
 
-2. unknown: litex 没有帮你找到方法证明。你说的这句话可能本来就是错的，也可能是你的过程不完整所以litex不能靠已有的事实加上litex的验证机制来验证出来
+**Output**: `true`, `unknown`, or `error`
 
-3. error：错误。可能是你引入了不存在的object，可能是你你用了函数式object但函数里的参数不符合函数的定义域，可能是你没符合语法。
+1. **true**: Litex found a proof. The proof process is printed.
 
-> 注意：函数是object，而不是proposition predicate。proposition predicate是用来判断对错的，函数只是一个能把其他的object（这些符号必须满足该函数的dom）用括号括起来形成新的符号的特殊符号。函数能被作为参数传过来作为factual statement的参数。
+2. **unknown**: Litex couldn't find a proof. The statement may be false, or your process may be incomplete, preventing Litex from verifying it using existing facts and verification mechanisms.
 
-## non-factual statements
+3. **error**: An error occurred. Possible causes: referencing a non-existent object, using function parameters outside the function's domain, or syntax errors.
 
-数学里不只是有判断对错。比如，有些语句是用来做定义啊。如果你不允许用户定义object，定义proposition predicate，那我们的数学世界就能处理的对象很少很少，一点也不精彩了，也不具备实际价值。我们通常用`prop`定义proposition predicate，用`have`定义object。
+> **Note**: Functions are objects, not proposition predicates. Predicates judge truth values; functions are special symbols that combine other objects (satisfying the function's domain) into new symbols. Functions can be passed as parameters to factual statements.
 
-同时，litex的内置的验证方式很简单。好处是易于学习，运行机制简单高效，坏处是，一些特殊的数学验证格式就需要依赖额外的关键词去执行。`prove_by_contradiction`, `prove_case_by_case` 等。
+## Non-factual Statements
 
-## effects of litex statements
+Mathematics isn't just about truth values. Some statements define objects or predicates. Without the ability to define objects and predicates, the mathematical world would be very limited. We use `prop` to define predicates and `have` to define objects.
 
-有时候你执行一个statement，litex会打印出一些信息。这些信息就是statement的effects。任何数学语句在litex中只有4种effect: define, verify, memorize, infer。
+Litex's built-in verification is simple. This makes it easy to learn and efficient to run, but special proof formats require additional keywords like `prove_by_contradiction` and `prove_case_by_case`.
 
-比如这里
+## Effects of Litex Statements
+
+When you execute a statement, Litex prints information about its effects. Every mathematical statement in Litex has exactly 4 types of effects: **define**, **verify**, **memorize**, and **infer**.
+
+Example:
 
 ```litex
 have a R = 17
-a > 0
 ```
 
-会有下面的打印结果：
+Output:
 
 ```
 *** line 1 ***
@@ -64,39 +67,20 @@ proved by builtin rules:
 
 *** line 1: success! ***
 
-*** line 3 ***
-
---- statement ---
-
-a > 0
-
---- new fact ---
-
-a > 0
-
---- verification process ---
-
-a > 0
-proved by fact stored on line 3:
-a > 0 is equivalent to 17 > 0 by replacing the symbols with their values
-
---- infer ---
-
-a != 0
-a >= 0
-not a <= 0
-a > (-1 * a)
-(-1 * a) < 0
-(1 / a) > 0
-(a ^ 2) > 0
-sqrt(a) > 0
-
-*** line 3: success! ***
-
 Success! :)
 
 ```
 
-可以看到，一个语句可能涉及很多的effect。比如`have a R = 17`它的主要功能是定义一个新的object名为a，让它等于17。它的运行涉及了define, , memorize, verify 三种effect。而`a > 0` 这个factual statement涉及了verify, memorize, infer三种effect。
+A single statement can involve multiple effects. For example, `have a R = 17` primarily defines a new object `a` equal to 17, involving define, memorize, and verify effects. As you can see, it is very easy to understand how a statement works in Litex.
 
-幸运的是，常用的数学语句的类型并不多，litex很直白的把它们的功能表达出来。所以你需要学的东西不多！如果遇到不懂的，来查询Tutorial也就OK了！
+Fortunately, there aren't many types of common mathematical statements, and Litex expresses their functions clearly. You don't need to learn much! If you encounter something unfamiliar, consult the Tutorial.
+
+## Conclusion
+
+Keep in mind the following points before moving on, I believe it will help you understand Litex better.
+
+1. There are 2 kinds of statements in Litex: factual statements for verification, non-factual statements for definition, special proof strategy, or other functionalities
+
+2. A factual statement is composed of one verb called proposition and some nouns called objects. The output of a factual statement might be true, unknown or error
+
+3. A statement may has some of the 4 effects: define, verify, memorize, infer.
