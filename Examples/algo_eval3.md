@@ -1,5 +1,5 @@
 ```litex
-fn f(x R) R
+let fn f(x R) R
 know:
     f(0) = 0
     forall n R: f(n) = f(n - 1) + 1

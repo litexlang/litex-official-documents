@@ -132,12 +132,14 @@ prop are_inverse_vectors(a cart(R, R), b cart(R, R)):
     a[1] = -b[1]
     a[2] = -b[2]
 
+"""
 exist_prop a, b R st can_be_bases_of_vector(c, d, e cart(R, R)):
     e = sm(a, c) + sm(b, d)
 
 prop are_bases_vectors(a cart(R, R), b cart(R, R)):
     forall c cart(R, R) => $can_be_bases_of_vector(a, b, c)
-    
+"""
+
 # 加法交换律
 prove forall a, b cart(R, R) => add(a, b) = add(b, a):
     add(a, b) = (a[1] + b[1], a[2] + b[2]) = (b[1] + a[1], b[2] + a[2]) = add(b, a)
@@ -192,6 +194,7 @@ have fn:
 prove forall a, b, c, d R => (a, b) \add (c, d) = (a + c, b + d):
     (a, b) \add (c, d) = ((a, b)[1] + (c, d)[1], (a, b)[2] + (c, d)[2]) = (a + c, b + d)
 
+"""
 # 向量基本定理：如果两个向量不平行，那么它们可以作为某个向量空间的基底
 exist_prop c1, c2 R st write_vec_by_bases(to_write cart(R, R), base1 cart(R, R), base2 cart(R, R)):
     to_write = sm(c1, base1) \add sm(c2, base2)
@@ -222,6 +225,8 @@ prove forall base1, base2 cart(R, R): base1[1] * base2[2] != base1[2] * base2[1]
         $equal_tuple(x, sm(c1, base1) \add sm(c2, base2), 2)
 
         exist c1, c2 st $write_vec_by_bases(x, base1, base2)
+
+"""
 
 # 法向量
 have fn:

@@ -95,8 +95,6 @@ Built-in functions are provided because they are so fundamental to mathematics t
 
 ---
 
-## Section 3: Defining Functions with `have fn`
-
 ### Introduction
 
 In programming, defining a function only requires writing a block of code. In mathematics, however, *declaring a new function must come with a proof of its existence*. Otherwise, the declaration is unsafe and could lead to contradictions. This section teaches you how to define functions with existence guarantees using `have fn`.

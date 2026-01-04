@@ -1,4 +1,5 @@
 ```litex
+"""
 # prove sqrt(2) is irrational
 # 证明 sqrt(2) 是无理数
 
@@ -44,4 +45,6 @@ claim:
             (1 + 0) % 2
             1
         0 = 1
+
+"""
 ```

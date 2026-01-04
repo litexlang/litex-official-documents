@@ -1,12 +1,14 @@
-# Define Objects
+# Objects: Nouns of Logic
 
-_The beginning is the most important part of the work._
+_Objects are typically noun phrases. Objects normally follow the verb in a clause._
 
-_-— Plato_
+_— Cambridge Dictionary_
 
-## Key Difference between Math and Programming: You must prove the existence of an object before using it.
+## Define Objects
 
-We must have objects to work with before we can process them. However, we cannot introduce nouns arbitrarily like we can introduce predicates. For example, we cannot arbitrarily extract an object from an empty set, nor can we introduce something that is both positive and negative at the same time. Therefore, we need to prove the existence of objects.
+Any factual statement consists of a verb and nouns. For example, `2 > 1` involves verb `>` and nouns `2` and `1`. In math, such verbs are called proposition predicates, and such nouns are called objects.
+
+We must have objects to work with before we can process them. However, we cannot introduce nouns arbitrarily like we can introduce predicates. For example, we cannot arbitrarily extract an object from an empty set, nor can we introduce something that is both positive and negative at the same time. Therefore, we need to prove the existence of objects. This is very different from programming in Python or C, where we can declare an object directly and use it directly.
 
 When programming, say in Python, we are so familiar with declaring an object directly and using it directly. For example:
 

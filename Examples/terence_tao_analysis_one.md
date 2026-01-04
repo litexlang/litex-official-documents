@@ -1,4 +1,5 @@
 ```litex
+"""
 # Chapter 2: Starting from the beginning: the natural numbers
 
 # This file formalizes natural numbers axioms in chapter 2 of Analysis I, with explanations and examples.
@@ -283,4 +284,6 @@ forall a Q:
     a != 0
     =>:
         a / a = 1
+
+"""
 ```

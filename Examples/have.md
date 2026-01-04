@@ -1,91 +1,6 @@
 ```litex
 # have statements
 
-prove:
-    exist_prop a R st exist_x_larger_than(x R) :
-        <=>:
-            a > x
-
-    # claim spec fact prove
-    claim:
-        $exist_x_larger_than(1)
-        prove:
-            exist 2 st $exist_x_larger_than(1)
-            
-    $exist_x_larger_than(1)
-            
-    have a st $exist_x_larger_than(1)
-    a $in R
-    a > 1
-
-    know forall x R,  y R:x > 0 => x + y > y, y + x > y
-
-    # claim forall prove
-    claim:
-        forall x R:
-            $exist_x_larger_than(x)
-        prove:
-            exist x + 1 st $exist_x_larger_than(x)
-
-    let x R:
-        1 >= x
-
-    know:
-        forall x R, y R:
-            not x < y
-            <=>:
-                x >= y
-
-    know:
-        forall x R, y R:
-            x > y
-            =>:
-                not y >= x
-
-    know imply larger_equal_is_transitive(x R, y R, z R):
-        x >= y
-        y > z
-        =>:
-            x > z
-
-    # claim spec fact prove by contradiction
-    claim:
-        x < 2
-        prove_by_contradiction:
-            x >= 2
-            $larger_equal_is_transitive(x, 2, 1)
-            x > 1
-            not 1 >= x
-
-# have by exist_prop
-prove:
-    exist_prop x N st exist_x_larger_than_1():
-        x > 1
-
-    exist 2 st $exist_x_larger_than_1()
-
-    have x st $exist_x_larger_than_1()
-    x > 1
-
-    fn zero_func(x Z)Z:
-        x = 0
-
-    exist_prop f fn(Z)Z st exist_f_is_always_zero():
-        forall x Z:
-            f(x) = 0
-
-    exist zero_func st $exist_f_is_always_zero()
-
-    have f st $exist_f_is_always_zero()
-    forall x Z:
-        f(x) = 0
-
-    exist_prop self_add fn(Z, Z)Z st exist_f_always_equal_to_add():
-        forall x Z, y Z:
-            self_add(x, y) = x + y
-
-    exist + st $exist_f_always_equal_to_add()
-
 # have sets by naive set theory
 prove:
     have s set = {1, 2, 3}
@@ -142,7 +57,7 @@ prove:
     have fn g(x R) R =:
         case x = 2: 3
         case x != 2: 4
-
+        
     have fn:
         h(x R) R:
             x > 0
@@ -170,42 +85,6 @@ prove:
     forall x R: x > 0 => p(x) > x
 
 prove:
-    exist_prop f fn(R)R st tmp():
-        forall x R: x > 0 => f(x) > 0
-        forall x R: x <= 0 => f(x) = 0
-
-    have fn g(x R) R =:
-        case x > 0: x
-        case x <= 0: 0
-
-    forall x R: x > 0 => g(x) = x, x > 0, g(x) > 0
-    forall x R: x <= 0 => g(x) = 0
-
-    exist g st $tmp()
-
-    have f st $tmp()
-    
-prove:
-    exist_prop f fn(R)R st tmp():
-        forall x R: f(x) > 0
-
-    have fn g(x R) R =:
-        case x > 0: x
-        case x <= 0: 100
-
-    prove forall x R: g(x) > 0:
-        prove_case_by_case:
-            g(x) > 0
-            case x > 0:
-                g(x) = x
-                x > 0
-            case x <= 0:
-                g(x) = 100
-                x <= 0
-
-    exist g st $tmp()
-
-prove:
     have s set = list_set(1, 2, 3)
     s = {1, 2, 3}
 
@@ -216,4 +95,20 @@ prove:
     (1, 2, 3) = tuple(1, 2, 3)
 
     obj_at_index(tuple(1, 2, 3), 1) = 1
+
+prove:
+    prop p(x R, y R)
+    prop q(x R, y R)
+
+    know exist x R st $p(x, 1) or exist x R st $q(x, 1)
+
+    exist x R st $p(x, 1) or exist x R st $q(x, 1)
+
+prove:
+    prop p(x R, y R)
+    prop q(x R, y R)
+
+    know forall x R: exist y R st $p(x, y) or exist y R st $q(x, y)
+
+    exist y R st $p(1, y) or exist y R st $q(1, y)
 ```

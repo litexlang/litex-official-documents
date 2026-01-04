@@ -1,6 +1,6 @@
 ```litex
 prove:
-    fn self_log(b, x R) R: 
+    let fn self_log(b, x R) R: 
         dom:
             b > 0  
             b != 1    

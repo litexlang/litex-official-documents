@@ -6,17 +6,11 @@ _- Steve Jobs_
 
 Any mathematical statement has some of the following effects: Define, Verify, Memorize, Infer. Define is the process of defining a new object or a new proposition predicate. Verify is the process of verifying a statement. Memorize is the process of memorizing a new fact for future use. Infer is the process of inferring new facts from your newly memorized facts.
 
-Any time you execute a statement in Litex, it prints out something like this
+Any time you execute a statement in Litex, it prints out information like this
 
 ```litex
-have x R = 1
-
-prop larger_than_zero(x R):
-    x > 0
-
-$larger_than_zero(x)
-
-x > 0
+have a R = 17
+a > 0
 ```
 
 ```
@@ -24,19 +18,19 @@ x > 0
 
 --- statement ---
 
-have x R = 1
+have a R = 17
 
 --- definition ---
 
-x is a new object
-x = 1
-x $in R
+a is a new object
+a = 17
+a $in R
 
 --- verification process ---
 
-1 $in R
+17 $in R
 proved by builtin rules:
-1 is literally a real number
+17 is literally a real number
 
 *** line 1: success! ***
 
@@ -44,80 +38,33 @@ proved by builtin rules:
 
 --- statement ---
 
-prop larger_than_zero(x R):
-    <=>:
-        x > 0
-
---- definition ---
-
-larger_than_zero is a new prop
+a > 0
 
 --- new fact ---
 
-forall x R:
-    $larger_than_zero(x)
-    =>:
-        x > 0
-forall x R:
-    x > 0
-    =>:
-        $larger_than_zero(x)
+a > 0
+
+--- verification process ---
+
+a > 0
+proved by fact stored on line 3:
+a > 0 is equivalent to 17 > 0 by replacing the symbols with their values
+
+--- infer ---
+
+a != 0
+a >= 0
+not a <= 0
+a > (-1 * a)
+(-1 * a) < 0
+(1 / a) > 0
+(a ^ 2) > 0
+sqrt(a) > 0
 
 *** line 3: success! ***
 
-*** line 6 ***
-
---- statement ---
-
-$larger_than_zero(x)
-
---- new fact ---
-
-$larger_than_zero(x)
-
---- verification process ---
-
-$larger_than_zero(x)
-proved by fact stored on line 6:
-$larger_than_zero(x) is equivalent to $larger_than_zero(1) by replacing the symbols with their values
-
---- infer ---
-
-derive facts from $larger_than_zero(x):
-x > 0
-
-*** line 6: success! ***
-
-*** line 8 ***
-
---- statement ---
-
-x > 0
-
---- new fact ---
-
-x > 0
-
---- verification process ---
-
-x > 0
-proved by fact stored on line 8:
-x > 0 is equivalent to 1 > 0 by replacing the symbols with their values
-
---- infer ---
-
-x != 0
-x >= 0
-not x <= 0
-x > (-1 * x)
-(-1 * x) < 0
-(1 / x) > 0
-(x ^ 2) > 0
-sqrt(x) > 0
-
-*** line 8: success! ***
-
 Success! :)
+
 ```
 
 It prints out all effects of all the statements in the code, making both humans and AIs easier to understand how Litex works and learn it with ease.
