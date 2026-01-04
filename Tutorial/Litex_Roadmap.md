@@ -79,8 +79,74 @@ Fortunately, there aren't many types of common mathematical statements, and Lite
 
 Keep in mind the following points before moving on, I believe it will help you understand Litex better.
 
-1. There are 2 kinds of statements in Litex: factual statements for verification, non-factual statements for definition, special proof strategy, or other functionalities
+1. There are 2 kinds of statements in Litex: factual statements for verification and if it is verified, it will be memorized for future use. Non-factual statements for definition, special proof strategy, or other functionalities.
 
-2. A factual statement is composed of one verb called proposition and some nouns called objects. The output of a factual statement might be true, unknown or error
+2. A factual statement is composed of one verb called proposition and some nouns called objects. The output of a factual statement might be true, unknown or error.
 
 3. A statement may has some of the 4 effects: define, verify, memorize, infer.
+
+## More Examples
+
+Run the following code to see how statements take these effects.
+
+```litex
+have x set = {x R: x > 0}
+17 $in x
+```
+
+```litex
+know forall x R: exist z R: z > x
+have y R st y > 100
+```
+
+```litex
+let x R, y R:
+    2 * x + 3 * y = 100
+    x + 4 * y = 17
+
+2 * (x + 4 * y) = 2 * 17 = 2 * x + 8 * y = 34
+2 * x + 3 * y - (2 * x + 8 * y) = 100 - 34 = -5 * y
+y = (100 - 34) / (-5)
+```
+
+```litex
+prop a_larger_than_1_real_number_is_smaller_than_17(x R):
+    dom:
+        x > 1
+    <=>:
+        x < 17
+
+$a_larger_than_1_real_number_is_smaller_than_17(7)
+```
+
+```litex
+have x set = {1, 2, 3}
+forall y x: y = 1 or y = 2 or y = 3
+```
+
+```litex
+have fn f(x, y R) R = x + y
+f(1, 2) = 1 + 2 = 3
+```
+
+```litex
+prop g(x R)
+prop s(x R)
+prop q(x R)
+
+know:
+    forall x R: $g(x) => $s(x)
+    forall x R: $s(x) => $q(x)
+    not $q(17)
+
+# short version
+prove_by_contradiction not $g(17):
+    $s(17)
+    $q(17)
+
+claim:
+    not $g(17)
+    prove_by_contradiction:
+        $s(17)
+        $q(17)
+```
