@@ -73,6 +73,53 @@ Success! :)
 
 A single statement can involve multiple effects. For example, `have a R = 17` primarily defines a new object `a` equal to 17, involving define, memorize, and verify effects. As you can see, it is very easy to understand how a statement works in Litex.
 
+Here is another example:
+
+```litex
+prop p(x R)
+
+know not exist z R st $p(z)
+```
+
+```
+*** line 1 ***
+
+--- statement ---
+
+prop p(x R)
+
+--- definition ---
+
+p is a new prop
+
+*** line 1: success! ***
+
+*** line 3 ***
+
+--- statement ---
+
+know not exist z R st $p(z)
+
+--- new fact ---
+
+not exist z R st $p(z)
+
+--- infer ---
+
+forall z R:
+    not $p(z)
+
+--- warning ---
+
+`know` saves the facts you write without verification. You may introduce incorrect facts by mistake. Use it with great caution!
+
+*** line 3: success! ***
+
+Success! :)
+```
+
+As you can see, since `not exist` is equivalent to `forall not`, the litex kernel automatically infers that and memorize it. Inference often occurs when 1. Litex generates simple facts for you, e.g. when `a > 0`, litex generates `1 / a > 0`, `a != 0` for you. 2. Equivalent facts, like situation here.
+
 Fortunately, there aren't many types of common mathematical statements, and Litex expresses their functions clearly. You don't need to learn much! If you encounter something unfamiliar, consult the Tutorial.
 
 ## Conclusion
