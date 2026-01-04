@@ -34,6 +34,8 @@ Mathematics isn't just about truth values. Some statements define objects or pre
 
 Litex's built-in verification is simple. This makes it easy to learn and efficient to run, but special proof formats require additional keywords like `prove_by_contradiction` and `prove_case_by_case`.
 
+> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Because of that, Litex can have a strong builtin verification mechanism based on the name of that predicate. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_by_induction`.
+
 ## Effects of Litex Statements
 
 When you execute a statement, Litex prints information about its effects. Every mathematical statement in Litex has exactly 4 types of effects: **define**, **verify**, **memorize**, and **infer**.

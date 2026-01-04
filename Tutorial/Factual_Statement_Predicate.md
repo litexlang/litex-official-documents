@@ -104,6 +104,8 @@ This design makes Litex predicates powerful and reusable, similar to how generic
 - The `$` prefix distinguishes factual statements from functions
 - Predicates can have parameters (the "subjects")
 
+> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Because of that, Litex can have a strong builtin verification mechanism based on the name of that predicate. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_by_induction`.
+
 ### Litex Syntax Reference
 
 **Predicate declaration**: `prop propName(parameter1 set1, parameter2 set2, ...)`

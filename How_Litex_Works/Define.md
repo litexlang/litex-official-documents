@@ -33,6 +33,8 @@ Description:
 - Verifies that the SpecFactStmt is satisfied
 - Defines objects in the environment with properties by definition.
 
+> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Because of that, Litex can have a strong builtin verification mechanism based on the name of that predicate. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_by_induction`.
+
 ## 2. HaveObjInNonEmptySetStmt
 
 syntax: have object from
