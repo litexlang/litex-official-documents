@@ -49,7 +49,7 @@ have a {1, 2, 3} # a is defined to be in {1, 2, 3}
 have f fn(R)R # f is a function from R to R
 ```
 
-As long as `$is_a_nonempty_set(nonempty_set_name)` is true, then you can do that.
+As long as `$is_nonempty_set(nonempty_set_name)` is true, then you can do that.
 
 ## Define a new object from a nonempty set and specifying its equality
 

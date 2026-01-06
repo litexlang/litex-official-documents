@@ -38,9 +38,9 @@ x $in A
 
 **Axiom: All objects are sets**
 
-Everything you defined as object is a set, satisfying `$is_a_set(object)`. This is because in set theory, everything is a set.
+Everything you defined as object is a set, satisfying `$is_set(object)`. This is because in set theory, everything is a set.
 
-When you see statements like `have a set`. It means `$is_a_set(a)`. It does not mean `set` is a set and a is an element of the set of all sets. Indeed, it is just a syntax sugar for `$is_a_set(a)`. Similarly, `have a nonempty_set`, `have a finite_set`, etc. are just syntax sugar for `$is_a_nonempty_set(a)`, `$is_a_finite_set(a)`. There are and only are 3 kinds of such keywords: `set`, `nonempty_set`, `finite_set` that have special semantics. Everything else is just a syntax sugar for `a $in setName`.
+When you see statements like `have a set`. It means `$is_set(a)`. It does not mean `set` is a set and a is an element of the set of all sets. Indeed, it is just a syntax sugar for `$is_set(a)`. Similarly, `have a nonempty_set`, `have a finite_set`, etc. are just syntax sugar for `$is_nonempty_set(a)`, `$is_finite_set(a)`. There are and only are 3 kinds of such keywords: `set`, `nonempty_set`, `finite_set` that have special semantics. Everything else is just a syntax sugar for `a $in setName`.
 
 
 **Definition: Equality of Sets**
@@ -404,7 +404,7 @@ have fn kv(x X) set =:
     case x = 2: Q
     case x = 3: Z
 
-$is_a_set(cart_prod(X, kv))
+$is_set(cart_prod(X, kv))
 index_set_of_cart_prod(cart_prod(X, kv)) = X
 cart_prod_proj(cart_prod(X, kv), 1) = kv(1) = N
 
@@ -413,7 +413,7 @@ have fn kv2(x N) set =:
     case x >= 2: N
     case x < 2: Q
 
-$is_a_set(cart_prod(N, kv2))
+$is_set(cart_prod(N, kv2))
 index_set_of_cart_prod(cart_prod(N, kv2)) = N
 cart_prod_proj(cart_prod(N, kv2), 1) = kv2(1) = Q
 cart_prod_proj(cart_prod(N, kv2), 2) = kv2(2) = N

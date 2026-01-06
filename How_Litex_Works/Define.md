@@ -33,7 +33,7 @@ Description:
 - Verifies that the SpecFactStmt is satisfied
 - Defines objects in the environment with properties by definition.
 
-> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Because of that, Litex can have a strong builtin verification mechanism based on the name of that predicate. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_by_induction`.
+> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Also, Litex searches facts with the same name as your given specific fact name for verification. It's impossible for other languages to do this because predicates can also be used as parameters to factual statements and the search space is all facts, which is too large to search. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_by_induction`.
 
 ## 2. HaveObjInNonEmptySetStmt
 
@@ -41,16 +41,16 @@ syntax: have object from
 
 Description:
 - Verify that from is a non-empty set, or is a keyword (set, nonempty_set, finite_set)
-- Define objects in the environment in that given nonempty set. When from is a keyword set, then $is_a_set(object) is true. When from is a keyword nonempty_set, then $is_a_nonempty_set(object) is true. When from is a keyword finite_set, then $is_a_finite_set(object) is true.
+- Define objects in the environment in that given nonempty set. When from is a keyword set, then $is_set(object) is true. When from is a keyword nonempty_set, then $is_nonempty_set(object) is true. When from is a keyword finite_set, then $is_finite_set(object) is true.
 
 example:
 
 ```litex
 have x R # R is a non-empty set, so you can take an element x from R
 have y nonempty_set
-have z y # $is_a_nonempty_set(y) is true, so you can take an element z from y
-have w set # $is_a_set(w) is true, so w is a set
-have v finite_set # $is_a_finite_set(v) is true, so v is a finite set
+have z y # $is_nonempty_set(y) is true, so you can take an element z from y
+have w set # $is_set(w) is true, so w is a set
+have v finite_set # $is_finite_set(v) is true, so v is a finite set
 ```
 
 ## 3. HaveObjEqualStmt

@@ -159,7 +159,7 @@ set_dim(x) = 3
 proj(x, 1) = R
 proj(x, 2) = Q
 proj(x, 3) = Z
-$is_a_set(x)
+$is_set(x)
 
 # Access elements and coordinates
 have a cart(R, Q, Z)
@@ -265,8 +265,8 @@ y $subset_of R
 have A set = {1, 2, 3}
 
 # Use built-in power_set
-$is_a_nonempty_set({1, 2, 3})
-$is_a_set(A)
+$is_nonempty_set({1, 2, 3})
+$is_set(A)
 have y power_set(A)
 y $subset_of A
 
@@ -513,12 +513,12 @@ know:
         $p(x)
         =>:
             1 $in {a R: $q(x, a), a > 0}
-            $is_a_nonempty_set({b R: $q(b, x), b > x})
+            $is_nonempty_set({b R: $q(b, x), b > x})
 
     $p(1)
 
 # 1 $in {a R: $q(1, a), a > 0}
-$is_a_nonempty_set({a R: $q(a, 1), a > 1})
+$is_nonempty_set({a R: $q(a, 1), a > 1})
 ```
 
 ```litex

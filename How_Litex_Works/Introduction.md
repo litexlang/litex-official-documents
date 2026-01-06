@@ -162,7 +162,7 @@ Verification is the core operation of Litex—it's what makes Litex a proof assi
 
 2. numeric expression computation (as string not floating-point): if a = 10 / 7, b = 20 / 14, then a = b
 
-3. builtin rules like: any set in the form of {...} satisfy $is_a_finite_set({...}), transitivity of >, <, etc.
+3. builtin rules like: any set in the form of {...} satisfy $is_finite_set({...}), transitivity of >, <, etc.
 
 The verification process works as follows: Starting from axioms (known facts), Litex applies inference rules to derive new facts. When a new fact is successfully verified, it is memorized in the knowledge base and becomes available for future verification attempts. This creates a growing body of mathematical knowledge that can be used to verify increasingly complex statements.
 

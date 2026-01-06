@@ -44,6 +44,16 @@ Here `have z R st $p(1, z)` works by 1. check related existential fact `exist z 
 
 Since `exist z R st $p(1, z)` is true, `have z R st $p(1, z)` works.
 
+You may want to write objects satisfy many properties at once, for example: `exist x R st x > 0, x < 10`. But since you can just write one property at a time, you can not do so. A way to get around this is using set builder `exist x R st x $in {z R: 0 < z, z < 10}`.
+
+```litex
+know forall x, y R: x < y => exist z R st z $in {t R: x < z, z < y}
+have z R st z $in {t R: 1 < t, t < 2}
+
+# Since `know forall x, y R: x < y => $is_nonempty_set({t R: x < t, t < y})`, you can write this:
+have a {t R: 1 < t, t < 2}
+```
+
 ## Prove Existence of an object
 
 Litex uses keyword `prove_exist` to prove existence of an object
@@ -78,3 +88,5 @@ In many ways, existential factual statements is equivalent to a set is a nonempt
 {x R: x > 0} $is_nonempty_with_item 1
 prove_exist 1 : x R st x > 0
 ```
+
+
