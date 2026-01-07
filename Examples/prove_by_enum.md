@@ -3,7 +3,7 @@
 # that the conclusion holds for all values satisfying the domain condition.
 #
 # General workflow:
-# 1. Enumeration: Iterate through each value in the given listset (e.g., {1, 2, 3, 4, 17})
+# 1. Enumeration: Iterate through each value in the given list_set (e.g., {1, 2, 3, 4, 17})
 # 2. Domain check: For each enumerated value, check if it satisfies the dom condition
 #    - If satisfied: proceed to execute the prove section
 #    - If not satisfied: skip this value (it's not in the domain)
@@ -33,4 +33,13 @@ prove_by_enum(x {1, 2, 3, 4, 17}):
     prove:
         do_nothing
 
+
+have s finite_set = {1, 2, 3, 4, 17}
+prove_by_enum(x s):
+    dom:
+        x % 2 = 0
+    =>:
+        x = 2 or x = 4
+    prove:
+        do_nothing
 ```

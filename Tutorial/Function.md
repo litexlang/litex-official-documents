@@ -39,6 +39,8 @@ x^2 + 2*x + 1 = (x + 1)^2
 
 **Natural Language**: "Addition, multiplication, exponentiation" → **Litex**: `+`, `*`, `^` → **Meaning**: Built-in functions with known properties
 
+> One big difference between prop and function is that, when defining a function, the function's domain cannot be a set. For example, you cannot write `fn(set)R`, because `set` here is not a specific set, and a function's domain must be a specified domain. However, props can take sets as parameters, because props are verbs rather than objects (functions are objects, nouns). For example: `prop is_a_group(x set, id x, mul fn(x, x)x, inv fn(x)x)`
+
 ### Detailed Explanation
 
 `+`, `-`, `*`, `/`, `^`, `%` are built-in functions. Their daily properties are already in the Litex kernel. You can use them directly without any declaration:

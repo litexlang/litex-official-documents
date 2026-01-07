@@ -3,21 +3,14 @@ claim:
     forall x, y R:
         abs(x + y) <= abs(x) + abs(y)
     prove:
-        prove_in_each_case:
-            or:
-                x >= 0
-                x < 0
+        prove_case_by_case:
             =>:
                 abs(x + y) <= abs(x) + abs(y)
-            prove:
-                x >= 0
-                prove_in_each_case:
-                    or:
-                        y >= 0
-                        y < 0
+            case x >= 0:
+                prove_case_by_case:
                     =>:
                         abs(x + y) <= abs(x) + abs(y)
-                    prove:
+                    case y >= 0:
                         y >= 0
                         abs(x) = x
                         abs(y) = y
@@ -25,17 +18,14 @@ claim:
                         abs(x + y) = x + y
                         abs(x + y) = abs(x) + abs(y)
                         abs(x + y) <= abs(x) + abs(y)
-                    prove:
+                    case y < 0:
                         y < 0
                         abs(x) = x
                         abs(y) = -y
-                        prove_in_each_case:
-                            or:
-                                x + y >= 0
-                                x + y < 0
+                        prove_case_by_case:
                             =>:
                                 abs(x + y) <= abs(x) + abs(y)
-                            prove:
+                            case x + y >= 0:
                                 x + y >= 0
                                 abs(x + y) = x + y
                                 y < 0
@@ -48,7 +38,7 @@ claim:
                                 x + y < x
                                 x + y <= x + (-y)
                                 abs(x + y) <= abs(x) + abs(y)
-                            prove:
+                            case x + y < 0:
                                 x + y < 0
                                 abs(x + y) = -(x + y) = -x - y
                                 x >= 0
@@ -58,25 +48,19 @@ claim:
                                 -y <= x + (-y)
                                 -x - y <= x + (-y)
                                 abs(x + y) <= abs(x) + abs(y)
-            prove:
+            case x < 0:
                 x < 0
-                prove_in_each_case:
-                    or:
-                        y >= 0
-                        y < 0
+                prove_case_by_case:
                     =>:
                         abs(x + y) <= abs(x) + abs(y)
-                    prove:
+                    case y >= 0:
                         y >= 0
                         abs(x) = -x
                         abs(y) = y
-                        prove_in_each_case:
-                            or:
-                                x + y >= 0
-                                x + y < 0
+                        prove_case_by_case:
                             =>:
                                 abs(x + y) <= abs(x) + abs(y)
-                            prove:
+                            case x + y >= 0:
                                 x + y >= 0
                                 abs(x + y) = x + y
                                 x < 0
@@ -89,7 +73,7 @@ claim:
                                 x + y <= y
                                 x + y <= (-x) + y
                                 abs(x + y) <= abs(x) + abs(y)
-                            prove:
+                            case x + y < 0:
                                 x + y < 0
                                 abs(x + y) = -(x + y) = -x - y
                                 y >= 0
@@ -97,7 +81,7 @@ claim:
                                 -x - y <= -x
                                 -x - y <= (-x) + y
                                 abs(x + y) <= abs(x) + abs(y)
-                    prove:
+                    case y < 0:
                         y < 0
                         abs(x) = -x
                         abs(y) = -y

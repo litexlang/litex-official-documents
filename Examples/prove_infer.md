@@ -1,0 +1,19 @@
+```litex
+prop p(x R):
+    x > 2
+
+prove_infer $p(x):
+    =>:
+        x > 0
+    prove:
+        x > 2
+        x > 0
+
+prove_infer $p(x) => 1 / x > 0:
+    x > 2
+    x > 0
+
+let x R: $p(x)
+
+forall x R: $p(x) => x > 0, 1 / x > 0
+```

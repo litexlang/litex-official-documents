@@ -1,0 +1,7 @@
+```litex
+have X set
+have Y finite_set
+let f fn(X)Y
+know $is_injective_fn(X, Y, f)
+$is_injective_fn_to_finite_set_implies(X, Y, f)
+```
