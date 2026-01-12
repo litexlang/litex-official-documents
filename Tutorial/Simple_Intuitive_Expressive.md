@@ -201,3 +201,14 @@ The purpose of this slim tutorial is:
 Don't forget to run the examples yourself! You can learn much much faster if you read and write the examples yourself!
 
 The best way to learn Litex is to try writing the examples from the tutorial yourself, or translate the mathematics (or reasoning) you care about into Litex.
+
+
+# Interesting Example of ambiguity of natural language
+
+白马非马是著名的中文成立，意思是说白马不是马。这里的谓词“是”有两种解释方式
+
+1. 白马是马的一种。在集合论语言里，就是说所有的白马是在马这个集合里的
+
+2. 是的意思是等于。即白马这个集合等于马这个集合
+
+这里1.中是对的；2是错的。
