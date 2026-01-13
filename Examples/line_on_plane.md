@@ -6,7 +6,7 @@ have fn:
     add(a cart(R, R), b cart(R, R)) cart(R, R):
         add(a, b) = (a[1] + b[1], a[2] + b[2])
 
-    prove:
+    prove_exist:
         have c cart(R, R) = (a[1] + b[1], a[2] + b[2])
     = c
 
@@ -14,7 +14,7 @@ have fn:
     sub(a cart(R, R), b cart(R, R)) cart(R, R):
         sub(a, b) = (a[1] - b[1], a[2] - b[2])
 
-    prove:
+    prove_exist:
         have c cart(R, R) = (a[1] - b[1], a[2] - b[2])
     = c
 
@@ -22,7 +22,7 @@ have fn:
     sm(a R, b cart(R, R)) cart(R, R):
         sm(a, b) = (a * b[1], a * b[2])
 
-    prove:
+    prove_exist:
         have c cart(R, R) = (a * b[1], a * b[2])
     = c
 
@@ -30,7 +30,7 @@ have fn:
     mod(a cart(R, R)) R:
         mod(a) = sqrt(a[1]^2 + a[2]^2)
 
-    prove:
+    prove_exist:
         a[1]^ 2 >= 0
         a[2]^ 2 >= 0
         a[1]^2 + a[2]^2 >= 0
@@ -41,7 +41,7 @@ have fn:
     prod(a cart(R, R), b cart(R, R)) R:
         prod(a, b) = a[1] * b[1] + a[2] * b[2]
 
-    prove:
+    prove_exist:
         have c R = a[1] * b[1] + a[2] * b[2]
     = c
 
@@ -53,7 +53,7 @@ have fn:
             mod(b) != 0
         =>:
             cos(a, b) = prod(a, b) / (mod(a) * mod(b))
-    prove:
+    prove_exist:
         have c R = prod(a, b) / (mod(a) * mod(b))
     = c
 
@@ -64,7 +64,7 @@ have fn:
             mod(b) != 0
         =>:
             sin(a, b) = (a[1] * b[2] - a[2] * b[1]) / (mod(a) * mod(b))
-    prove:
+    prove_exist:
         have c R = (a[1] * b[2] - a[2] * b[1]) / (mod(a) * mod(b))
     = c
 
@@ -76,7 +76,7 @@ have fn:
             cos(a, b) != 0
         =>:
             tan(a, b) = sin(a, b) / cos(a, b)
-    prove:
+    prove_exist:
         have c R = sin(a, b) / cos(a, b)
     = c
 
@@ -88,7 +88,7 @@ have fn:
             sin(a, b) != 0
         =>:
             cot(a, b) = cos(a, b) / sin(a, b)
-    prove:
+    prove_exist:
         have c R = cos(a, b) / sin(a, b)
     = c
 
@@ -101,7 +101,7 @@ have fn:
             mod(b) != 0
         =>:
             vsp(a, b) = prod(a, b) / (mod(b) * mod(b))
-    prove:
+    prove_exist:
         mod(b) * mod(b) > 0
         have c R = prod(a, b) / (mod(b) * mod(b))
     = c
@@ -113,7 +113,7 @@ have fn:
         =>:
             mod(b) * mod(b) > 0
             project(a, b) = sm(prod(a, b) / (mod(b) * mod(b)), b) = sm(vsp(a, b), b)
-    prove:
+    prove_exist:
         have c cart(R, R) = sm(prod(a, b) / (mod(b) * mod(b)), b)
     = c
 
@@ -187,7 +187,7 @@ have fn:
         =>:
             orth_decomposition(a, e1, e2)[1] = mod(project(a, e1))
             orth_decomposition(a, e1, e2)[2] = mod(project(a, e2))
-    prove:
+    prove_exist:
         have c cart(R, R) = (mod(project(a, e1)), mod(project(a, e2)))
     = c
 
@@ -235,7 +235,7 @@ have fn:
             mod(a) != 0
         =>:
             normal_vector(a) = (a[2], -a[1])
-    prove:
+    prove_exist:
         have c cart(R, R) = (a[2], -a[1])
     = c
 

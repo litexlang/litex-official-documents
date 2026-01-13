@@ -7,7 +7,7 @@ forall x Z:
 
 forall x Z: x < 0 => -x > 0, 7 * (-x) > 0, 7 * (-x) + 2 > 0, 7 * (-x) + 2 $in N
 
-forall x Z: x >= 0 => 7 * x >= 0, 7 * x + 1 >= 0, 7 * x $in N, 7 * x + 1 $in N
+forall x Z: x >= 0 => 7 * x >= 0, 7 * x + 1 >= 0, x $in N, 7 * x $in N, 7 * x + 1 $in N
 
 have fn g(x Z) N =:
     case x < 0: 7 * (-x) + 2
@@ -71,4 +71,5 @@ prove_exist f: f2 fn(N)Z st $is_injective_fn(N, Z, f2)
 prove_exist g: g2 fn(Z)N st $is_injective_fn(Z, N, g2)
 
 $order_is_the_same(N, Z)
+
 ```

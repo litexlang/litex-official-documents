@@ -63,7 +63,7 @@ prove:
             x > 0
             =>:
                 h(x) > 1
-        prove:
+        prove_exist:
             do_nothing
         = 100
 

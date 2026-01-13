@@ -1,0 +1,7 @@
+```litex
+have s nonempty_set, x s
+
+{x} $subset_of s
+
+union({x}, set_minus(s, {x})) = s
+```
