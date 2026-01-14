@@ -58,7 +58,7 @@ prove:
         case x <= 0: 100
 
     prove forall x R: g(x) > 0:
-        prove_case_by_case:
+        prove_cases:
             g(x) > 0
             case x > 0:
                 g(x) = x

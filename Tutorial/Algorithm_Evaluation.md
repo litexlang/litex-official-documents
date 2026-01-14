@@ -67,7 +67,7 @@ algo f(x):
     if x <= 2:
         claim:
             not $p(x) 
-            prove_by_contradiction:
+            prove_contra:
                 $p(x)
                 x > 2
                 not x <= 2

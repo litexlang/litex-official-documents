@@ -280,7 +280,7 @@ singleton1 $subset_of A
 singleton1 $in power_set(A)
 
 have pair12 set = {1, 2}
-prove_by_enum(x pair12):
+prove_enum(x pair12):
     x $in A
 pair12 $subset_of A
 pair12 $in power_set(A)

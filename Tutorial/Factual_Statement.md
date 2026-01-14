@@ -550,7 +550,7 @@ let x R: x > 5
 not x <= 5
 ```
 
-To prove the negation of a specific fact, you can use `prove_by_contradiction` in `claim` block. For example:
+To prove the negation of a specific fact, you can use `prove_contra` in `claim` block. For example:
 
 ```litex
 prop p(x R)
@@ -558,7 +558,7 @@ prop q(x R)
 know forall x R: $p(x) => $q(x); not $q(1)
 claim:
     not $p(1)
-    prove_by_contradiction:
+    prove_contra:
         $q(1) # is true, because $p(1) is assumed to be true
 ```
 

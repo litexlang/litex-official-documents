@@ -43,3 +43,5 @@ prop is_metric_space(s set, d fn(s, s) R):
 ```
 
 While category theory excels in fields like algebraic geometry, set theory remains the dominant language across analysis, algebra, and topology. Mathematical education—from calculus and linear algebra to probability and combinatorics—is predominantly expressed through set theory. Mainstream formal languages like Lean and Isabelle adopt the categorical/functional programming paradigm, yet most mathematicians think in terms of sets. Litex aligns with this natural mode of mathematical thought.
+
+> structure = set + functions on that set

@@ -3,11 +3,11 @@ claim:
     forall x, y R:
         abs(x + y) <= abs(x) + abs(y)
     prove:
-        prove_case_by_case:
+        cases:
             =>:
                 abs(x + y) <= abs(x) + abs(y)
             case x >= 0:
-                prove_case_by_case:
+                cases:
                     =>:
                         abs(x + y) <= abs(x) + abs(y)
                     case y >= 0:
@@ -22,7 +22,7 @@ claim:
                         y < 0
                         abs(x) = x
                         abs(y) = -y
-                        prove_case_by_case:
+                        cases:
                             =>:
                                 abs(x + y) <= abs(x) + abs(y)
                             case x + y >= 0:
@@ -50,14 +50,14 @@ claim:
                                 abs(x + y) <= abs(x) + abs(y)
             case x < 0:
                 x < 0
-                prove_case_by_case:
+                cases:
                     =>:
                         abs(x + y) <= abs(x) + abs(y)
                     case y >= 0:
                         y >= 0
                         abs(x) = -x
                         abs(y) = y
-                        prove_case_by_case:
+                        cases:
                             =>:
                                 abs(x + y) <= abs(x) + abs(y)
                             case x + y >= 0:

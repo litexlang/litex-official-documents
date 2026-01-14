@@ -44,10 +44,10 @@ The keywords in Litex are almost identical in meaning and usage to the commonly 
 | `finite_set` | a set with a finite number of elements |
 | `prove` | open a local environment to write some statements without affecting the global environment |
 | `claim` | claim a factual statement, prove it here |
-| `prove_by_contradiction` | prove by contradiction |
+| `prove_contra` | prove by contradiction |
 | `prove_in_each_case` | prove by case analysis |
-| `prove_by_induction` | prove by mathematical induction |
-| `prove_by_enum` | prove a universal statement by iterating over a finite set |
+| `prove_induc` | prove by mathematical induction |
+| `prove_enum` | prove a universal statement by iterating over a finite set |
 | `prove_in_range` | prove a universal statement by iterating over a range of integers |
 | `import` | import a file or directory |
 | `item_exists_in` | exist a object in a set |

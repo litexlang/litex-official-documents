@@ -2,7 +2,7 @@
 prop p(x, y N)
 know forall x, y N: not $p(x, y) <=> x = y
 
-prove_is_commutative_prop(not $p(x, y)):
+com_prop(not $p(x, y)):
     prove:
         not $p(x, y)
         x = y
@@ -19,7 +19,7 @@ forall x, y N: not $p(x, y) <=> not $p(y, x)
 prop q(x, y N)
 know forall x, y N: $q(x, y) <=> x = y
 
-prove_is_commutative_prop($q(x, y)):
+com_prop($q(x, y)):
     prove:
         $q(x, y)
         x = y

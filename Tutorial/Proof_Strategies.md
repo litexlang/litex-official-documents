@@ -26,7 +26,7 @@ In math, one common way to prove a statement is to prove its negation is false. 
 
 ```
 # short version
-prove_by_contradiction fact_you_want_to_prove:
+prove_contra fact_you_want_to_prove:
     statement1
     ...
     final_statement
@@ -34,13 +34,13 @@ prove_by_contradiction fact_you_want_to_prove:
 # multiple lines version
 claim:
     fact_you_want_to_prove
-    prove_by_contradiction:
+    prove_contra:
         statement1
         ...
         final_statement
 ```
 
-`prove_by_contradiction` should always be used in `claim` block. In the environment of `prove_by_contradiction`, `not fact_you_want_to_prove` is assumed to be true. To make the process of proving by contradiction works, the `final_statement` should be a fact that is both true and false. After that, the assumption `not fact_you_want_to_prove` is false and `fact_you_want_to_prove` is true.
+`prove_contra` should always be used in `claim` block. In the environment of `prove_contra`, `not fact_you_want_to_prove` is assumed to be true. To make the process of proving by contradiction works, the `final_statement` should be a fact that is both true and false. After that, the assumption `not fact_you_want_to_prove` is false and `fact_you_want_to_prove` is true.
 
 For example:
 
@@ -55,13 +55,13 @@ know:
     not $q(17)
 
 # short version
-prove_by_contradiction not $g(17):
+prove_contra not $g(17):
     $s(17)
     $q(17)
 
 claim:
     not $g(17)
-    prove_by_contradiction:
+    prove_contra:
         $s(17)
         $q(17)
 ```
@@ -84,7 +84,7 @@ know forall x, y, z N => logBase(z, x^y) = y * logBase(z, x), logBase(z, x*y) = 
 
 know forall x N: x != 0 => logBase(x, x) = 1
 
-prove_by_contradiction not sqrt(2) $in Q:
+prove_contra not sqrt(2) $in Q:
     sqrt(2) > 0
     have x, y st $Q_pos_in_frac(sqrt(2))
     
@@ -143,10 +143,10 @@ Once both steps are done, you’ve shown the statement works for the first case,
 
 It is so simple that people often overlook it; yet it is actually a mathematical axiom, without which the whole tower of mathematics would collapse.
 
-Litex uses keyword `prove_by_induction` to support proving by induction.
+Litex uses keyword `prove_induc` to support proving by induction.
 
 ```
-prove_by_induction(specific_fact, the_object_you_want_to_iterate_over, induction_begin_from_positive_index)
+prove_induc(specific_fact, the_object_you_want_to_iterate_over, induction_begin_from_positive_index)
 ```
 
 For example, there is a proposition `p(x, n)` that is true for `n = 2` and when `p` is true for `n`, it is also true for `n+1` if `n >= 2`. We want to prove that `p(x, n)` is true for all `n >= 2`.
@@ -160,7 +160,7 @@ know:
     forall n N_pos: n >= 2, $p(x, n) => $p(x, n+1)
     $p(x, 2)
 
-prove_by_induction($p(x, n), n, 2)
+prove_induc($p(x, n), n, 2)
 
 forall n N_pos: n >= 2 => $p(x,n)
 ```
@@ -186,7 +186,7 @@ This approach is especially useful when direct reasoning is difficult, but the p
 The syntax is:
 
 ```
-prove_case_by_case:
+prove_cases:
     =>:
         then_facts
     case condition1:
@@ -207,7 +207,7 @@ know forall x R: x > 0 => x^2 > 0
 claim:
     forall a R => a^2 >= 0
     prove:
-        prove_case_by_case:
+        prove_cases:
             =>:
                 a^2 >= 0
             case a > 0:
@@ -371,10 +371,10 @@ claim:
 
 If a set is finite, then to prove that forall x in this set some property holds, we can simply check each element one by one. In this way, unlike the general case of infinite sets, the conclusion can be obtained by directly traversing all the elements in the set.
 
-Litex uses keyword `prove_by_enum` to support proving over finite set.
+Litex uses keyword `prove_enum` to support proving over finite set.
 
 ```
-prove_by_enum(x_name, set_name)
+prove_enum(x_name, set_name)
     ... # domain facts
     =>:
         ... # then facts
@@ -391,7 +391,7 @@ There can be no domain facts, no prove sections, or both.
 ```litex
 have s set = {1, 2, 3}
 
-prove_by_enum(x s):
+prove_enum(x s):
     x > 0 # then facts
 ```
 
@@ -401,7 +401,7 @@ Empty set, which is the very special case of finite set, is also supported. As y
 have s set = {}
 
 # any factual statement is true on empty set
-prove_by_enum(x s):
+prove_enum(x s):
     x > 0
     x < 0
 ```
@@ -427,7 +427,7 @@ prove_for i range(5, 8):
     i = 5 or i = 6 or i = 7
 
 prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
-    prove_case_by_case:
+    prove_cases:
         =>:
             x >= 5
             x < 8

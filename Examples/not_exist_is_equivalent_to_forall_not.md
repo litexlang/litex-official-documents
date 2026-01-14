@@ -29,7 +29,7 @@ prove:
         $q(x, y) or $t(x, y)
 
     prove forall y R: not $p(y):
-        prove_by_contradiction not $p(y):
+        prove_contra not $p(y):
             have x st $p(y)
             $q(x, y) or $t(x, y)
 

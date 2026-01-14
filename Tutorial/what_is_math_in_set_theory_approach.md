@@ -136,7 +136,7 @@ prove:
 
     have c set = {a, b}
     
-    prove_by_enum(c_item c):
+    prove_enum(c_item c):
         item $in c_item
 
     item $in cap(c)

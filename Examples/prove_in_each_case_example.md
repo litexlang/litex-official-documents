@@ -30,7 +30,7 @@ claim:
 
         claim:
             not x2 = 8
-            prove_by_contradiction:
+            prove_contra:
                 prove_in_each_case:
                     x1 = 8 or x1 = -14
                     =>:
@@ -44,7 +44,7 @@ claim:
         
         claim:
             not x1 = -14
-            prove_by_contradiction:
+            prove_contra:
                 not x1 > x2
         x1 = 8
 

@@ -41,7 +41,7 @@ claim:
             prove:
                 claim:
                     not $exist_items_in_the_same_box(f, m+1)
-                    prove_by_contradiction:
+                    prove_contra:
                         know not $exist_items_in_the_same_box(f, m)
                         $exist_items_in_the_same_box(f, m)
 
@@ -52,7 +52,7 @@ claim:
             forall n N_pos => $exist_items_in_the_same_box(f, n)
     prove:
         $exist_items_in_the_same_box(f, 1)
-        prove_by_induction($exist_items_in_the_same_box(f, n), n, 1)
+        prove_induc($exist_items_in_the_same_box(f, n), n, 1)
 
 """
 ```

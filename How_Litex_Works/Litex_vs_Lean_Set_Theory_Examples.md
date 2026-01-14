@@ -189,7 +189,7 @@ forall x {y R: y > 0}:
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_by_contradiction {1,2,3} != {1,2}:</code><br>
+      <code>prove_contra {1,2,3} != {1,2}:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2,3}) = 3</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2}) = 2</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2,3}) = count({1,2})</code><br>
@@ -213,7 +213,7 @@ Litex's built-in count function derives the number of items in a set. So Litex a
 Lean requires explicit cardinality computation using `.card` and manual proof by contradiction. The proof structure is clear but requires more steps to establish the contradiction.
 
 ```litex
-prove_by_contradiction {1,2,3} != {1,2}:
+prove_contra {1,2,3} != {1,2}:
     count({1,2,3}) = 3
     count({1,2}) = 2
     count({1,2,3}) = count({1,2})
@@ -271,7 +271,7 @@ The proof proceeds in two steps:
       <code>prove_for i range(5, 8):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;i = 5 or i = 6 or i = 7</code><br><br>
       <code>prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:</code><br>
-      <code>&nbsp;&nbsp;prove_case_by_case:</code><br>
+      <code>&nbsp;&nbsp;prove_cases:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x >= 5</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x < 8</code><br>
@@ -310,7 +310,7 @@ prove_for i range(5, 8):
     i = 5 or i = 6 or i = 7
 
 prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
-    prove_case_by_case:
+    prove_cases:
         =>:
             x >= 5
             x < 8
@@ -434,7 +434,7 @@ a $in {x N: x % 17 = 0, $p(x)}
 
 **Task**: Prove that for any element x in the set `{1, 2, 3, 4, 17}`, if x is even (i.e., `x % 2 = 0`), then x must be either 2 or 4.
 
-This example demonstrates how Litex's `prove_by_enum` construct allows direct proof by enumerating all cases in a finite set, which is a common and intuitive proof technique.
+This example demonstrates how Litex's `prove_enum` construct allows direct proof by enumerating all cases in a finite set, which is a common and intuitive proof technique.
 
 <table style="border-collapse: collapse; width: 100%;">
   <tr>
@@ -443,7 +443,7 @@ This example demonstrates how Litex's `prove_by_enum` construct allows direct pr
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_by_enum(x {1, 2, 3, 4, 17}):</code><br>
+      <code>prove_enum(x {1, 2, 3, 4, 17}):</code><br>
       <code>&nbsp;&nbsp;dom:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;x % 2 = 0</code><br>
       <code>&nbsp;&nbsp;=>:</code><br>
@@ -468,12 +468,12 @@ This example demonstrates how Litex's `prove_by_enum` construct allows direct pr
   </tr>
 </table>
 
-Litex's `prove_by_enum` iterates over items in a set and when the item satisfies the condition (domain restriction), it runs the proof section and the then section, then concludes the universal fact `forall x some_list_set: dom => then`. In this case, the domain condition is `x % 2 = 0`, the then condition is `x = 2 or x = 4`, and the proof steps are `do_nothing`. After all items are iterated, it concludes the `forall x {1, 2, 3, 4, 17}: x % 2 = 0 => x = 2 or x = 4`.
+Litex's `prove_enum` iterates over items in a set and when the item satisfies the condition (domain restriction), it runs the proof section and the then section, then concludes the universal fact `forall x some_list_set: dom => then`. In this case, the domain condition is `x % 2 = 0`, the then condition is `x = 2 or x = 4`, and the proof steps are `do_nothing`. After all items are iterated, it concludes the `forall x {1, 2, 3, 4, 17}: x % 2 = 0 => x = 2 or x = 4`.
 
 Lean requires explicit case analysis using tactics like `rcases` and manual verification of each case. The proof structure is clear but requires more boilerplate to enumerate all possibilities and handle each case separately.
 
 ```litex
-prove_by_enum(x {1, 2, 3, 4, 17}):
+prove_enum(x {1, 2, 3, 4, 17}):
     dom:
         x % 2 = 0
     =>:

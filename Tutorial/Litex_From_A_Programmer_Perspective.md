@@ -16,7 +16,7 @@ Litex statements are divided into:
 
 2. **Factual statements**, also called propositions, such as `1 + 1 = 2`, which asks Litex whether `1 + 1` equals 2. All factual statements require a predicate to determine truth or falsity. For example, `1 + 1 = 2` is a proposition, and `=` is the predicate.
 
-3. **Proof strategies**, such as `prove_by_contradiction`, which represents proof by contradiction
+3. **Proof strategies**, such as `prove_contra`, which represents proof by contradiction
 
 4. **Auxiliary statements**, such as `import`, which imports a package or file
 
@@ -346,14 +346,14 @@ Note the difference between Litex and Python. In Litex, if a statement is `true`
 
 ## Proof Strategies
 
-The design of proof strategies corresponds to keywords in first-order logic and axioms in set theory. For example, `not` corresponds to `prove_by_contradiction`, `or` corresponds to `prove_in_each_case`, and `prove_by_induction` corresponds to mathematical induction.
+The design of proof strategies corresponds to keywords in first-order logic and axioms in set theory. For example, `not` corresponds to `prove_contra`, `or` corresponds to `prove_in_each_case`, and `prove_induc` corresponds to mathematical induction.
 
 | First-Order Logic & Mathematical Axiom Keywords | Corresponding Proof Strategy |
 |--------------|--------------|
-| `not` | `prove_by_contradiction` |
+| `not` | `prove_contra` |
 | `or` | `prove_in_each_case` |
-| Mathematical Induction | `prove_by_induction` |
-| Set Theory Axiom (enumeration for defining sets) | `prove_by_enum` |
+| Mathematical Induction | `prove_induc` |
+| Set Theory Axiom (enumeration for defining sets) | `prove_enum` |
 | Ordering and enumeration of integers | `prove_in_range` |
 
 1. **prove_in_each_case**
@@ -388,13 +388,13 @@ prove_in_each_case:
         1 >= 0
 ```
 
-2. **prove_by_contradiction**
+2. **prove_contra**
 
 Corresponds to `not` in first-order logic. By assuming the negation of the conclusion and deriving a contradiction, we prove the original conclusion.
 
 Syntax:
 ```
-prove_by_contradiction:
+prove_contra:
     not conclusion  # Assume the negation of the conclusion
     ...
     # Derive a contradiction
@@ -409,19 +409,19 @@ know forall x R: $p(x) => $q(x)
 
 claim:
     not $p(1)
-    prove_by_contradiction:
+    prove_contra:
         $p(1)  # Assume $p(1) holds
         $q(1)  # Derive $q(1) from $p(1) and known conditions
         # But we know not $q(1), contradiction
 ```
 
-3. **prove_by_enum**
+3. **prove_enum**
 
 Corresponds to enumeration in set theory axioms. For finite sets, prove properties by enumerating each element.
 
 Syntax:
 ```
-prove_by_enum(x, set_name):
+prove_enum(x, set_name):
     property_to_prove
 ```
 
@@ -429,7 +429,7 @@ prove_by_enum(x, set_name):
 prop p(x R)
 have set s = {1, 2, 3}
 
-prove_by_enum(x, s):
+prove_enum(x, s):
     x > 0
 ```
 
@@ -456,13 +456,13 @@ prove_in_range(x, 2, 996):
     997 % x != 0
 ```
 
-5. **prove_by_induction**
+5. **prove_induc**
 
 Corresponds to mathematical induction. Used to prove properties that hold for all natural numbers.
 
 Syntax:
 ```
-prove_by_induction($prop(x, n), n, base_case)
+prove_induc($prop(x, n), n, base_case)
 ```
 
 ```litex
@@ -471,7 +471,7 @@ let x R
 know forall n N_pos: n >= 1, $p(x, n) => $p(x, n+1)
 know $p(x, 1)
 
-prove_by_induction($p(x, n), n, 1)
+prove_induc($p(x, n), n, 1)
 ```
 
 ## Auxiliary Keywords
@@ -506,26 +506,26 @@ import "examples/algorithm.md"
 import "tutorial"
 ```
 
-3. **prove_is_commutative_prop, prove_is_transitive_prop**
+3. **prove_com_prop, prove_trans_prop**
 
 Prove that a `prop` predicate has commutativity or transitivity. These properties will be used in subsequent proofs.
 
 Syntax:
 ```
-prove_is_commutative_prop($prop(x, y))
-prove_is_transitive_prop($prop(x, y))
+prove_com_prop($prop(x, y))
+prove_trans_prop($prop(x, y))
 ```
 
 ```litex
 prop p(x R, y R)
 
 # Prove commutativity
-prove_is_commutative_prop(not $p(x, y))
+prove_com_prop(not $p(x, y))
 # Afterward, if not $p(x, y) is not proven, Litex will try to prove not $p(y, x)
 # If not $p(x, y) is proven, Litex will automatically prove $p(y, x)
 
 # Prove transitivity
-prove_is_transitive_prop($p(x, y))
+prove_trans_prop($p(x, y))
 # Afterward, if $p(x, z) is not proven, Litex will iterate through all known t such that $p(x, t) holds
 # If some t satisfies $p(t, z), then $p(x, z) is proven
 ```
@@ -574,7 +574,7 @@ claim:
 
 claim:
     fact_to_prove
-    prove_by_contradiction:
+    prove_contra:
         # Proof by contradiction steps
         ...
 ```
@@ -598,7 +598,7 @@ know forall x R: $p(x) => $q(x)
 
 claim:
     not $p(1)
-    prove_by_contradiction:
+    prove_contra:
         $p(1)
         $q(1)
 ```

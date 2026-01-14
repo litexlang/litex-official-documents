@@ -273,7 +273,7 @@ prove forall y R: y > 0 => y > 0:
 prove 1 > 0:
     1 > 0
 
-prove_by_contradiction 1 > 0:
+prove_contra 1 > 0:
     1 > 0
 
 

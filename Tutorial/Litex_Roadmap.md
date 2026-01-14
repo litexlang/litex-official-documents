@@ -32,9 +32,9 @@ Litex's strength lies in its few but effective verification mechanisms that help
 
 Mathematics isn't just about truth values. Some statements define objects or predicates. Without the ability to define objects and predicates, the mathematical world would be very limited. We use `prop` to define predicates and `have` to define objects.
 
-Litex's built-in verification is simple. This makes it easy to learn and efficient to run, but special proof formats require additional keywords like `prove_by_contradiction` and `prove_case_by_case`.
+Litex's built-in verification is simple. This makes it easy to learn and efficient to run, but special proof formats require additional keywords like `prove_contra` and `prove_cases`.
 
-> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Also, Litex searches facts with the same name as your given specific fact name for verification. It's impossible for other languages to do this because predicates can also be used as parameters to factual statements and the search space is all facts, which is too large to search. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_by_induction`.
+> In Litex, you can not pass proposition predicates as parameters to factual statements. You can only pass objects as parameters to factual statements. This is one of the key differences between Litex and other formal languages. Also, Litex searches facts with the same name as your given specific fact name for verification. It's impossible for other languages to do this because predicates can also be used as parameters to factual statements and the search space is all facts, which is too large to search. Also, Litex provides you enough keywords to pass predicate when necessary, like  `prove_induc`.
 
 ## Effects of Litex Statements
 
@@ -189,13 +189,13 @@ know:
     not $q(17)
 
 # short version
-prove_by_contradiction not $g(17):
+prove_contra not $g(17):
     $s(17)
     $q(17)
 
 claim:
     not $g(17)
-    prove_by_contradiction:
+    prove_contra:
         $s(17)
         $q(17)
 ```

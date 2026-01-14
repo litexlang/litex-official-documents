@@ -475,7 +475,7 @@ know forall x R: $p(x) => $q(x)
 
 claim:
     not $p(1)
-    prove_by_contradiction:
+    prove_contra:
         $p(1)
         $q(1)
 ```
@@ -504,7 +504,7 @@ let x R
 know forall n N_pos: n >= 1, $p(x, n) => $p(x, n+1)
 know $p(x, 1)
 
-prove_by_induction($p(x, n), n, 1)
+prove_induc($p(x, n), n, 1)
 ```
 
 ### Proof over Finite Set
@@ -512,7 +512,7 @@ prove_by_induction($p(x, n), n, 1)
 prop p(x R)
 have set s := {1, 2, 3}
 
-prove_by_enum(x, s):
+prove_enum(x, s):
     x > 0
 ```
 
@@ -773,10 +773,10 @@ The keywords in Litex are almost identical in meaning and usage to the commonly 
 | `finite_set` | a set with a finite number of elements |
 | `prove` | open a local environment to write some statements without affecting the global environment |
 | `claim` | claim a factual statement, prove it here |
-| `prove_by_contradiction` | prove by contradiction |
+| `prove_contra` | prove by contradiction |
 | `prove_in_each_case` | prove by case analysis |
-| `prove_by_induction` | prove by mathematical induction |
-| `prove_by_enum` | prove a universal statement by iterating over a finite set |
+| `prove_induc` | prove by mathematical induction |
+| `prove_enum` | prove a universal statement by iterating over a finite set |
 | `prove_in_range` | prove a universal statement by iterating over a range of integers |
 | `import` | import a file or directory |
 | `item_exists_in` | exist a object in a set |

@@ -7,7 +7,7 @@ claim:
         =>:
             s = s2
     prove:
-        prove_by_enum(x s2):
+        prove_enum(x s2):
             x $in s
         prove_in_range_set(1, 10, x s):
             x $in s2

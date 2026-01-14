@@ -79,12 +79,12 @@ The goal of Litex is to write reasoning (or math in general) as code. Since no m
 
 ### **Special Proof Strategies**
 
-* `prove_by_contradiction`
+* `prove_contra`
 * `prove_in_each_case`
-* `prove_by_induction`
-* `prove_by_enum`
+* `prove_induc`
+* `prove_enum`
 * `prove_in_range`
-* `prove_is_transitive_prop`
+* `prove_trans_prop`
 
 ---
 

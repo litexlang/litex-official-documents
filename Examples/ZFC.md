@@ -37,11 +37,11 @@ forall x {1, 2}: x = 1 or x = 2
 prove union({1, 2}, {3, 4}) = {1, 2, 3, 4}:
     prove forall x union({1, 2}, {3, 4}): x $in {1, 2, 3, 4}:
         x $in {1, 2} or x $in {3, 4}
-        prove_case_by_case:
+        cases:
             =>:
                 x $in {1, 2, 3, 4}
             case x $in {1, 2}:
-                prove_case_by_case:
+                cases:
                     =>:
                         x $in {1, 2, 3, 4}
                     case x = 1:
@@ -49,7 +49,7 @@ prove union({1, 2}, {3, 4}) = {1, 2, 3, 4}:
                     case x = 2:
                         x $in {1, 2, 3, 4}
             case x $in {3, 4}:
-                prove_case_by_case:
+                cases:
                     =>:
                         x $in {1, 2, 3, 4}
                     case x = 3:
@@ -57,7 +57,7 @@ prove union({1, 2}, {3, 4}) = {1, 2, 3, 4}:
                     case x = 4:
                         x $in {1, 2, 3, 4}
     prove forall x {1, 2, 3, 4}: x $in union({1, 2}, {3, 4}):
-        prove_case_by_case:
+        cases:
             =>:
                 x $in union({1, 2}, {3, 4})g
             case x = 1:

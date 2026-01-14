@@ -55,7 +55,7 @@ prove_algo A(x):
     if x != 1:
         claim:
             not $p(x)
-            prove_by_contradiction:
+            prove_contra:
                 $p(x)
                 x = 1
         return

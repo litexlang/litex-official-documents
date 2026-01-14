@@ -564,7 +564,7 @@ Zero is not the successor of any natural number. For every natural number $n$, w
 - **Example**:
 ```litex
 prove forall n N: n + 1 != 0:
-    prove_by_contradiction n + 1 != 0:
+    prove_contra n + 1 != 0:
         n + 1 = 0
         n = -1
         -1 $in N
@@ -581,12 +581,12 @@ Different natural numbers have different successors. If $n \neq m$ for natural n
 - **Example**:
 ```litex
 prove forall n, m N: n != m => n + 1 != m + 1:
-    prove_by_contradiction n + 1 = m + 1:
+    prove_contra n + 1 = m + 1:
         n = (n+1) - 1 = (m+1)-1 = m
         n = m
 
 prove forall n, m N: not n + 1 = m + 1 => not n = m:
-    prove_by_contradiction n = m:
+    prove_contra n = m:
         n + 1 = m + 1
 ```
 - **Note**: This is the uniqueness axiom for natural number successors
@@ -596,8 +596,8 @@ prove forall n, m N: not n + 1 = m + 1 => not n = m:
 If a property $P(n)$ holds for $n=0$, and whenever it holds for some natural number $n$, it also holds for $n++$, then $P(n)$ holds for all natural numbers $n$. In symbols: $(P(0) \land (\forall n \in \mathbf{N}, P(n) \implies P(n++))) \implies (\forall n \in \mathbf{N}, P(n))$.
 
 **Correspondence in Litex**:
-- **Keywords**: `prove_by_induction`
-- **Expression**: `prove_by_induction($prop(x, n), n, base_case)`
+- **Keywords**: `prove_induc`
+- **Expression**: `prove_induc($prop(x, n), n, base_case)`
 - **Example**:
 ```litex
 prop p(x R, n N)
@@ -605,11 +605,11 @@ let x R
 know $p(x, 1)
 know forall n N_pos: $p(x, n) => $p(x, n + 1)
 
-prove_by_induction($p(x, n), n, 1)
+prove_induc($p(x, n), n, 1)
 
 forall n N_pos: $p(x, n)
 ```
-- **Note**: `prove_by_induction` is Litex's built-in proof strategy for mathematical induction
+- **Note**: `prove_induc` is Litex's built-in proof strategy for mathematical induction
 
 **Assumption: Existence of Natural Numbers**
 

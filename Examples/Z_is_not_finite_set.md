@@ -1,5 +1,5 @@
 ```litex
-prove_by_contradiction not $is_finite_set(Z):
+contra not $is_finite_set(Z):
     have x finite_set = closed_range(0, count(Z))
     0 <= count(Z)
     count(x) = count(Z) - 0 + 1

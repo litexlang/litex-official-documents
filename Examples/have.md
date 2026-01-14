@@ -5,7 +5,7 @@
 prove:
     have s set = {1, 2, 3}
 
-    prove_by_enum(x {1, 2, 3}):
+    enum(x {1, 2, 3}):
         x $in {3, 2, 1}
 
 prove:

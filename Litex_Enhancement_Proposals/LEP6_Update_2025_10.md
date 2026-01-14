@@ -7,7 +7,7 @@ Welcome everyone to register for the AI For Formal Language competition jointly 
 ## Major Kernel Updates
 
 1. **`or` is now infix notation**, which better aligns with human and AI intuition: `a = 1 or a = 2` instead of `or(a = 1, a = 2)`
-2. **`prove_is_transitive_prop`** allows props with transitivity to let the kernel directly use transitivity to prove related facts without manual writing: for example, `let a R: a > 2 \n a > 1` automatically holds
+2. **`prove_trans_prop`** allows props with transitivity to let the kernel directly use transitivity to prove related facts without manual writing: for example, `let a R: a > 2 \n a > 1` automatically holds
 3. **Symbol = value** allows values to exist as symbol assignments. If facts related to the symbol cannot be proven, the kernel automatically extracts the symbol's value to prove related facts; example: `let a R: a = 2 \n a > 1`
 4. **Fixed the long-standing whitespace issue** on Windows systems
 

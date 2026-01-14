@@ -314,7 +314,7 @@ but verification failed
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_by_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):</code><br>
+      <code>prove_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;x > y</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
@@ -334,12 +334,12 @@ but verification failed
   </tr>
 </table>
 
-Litex's `prove_by_enum` directly expresses the universal statement over finite sets and automatically enumerates all cases to verify the property. The syntax is intuitive: for all `x` in the first set and all `y` in the second set, prove that `x > y`. Litex handles the enumeration and verification automatically.
+Litex's `prove_enum` directly expresses the universal statement over finite sets and automatically enumerates all cases to verify the property. The syntax is intuitive: for all `x` in the first set and all `y` in the second set, prove that `x > y`. Litex handles the enumeration and verification automatically.
 
 Lean requires explicit definition of the finite sets, then manual case analysis using tactics like `rcases` to enumerate all possibilities. The proof must explicitly handle each combination of elements from the two sets, requiring nested `rcases` calls and multiple `norm_num` applications. While the proof is correct, it is verbose and requires understanding of tactics like `rcases` and `simp`.
 
 ```litex
-prove_by_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):
+prove_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):
     x > y
 ```
 
