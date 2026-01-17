@@ -1,5 +1,5 @@
 ```litex
-# 1. Axiom of extensionality: two sets are equal if and only if they have the same elements
+# 1. Axiom of extensionality: two sets are equal if and only if they have the same elements. We use keyword $equal_set for this.
 
 forall x, y set:
     forall t x:

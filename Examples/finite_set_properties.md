@@ -1,0 +1,4 @@
+```litex
+count(set_minus({1,2}, {1})) = count({1,2}) - count({1}) = 2 - 1 = 1
+
+```
