@@ -23,7 +23,7 @@ prove:
 
 prove:
     prove forall x R: exist y R st y > x:
-        prove_exist x + 1 : y R st y > x
+        witness x + 1 : y R st y > x
 
     have a R st a > 0
 ```

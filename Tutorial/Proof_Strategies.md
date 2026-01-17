@@ -12,7 +12,7 @@ The most fundamental way to prove a statement in Litex, or math in general, is `
 
 *Proof by Induction* – Establish a base case, then show that if the statement holds for one step, it also holds for the next, covering all natural numbers. This is called `principle of mathematical induction`. Technically, it is an axiom schema: it is a template for producing an infinite number of axioms.
 
-*Proof by Enumeration* – Suppose `s` is a finite set, e.g. `s = {1,2,3}`, we want to prove `forall x s => x > 0`. We can simply check each element `x` in `s` one by one whether `x > 0` holds. This is different from an infinite set: a computer cannot iterate over infinitely many elements in finite time and check whether `x > 0` holds for each element.
+*Proof by Enumeration* – Suppose `s` is a finite set, e.g. `s = {1,2,3}`, we want to prove `forall x s => x > 0`. We can simply check each element `x` in `s` one by one whether `x > 0` holds. This is different from an infinite set: a computer cannot iterate over infinitely many elements in finite time and check whether `x > 0` holds for each element. Actually, Functionality of `enum` can be covered by `cases`, but `enum` is more concise and readable.
 
 *Proof in Range* - Given two integers `a <= b` and a set which is subset of `{x Z | a <= x < b}`, we prove iteratively over each integer `x` in that set whether some properties hold.
 

@@ -1,11 +1,11 @@
 ```litex
 prove:
-    prove_exist 1 : x N_pos st x > 0
+    witness 1 : x N_pos st x > 0
     exist x N_pos st x > 0
 
 prove:
     prove forall x R: exist y R st y > x:
-        prove_exist x + 1 : y R st y > x
+        witness x + 1 : y R st y > x
 
     forall x R: exist y R st y > x
 

@@ -22,7 +22,7 @@ have fn:
             $line_as_intensional_set(line(a, b, c), a, b, c)
             $is_set(line(a, b, c))
 
-    prove_exist:
+    witness:
         have l set = {x cart(R, R): a * x[1] + b * x[2] = c}
         forall x l: x $in cart(R, R)
         l $subset_of cart(R, R)
@@ -97,7 +97,7 @@ have fn:
         =>:
             line_two_points(x, y) = line(x[2] - y[2], y[1] - x[1], x[2] * y[1] - x[1] * y[2])
 
-    prove_exist:
+    witness:
         have l power_set(cart(R, R)) = line(x[2] - y[2], y[1] - x[1], x[2] * y[1] - x[1] * y[2])
 
     = l
@@ -117,7 +117,7 @@ have fn:
         =>:
             line_normal_vector(x, y) = line(x[1], x[2], x[1] * y[1] + x[2] * y[2])
 
-    prove_exist:
+    witness:
         have l power_set(cart(R, R)) = line(x[1], x[2], x[1] * y[1] + x[2] * y[2])
 
     = l
@@ -137,7 +137,7 @@ have fn:
         =>:
             distance_point_to_line(pt, a, b, c) = abs(a * pt[1] + b * pt[2] - c) / sqrt(a^2 + b^2)
 
-    prove_exist:
+    witness:
         a^2 + b^2 > 0
         have d R = sqrt(a^2 + b^2)
         sqrt(a^2 + b^2) > 0
@@ -149,7 +149,7 @@ have fn:
 prove:
     contra sqrt(2) != 0:
         sqrt(2) = 0
-        2 = 0
+        impossible 2 = 0
     distance_point_to_line((0, 0), 1, 1, 1) = abs(1 * 0 + 1 * 0 - 1) / sqrt(1^2 + 1^2)
     distance_point_to_line((0, 0), 1, 1, 1) = abs(-1) / sqrt(2)
     abs(-1) = 1

@@ -29,8 +29,8 @@ claim:
             count({f(z1), f(z2)}) <= count(s2)
             count({f(z1), f(z2)}) = 2
             count(s2) = 1
-            2 <= 1
-        prove_exist z1, z2: a s1, b s1 st $different_item_has_the_same_image(s1, s2, f, a, b)
+            impossible 2 <= 1
+        witness z1, z2: a s1, b s1 st $different_item_has_the_same_image(s1, s2, f, a, b)
 
 $pigeon_hole_is_true_for_all_count(1)
 
@@ -80,7 +80,7 @@ claim:
                     
                     know not $different_item_has_the_same_image(s3,s4,f,a,b)
 
-                    $different_item_has_the_same_image(s3, s4, f, a, b)
+                    impossible $different_item_has_the_same_image(s3, s4, f, a, b)
                     
 
 induc n N_pos: $pigeon_hole_is_true_for_all_count(n):
@@ -148,8 +148,8 @@ claim:
             count({f(z1), f(z2)}) <= count(s2)
             count({f(z1), f(z2)}) = 2
             count(s2) = 1
-            2 <= 1
-        prove_exist z1, z2: a s1, b s1 st $different_item_has_the_same_image(s1, s2, f, a, b)
+            impossible 2 <= 1
+        witness z1, z2: a s1, b s1 st $different_item_has_the_same_image(s1, s2, f, a, b)
 
 $pigeon_hole_is_true_for_all_count(1)
 
@@ -201,7 +201,7 @@ claim:
                     
                     know not $different_item_has_the_same_image(s3,s4,f,a,b)
 
-                    $different_item_has_the_same_image(s3, s4, f, a, b)
+                    impossible $different_item_has_the_same_image(s3, s4, f, a, b)
                     
 
 induc n N_pos: $pigeon_hole_is_true_for_all_count(n):
@@ -281,8 +281,8 @@ claim:
             count({f(z1), f(z2)}) <= count(s2)
             count({f(z1), f(z2)}) = 2
             count(s2) = 1
-            2 <= 1
-        prove_exist z1, z2: a s1, b s1 st $different_item_has_the_same_image(s1, s2, f, a, b)
+            impossible 2 <= 1
+        witness z1, z2: a s1, b s1 st $different_item_has_the_same_image(s1, s2, f, a, b)
 
 $pigeon_hole_is_true_for_all_count(1)
 
@@ -334,7 +334,7 @@ claim:
                     
                     know not $different_item_has_the_same_image(s3,s4,f,a,b)
 
-                    $different_item_has_the_same_image(s3, s4, f, a, b)
+                    impossible $different_item_has_the_same_image(s3, s4, f, a, b)
                     
 
 induc n N_pos: $pigeon_hole_is_true_for_all_count(n):

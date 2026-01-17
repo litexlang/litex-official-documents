@@ -754,7 +754,7 @@ forall ab {x cart(R, R): x[1] > 0, x[2] > 0}:
 
 **Prove in each case**: `prove_in_each_case: or_facts => conclusion prove: ... prove: ...`
 
-**Named universal fact**: `know @name(params): conditions => conclusions`
+**Named universal fact**: `know name(params): conditions => conclusions`
 
 ### Exercises
 

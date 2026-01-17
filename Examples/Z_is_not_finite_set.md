@@ -6,5 +6,5 @@ contra not $is_finite_set(Z):
     closed_range(0, count(Z)) $subset_of Z
     count(x) <= count(Z)
     count(Z) + 1 > count(Z)
-    count(Z) + 1 <= count(Z)
+    impossible count(Z) + 1 <= count(Z)
 ```

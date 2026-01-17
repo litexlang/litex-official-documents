@@ -37,16 +37,28 @@ claim:
                         not x1 > x2
                     case x1 = -14:
                         not x1 > x2
-                x1 > x2
+                impossible x1 > x2
         x2 = -14
         
         claim:
             not x1 = -14
             contra:
-                not x1 > x2
+                impossible not x1 > x2
         x1 = 8
 
 
         x1 + x2 = 8 + (-14) = -6 = sum
 
+prove:
+    prove forall x union({1, 2}, {2, 3}): x $in {1, 2, 3}:
+        x $in {1, 2} or x $in {2, 3}
+        cases x $in {1, 2, 3}:
+            case x $in {1, 2}:
+                cases x $in {1, 2, 3}:
+                    case x = 1
+                    case x = 2
+            case x $in {2, 3}:
+                cases x $in {1, 2, 3}:
+                    case x = 2
+                    case x = 3
 ```

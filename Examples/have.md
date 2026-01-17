@@ -5,7 +5,7 @@
 prove:
     have s set = {1, 2, 3}
 
-    enum(x {1, 2, 3}):
+    enum x {1, 2, 3}:
         x $in {3, 2, 1}
 
 prove:
@@ -48,7 +48,8 @@ prove:
     forall x a:
         x > 0
 
-    $equal_set({y R: y > 0}, {x R: x > 0})
+    equal_set {y R: y > 0}, {x R: x > 0}:
+        do_nothing
 
 prove:
     have fn f(x R) R = x + 1
@@ -63,7 +64,7 @@ prove:
             x > 0
             =>:
                 h(x) > 1
-        prove_exist:
+        witness:
             do_nothing
         = 100
 
@@ -75,12 +76,10 @@ prove:
             x > 0
             =>:
                 p(x) > x
-        case 100 > x:
+        case 100 > x: 100:
             do_nothing
-        = 100
-        case not 100 > x:
+        case not 100 > x: x + 1:
             x + 1 > x
-        = x + 1
 
     forall x R: x > 0 => p(x) > x
 
@@ -111,4 +110,7 @@ prove:
     know forall x R: exist y R st $p(x, y) or exist y R st $q(x, y)
 
     exist y R st $p(1, y) or exist y R st $q(1, y)
+
+
+
 ```

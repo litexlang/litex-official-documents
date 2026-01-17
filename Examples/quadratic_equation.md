@@ -1,4 +1,5 @@
 ```litex
+"""
 claim:
     forall a, b, x R:
         x^2 + 2 * a * x + b = 0
@@ -21,4 +22,6 @@ claim:
                 x + a - sqrt(a^2 - b) + (-a + sqrt(a^2 - b)) = 0 + (-a + sqrt(a^2 - b))
                 x = 0 + (-a + sqrt(a^2 - b))
                 x = -a + sqrt(a^2 - b)
+
+            """
 ```
