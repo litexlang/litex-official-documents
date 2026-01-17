@@ -10,3 +10,5 @@ upload_pictures.sh
 check_litex_blocks.py
 check_litex_blocks_errors.txt
 tmp.txt
+what_to_upload.txt
+old_update.sh

@@ -33,7 +33,7 @@ sudo dpkg -i litex_0.6.01-beta_amd64.deb
 
 ### Install Litex on Windows
 
-For Windows users, please download MSI file form https://github.com/litexlang/golitex/releases/download/0.6.01-beta/litex_0.6.01-beta_amd64.msi
+For Windows users, please download MSI file form [**HERE**](https://github.com/litexlang/golitex/releases/download/0.6.01-beta/litex_0.6.01-beta_amd64.msi)
 
 ### Run Litex on your machine
 
