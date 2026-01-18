@@ -1,4 +1,4 @@
-# Litex From A Mathematician's Perspective
+# Litex vs Lean: From A Mathematician's Perspective
 
 ## Why Set Theory?
 

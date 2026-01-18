@@ -151,7 +151,7 @@ prop is_prime(x N_pos):
     <=>:
         forall y N_pos: y >= 2, y < x => x % y != 0
         
-prove_for i range(2, 97):
+for i range(2, 97):
     97 % i != 0
 
 $is_prime(97)
@@ -255,10 +255,10 @@ Litex's `exist_prop` allows direct definition of an existential property with na
 Lean requires explicit definition of the property as a function returning a `Prop`, with all conditions (positivity of all variables and the equation) explicitly stated. Proving the existence requires using the `use` tactic to provide witnesses, then manually proving each condition using tactics like `norm_num`. The proof structure requires nested `constructor` calls to handle the conjunction of conditions, making it more verbose.
 
 ```litex
-exist_prop a, b, c, d N_pos st Euler_conjecture():
+prop Euler_conjecture(a, b, c, d N_pos):
     a ^ 4 + b ^ 4 + c ^ 4 = d ^ 4
 
-exist 95800, 217519, 414560, 422481 st $Euler_conjecture()
+witness 95800, 217519, 414560, 422481: a, b, c, d N_pos st $Euler_conjecture(a, b, c, d)
 ```
 
 ## Example 6: Define function
@@ -339,7 +339,7 @@ Litex's `prove_enum` directly expresses the universal statement over finite sets
 Lean requires explicit definition of the finite sets, then manual case analysis using tactics like `rcases` to enumerate all possibilities. The proof must explicitly handle each combination of elements from the two sets, requiring nested `rcases` calls and multiple `norm_num` applications. While the proof is correct, it is verbose and requires understanding of tactics like `rcases` and `simp`.
 
 ```litex
-prove_enum(x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}):
+enum x {4, 17, 6.6}, y {1, 2 * 0.2, 3.0}:
     x > y
 ```
 
@@ -381,7 +381,7 @@ Litex's `prove_for` provides a natural way to express universal statements over 
 Lean requires explicit quantification over finite sets (`Finset.Icc` for closed intervals) with all conditions stated in the premise. For finite cases, Lean's `decide` tactic can automatically verify the statement by exhaustive enumeration, which is concise but hides the enumeration process from the user. While `decide` is powerful for finite domains, it requires the domain to be explicitly finite (using `Finset`), and the enumeration process is not transparent. The equivalent statement using explicit conditions would require more verbose proof steps if not using `decide`.
 
 ```litex
-prove_for i range(1, 6), j closed_range(1, 5):
+for i range(1, 6), j closed_range(1, 5):
     dom:
         i % 2 = 0
         j % 2 = 1
