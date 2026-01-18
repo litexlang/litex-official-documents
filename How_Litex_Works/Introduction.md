@@ -12,7 +12,7 @@ _— Galileo Galilei_
 # Define, Verify, Infer, Memorize
 Mathematics is complicated, and so are the implementation details of Litex. However, the fundamental concepts behind how Litex, as a set-theory based LCF, works are actually quite straightforward and elegant.
 
-At its heart, Litex operates through four fundamental operations: **Define**, **Verify**, **Infer**, and **Memorize**. Every statement you write in Litex involves some combination of these operations, just like how they works in mathematics. Let's start with a simple example of syllogism (三段论). Read [comparison with other LCFs](https://litexlang.com/doc/How_Litex_Works/Litex_vs_Lean_Set_Theory_Examples) if you want to know more about the differences between Litex and other formal languages.
+At its heart, Litex operates through four fundamental operations: **Define**, **Verify**, **Infer**, and **Memorize**. Every statement you write in Litex involves some combination of these operations, just like how they works in mathematics. Let's start with a simple example of syllogism (三段论). Read [comparison with other LCFs](https://litexlang.com/doc/Litex_vs_Lean/Set_Theory) if you want to know more about the differences between Litex and other formal languages.
 
 ## Example
 

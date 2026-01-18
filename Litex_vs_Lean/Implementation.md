@@ -7,3 +7,7 @@ However, this also results in Lean's very slow execution. Each time Mathlib is i
 Litex's method of verifying facts is essentially a sophisticated version of Ctrl+F: it matches target facts against known facts, and if a match succeeds, the target fact is considered established. This approach achieves extremely high runtime efficiency—typically, Litex completes execution while Lean is still compiling.
 
 Litex's compiler-independent working principle also makes it easier to integrate and interact with other system tools, such as LLMs.
+
+Mathematics has many different axiomatic systems, and choosing different foundational axiom systems as the basis for a formal language results in vastly different user experiences. Lean chooses type theory as its foundation, while Litex chooses set theory.
+
+This design makes Lean easier to maintain and theoretically more general, which experts prefer. Litex's design, on the other hand, is more intuitive and easier to learn, built on familiar set theory, aims to democratize formal mathematics while maintaining rigor, even for 10-year-olds. Think of Litex as the Python of formal languages.
