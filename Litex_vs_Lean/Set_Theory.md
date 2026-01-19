@@ -21,9 +21,9 @@ table code {
 
 ---
 
-This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. In our view, Litex can fill the gap between what people without hardcore mathematical training, including AI researchers, physicists, etc., want and what formal languages provide. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us.  
+This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. Litex is an exciting and eye-opening exploration of finding `what mathematics is`. In our view, Litex can fill the gap between what people without hardcore mathematical training, including AI researchers, physicists, etc., want and what formal languages provide. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us.  
 
-Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. Litex is an exciting and eye-opening exploration of finding `what mathematics is`!
+Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements.
 
 The fundamental differences include:
 
