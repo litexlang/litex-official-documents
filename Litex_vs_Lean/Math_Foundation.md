@@ -1,5 +1,7 @@
 # Litex vs Lean: From A Mathematician's Perspective
 
+As a computer language, Litex somehow shows us `what math is` through its syntax and semantics. Understanding how Litex works may help you mathematicians have a better understanding the logic of mathematical proofs and appreciate the beauty of math!
+
 ## Why Set Theory?
 
 The foundation of mathematics is its most crucial component. The Bourbaki school constructed the mathematical edifice—encompassing analysis, algebra, and topology—upon set theory. Meanwhile, Grothendieck and others advocated category theory as a superior foundation.

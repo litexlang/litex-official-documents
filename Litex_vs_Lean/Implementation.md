@@ -28,4 +28,4 @@ Among the 4 effects, verification is the most important one. Litex uses `match a
 
 Think of this: when the user inputs a fact with proposition name `intelligent`, Litex will search all known facts with proposition name `intelligent` (including `forall` facts like `forall x human => $intelligent(x)` and specific facts like `$intelligent(Jordan)`) and check if the given fact matches the known fact. If matched, then it is correct. 
 
-It works like `ctrl+f` in your browser, which mimics how our brain works when verifying a fact. Unlike Lean, which compiles your statements to an intermediate representation, Litex verifies statements directly.
+It works like `ctrl+f` in your browser, which mimics how our brain works when verifying a fact. The reason why Lean cannot do this is that Lean can pass prop as forall parameter, so its search space is the whole memory, instead of the memory of the current proposition. Unlike Lean, which compiles your statements to an intermediate representation, Litex verifies statements directly.

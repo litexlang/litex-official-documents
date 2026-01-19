@@ -1,0 +1,7 @@
+```litex
+let f fn(Z)Z
+
+f(1) $in Z
+
+f $in fn(Z)R
+```

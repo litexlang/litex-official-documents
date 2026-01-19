@@ -1,0 +1,13 @@
+```litex
+let s set:
+    s = {x N: x > 1}
+
+forall x s:
+    x > 1
+
+forall x N:
+    x > 1
+    =>:
+        x $in s
+
+```

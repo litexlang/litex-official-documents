@@ -14,6 +14,8 @@ Mathematics is complicated, and so are the implementation details of Litex. Howe
 
 At its heart, Litex operates through four fundamental operations: **Define**, **Verify**, **Infer**, and **Memorize**. Every statement you write in Litex involves some combination of these operations, just like how they works in mathematics. Let's start with a simple example of syllogism (三段论). Read [comparison with other LCFs](https://litexlang.com/doc/Litex_vs_Lean/Set_Theory) if you want to know more about the differences between Litex and other formal languages.
 
+Litex is an exciting and eye-opening exploration of finding `what mathematics is`! I hope you can also enjoy it!
+
 ## Example
 
 "All humans are intelligent. Jordan is a human. Therefore, Jordan is intelligent. Since being intelligent is equivalent to being smart, Jordan is smart."
