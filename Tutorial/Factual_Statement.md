@@ -559,7 +559,7 @@ know forall x R: $p(x) => $q(x); not $q(1)
 claim:
     not $p(1)
     prove_contra:
-        $q(1) # is true, because $p(1) is assumed to be true
+        $q(1) impossible # is true, because $p(1) is assumed to be true
 ```
 
 You cannot write `not forall` in Litex. When you want to negate a universal fact, you must declare an `exist_prop` first and try to prove the existence of such an item that leads to `not forall`.

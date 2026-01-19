@@ -197,5 +197,5 @@ claim:
     not $g(17)
     prove_contra:
         $s(17)
-        $q(17)
+        $q(17) impossible
 ```

@@ -370,6 +370,7 @@ This example demonstrates how Litex and Lean handle propositions with domain res
       <code>prop q(x {y Q: y > 0})</code><br>
       <code>know $q(17)</code><br>
       <code>know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)</code><br>
+      <code>17 $in {y Z: y < 20, $q(y)}</code><br>
       <code>a $in {x N: x % 17 = 0, $p(x)}</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
@@ -406,6 +407,7 @@ prop p(x {z Z: z < 100})
 prop q(x {y Q: y > 0})
 know $q(17)
 know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)
+17 $in {y Z: y < 20, $q(y)}
 a $in {x N: x % 17 = 0, $p(x)}
 ```
 

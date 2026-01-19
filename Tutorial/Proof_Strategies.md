@@ -29,7 +29,7 @@ In math, one common way to prove a statement is to prove its negation is false. 
 prove_contra fact_you_want_to_prove:
     statement1
     ...
-    final_statement
+    final_statement impossible
 
 # multiple lines version
 claim:
@@ -37,7 +37,7 @@ claim:
     prove_contra:
         statement1
         ...
-        final_statement
+        final_statement impossible
 ```
 
 `prove_contra` should always be used in `claim` block. In the environment of `prove_contra`, `not fact_you_want_to_prove` is assumed to be true. To make the process of proving by contradiction works, the `final_statement` should be a fact that is both true and false. After that, the assumption `not fact_you_want_to_prove` is false and `fact_you_want_to_prove` is true.
@@ -57,13 +57,13 @@ know:
 # short version
 prove_contra not $g(17):
     $s(17)
-    $q(17)
+    $q(17) impossible
 
 claim:
     not $g(17)
     prove_contra:
         $s(17)
-        $q(17)
+        $q(17) impossible
 ```
 
 In this case, since `g(x)` leads to `s(x)` leads to `q(x)`, when `not q(x)` is true, `g(x)` can not be true.
@@ -115,7 +115,7 @@ prove_contra not sqrt(2) $in Q:
         (1 % 2 + (2 * logBase(2, y)) % 2) % 2
         (1 + 0) % 2
         1
-    0 = 1
+    0 = 1 impossible
 ```
 
 ## Prove by Induction: The Power of Recursion
@@ -374,7 +374,7 @@ If a set is finite, then to prove that forall x in this set some property holds,
 Litex uses keyword `prove_enum` to support proving over finite set.
 
 ```
-prove_enum(x_name, set_name)
+prove_enum x_name set_name:
     ... # domain facts
     =>:
         ... # then facts
@@ -391,7 +391,7 @@ There can be no domain facts, no prove sections, or both.
 ```litex
 have s set = {1, 2, 3}
 
-prove_enum(x s):
+prove_enum x s:
     x > 0 # then facts
 ```
 
@@ -401,7 +401,7 @@ Empty set, which is the very special case of finite set, is also supported. As y
 have s set = {}
 
 # any factual statement is true on empty set
-prove_enum(x s):
+prove_enum x s:
     x > 0
     x < 0
 ```
@@ -411,7 +411,7 @@ prove_enum(x s):
 Given a set which is the subset of a consecutive integers range, we can prove a universal fact over this set by iteratively proving over each integer in this set.
 
 ```
-prove_for variable_name range_type(lower, upper):
+for variable_name range_type(lower, upper):
     dom:
         ...
     =>:
@@ -423,7 +423,7 @@ prove_for variable_name range_type(lower, upper):
 For example, we want to prove that forall x in the range {1, 2, 3}, x is less than 4.
 
 ```litex
-prove_for i range(5, 8):
+for i range(5, 8):
     i = 5 or i = 6 or i = 7
 
 prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:

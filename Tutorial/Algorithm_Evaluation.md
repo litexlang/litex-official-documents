@@ -70,7 +70,7 @@ algo f(x):
             prove_contra:
                 $p(x)
                 x > 2
-                not x <= 2
+                not x <= 2 impossible
         return 0
 
 have a, b R = 3, -1

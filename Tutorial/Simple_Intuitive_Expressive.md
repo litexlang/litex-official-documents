@@ -110,7 +110,7 @@ claim:
             (1 % 2 + (2 * logBase(2, y)) % 2) % 2
             (1 + 0) % 2
             1
-        0 = 1
+        0 = 1 impossible
 ```
 
 Litex code is pretty straightforward. Try to read the above code yourself. It is not hard. Below is the same example in Lean.

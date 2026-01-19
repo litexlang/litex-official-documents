@@ -1,4 +1,4 @@
-# Litex vs Lean: Basic Math Examples
+ Litex vs Lean: Basic Math Examples
 
 _Nothing in biology makes sense except in the light of evolution._
 
