@@ -82,7 +82,7 @@ have a st $larger_than(1)  # a $in R, a > 1
 
 Finite set enumeration:
 ```litex
-have set one_to_five := {1,2,3,4,5}
+have s set = {1,2,3,4,5}
 ```
 
 Subset definition:
