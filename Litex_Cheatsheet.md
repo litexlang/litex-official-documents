@@ -73,11 +73,11 @@ have a N, b Q, c R
 
 From existential propositions:
 ```litex
-exist_prop x R st larger_than(y R): 
-    x > y
-exist 2 st $larger_than(1)  # a $in R, a > 1
-    
-have a st $larger_than(1)  # a $in R, a > 1
+prop larger(x,y R):
+    x>y
+know:
+    forall y R: exist x R st $larger(x,y)   
+have a R st $larger(a,1) # a $in R, a > 1
 ```
 
 Finite set enumeration:
@@ -88,12 +88,28 @@ have s set = {1,2,3,4,5}
 Subset definition:
 ```litex
 prop P(x R)
-
-have set s := {x R: $P(x)}
+have s set = {x R: $P(x)}
+have t {x R:$P(x)}
 ```
 
 Here `s := {x R: $P(x)}` is a definition of an intensional set. An intensional set looks like `{x ParentSet: Fact1(x), Fact2(x), ...}`.
 
+Function definition:
+```
+have fn f(x R) R = x + 1
+have fn g(x R) R =:
+    case x = 2: 3
+    case x != 2: 4
+prove:
+    have fn:
+        h(x R) R:
+            x > 0
+            =>:
+                h(x) > 1
+        witness:
+            100 > 1
+        = 100
+```
 ### `let` - Free Declaration
 Use `let` to declare an object without checking its existence.
 
