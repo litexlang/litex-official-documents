@@ -61,6 +61,7 @@ Three " is allowed.
 
 `""` can be translated to LaTeX style comment in display; One or any number of `"` except two can be translated to markdown style comment in display.
 
+
 ## Object Declaration
 
 ### `have` - Safe Declaration
@@ -70,6 +71,7 @@ Basic usage:
 ```litex
 have a N, b Q, c R
 ```
+We declare a,b,c from set N,Q R respectively
 
 From existential propositions:
 ```litex
@@ -77,13 +79,15 @@ prop larger(x,y R):
     x>y
 know:
     forall y R: exist x R st $larger(x,y)   
-have a R st $larger(a,1) # a $in R, a > 1
+have x R st $larger(x,1) # x $in R, x > 1
 ```
+By defining proposition larger(x,y),we declare x in R satisfing larger(x,1)
 
 Finite set enumeration:
 ```litex
 have s set = {1,2,3,4,5}
 ```
+We declare a finite set {1,2,3,4,5}
 
 Subset definition:
 ```litex
@@ -93,13 +97,11 @@ have t {x R:$P(x)}
 ```
 
 Here `s := {x R: $P(x)}` is a definition of an intensional set. An intensional set looks like `{x ParentSet: Fact1(x), Fact2(x), ...}`.
+It is also notable that only when $P(x) is not empty, our declaration is legal.
 
 Function definition:
-```
+```litex
 have fn f(x R) R = x + 1
-have fn g(x R) R =:
-    case x = 2: 3
-    case x != 2: 4
 prove:
     have fn:
         h(x R) R:
@@ -110,6 +112,8 @@ prove:
             100 > 1
         = 100
 ```
+We define f(x)=x+1, and we prove the existence of h(x)
+
 ### `let` - Free Declaration
 Use `let` to declare an object without checking its existence.
 
@@ -117,11 +121,13 @@ Basic usage:
 ```litex
 let n N, m N
 ```
+We take n, m from  N
 
 With conditions:
 ```litex
 let n, m N: n > 0, m > n
 ```
+We take n,m as postive numbers in N
 
 Multiple line usage:
 ```litex
