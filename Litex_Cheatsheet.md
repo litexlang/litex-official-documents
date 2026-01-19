@@ -99,7 +99,7 @@ have t {x R:$P(x)}
 Here `s := {x R: $P(x)}` is a definition of an intensional set. An intensional set looks like `{x ParentSet: Fact1(x), Fact2(x), ...}`.
 It is also notable that only when $P(x) is not empty, our declaration is legal.
 
-Function definition:
+Function declaration:
 ```litex
 have fn f(x R) R = x + 1
 prove:
@@ -160,12 +160,14 @@ let a N: a = 2, a = 3
 ---
 
 ## Propositions and Facts
+Use `prop` to define proposition
 
 ### Proposition Definition
 Basic definition:
 ```litex
 prop p(x R)
 ```
+We define a proposition p for real number x
 
 With equivalence condition:
 ```litex
@@ -186,27 +188,29 @@ prop p(x R) <=> x > 0
 ```
 
 ### Existential Propositions
+Use `exist` to state the existence of an object
+
 Basic definition:
 ```litex
-exist_prop x R st larger_than(y R):
-    x > y
+forall y R : exist x R st x>y
 ```
 
 definition with domain restrictions:
 ```litex
-exist_prop x R st larger_than_positive(y R):
+forall y R:
     y > 0
-    <=>:
-        x > y
+    =>:
+        exist x R st x > y
 ```
 
 Proving existence:
-```litex
-exist_prop x R st larger_than(y R):
-    x > y
+Use `witness` to prove the existential  propositions
 
-exist 3 st $larger_than(2)
+```litex
+witness 1 : x N_pos st x > 0
+exist x N_pos st x > 0
 ```
+By witnessing 1>0 , we approach the fact that exist a positve natural number x>0
 
 ### Fact Invocation
 
