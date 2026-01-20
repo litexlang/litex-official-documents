@@ -385,7 +385,7 @@ fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) $in R
 ```
 We call the function square_root(4) without computing to verify its value in R
----
+
 ### Function evaluation and algorithm
 Use `eval` to computing specific values of functions
 
@@ -407,7 +407,7 @@ algo f(x):
     if x < 0:
         return x - 1
 ```
-
+---
 ## Set Theory
 
 ### Logical Operators
@@ -459,21 +459,58 @@ Numeric equality:
 4 / 2 = 2
 ```
 
-###Set Membership
-Explicit:
-```litex
-2 $in N
+### About Set 
+Builtin-set
+```
+Keywords                    meaning                                       litex examples
+set                         # Generic set type definition                 let S set.
+finite_set                  # A set with finite cardinality               let F finite_set.
+nonempty_set                # A set containing at least one element       let N nonempty_set
+list_set                    # Set defined by listing elements             let A = list_set(1, 2, 3)
+set_builder                 # Set defined by a predicate property
+range                       # Open interval or range                      let I range(2,6)
+closed_range                # Closed interval                             let I closed_range(2,6)
+N                           # natural numbers
+N_pos                       # positive natural numbers
+Z                           # integers
+Q                           # rational numbers
+R                           # real numbers
+C                           # complex numbers
 ```
 
-Implicit (in declarations):
-```litex
-let x N  # equivalent to let x; know x $in N
+Relations & Logic
+```
+keywords                    meaning                                       litex examples
+in                          # Membership (Element belongs to Set)         2 $in N
+subset_of                   # A is a subset of B (A ⊆ B)                  N_pos $subset_of N
+superset_of                 # A is a superset of B (A ⊇ B)                N $superset_of N_pos
+equal_set                   # Set equality (A = B)                         N $equal_set N
+is_set                      # Type check: is object a set?                 N $is_set
+is_finite_set               # Prop check: is cardinality finite?           {1,2,3}$is_finite_set
+is_nonempty_set             # Prop check: is cardinality > 0?              N $is_nonempty_set
+```
+Set Operations
+```
+keywords                    meaning                                         litex examples
+union                       # Set Union (A ∪ B)                             let U union(A,B)
+intersect                   # Set Intersection (A ∩ B)                      let I Intersect(A,B)
+set_diff                    # Set Difference (A \ B)                        let  D set_diff(A,B)
+power_set                   # Power Set (All subsets of A)                   let P power_set(Z)
+choice                      # Axiom of Choice selector
+count                       # Cardinality / Size of the set                  count({1,2,3})=3
 ```
 
-Implicit (in forall facts):
+###Cartesian
+Use `cart` to create a Cartesian product of a fixed number of set
+`set_dim`(x): Returns the dimension (number of components) of a Cartesian product
+`proj`(x, i): Returns the i-th projection (the i-th component set) of a Cartesian product
+`coord`(a, x, i): Returns the i-th coordinate of element a in Cartesian product x
 ```litex
-forall x N:
-    x $in R
+have x set = cart(R, Q, Z)
+set_dim(x) = 3
+proj(x, 1) = R
+proj(x, 2) = Q
+proj(x, 3) = Z
 ```
 
 ---
