@@ -411,12 +411,13 @@ algo f(x):
 ## Set Theory
 
 ### Logical Operators
+Negation
 ```litex
 let x R: x > 5
 not x <= 5
 ```
 
-### Disjunction
+Disjunction
 Multi-line form:
 ```litex
 or:
@@ -429,7 +430,7 @@ Inline form:
 1 = 1 or 1 = 2
 ```
 
-### Equality
+Equality
 Basic equality:
 ```litex
 let x, y R:
@@ -458,7 +459,7 @@ Numeric equality:
 4 / 2 = 2
 ```
 
-### Set Membership
+###Set Membership
 Explicit:
 ```litex
 2 $in N
