@@ -225,9 +225,7 @@ Litex have many builtin set and operations,see [Built-in Sets and Operations](#b
 Prefix form:
 ```litex
 prop p(x R)
-
 know $p(1)
-
 $p(1)
 ```
 
@@ -276,6 +274,7 @@ forall x R:
 ```
 
 ### Know a Fact
+Use `know` to invoke a fact without verification, which is an unsafe invacation.
 
 Inline form:
 ```litex
@@ -322,7 +321,7 @@ know:
         =>:
             a < c
 ```
-
+We assume the universal fact: transitivity proposition of '<' without verification by using know.
 ---
 
 ## Functions
