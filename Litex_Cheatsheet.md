@@ -379,17 +379,34 @@ let a sequence(R), b finite_sequence(Z, 10)
 ```
 
 ### Function Calls
-Function definition:
-```litex
-fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
-```
-
 Function call (note: doesn't compute specific values):
 ```litex
+fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) $in R
 ```
-
+We call the function square_root(4) without computing to verify its value in R
 ---
+### Function evaluation and algorithm
+Use `eval` to computing specific values of functions
+
+```litex
+have fn f(x R) R =:
+        case x > 0 :  x + 1
+        case x < 0 :  x - 1
+        case x=0: 0
+eval f(1) # Invoke condition if x > 1
+f(1) = 2
+```
+Use `algo` to write algorithm of functions for constructive proving or computing
+```litex
+algo f(x):
+    if x = 0:
+        return 0
+    if x > 0:
+        return x + 1 # it's ok to write `x + 2` here, but when you eval f(1), it is impossible to verify f(1) = 1 + 2, and the evaluation fails.
+    if x < 0:
+        return x - 1
+```
 
 ## Logical Operators
 
