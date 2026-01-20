@@ -750,18 +750,7 @@ square_root(4) $in R  # correct
 
 ---
 
-## Built-in Sets and Operations
-
-### Built-in Sets
-```
-N        # natural numbers
-N_pos    # positive natural numbers
-Z        # integers
-Q        # rational numbers
-R        # real numbers
-C        # complex numbers
-```
-
+## Built-in  Operations
 ### Built-in Functions
 ```
 + - * / % ^  # arithmetic operations
