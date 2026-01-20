@@ -11,7 +11,7 @@ _— The Eagles, Hotel California_
 2. [Object Declaration](#object-declaration)
 3. [Propositions and Facts](#propositions-and-facts)
 4. [Functions](#functions)
-5. [Logical Operators](#logical-operators)
+5. [Set Theory](#set-theory)
 6. [Proof Strategies](#proof-strategies)
 7. [Inline Syntax](#inline-syntax)
 8. [Common Errors and Prevention](#common-errors-and-prevention)
@@ -408,9 +408,9 @@ algo f(x):
         return x - 1
 ```
 
-## Logical Operators
+## Set Theory
 
-### Negation
+### Logical Operators
 ```litex
 let x R: x > 5
 not x <= 5
