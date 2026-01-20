@@ -220,6 +220,7 @@ Builtin proposition:
 1 != 2
 3 > 0
 ```
+Litex have many builtin set and operations,see [Built-in Sets and Operations](#built-in-sets-and-operations) for further examples
 
 Prefix form:
 ```litex
