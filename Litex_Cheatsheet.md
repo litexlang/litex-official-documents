@@ -102,6 +102,8 @@ It is also notable that only when $P(x) is not empty, our declaration is legal.
 Function declaration:
 ```litex
 have fn f(x R) R = x + 1
+```
+```litex
 prove:
     have fn:
         h(x R) R:
@@ -329,12 +331,14 @@ We assume the universal fact: transitivity proposition of '<' without verificati
 ### Function Definition
 Basic definition:
 ```litex
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R : f(x)= x + 1
+have fn g(x R) R = x+1
 ```
+We use `let` and `have `to define f(x)=g(x)=x+1
 
 With domain restrictions:
 ```litex
-fn f(x R) R:
+let fn f(x R) R:
     dom:
         x > 0
     =>:
@@ -343,8 +347,9 @@ fn f(x R) R:
 
 Inline definition:
 ```litex
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R: x > 0 => f(x) > 0
 ```
+We use let to difine f(x) satisifing specific proposition without proving its existence
 
 With existence guarantee:
 ```litex
