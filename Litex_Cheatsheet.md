@@ -832,41 +832,87 @@ multi-line comment
 
 The keywords in Litex are almost identical in meaning and usage to the commonly used ones in mathematics. This makes writing in Litex a very pleasant experience.
 
+# Litex Language Keywords Reference
+
 | Keyword | Meaning |
-|---------|---------|
-| `let` | Define an object without checking its existence. |
-| `prop` | Define a proposition. The verbs of logic. |
-| `know` | Establish a fact |
-| `forall` | Universal quantification |
-| `exist` | Existential quantification |
-| `have` | Introduce an object with checking its existence. |
-| `exist_prop` | Existential quantification with a proposition |
-| `or` | Disjunction |
-| `not` | Negation |
-| `fn` | Define a function without checking its existence |
-| `fn_template` | Define a class of functions |
-| `set` | set: a collection of objects |
-| `in` | membership of an object in a set |
-| `dom` | domain of a proposition, function, function template, etc. |
-| `len`  | length of a set |
-| `finite_set` | a set with a finite number of elements |
-| `prove` | open a local environment to write some statements without affecting the global environment |
-| `claim` | claim a factual statement, prove it here |
-| `prove_contra` | prove by contradiction |
-| `prove_in_each_case` | prove by case analysis |
-| `prove_induc` | prove by mathematical induction |
-| `prove_enum` | prove a universal statement by iterating over a finite set |
-| `prove_in_range` | prove a universal statement by iterating over a range of integers |
-| `import` | import a file or directory |
-| `item_exists_in` | exist a object in a set |
-| `set_defined_by_replacement` | define a set by a axiom of replacement |
-| `obj_exist_as_preimage_of_prop` | exist a object as the preimage of a proposition |
-| `obj_exist_as_preimage_of_fn` | exist a object as the preimage of a function |
-| `N` `N_pos` `Z` `Q` `R` `C` `obj` | builtin sets: natural numbers, positive natural numbers, integers, rational numbers, real numbers, complex numbers, objects |
-| `clear` | clear all facts |
-| `set_product` | a product of sets |
-| `proj` | a projection of a set product |
-| `lift` | Point-wise lifting of an operator |
+| :--- | :--- |
+| `let` | Define an object or variable without immediately checking existence (e.g., `let x R.`). |
+| `know` | Establish a known fact or premise in the current context. |
+| `have` | Introduce an intermediate object or conclusion that requires verification. |
+| `claim` | State a proposition or theorem to be proved. |
+| `prove` | Begin a proof block for a claim or verification. |
+| `prop` | Define a new proposition (logic predicate). |
+| `fn` | Define a function (mapping inputs to outputs). |
+| `fn_set` | Define a set of functions (function space). |
+| `algo` | Define an algorithmic procedure (computational function). |
+| `dom` | Specify the domain, pre-conditions, or context for a block (e.g., `dom: x > 0.`). |
+| `set` | Generic set type definition. |
+| `in` | Membership operator ($\in$). Checks if an object belongs to a set. |
+| `forall` | Universal quantification ($\forall$). "For all elements...". |
+| `exist` | Existential quantification ($\exists$). "There exists an element...". |
+| `st` | "Such that". Used with `exist`, `witness`, or `have` to specify properties. |
+| `witness` | Provide a specific object to prove an existence claim (`exist`). |
+| `witness_nonempty` | Provide a specific element to prove a set is `nonempty_set`. |
+| `not` | Logical negation ($\neg$). |
+| `or` | Logical disjunction ($\lor$). |
+| `impossible` | Assert a contradiction (used to close a `contra` branch). |
+| `contra` | Assume the negation of the conclusion (Proof by Contradiction). |
+| `cases` | Begin a proof by case analysis (splitting the domain). |
+| `case` | Define a specific branch in a case analysis. |
+| `induc` | Proof by mathematical induction. |
+| `enum` | Proof by enumeration (iterating through finite possibilities). |
+| `subset_of` | Subset relation ($\subseteq$). Checks if set A is contained in B. |
+| `superset_of` | Superset relation ($\supseteq$). Checks if set A contains B. |
+| `equal_set` | Set equality relation ($=$). Checks if two sets have identical elements. |
+| `union` / `cup` | Set union operator ($\cup$). Elements in A or B. |
+| `intersect` / `cap` | Set intersection operator ($\cap$). Elements in both A and B. |
+| `set_diff` / `set_minus` | Set difference operator ($\setminus$). Elements in A but not in B. |
+| `power_set` | Power set operator ($\mathcal{P}$). The set of all subsets. |
+| `list_set` | Construct a set by explicitly listing elements (e.g., `list_set(1, 2)`). |
+| `set_builder` | Construct a set by property (e.g., `{x \| P(x)}`). |
+| `range` | Define an open range/interval (e.g., `(a, b)`). |
+| `closed_range` | Define a closed range/interval (e.g., `[a, b]`). |
+| `choice` | Axiom of Choice selector. Picks an arbitrary element from a set. |
+| `count` | Returns the cardinality (number of elements) of a set. |
+| `finite_set` | Type: A set with finite cardinality. |
+| `is_finite_set` | Proposition: Check if a set is finite. |
+| `nonempty_set` | Type: A set containing at least one element. |
+| `is_nonempty_set` | Proposition: Check if a set is not empty. |
+| `is_set` | Type check: Is the object a set? |
+| `N` | Natural numbers set ($\mathbb{N}$). |
+| `N_pos` | Positive natural numbers set ($\mathbb{N}^+$). |
+| `Z` | Integers set ($\mathbb{Z}$). |
+| `Z_neg` | Negative integers set ($\mathbb{Z}^-$). |
+| `Z_not0` | Non-zero integers set ($\mathbb{Z} \setminus \{0\}$). |
+| `Q` | Rational numbers set ($\mathbb{Q}$). |
+| `Q_pos` / `Q_neg` | Positive / Negative rational numbers. |
+| `Q_not0` | Non-zero rational numbers. |
+| `R` | Real numbers set ($\mathbb{R}$). |
+| `R_pos` / `R_neg` | Positive / Negative real numbers. |
+| `R_not0` | Non-zero real numbers. |
+| `tuple` | Type definition for a tuple (ordered list). |
+| `is_tuple` | Check if an object is a tuple. |
+| `cart` | Cartesian product type (e.g., `R cart R`). |
+| `is_cart` | Check if an object is a Cartesian product. |
+| `dim` | Dimension of a tuple or vector. |
+| `set_dim` | Dimension of a set (e.g., vector space dimension). |
+| `proj` | Projection operator (extracts component from a tuple). |
+| `obj_at_index` | Access an element at a specific index in a tuple. |
+| `com_prop` | Declare or prove that an operation satisfies the Commutative Property. |
+| `trans_prop` | Declare or prove that a relation satisfies the Transitive Property. |
+| `infer` | Define a general inference rule (logic transformation). |
+| `prop_infer` | Declare a proposition inference pattern. |
+| `prove_prop_infer` | Prove a specific proposition inference rule. |
+| `return` | Return a value from an `algo` block. |
+| `if` | Conditional branching statement in algorithms. |
+| `for` | Loop or iteration statement. |
+| `eval` / `val` | Evaluate an expression or function application. |
+| `import` | Import an external package or file. |
+| `as` | Rename an imported package (aliasing). |
+| `run_file` | Execute another Litex file immediately. |
+| `exit` | Terminate the program execution. |
+| `clear` | Clear the current context variables and assumptions. |
+| `do_nothing` | No-operation placeholder statement. |
 
 Although these keywords are rarely defined strictly in math textbooks, they are used everyday and everywhere. Litex creator can not find strict definition for keywords like `proposition`, `is`, `in` etc (actually, the word `definition` is also a vague word). He tried his best to make the meaning of these keywords as close to the meaning in our daily math expression, along with his own ideas and understanding, so that Litex is both intuitive and strict.
 
