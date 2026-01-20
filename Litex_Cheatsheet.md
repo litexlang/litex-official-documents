@@ -614,7 +614,9 @@ prove_enum(x, s):
 ### Inline Examples
 Multiple statements:
 ```litex
-1 > 0, forall x R => x $in R; 2 > 1
+1 > 0,
+ forall x R => x $in R;
+2 > 1
 ```
 
 Inline forall:
@@ -632,16 +634,16 @@ x > 1 or x = 1 or x < 1
 
 Inline equality:
 ```litex
-let x, y, z :
+let x, y, z R:
     x = y
     y = z
 
-=(x, y, z)
+x=y=z
 ```
 
 Inline function:
 ```litex
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R: x > 0 => f(x) > 0
 ```
 
 Inline proposition:
@@ -678,12 +680,13 @@ let x R: x > 0
 ### 3. Function Domain Violation
 ❌ Error: -1 doesn't satisfy domain condition:
 ```
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R: x > 0 => f(x) > 0
 f(-1) > 0
 ```
 
 ✅ Correct: ensure parameters satisfy domain:
 ```litex
+let fn f(x R) R: x>0 => f(x)>0
 let x R: x > 0
 f(x) > 0
 ```
@@ -737,6 +740,7 @@ square_root(4) = 2  # error
 
 ✅ Correct: understand functions return symbols:
 ```litex
+let fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) $in R  # correct
 ```
 
