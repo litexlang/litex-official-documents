@@ -445,7 +445,7 @@ Numeric equality:
 | `finite_set` | A set with finite cardinality | `have F finite_set` |
 | `nonempty_set` | A set containing at least one element | `have N nonempty_set` |
 | `list_set` | Set defined by listing elements | `have A = list_set(1, 2, 3)` |
-| `set_builder` | Set defined by a predicate property | `{x R:x>1}` |
+| `set_builder` | Set defined by a predicate property | `{x R:x>1} or set_builder(x R:X>1)` |
 | `range` | Open interval or range | `have I range(2,6)` |
 | `closed_range` | Closed interval | `have I closed_range(2,6)` |
 | `N` | natural numbers | |
@@ -463,14 +463,14 @@ Numeric equality:
 | `is_finite_set` | Prop check: is cardinality finite? | `{1,2,3}$is_finite_set` |
 | `is_nonempty_set` | Prop check: is cardinality > 0? | `N $is_nonempty_set` |
 | **Set Operations** | | |
-| `union` | Set Union (A $\cup$ B) | `let U union(A,B)` |
-| `intersect` | Set Intersection (A $\cap$ B) | `let I Intersect(A,B)` |
-| `set_diff` | Set Difference (A \ B) | `let D set_diff(A,B)` |
-| `power_set` | Power Set (All subsets of A) | `let P power_set(Z)` |
+| `union` | Set Union (A $\cup$ B) | `have U union(A,B)` |
+| `intersect` | Set Intersection (A $\cap$ B) | `have I Intersect(A,B)` |
+| `set_diff` | Set Difference (A \ B) | `have D set_diff(A,B)` |
+| `power_set` | Power Set (All subsets of A) | `have P power_set(Z)` |
 | `choice` | Axiom of Choice selector | |
 | `count` | Cardinality / Size of the set | `count({1,2,3})=3` |
 
-###Cartesian
+### Cartesian
 Use `cart` to create a Cartesian product of a fixed number of set
 `set_dim`(x): Returns the dimension (number of components) of a Cartesian product
 `proj`(x, i): Returns the i-th projection (the i-th component set) of a Cartesian product
