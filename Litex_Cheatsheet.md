@@ -368,6 +368,7 @@ We call the function square_root(4) without computing to verify its value in R
 
 ### Function evaluation and algorithm
 Use `algo` to write algorithm of functions for constructive proving or computing
+
 Use `eval` to computing specific values of functions after `algo`
 ```litex
 have fn f(x R) R =:
@@ -472,8 +473,11 @@ Numeric equality:
 
 ### Cartesian
 Use `cart` to create a Cartesian product of a fixed number of set
+
 `set_dim`(x): Returns the dimension (number of components) of a Cartesian product
+
 `proj`(x, i): Returns the i-th projection (the i-th component set) of a Cartesian product
+
 `coord`(a, x, i): Returns the i-th coordinate of element a in Cartesian product x
 ```litex
 have x set = cart(R, Q, Z)
