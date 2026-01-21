@@ -11,7 +11,7 @@ _— The Eagles, Hotel California_
 2. [Object Declaration](#object-declaration)
 3. [Propositions and Facts](#propositions-and-facts)
 4. [Functions](#functions)
-5. [Logical Operators](#logical-operators)
+5. [Set Theory](#set-theory)
 6. [Proof Strategies](#proof-strategies)
 7. [Inline Syntax](#inline-syntax)
 8. [Common Errors and Prevention](#common-errors-and-prevention)
@@ -61,6 +61,7 @@ Three " is allowed.
 
 `""` can be translated to LaTeX style comment in display; One or any number of `"` except two can be translated to markdown style comment in display.
 
+
 ## Object Declaration
 
 ### `have` - Safe Declaration
@@ -70,29 +71,50 @@ Basic usage:
 ```litex
 have a N, b Q, c R
 ```
+We declare a,b,c from set N,Q R respectively
 
 From existential propositions:
 ```litex
-exist_prop x R st larger_than(y R): 
-    x > y
-exist 2 st $larger_than(1)  # a $in R, a > 1
-    
-have a st $larger_than(1)  # a $in R, a > 1
+prop larger(x,y R):
+    x>y
+know:
+    forall y R: exist x R st $larger(x,y)   
+have x R st $larger(x,1) # x $in R, x > 1
 ```
+By defining proposition larger(x,y),we declare x in R satisfing larger(x,1)
 
 Finite set enumeration:
 ```litex
-have set one_to_five := {1,2,3,4,5}
+have s set = {1,2,3,4,5}
 ```
+We declare a finite set {1,2,3,4,5}
 
 Subset definition:
 ```litex
 prop P(x R)
-
-have set s := {x R: $P(x)}
+have s set = {x R: $P(x)}
+have t {x R:$P(x)}
 ```
 
 Here `s := {x R: $P(x)}` is a definition of an intensional set. An intensional set looks like `{x ParentSet: Fact1(x), Fact2(x), ...}`.
+It is also notable that only when $P(x) is not empty, our declaration is legal.
+
+Function declaration:
+```litex
+have fn f(x R) R = x + 1
+```
+```litex
+prove:
+    have fn:
+        h(x R) R:
+            x > 0
+            =>:
+                h(x) > 1
+        witness:
+            100 > 1
+        = 100
+```
+We define f(x)=x+1, and we prove the existence of h(x)
 
 ### `let` - Free Declaration
 Use `let` to declare an object without checking its existence.
@@ -101,11 +123,13 @@ Basic usage:
 ```litex
 let n N, m N
 ```
+We take n, m from  N
 
 With conditions:
 ```litex
 let n, m N: n > 0, m > n
 ```
+We take n,m as postive numbers in N
 
 Multiple line usage:
 ```litex
@@ -138,12 +162,14 @@ let a N: a = 2, a = 3
 ---
 
 ## Propositions and Facts
+Use `prop` to define proposition
 
 ### Proposition Definition
 Basic definition:
 ```litex
 prop p(x R)
 ```
+We define a proposition p for real number x
 
 With equivalence condition:
 ```litex
@@ -164,27 +190,29 @@ prop p(x R) <=> x > 0
 ```
 
 ### Existential Propositions
+Use `exist` to state the existence of an object
+
 Basic definition:
 ```litex
-exist_prop x R st larger_than(y R):
-    x > y
+forall y R : exist x R st x>y
 ```
 
 definition with domain restrictions:
 ```litex
-exist_prop x R st larger_than_positive(y R):
+forall y R:
     y > 0
-    <=>:
-        x > y
+    =>:
+        exist x R st x > y
 ```
 
 Proving existence:
-```litex
-exist_prop x R st larger_than(y R):
-    x > y
+Use `witness` to prove the existential  propositions
 
-exist 3 st $larger_than(2)
+```litex
+witness 1 : x N_pos st x > 0
+exist x N_pos st x > 0
 ```
+By witnessing 1>0 , we approach the fact that exist a positve natural number x>0
 
 ### Fact Invocation
 
@@ -194,13 +222,12 @@ Builtin proposition:
 1 != 2
 3 > 0
 ```
+Litex have many builtin set and operations,see [Built-in Sets and Operations](#built-in-sets-and-operations) for further examples
 
 Prefix form:
 ```litex
 prop p(x R)
-
 know $p(1)
-
 $p(1)
 ```
 
@@ -249,6 +276,7 @@ forall x R:
 ```
 
 ### Know a Fact
+Use `know` to invoke a fact without verification, which is an unsafe invacation.
 
 Inline form:
 ```litex
@@ -295,7 +323,7 @@ know:
         =>:
             a < c
 ```
-
+We assume the universal fact: transitivity proposition of '<' without verification by using know.
 ---
 
 ## Functions
@@ -303,12 +331,14 @@ know:
 ### Function Definition
 Basic definition:
 ```litex
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R : f(x)= x + 1
+have fn g(x R) R = x+1
 ```
+We use `let` and `have `to define f(x)=g(x)=x+1
 
 With domain restrictions:
 ```litex
-fn f(x R) R:
+let fn f(x R) R:
     dom:
         x > 0
     =>:
@@ -317,8 +347,9 @@ fn f(x R) R:
 
 Inline definition:
 ```litex
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R: x > 0 => f(x) > 0
 ```
+We use let to difine f(x) satisifing specific proposition without proving its existence
 
 With existence guarantee:
 ```litex
@@ -348,27 +379,45 @@ let a sequence(R), b finite_sequence(Z, 10)
 ```
 
 ### Function Calls
-Function definition:
-```litex
-fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
-```
-
 Function call (note: doesn't compute specific values):
 ```litex
+fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) $in R
 ```
+We call the function square_root(4) without computing to verify its value in R
 
+### Function evaluation and algorithm
+Use `eval` to computing specific values of functions
+
+```litex
+have fn f(x R) R =:
+        case x > 0 :  x + 1
+        case x < 0 :  x - 1
+        case x=0: 0
+eval f(1) # Invoke condition if x > 1
+f(1) = 2
+```
+Use `algo` to write algorithm of functions for constructive proving or computing
+```litex
+algo f(x):
+    if x = 0:
+        return 0
+    if x > 0:
+        return x + 1 # it's ok to write `x + 2` here, but when you eval f(1), it is impossible to verify f(1) = 1 + 2, and the evaluation fails.
+    if x < 0:
+        return x - 1
+```
 ---
+## Set Theory
 
-## Logical Operators
-
-### Negation
+### Logical Operators
+Negation
 ```litex
 let x R: x > 5
 not x <= 5
 ```
 
-### Disjunction
+Disjunction
 Multi-line form:
 ```litex
 or:
@@ -381,7 +430,7 @@ Inline form:
 1 = 1 or 1 = 2
 ```
 
-### Equality
+Equality
 Basic equality:
 ```litex
 let x, y R:
@@ -410,21 +459,58 @@ Numeric equality:
 4 / 2 = 2
 ```
 
-### Set Membership
-Explicit:
-```litex
-2 $in N
+### About Set 
+Builtin-set
+```
+Keywords                    meaning                                       litex examples
+set                         # Generic set type definition                 let S set.
+finite_set                  # A set with finite cardinality               let F finite_set.
+nonempty_set                # A set containing at least one element       let N nonempty_set
+list_set                    # Set defined by listing elements             let A = list_set(1, 2, 3)
+set_builder                 # Set defined by a predicate property
+range                       # Open interval or range                      let I range(2,6)
+closed_range                # Closed interval                             let I closed_range(2,6)
+N                           # natural numbers
+N_pos                       # positive natural numbers
+Z                           # integers
+Q                           # rational numbers
+R                           # real numbers
+C                           # complex numbers
 ```
 
-Implicit (in declarations):
-```litex
-let x N  # equivalent to let x; know x $in N
+Relations & Logic
+```
+keywords                    meaning                                       litex examples
+in                          # Membership (Element belongs to Set)         2 $in N
+subset_of                   # A is a subset of B (A ⊆ B)                  N_pos $subset_of N
+superset_of                 # A is a superset of B (A ⊇ B)                N $superset_of N_pos
+equal_set                   # Set equality (A = B)                         N $equal_set N
+is_set                      # Type check: is object a set?                 N $is_set
+is_finite_set               # Prop check: is cardinality finite?           {1,2,3}$is_finite_set
+is_nonempty_set             # Prop check: is cardinality > 0?              N $is_nonempty_set
+```
+Set Operations
+```
+keywords                    meaning                                         litex examples
+union                       # Set Union (A ∪ B)                             let U union(A,B)
+intersect                   # Set Intersection (A ∩ B)                      let I Intersect(A,B)
+set_diff                    # Set Difference (A \ B)                        let  D set_diff(A,B)
+power_set                   # Power Set (All subsets of A)                   let P power_set(Z)
+choice                      # Axiom of Choice selector
+count                       # Cardinality / Size of the set                  count({1,2,3})=3
 ```
 
-Implicit (in forall facts):
+###Cartesian
+Use `cart` to create a Cartesian product of a fixed number of set
+`set_dim`(x): Returns the dimension (number of components) of a Cartesian product
+`proj`(x, i): Returns the i-th projection (the i-th component set) of a Cartesian product
+`coord`(a, x, i): Returns the i-th coordinate of element a in Cartesian product x
 ```litex
-forall x N:
-    x $in R
+have x set = cart(R, Q, Z)
+set_dim(x) = 3
+proj(x, 1) = R
+proj(x, 2) = Q
+proj(x, 3) = Z
 ```
 
 ---
@@ -528,7 +614,9 @@ prove_enum(x, s):
 ### Inline Examples
 Multiple statements:
 ```litex
-1 > 0, forall x R => x $in R; 2 > 1
+1 > 0,
+ forall x R => x $in R;
+2 > 1
 ```
 
 Inline forall:
@@ -546,16 +634,16 @@ x > 1 or x = 1 or x < 1
 
 Inline equality:
 ```litex
-let x, y, z :
+let x, y, z R:
     x = y
     y = z
 
-=(x, y, z)
+x=y=z
 ```
 
 Inline function:
 ```litex
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R: x > 0 => f(x) > 0
 ```
 
 Inline proposition:
@@ -592,12 +680,13 @@ let x R: x > 0
 ### 3. Function Domain Violation
 ❌ Error: -1 doesn't satisfy domain condition:
 ```
-fn f(x R) R: x > 0 => f(x) > 0
+let fn f(x R) R: x > 0 => f(x) > 0
 f(-1) > 0
 ```
 
 ✅ Correct: ensure parameters satisfy domain:
 ```litex
+let fn f(x R) R: x>0 => f(x)>0
 let x R: x > 0
 f(x) > 0
 ```
@@ -651,6 +740,7 @@ square_root(4) = 2  # error
 
 ✅ Correct: understand functions return symbols:
 ```litex
+let fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) $in R  # correct
 ```
 
@@ -660,18 +750,7 @@ square_root(4) $in R  # correct
 
 ---
 
-## Built-in Sets and Operations
-
-### Built-in Sets
-```
-N        # natural numbers
-N_pos    # positive natural numbers
-Z        # integers
-Q        # rational numbers
-R        # real numbers
-C        # complex numbers
-```
-
+## Built-in  Operations
 ### Built-in Functions
 ```
 + - * / % ^  # arithmetic operations
@@ -753,41 +832,87 @@ multi-line comment
 
 The keywords in Litex are almost identical in meaning and usage to the commonly used ones in mathematics. This makes writing in Litex a very pleasant experience.
 
+# Litex Language Keywords Reference
+
 | Keyword | Meaning |
-|---------|---------|
-| `let` | Define an object without checking its existence. |
-| `prop` | Define a proposition. The verbs of logic. |
-| `know` | Establish a fact |
-| `forall` | Universal quantification |
-| `exist` | Existential quantification |
-| `have` | Introduce an object with checking its existence. |
-| `exist_prop` | Existential quantification with a proposition |
-| `or` | Disjunction |
-| `not` | Negation |
-| `fn` | Define a function without checking its existence |
-| `fn_template` | Define a class of functions |
-| `set` | set: a collection of objects |
-| `in` | membership of an object in a set |
-| `dom` | domain of a proposition, function, function template, etc. |
-| `len`  | length of a set |
-| `finite_set` | a set with a finite number of elements |
-| `prove` | open a local environment to write some statements without affecting the global environment |
-| `claim` | claim a factual statement, prove it here |
-| `prove_contra` | prove by contradiction |
-| `prove_in_each_case` | prove by case analysis |
-| `prove_induc` | prove by mathematical induction |
-| `prove_enum` | prove a universal statement by iterating over a finite set |
-| `prove_in_range` | prove a universal statement by iterating over a range of integers |
-| `import` | import a file or directory |
-| `item_exists_in` | exist a object in a set |
-| `set_defined_by_replacement` | define a set by a axiom of replacement |
-| `obj_exist_as_preimage_of_prop` | exist a object as the preimage of a proposition |
-| `obj_exist_as_preimage_of_fn` | exist a object as the preimage of a function |
-| `N` `N_pos` `Z` `Q` `R` `C` `obj` | builtin sets: natural numbers, positive natural numbers, integers, rational numbers, real numbers, complex numbers, objects |
-| `clear` | clear all facts |
-| `set_product` | a product of sets |
-| `proj` | a projection of a set product |
-| `lift` | Point-wise lifting of an operator |
+| :--- | :--- |
+| `let` | Define an object or variable without immediately checking existence (e.g., `let x R.`). |
+| `know` | Establish a known fact or premise in the current context. |
+| `have` | Introduce an intermediate object or conclusion that requires verification. |
+| `claim` | State a proposition or theorem to be proved. |
+| `prove` | Begin a proof block for a claim or verification. |
+| `prop` | Define a new proposition (logic predicate). |
+| `fn` | Define a function (mapping inputs to outputs). |
+| `fn_set` | Define a set of functions (function space). |
+| `algo` | Define an algorithmic procedure (computational function). |
+| `dom` | Specify the domain, pre-conditions, or context for a block (e.g., `dom: x > 0.`). |
+| `set` | Generic set type definition. |
+| `in` | Membership operator ($\in$). Checks if an object belongs to a set. |
+| `forall` | Universal quantification ($\forall$). "For all elements...". |
+| `exist` | Existential quantification ($\exists$). "There exists an element...". |
+| `st` | "Such that". Used with `exist`, `witness`, or `have` to specify properties. |
+| `witness` | Provide a specific object to prove an existence claim (`exist`). |
+| `witness_nonempty` | Provide a specific element to prove a set is `nonempty_set`. |
+| `not` | Logical negation ($\neg$). |
+| `or` | Logical disjunction ($\lor$). |
+| `impossible` | Assert a contradiction (used to close a `contra` branch). |
+| `contra` | Assume the negation of the conclusion (Proof by Contradiction). |
+| `cases` | Begin a proof by case analysis (splitting the domain). |
+| `case` | Define a specific branch in a case analysis. |
+| `induc` | Proof by mathematical induction. |
+| `enum` | Proof by enumeration (iterating through finite possibilities). |
+| `subset_of` | Subset relation ($\subseteq$). Checks if set A is contained in B. |
+| `superset_of` | Superset relation ($\supseteq$). Checks if set A contains B. |
+| `equal_set` | Set equality relation ($=$). Checks if two sets have identical elements. |
+| `union` / `cup` | Set union operator ($\cup$). Elements in A or B. |
+| `intersect` / `cap` | Set intersection operator ($\cap$). Elements in both A and B. |
+| `set_diff` / `set_minus` | Set difference operator ($\setminus$). Elements in A but not in B. |
+| `power_set` | Power set operator ($\mathcal{P}$). The set of all subsets. |
+| `list_set` | Construct a set by explicitly listing elements (e.g., `list_set(1, 2)`). |
+| `set_builder` | Construct a set by property (e.g., `{x \| P(x)}`). |
+| `range` | Define an open range/interval (e.g., `(a, b)`). |
+| `closed_range` | Define a closed range/interval (e.g., `[a, b]`). |
+| `choice` | Axiom of Choice selector. Picks an arbitrary element from a set. |
+| `count` | Returns the cardinality (number of elements) of a set. |
+| `finite_set` | Type: A set with finite cardinality. |
+| `is_finite_set` | Proposition: Check if a set is finite. |
+| `nonempty_set` | Type: A set containing at least one element. |
+| `is_nonempty_set` | Proposition: Check if a set is not empty. |
+| `is_set` | Type check: Is the object a set? |
+| `N` | Natural numbers set ($\mathbb{N}$). |
+| `N_pos` | Positive natural numbers set ($\mathbb{N}^+$). |
+| `Z` | Integers set ($\mathbb{Z}$). |
+| `Z_neg` | Negative integers set ($\mathbb{Z}^-$). |
+| `Z_not0` | Non-zero integers set ($\mathbb{Z} \setminus \{0\}$). |
+| `Q` | Rational numbers set ($\mathbb{Q}$). |
+| `Q_pos` / `Q_neg` | Positive / Negative rational numbers. |
+| `Q_not0` | Non-zero rational numbers. |
+| `R` | Real numbers set ($\mathbb{R}$). |
+| `R_pos` / `R_neg` | Positive / Negative real numbers. |
+| `R_not0` | Non-zero real numbers. |
+| `tuple` | Type definition for a tuple (ordered list). |
+| `is_tuple` | Check if an object is a tuple. |
+| `cart` | Cartesian product type (e.g., `R cart R`). |
+| `is_cart` | Check if an object is a Cartesian product. |
+| `dim` | Dimension of a tuple or vector. |
+| `set_dim` | Dimension of a set (e.g., vector space dimension). |
+| `proj` | Projection operator (extracts component from a tuple). |
+| `obj_at_index` | Access an element at a specific index in a tuple. |
+| `com_prop` | Declare or prove that an operation satisfies the Commutative Property. |
+| `trans_prop` | Declare or prove that a relation satisfies the Transitive Property. |
+| `infer` | Define a general inference rule (logic transformation). |
+| `prop_infer` | Declare a proposition inference pattern. |
+| `prove_prop_infer` | Prove a specific proposition inference rule. |
+| `return` | Return a value from an `algo` block. |
+| `if` | Conditional branching statement in algorithms. |
+| `for` | Loop or iteration statement. |
+| `eval` / `val` | Evaluate an expression or function application. |
+| `import` | Import an external package or file. |
+| `as` | Rename an imported package (aliasing). |
+| `run_file` | Execute another Litex file immediately. |
+| `exit` | Terminate the program execution. |
+| `clear` | Clear the current context variables and assumptions. |
+| `do_nothing` | No-operation placeholder statement. |
 
 Although these keywords are rarely defined strictly in math textbooks, they are used everyday and everywhere. Litex creator can not find strict definition for keywords like `proposition`, `is`, `in` etc (actually, the word `definition` is also a vague word). He tried his best to make the meaning of these keywords as close to the meaning in our daily math expression, along with his own ideas and understanding, so that Litex is both intuitive and strict.
 
