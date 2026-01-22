@@ -11,7 +11,7 @@ _— The Eagles, Hotel California_
 2. [Object Declaration](#object-declaration)
 3. [Propositions and Facts](#propositions-and-facts)
 4. [Functions](#functions)
-5. [Set Theory](#set-theory)
+5. [Set Theory and Logics](#set-theory-and-logics)
 6. [Proof Strategies](#proof-strategies)
 7. [Inline Syntax](#inline-syntax)
 8. [Common Errors and Prevention](#common-errors-and-prevention)
@@ -27,17 +27,28 @@ _— The Eagles, Hotel California_
 
 ### Statement Outcomes
 Every statement has three possible outcomes:
-- **true**: Statement is proven to be true
-- **unknown**: Insufficient information to determine truth value
-- **error**: Syntax error or invalid operation
+
+| Outcome | Meaning |
+| :--- | :--- |
+| **true** | Statement is proven to be true |
+| **unknown** | Insufficient information to determine truth value |
+| **error** | Syntax error or invalid operation |
 
 ### Core Mechanism: Match and Substitution
 Litex verifies statements through two methods:
-1. **Special to Special**: Direct matching of known facts
-2. **General to Special**: Deriving specific instances from general rules
+
+| Mode | Description |
+| :--- | :--- |
+| **Special → Special** | Direct matching of known facts |
+| **General → Special** | Deriving specific instances from general rules |
 
 ---
 ## Comments
+
+| Type | Example | Notes |
+| :--- | :--- | :--- |
+| **Single-line** | `# single line comment` | Starts with `#` |
+| **Multi-line** | See examples below | Use one or more `"` as fences |
 
 Single-line comment:
 ```litex
@@ -53,7 +64,7 @@ multi-line comment
 ```
 
 You can write as many `"` as you want.
-```
+```litex
 """
 Three " is allowed.
 """
@@ -297,16 +308,6 @@ know:
 ```
 
 ### Named Universal Facts
-Using @ symbol:
-```litex
-know @transitivity_of_less(a, b, c R):
-    a < b
-    b < c
-    =>:
-        a < c
-```
-
-Equivalent to:
 ```litex
 prop transitivity_of_less(a, b, c R):
     a < b
@@ -324,6 +325,7 @@ know:
             a < c
 ```
 We assume the universal fact: transitivity proposition of '<' without verification by using know.
+
 ---
 
 ## Functions
@@ -356,28 +358,6 @@ With existence guarantee:
 have fn g(x R) R = x
 ```
 
-### Function Templates
-Basic template:
-```litex
-fn_template sequence(s set):
-    fn (n N) s
-```
-
-With parameters:
-```litex
-fn_template finite_sequence(s set, max N):
-    dom:
-        max > 0
-    fn (n N) s:
-        dom:
-            n < max
-```
-
-Using templates:
-```litex
-let a sequence(R), b finite_sequence(Z, 10)
-```
-
 ### Function Calls
 Function call (note: doesn't compute specific values):
 ```litex
@@ -387,18 +367,14 @@ square_root(4) $in R
 We call the function square_root(4) without computing to verify its value in R
 
 ### Function evaluation and algorithm
-Use `eval` to computing specific values of functions
+Use `algo` to write algorithm of functions for constructive proving or computing
 
+Use `eval` to computing specific values of functions after `algo`
 ```litex
 have fn f(x R) R =:
         case x > 0 :  x + 1
         case x < 0 :  x - 1
         case x=0: 0
-eval f(1) # Invoke condition if x > 1
-f(1) = 2
-```
-Use `algo` to write algorithm of functions for constructive proving or computing
-```litex
 algo f(x):
     if x = 0:
         return 0
@@ -406,9 +382,10 @@ algo f(x):
         return x + 1 # it's ok to write `x + 2` here, but when you eval f(1), it is impossible to verify f(1) = 1 + 2, and the evaluation fails.
     if x < 0:
         return x - 1
+eval f(1) # Invoke condition if x > 1 f(1) = 2
 ```
 ---
-## Set Theory
+## Set Theory and Logics
 
 ### Logical Operators
 Negation
@@ -460,50 +437,47 @@ Numeric equality:
 ```
 
 ### About Set 
-Builtin-set
-```
-Keywords                    meaning                                       litex examples
-set                         # Generic set type definition                 let S set.
-finite_set                  # A set with finite cardinality               let F finite_set.
-nonempty_set                # A set containing at least one element       let N nonempty_set
-list_set                    # Set defined by listing elements             let A = list_set(1, 2, 3)
-set_builder                 # Set defined by a predicate property
-range                       # Open interval or range                      let I range(2,6)
-closed_range                # Closed interval                             let I closed_range(2,6)
-N                           # natural numbers
-N_pos                       # positive natural numbers
-Z                           # integers
-Q                           # rational numbers
-R                           # real numbers
-C                           # complex numbers
-```
+# Litex Set Theory Cheatsheet
 
-Relations & Logic
-```
-keywords                    meaning                                       litex examples
-in                          # Membership (Element belongs to Set)         2 $in N
-subset_of                   # A is a subset of B (A ⊆ B)                  N_pos $subset_of N
-superset_of                 # A is a superset of B (A ⊇ B)                N $superset_of N_pos
-equal_set                   # Set equality (A = B)                         N $equal_set N
-is_set                      # Type check: is object a set?                 N $is_set
-is_finite_set               # Prop check: is cardinality finite?           {1,2,3}$is_finite_set
-is_nonempty_set             # Prop check: is cardinality > 0?              N $is_nonempty_set
-```
-Set Operations
-```
-keywords                    meaning                                         litex examples
-union                       # Set Union (A ∪ B)                             let U union(A,B)
-intersect                   # Set Intersection (A ∩ B)                      let I Intersect(A,B)
-set_diff                    # Set Difference (A \ B)                        let  D set_diff(A,B)
-power_set                   # Power Set (All subsets of A)                   let P power_set(Z)
-choice                      # Axiom of Choice selector
-count                       # Cardinality / Size of the set                  count({1,2,3})=3
-```
+| Keywords | Meaning | Litex Examples |
+| :--- | :--- | :--- |
+| **Built-in Sets** | | |
+| `set` | Generic set type definition | `have S set` |
+| `finite_set` | A set with finite cardinality | `have F finite_set` |
+| `nonempty_set` | A set containing at least one element | `have N nonempty_set` |
+| `list_set` | Set defined by listing elements | `have A = list_set(1, 2, 3)` |
+| `set_builder` | Set defined by a predicate property | `{x R:x>1} or set_builder(x R:X>1)` |
+| `range` | Open interval or range | `have I range(2,6)` |
+| `closed_range` | Closed interval | `have I closed_range(2,6)` |
+| `N` | natural numbers | |
+| `N_pos` | positive natural numbers | |
+| `Z` | integers | |
+| `Q` | rational numbers | |
+| `R` | real numbers | |
+| `C` | complex numbers | |
+| **Relations & Logic** | | |
+| `in` | Membership (Element belongs to Set) | `2 $in N` |
+| `subset_of` | A is a subset of B (A $\subseteq$ B) | `N_pos $subset_of N` |
+| `superset_of` | A is a superset of B (A $\supseteq$ B) | `N $superset_of N_pos` |
+| `equal_set` | Set equality (A = B) | `N $equal_set N` |
+| `is_set` | Type check: is object a set? | `N $is_set` |
+| `is_finite_set` | Prop check: is cardinality finite? | `{1,2,3}$is_finite_set` |
+| `is_nonempty_set` | Prop check: is cardinality > 0? | `N $is_nonempty_set` |
+| **Set Operations** | | |
+| `union` | Set Union (A $\cup$ B) | `have U union(A,B)` |
+| `intersect` | Set Intersection (A $\cap$ B) | `have I Intersect(A,B)` |
+| `set_diff` | Set Difference (A \ B) | `have D set_diff(A,B)` |
+| `power_set` | Power Set (All subsets of A) | `have P power_set(Z)` |
+| `choice` | Axiom of Choice selector | |
+| `count` | Cardinality / Size of the set | `count({1,2,3})=3` |
 
-###Cartesian
+### Cartesian
 Use `cart` to create a Cartesian product of a fixed number of set
+
 `set_dim`(x): Returns the dimension (number of components) of a Cartesian product
+
 `proj`(x, i): Returns the i-th projection (the i-th component set) of a Cartesian product
+
 `coord`(a, x, i): Returns the i-th coordinate of element a in Cartesian product x
 ```litex
 have x set = cart(R, Q, Z)
@@ -655,9 +629,22 @@ prop p(x R) <=> x > 0
 
 ## Common Errors and Prevention
 
+Quick index:
+
+| # | Topic |
+| :---: | :--- |
+| 1 | Statement vs Expression |
+| 2 | Undeclared Objects |
+| 3 | Function Domain Violation |
+| 4 | Or Statement Execution Problem |
+| 5 | Duplicate Declaration |
+| 6 | Set Type Error |
+| 7 | Function Computation Misunderstanding |
+| 8 | Never use undefined symbols |
+
 ### 1. Statement vs Expression
 ❌ Error: 1 is not a statement:
-```
+```litex
 1
 ```
 
@@ -668,7 +655,7 @@ prop p(x R) <=> x > 0
 
 ### 2. Undeclared Objects
 ❌ Error: x is not declared:
-```
+```litex
 x > 0
 ```
 
@@ -679,7 +666,7 @@ let x R: x > 0
 
 ### 3. Function Domain Violation
 ❌ Error: -1 doesn't satisfy domain condition:
-```
+```litex
 let fn f(x R) R: x > 0 => f(x) > 0
 f(-1) > 0
 ```
@@ -693,14 +680,14 @@ f(x) > 0
 
 ### 4. Or Statement Execution Problem
 ❌ Error: cannot directly use universal facts:
-```
+```litex
 know forall x, y R: x * y = 0 => x = 0 or y = 0
 let a, b R: a * b = 0
 a = 0 or b = 0  # won't work
 ```
 
 ✅ Correct: use named universal facts:
-```
+```litex
 know @product_zero_implies_or_zero(x, y R):
     x * y = 0
     =>:
@@ -710,7 +697,7 @@ $product_zero_implies_or_zero(a, b)
 
 ### 5. Duplicate Declaration
 ❌ Error: duplicate declaration of same object:
-```
+```litex
 let a N
 let a N  # error
 ```
@@ -722,7 +709,7 @@ let a, b N
 
 ### 6. Set Type Error
 ❌ Error: 1 is not a set:
-```
+```litex
 1 $in 1
 ```
 
@@ -733,7 +720,7 @@ let a, b N
 
 ### 7. Function Computation Misunderstanding
 ❌ Error: expecting function to compute specific values:
-```
+```litex
 fn square_root(x R) R: x >= 0 => square_root(x)^2 = x
 square_root(4) = 2  # error
 ```
@@ -751,16 +738,12 @@ square_root(4) $in R  # correct
 ---
 
 ## Built-in  Operations
-### Built-in Functions
-```
-+ - * / % ^  # arithmetic operations
-```
-
-### Built-in Propositions
-```
-= != > < >= <=  # comparison operations
-$in             # set membership
-```
+> Note: This section name is aligned with the Table of Contents as **Built-in Sets and Operations**.
+### Built-in funcs and props
+| Category | Items |
+| :--- | :--- |
+| **Built-in functions** | `+ - * / % ^` |
+| **Built-in propositions** | `= != > < >= <=`, `$in` |
 
 ### Built-in Facts
 ```litex
@@ -771,16 +754,6 @@ $in             # set membership
 17.17 $in Q
 forall x Q => x $in R
 ```
-
-### Sequence Templates
-```litex
-# built-in sequence templates
-let a seq(R), b finite_seq(Z, 10)
-
-a(1) $in R
-b(1) $in Z
-```
-
 ---
 
 ## Package Management
@@ -804,35 +777,17 @@ import "Package" as p
 ```
 
 ### Using Package Contents
-```
+```litex
 Package::obj_1
 ```
 
 ---
 
-## Comments
-
-Single-line comment:
-```litex
-# single line comment
-```
-
-Multi-line comment:
-```litex
-"""
-multi-line comment
-multi-line comment
-multi-line comment
-"""
-```
-
----
-
-## Keywords
+## Keywords in Litex
 
 The keywords in Litex are almost identical in meaning and usage to the commonly used ones in mathematics. This makes writing in Litex a very pleasant experience.
 
-# Litex Language Keywords Reference
+### Litex Language Keywords Reference
 
 | Keyword | Meaning |
 | :--- | :--- |
