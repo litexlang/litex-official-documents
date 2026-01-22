@@ -395,12 +395,6 @@ not x <= 5
 ```
 
 Disjunction
-Multi-line form:
-```litex
-or:
-    1 = 1
-    1 = 2
-```
 
 Inline form:
 ```litex
@@ -417,13 +411,6 @@ x = y
 x + 1 = y + 1
 ```
 
-Multi-line equality:
-```litex
-=:
-    1
-    2 - 1
-    1 * 1
-```
 
 Inline equality:
 ```litex
