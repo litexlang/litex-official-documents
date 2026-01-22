@@ -39,8 +39,8 @@ Litex verifies statements through two methods:
 
 | Mode | Description |
 | :--- | :--- |
-| **Special → Special** | Direct matching of known facts |
-| **General → Special** | Deriving specific instances from general rules |
+| **Specific → Specific** | Direct matching of known facts |
+| **Universal → Specific** | Deriving specific instances from conclusions of universal facts |
 
 ---
 ## Comments
