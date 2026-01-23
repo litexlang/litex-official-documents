@@ -1,0 +1,9 @@
+```litex
+have a R = 1
+
+clear
+
+have a R = 2
+
+a = 2
+```

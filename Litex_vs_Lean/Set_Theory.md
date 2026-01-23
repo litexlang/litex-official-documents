@@ -21,10 +21,9 @@ table code {
 
 ---
 
-This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. In our view, Litex can fill the gap between what people without hardcore mathematical training, including AI researchers, physicists, etc., want and what formal languages provide. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us.  
+This document compares [Litex](https://litexlang.com) and [Lean](https://leanprover.github.io) in expressing set-theoretic statements through side-by-side code examples. Litex is an exciting and eye-opening exploration of finding `what mathematics is`. In our view, Litex can fill the gap between what people without hardcore mathematical training, including AI researchers, physicists, etc., want and what formal languages provide. Star the [Litex GitHub](https://github.com/litexlang/golitex) if you like Litex! Join our [Zulip](https://litex.zulipchat.com/join/c4e7foogy6paz2sghjnbujov/) to discuss Litex with us.  
 
-
-Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements. 
+Lean, the most popular formal language in the world and the language that Litex community deeply appreciate, is chosen to compare with Litex. We show Litex offers a more natural way to express some basic mathematical statements.
 
 The fundamental differences include:
 
@@ -189,11 +188,11 @@ forall x {y R: y > 0}:
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_contra {1,2,3} != {1,2}:</code><br>
+      <code>contra {1,2,3} != {1,2}:</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2,3}) = 3</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2}) = 2</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;count({1,2,3}) = count({1,2})</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;3 = 2</code>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;impossible 3 = 2</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Data.Finset.Basic</code><br><br>
@@ -213,11 +212,11 @@ Litex's built-in count function derives the number of items in a set. So Litex a
 Lean requires explicit cardinality computation using `.card` and manual proof by contradiction. The proof structure is clear but requires more steps to establish the contradiction.
 
 ```litex
-prove_contra {1,2,3} != {1,2}:
+contra {1,2,3} != {1,2}:
     count({1,2,3}) = 3
     count({1,2}) = 2
     count({1,2,3}) = count({1,2})
-    3 = 2
+    impossible 3 = 2
 ```
 
 ---
@@ -268,19 +267,9 @@ The proof proceeds in two steps:
   </tr>
   <tr>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
-      <code>prove_for i range(5, 8):</code><br>
+      <code>for i range(5, 8):</code><br>
       <code>&nbsp;&nbsp;&nbsp;&nbsp;i = 5 or i = 6 or i = 7</code><br><br>
-      <code>prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:</code><br>
-      <code>&nbsp;&nbsp;prove_cases:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;=>:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x >= 5</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x < 8</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;case x = 5:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;case x = 6:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;case x = 7:</code><br>
-      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do_nothing</code>
+      <code>forall x Z: x >= 5, x < 8 => x = 5 or x = 6 or x = 7</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
       <code>import Mathlib.Tactic</code><br><br>
@@ -306,20 +295,11 @@ Litex's `prove_for` provides iterates over items in a range and when the item sa
 Lean requires explicit set extensionality (`ext`) and case analysis (`interval_cases`, `rcases`) to prove range-based set equalities.
 
 ```litex
-prove_for i range(5, 8):
-    i = 5 or i = 6 or i = 7
+for i range(5, 8):
+    i >= 5
+    i < 8
 
-prove forall x Z: x = 5 or x = 6 or x = 7 => x >= 5, x < 8:
-    prove_cases:
-        =>:
-            x >= 5
-            x < 8
-        case x = 5:
-            do_nothing
-        case x = 6:
-            do_nothing
-        case x = 7:
-            do_nothing
+forall x Z: x >= 5, x < 8 => x = 5 or x = 6 or x = 7
 ```
 
 ---
@@ -389,6 +369,7 @@ This example demonstrates how Litex and Lean handle propositions with domain res
       <code>prop q(x {y Q: y > 0})</code><br>
       <code>know $q(17)</code><br>
       <code>know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)</code><br>
+      <code>17 $in {y Z: y < 20, $q(y)}</code><br>
       <code>a $in {x N: x % 17 = 0, $p(x)}</code>
     </td>
     <td style="border: 2px solid black; padding: 2px; line-height: 1.5; vertical-align: top;">
@@ -425,6 +406,7 @@ prop p(x {z Z: z < 100})
 prop q(x {y Q: y > 0})
 know $q(17)
 know forall x Z: x $in {y Z: y < 20, $q(y)} => $p(x)
+17 $in {y Z: y < 20, $q(y)}
 a $in {x N: x % 17 = 0, $p(x)}
 ```
 
@@ -473,7 +455,7 @@ Litex's `prove_enum` iterates over items in a set and when the item satisfies th
 Lean requires explicit case analysis using tactics like `rcases` and manual verification of each case. The proof structure is clear but requires more boilerplate to enumerate all possibilities and handle each case separately.
 
 ```litex
-prove_enum(x {1, 2, 3, 4, 17}):
+enum x {1, 2, 3, 4, 17}:
     dom:
         x % 2 = 0
     =>:
@@ -580,7 +562,7 @@ have fn:
         x > 0
         =>:
             h(x) > 1
-    prove:
+    witness:
         100 > 1
     = 100
 h(1) > 1

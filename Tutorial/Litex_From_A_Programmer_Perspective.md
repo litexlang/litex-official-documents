@@ -398,7 +398,7 @@ prove_contra:
     not conclusion  # Assume the negation of the conclusion
     ...
     # Derive a contradiction
-    contradiction
+    contradiction impossible
 ```
 
 ```litex
@@ -411,8 +411,7 @@ claim:
     not $p(1)
     prove_contra:
         $p(1)  # Assume $p(1) holds
-        $q(1)  # Derive $q(1) from $p(1) and known conditions
-        # But we know not $q(1), contradiction
+        $q(1) impossible  # Derive $q(1) from $p(1) and known conditions, but we know not $q(1), contradiction
 ```
 
 3. **prove_enum**
@@ -421,7 +420,7 @@ Corresponds to enumeration in set theory axioms. For finite sets, prove properti
 
 Syntax:
 ```
-prove_enum(x, set_name):
+prove_enum x set_name:
     property_to_prove
 ```
 
@@ -429,7 +428,7 @@ prove_enum(x, set_name):
 prop p(x R)
 have set s = {1, 2, 3}
 
-prove_enum(x, s):
+prove_enum x s:
     x > 0
 ```
 
@@ -576,7 +575,7 @@ claim:
     fact_to_prove
     prove_contra:
         # Proof by contradiction steps
-        ...
+        ... impossible
 ```
 
 ```litex
@@ -600,7 +599,7 @@ claim:
     not $p(1)
     prove_contra:
         $p(1)
-        $q(1)
+        $q(1) impossible
 ```
 
 6. **prove**

@@ -57,7 +57,7 @@ prove_algo A(x):
             not $p(x)
             prove_contra:
                 $p(x)
-                x = 1
+                x = 1 impossible
         return
 
 have x R = 3
