@@ -39,8 +39,11 @@ let a, b R:
 Execution of this statement has the following effects:
 
 1.Defines the specified symbols in the local environment.
+
 2.Associates the specified sets (types) with these symbols.
+
 3.Does not verify if such objects actually exist (unlike have).
+
 4.Assumes all attached conditions (facts) are true for these symbols in the current context.
 
 ## Notes
