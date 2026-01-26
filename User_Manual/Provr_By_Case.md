@@ -10,9 +10,11 @@ cases:
     =>:
         conlusion
 
-    case condition_A: proof_steps_for_A ... conclusion
+    case condition_A: proof_steps_for_A ... 
+            conclusion
 
-    case condition_B: proof_steps_for_B ... conclusion
+    case condition_B: proof_steps_for_B ... 
+            conclusion
 ```
 
 ## Examples

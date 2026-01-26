@@ -6,7 +6,16 @@
 
 ## Syntax
 ```
-forall param1 set1, param2 set2, ... : dom: condition1 ... =>: conclusion_fact
+forall param1 set1, param2 set2, ... :
+        dom: condition1 ... 
+        =>:
+        conclusion_fact
+        <=>:
+        ifffacts
+forall param1 set1:
+        dom:
+        condition1
+        exist param2 set2 st condition2
 ```
 
 ## Examples
@@ -21,6 +30,11 @@ forall x, y, z R:
         x < z
 # Simple inline forall
 forall n N: n > 0 => n + 1 > 1
+# With existential statement
+forall y R:
+    y > 0
+    =>:
+        exist x R st x > y
 ```
 ## Semantics
 Execution of this statement has the following effects:
